@@ -1,0 +1,90 @@
+.infobar{
+    height: 55px;
+    display: flex;
+    align-items: center;
+    border: .5px solid #DCDCDC;
+    overflow-x: scroll;
+    background-color: #FFFFFF;
+    letter-spacing: 1px;
+    transition: all .5s ease;
+    animation: animateIn 300ms ease-out forwards;
+}
+
+.animate_out {
+    animation: animateOut 245ms ease-out forwards;
+}
+
+.info_items {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.info_items li:first-child {
+    padding-left: 2.5rem;
+    margin-left: auto;
+}
+
+.info_items li:last-child {
+    padding-right: 2.5rem;
+    margin-right: auto;
+}
+
+.info_items .item {
+    font-size: var(--medium-font-size);
+    font-weight: var(--secondary-font-weight);
+    color: #7E7F81;
+    cursor: pointer;
+    transition: all .5s ease;
+}
+
+.info_items .item:hover {
+    color: var(--primary-blue);
+    transition: all .5s ease;
+}
+
+.info_items .selected .item {
+    color: var(--primary-blue);
+    font-weight: var(--bold-font-weight);
+    transition: all .5s ease;
+}
+
+@media (min-width: 40rem) {
+    .infobar {
+        overflow: hidden;
+        justify-content: center;
+    }
+
+    .infobar.sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 65px;
+        z-index: 1;
+    }
+
+    .info_items {
+        width: 50%;
+        justify-content: center;
+        gap: 5%;
+        padding: 0;
+    }
+}
+
+@keyframes animateIn {
+    0%{
+        max-height: 0px;
+    }
+    100%{
+        max-height: 55px;
+    }
+}
+
+@keyframes animateOut {
+    0%{
+        max-height: 55px;
+    }
+    100%{
+        max-height: 05px;
+    }
+}

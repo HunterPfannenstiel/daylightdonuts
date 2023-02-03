@@ -1,0 +1,7 @@
+.search {
+    padding: .15rem .75rem;
+    border: 2px solid var(--primary-blue);
+    border-radius: 17px;
+    width: fit-content;
+    cursor: pointer;
+}

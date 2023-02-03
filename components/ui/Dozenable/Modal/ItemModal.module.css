@@ -1,0 +1,48 @@
+.modal {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    animation: animateIn 300ms ease;
+}
+
+.page {
+    z-index: 2;
+    margin-top: 0;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1B1B1B;
+    opacity: .36;
+    z-index: 1;
+}
+
+.animate_out {
+    animation: animateOut 310ms ease;
+}
+
+@keyframes animateIn {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes animateOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}

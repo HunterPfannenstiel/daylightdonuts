@@ -1,0 +1,19 @@
+.price {
+    font-weight: var(--bold-font-weight);
+    font-size: 1.5rem;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    margin-inline: auto;
+    padding-block: 2rem;
+}
+
+.price h4 {
+    margin: 0;
+}
+
+@media (min-width: 40em) {
+    .price {
+        max-width: 250px;
+    }
+}

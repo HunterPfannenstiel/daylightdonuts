@@ -1,0 +1,30 @@
+.info {
+    padding-block: var(--gap-padding);
+    margin-inline: auto;
+    width: 75%;
+    letter-spacing: 0.5px;
+}
+
+.total {
+    font-size: 1.5rem;
+    font-weight: var(--bold-font-weight);
+    padding-top: 1rem;
+}
+
+.amounts div,
+.total {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: .5rem;
+}
+
+.amounts div:last-child{
+    border-bottom: 1px solid #DCDCDC;
+}
+
+@media (min-width: 40em) {
+    .info {
+        font-size: 1.125rem;
+        max-width: 265px;
+    }
+}

@@ -1,0 +1,15 @@
+.cart {
+    position: relative;
+}
+
+.item_count {
+    top: -0.75rem;
+    right: -0.5rem;
+    text-align: center;
+    font-size: 1rem;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: var(--primary-yellow);
+}

@@ -1,0 +1,21 @@
+.payment h2{
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    font-weight: var(--bold-font-weight);
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    text-align: center;
+    line-height: 1.5rem;
+}
+
+.radio {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: var(--gap-padding);
+}
+
+@media (min-width: 40em) {
+    .radio {
+        padding-top: 1rem;
+    }
+}

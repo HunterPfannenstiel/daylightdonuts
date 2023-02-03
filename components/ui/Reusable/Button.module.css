@@ -1,0 +1,15 @@
+.button {
+    color: white;
+    padding: 2.5% 10%;
+    border-radius: 17px;
+}
+
+.button:disabled {
+    background-color: var(--error) !important;
+}
+
+@media (min-width: 40em){
+    .button {
+        font-size: 1rem;
+    }
+}

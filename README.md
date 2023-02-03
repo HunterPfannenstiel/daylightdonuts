@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Daylight Donuts eCommerce Website
+This website was inspired by my summer job where I made donuts overnight. Each product image was made and taken by me while I worked overnight.
 
-## Getting Started
+I have made two versions of this website, the first version was my very first attempt at a website on my own after learning React.js and Next.js. The second version is still being worked and implements the same features and more as the first version, but with the help of typescript.
 
-First, run the development server:
+## Customer Features
+### Persistent Cart
+Once the customer adds their first item to the cart, a JWT is created and stored in the customer's cookies. This JWT holds the cartId of the customer's cart that the database can use to find the customer's cart,  allowing the customer to leave and come back to the website with their cart still there.
+### Optimistic Cart Updates
+Upon adding an item to the cart, the customer won't notice any latency while the new item is posted to the database. With the use of tanstack query, the cart will revert to a stable state if there is an error.
+### Donut Box Builder
+At Daylight Donuts, and many other donut companies, the customer recieves a discount when they purchase a dozen donuts, but not all donuts are eligible for this discount. By visiting the Dount Box Builder, the customer has the ability to know which donuts are eligible for the discount as well as build their own box with the donuts.
+### Secure Payments
+This website utilizes Stripe to handle payments. When the user completes the checkout form and submits an order, the Stripe API handles the payment intent. Once the payment intent is verified by Stripe, a webhook endpoint is setup to catch successful payments and verify the order in the database. 
+## Admin Features (in progress)
+### Order Sorting
+The admin has the ability to sort orders by the current day, week, and month, as well as know which orders have already been printed.
+### Order Printing
+By utilizing a DYMO printer, the admin of the website has the ability to directly print orders from the website. 
+> This feature was implemented on the first version of the website and is currently being implemented on the second version.
+### Order Analytics
+By viewing the analytics page, the admin can view various analytics such as: gross revenue from orders for each day of a week, average orders for each day of a week, and more.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Website Pages
+### [Menu Page](https://daylight-website-eight.vercel.app/menu)
+Shows the products for sale as well as allows the customer to filter for specific items.
+### Dozenable Page
+Displays all of the donuts in a specifc group that can be used to complete a box for a discount and allows the customer to directly build the box to add to their cart.
+### [Item Page](https://daylight-website-eight.vercel.app/menu/Glaze)
+Shows the selected product in detail and is where the customer can modify the product (such as add frostings) and add the product to their cart.
+### [Checkout Page](https://daylight-website-eight.vercel.app/checkout)
+Displays the customer's cart and subtotal and allows the customer to modify their cart before completing the purchase.
+### Orders Page (Admin Only)
+Presents the orders for the current day and allows the admin to view orders within a selected date range.
+### Order Analytics (Admin Only)
+Displays the gross revenue for each day of the week for the current week and allows the admin to view various analytics for various date ranges.

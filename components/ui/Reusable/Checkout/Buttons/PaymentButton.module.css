@@ -1,0 +1,21 @@
+.payment {
+    font-weight: var(--bold-font-weight);
+    font-size: 1.5rem;
+    padding: 2.5% 10%;
+    border-radius: 26.5px;
+    text-align: center;
+    border: 3px solid var(--primary-blue);
+    color: white;
+    background-color: var(--primary-blue);
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: .75;
+}
+
+@media (min-width: 40em) {
+    .payment {
+        padding: .5% 4.5%;
+    }
+}

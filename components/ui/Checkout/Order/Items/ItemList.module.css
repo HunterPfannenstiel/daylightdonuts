@@ -1,0 +1,13 @@
+.item {
+    opacity: 0;
+    animation: fadeIn 1s ease var(--delay) forwards;
+}
+
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}

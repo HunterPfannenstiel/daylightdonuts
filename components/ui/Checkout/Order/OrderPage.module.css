@@ -1,0 +1,72 @@
+.order {
+    --item-space: 0.5rem;
+    background-color: white;
+    animation: animateIn 1s ease forwards;
+}
+
+.update_button {
+    background-color: var(--primary-blue);
+    color: #FFFFFF;
+    /* padding: .25em .5em; */
+    border-radius: 16px;
+    animation: breath 1.5s ease infinite;
+}
+
+.content {
+    margin-top: 1.75rem;
+    --item-width: 37.5%;
+    --amount-width: 22.5%;
+    --price-width: 24.7%;
+    --gap: 7.65%;
+    width: 95%;
+    margin-inline: auto;
+    overflow: hidden;
+}
+
+.animate_out {
+    animation: animateOut 290ms ease forwards;
+}
+
+@media (min-width: 40em) {
+    .order {
+        margin: 1.5rem auto;
+        max-width: 954px;
+    }
+
+    .content {
+        margin-top: 0;
+        --item-width: 50%;
+        --amount-width: 10%;
+        --price-width: 26.5%;
+    }
+}
+
+@keyframes animateIn {
+    0%{
+        clip-path: inset(0 0 100% 0);
+    }
+    100%{
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes animateOut {
+    0%{
+        clip-path: inset(0 0 0 0);
+    }
+    100%{
+        clip-path: inset(0 0 100% 0);
+    }
+}
+
+@keyframes breath {
+    0%{
+        scale: 1;
+    }
+    50%{
+        scale: 1.1;
+    }
+    100% {
+        scale: 1;
+    }
+}

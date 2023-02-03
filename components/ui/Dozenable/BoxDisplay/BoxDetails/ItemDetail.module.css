@@ -1,0 +1,32 @@
+.item_detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info {
+    width: 40%;
+}
+
+.info h2 {
+    text-align: left;
+    font-weight: var(--bold-font-weight);
+    font-size: 1.125rem;
+    color: var(--font-black);
+}
+
+.info p {
+    text-align: left;
+    font-size: .75rem;
+    font-style: italic;
+}
+
+.amount {
+    width: 20%;
+}
+
+@media (min-width: 40em) {
+    .info {
+        width: 60%;
+    }
+}

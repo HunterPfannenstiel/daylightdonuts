@@ -1,0 +1,12 @@
+.date_select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendar {
+    border: 2px solid #DCDCDCDC;
+    border-radius: 17px;
+    width: fit-content;
+    background-color: white;
+}

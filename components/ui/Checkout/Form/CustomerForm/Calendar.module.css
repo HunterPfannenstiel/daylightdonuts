@@ -1,0 +1,71 @@
+.date_input {
+    position: relative;
+    cursor: pointer;
+}
+
+.wrapper {
+    position: fixed;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    background-color: white;
+    padding: 1rem;
+    border: 1px solid black;
+    border-radius: 6px;
+    animation: slideIn 300ms ease-out forwards;
+    z-index: 2;
+}
+
+.wrapper.animate_out {
+    animation: slideOut 280ms ease-in forwards;
+}
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(27, 27, 27, 0.36);
+    animation: fadeIn 300ms ease;
+    z-index: 1;
+}
+
+.background.animate_out {
+    animation: fadeOut 280ms ease-in forwards;
+}
+
+@keyframes fadeIn {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@keyframes slideIn {
+    0%{
+        left: -100%;
+    }
+    100%{
+        left: 50%;
+    }
+}
+
+@keyframes slideOut {
+    0%{
+        left: 50%;
+    }
+    100%{
+        left: -100%;
+    }
+}

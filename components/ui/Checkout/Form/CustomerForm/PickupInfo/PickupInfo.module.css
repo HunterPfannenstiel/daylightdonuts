@@ -1,0 +1,45 @@
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.location,
+.time,
+.date {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: .5rem;
+}
+
+.location select,
+.time select,
+.date input {
+    width: 100%;
+}
+
+.info input {
+    padding: 0.3em 0.5em;
+}
+
+@media (min-width: 40em) {
+    .info {
+        flex-direction: row;
+    }
+
+    .location,
+    .time,
+    .date {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .info select,
+    .info input {
+        font-size: 0.875rem;
+    }
+
+}

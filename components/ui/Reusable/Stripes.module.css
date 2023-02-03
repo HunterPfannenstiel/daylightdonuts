@@ -1,0 +1,28 @@
+.stripes {
+    display: none;
+    --stripe-height: 14px;
+        height: calc(var(--stripe-height) * 4);
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 100%;
+        margin-top: auto;
+}
+
+.stripes div {
+    width: 100%;
+    height: var(--stripe-height);
+}
+
+.blue_stripe{
+    background-color: var(--primary-blue);
+}
+
+.yellow_stripe {
+    background-color: var(--primary-yellow);
+}
+
+@media (min-width: 40em){
+    .stripes {
+        display: flex;
+    }
+}

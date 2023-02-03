@@ -1,0 +1,13 @@
+.group h1 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    text-align: center;
+    margin-inline: auto;
+    color: var(--font-black);
+}
+
+@media (min-width: 40em) {
+    .group h1 {
+        margin-block: 1.5rem;
+    }
+}

@@ -1,0 +1,14 @@
+.fieldset {
+    border-bottom: 1px solid #DCDCDC;
+    padding-bottom: var(--gap-padding);
+}
+
+.fieldset legend {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+    font-weight: var(--bold-font-weight);
+    font-size: 1.5rem;
+    color: var(--primary-blue);
+    text-align: center;
+    line-height: 1.5rem;
+}

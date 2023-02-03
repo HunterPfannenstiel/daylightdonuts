@@ -1,0 +1,27 @@
+.arrow {
+    --degree: 45deg;
+    --transform: -10px;
+    width: 10px;
+    height: 10px;
+    border: solid black;
+    border-right: 2px;
+    border-bottom: 2px;
+    margin: 2px;
+    transform: rotate(var(--degree));
+}
+
+.arrow.clicked {
+    animation: clicked .25s linear;
+}
+
+@keyframes clicked {
+    0%{
+        transform: translateY(0) rotate(var(--degree));
+    }
+    50%{
+        transform: translateY(var(--transform)) rotate(var(--degree));
+    }
+    100%{
+        transform: translateY(0) rotate(var(--degree));
+    }
+}

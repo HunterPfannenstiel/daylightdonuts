@@ -1,0 +1,7 @@
+.button {
+    font-weight: var(--secondary-font-weight);
+    font-size: 0.75rem;
+    font-style: italic;
+    background: none;
+    padding: 0;
+}

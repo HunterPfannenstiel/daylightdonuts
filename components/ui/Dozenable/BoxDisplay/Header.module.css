@@ -1,0 +1,11 @@
+.header {
+    margin-top: 1rem;
+    font-size: 1.75rem;
+    color: var(--font-black);
+}
+
+.amount {
+    font-size: 1.25;
+    color: var(--font-black);
+    /* margin-bottom: 1.5rem; */
+}

@@ -1,0 +1,17 @@
+.group_name {
+    margin-top: .5rem;
+    color: var(--primary-blue);
+    text-align: center;
+}
+
+@media (min-width: 40em) {
+    .page_content {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 1275px;
+        padding-inline: 1rem;
+        margin: 1rem auto;
+        /* gap: 0.5rem; */
+    }
+}

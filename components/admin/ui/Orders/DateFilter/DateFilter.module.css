@@ -1,0 +1,15 @@
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: .5rem;
+    border-bottom: 1px solid #DCDCDC;
+}
+
+.filter label {
+    font-size: 1rem;
+}
+
+.filter select {
+    font-size: 1rem;
+}

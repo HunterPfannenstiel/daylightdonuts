@@ -13,8 +13,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@_types/*": ["types/*"],
+      "@_hooks/*": ["components/hooks/*"],
+      "@_providers/*": ["components/providers/*"],
+      "@_utils/*": ["utils/*"]
+    },
+    "baseUrl": "."
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

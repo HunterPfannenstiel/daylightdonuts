@@ -1,0 +1,18 @@
+.orders {
+    --gap: 1.5rem;
+    padding-block: var(--gap);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    max-height: 65vh;
+    overflow: scroll;
+}
+
+@media (min-width: 40em) {
+    .orders {
+        flex-direction: row;
+        overflow: unset;
+        padding-inline: var(--gap);
+        overflow-x: auto;
+    }
+}

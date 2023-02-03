@@ -1,0 +1,12 @@
+.donut_space {
+    position: absolute;
+    top: 15%;
+    width: 100%;
+    height: 75%;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: repeat(3, 33%);
+    gap: .1rem;
+    align-items: center;
+    justify-content: center;
+}

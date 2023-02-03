@@ -1,0 +1,36 @@
+.pagebar {
+    background-color: var(--primary-blue);
+    height: clamp(65px, 8vh, 85px);
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.stripe {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--primary-yellow);
+    height: 9px;
+    width: 100%;
+}
+
+.title {
+    background-color: var(--primary-blue);
+    position: relative;
+    width: 50%;
+    margin-inline: auto;
+}
+
+@media (min-width: 40rem) {
+    .stripe {
+        height: 18.4%;
+    }
+
+    .title {
+        max-width: 467px;
+        font-size: 3rem;
+    }
+}

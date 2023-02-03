@@ -1,0 +1,17 @@
+.button {
+    padding: 0.4rem 0.75rem;
+    background-color: white;
+    border: 2px solid var(--primary-blue);
+    border-radius: 17px;
+    color: var(--primary-blue);
+    font-size: 1rem;
+}
+
+.button:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.button:focus {
+    background-color: var(--primary-blue);
+    color: white;
+}

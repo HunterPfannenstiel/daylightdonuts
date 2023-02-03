@@ -1,0 +1,31 @@
+.fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+.fieldset label {
+    font: var(--primary-font);
+    color: #000000;
+    letter-spacing: 0;
+    font-size: .875rem;
+}
+
+.fieldset input {
+    padding: 0;
+}
+
+.name div:first-child,
+.contact div:first-child {
+    padding-bottom: var(--gap-padding);
+}
+
+@media (min-width: 40em) {
+    .name,
+    .contact {
+        display: flex;
+        gap: 10%;
+        justify-content: center;
+    }
+}
+

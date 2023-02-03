@@ -1,0 +1,21 @@
+.input {
+    width: 100%;
+    font-size: var(--medium-font-size);
+    border: none;
+    border-bottom: 1px solid var(--primary-blue);
+    border-radius: 0;
+    background: none;
+    letter-spacing: 0.5px;
+}
+
+.input::placeholder {
+    font-weight: var(--secondary-font-weight);
+    color: #DCDCDC;
+    opacity: 1;
+}
+
+@media (min-width: 40em) {
+    .input_content {
+        width: 50%;
+    }
+}

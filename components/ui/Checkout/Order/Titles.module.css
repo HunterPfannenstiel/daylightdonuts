@@ -1,0 +1,31 @@
+.titles {
+    border-bottom: 1px solid #DCDCDC;
+    display: flex;
+    gap: var(--gap);
+    text-align: center;
+}
+
+.titles h4 {
+    margin-block: 0.5rem;
+    font-weight: var(--secondary-font-weight);
+    font-size: 0.875rem;
+}
+
+.items {
+    width: var(--item-width);
+}
+
+.amount {
+    width: var(--amount-width);
+}
+
+.price {
+    width: var(--price-width);
+}
+
+@media (min-width: 40em) {
+    .items {
+        text-align: left;
+        padding-left: 1rem;
+    }
+}

@@ -1,0 +1,9 @@
+.order {
+    margin-inline: auto;
+    background-color: #FFFFFF;
+    border: 1px solid #DCDCDC;
+}
+
+.printed {
+    border: 2px solid var(--success);
+}

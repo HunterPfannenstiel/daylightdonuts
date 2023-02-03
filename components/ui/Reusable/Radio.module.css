@@ -1,0 +1,27 @@
+.radio {
+    --color: var(--primary-yellow);
+    display: flex;
+    align-items: center;
+}
+
+.radio label {
+    font: var(--primary-font);
+    color: #000000;
+    letter-spacing: 0;
+    font-size: .875rem;
+}
+
+.radio input {
+    margin-right: .35rem;
+}
+
+.radio input:checked{
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--color);
+    border: 1px solid #FFF;
+    box-shadow: 0 0 0 1px var(--color);
+    padding: 0;
+}

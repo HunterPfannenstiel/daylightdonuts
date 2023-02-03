@@ -1,0 +1,17 @@
+.loading_block {
+    background: linear-gradient(to right, #fafafa 8%, #f4f4f4 38%, #fafafa 54%);
+    animation: gradient 1.8s linear infinite forwards;
+    width: 100%;
+    height: 100%;
+    background-size: 1000px 640px;
+    position: relative;
+}
+
+@keyframes gradient {
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}

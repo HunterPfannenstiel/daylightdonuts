@@ -1,0 +1,99 @@
+.form_content {
+    margin-top: 1.75rem;
+    background-color: white;
+    --gap-padding: 1.5rem;
+    --gap: 1.25rem;
+    /* overflow-y: hidden; */
+    animation: animateIn 1s ease-out forwards;
+}
+
+.animate_out {
+    animation: animateOut 290ms ease forwards;
+}
+
+.form {
+    width: 95%;
+    margin-inline: auto;
+}
+
+.button {
+    background-color: var(--primary-blue);
+    color: #F5F5F5;
+    width: 100%;
+    border-radius: 22px;
+    padding: 3% 10%;
+    letter-spacing: .5px;
+    font-weight: var(--bold-font-weight);
+    font-size: 1.5rem;
+}
+
+.note {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    color: #545454;
+    font-style: italic;
+    font-size: .75rem;
+    text-align: center;
+}
+
+.menu {
+    padding: 1rem;
+    margin: 0;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.menu h2 {
+    color: var(--font-black);
+    font-size: 1.5rem;
+}
+
+.menu > a {
+    width: 95%;
+}
+
+@media (min-width: 40em) {
+    .form_content {
+        margin: 1.5rem auto;
+        max-width: 955px;
+    }
+
+    .form {
+        width: 78%;
+    }
+
+    .button_container {
+        width: 100%;
+        text-align: center;
+    }
+
+    .button {
+        max-width: 265px;
+        padding: 1% 5%;
+    }
+
+    .menu a {
+        width: 50%
+    }
+}
+
+@keyframes animateIn {
+    0%{
+        clip-path: inset(0 0 100% 0);
+    }
+    100%{
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes animateOut {
+    0%{
+        clip-path: inset(0 0 0 0);
+    }
+    100%{
+        clip-path: inset(0 0 100% 0);
+    }
+}
