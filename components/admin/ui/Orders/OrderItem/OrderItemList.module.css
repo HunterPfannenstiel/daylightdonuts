@@ -8,6 +8,15 @@
     overflow: scroll;
 }
 
+.orders,
+.no_orders {
+    min-height: 50vh;
+}
+
+.no_orders h2{
+    color: var(--font-black);
+}
+
 @media (min-width: 40em) {
     .orders {
         flex-direction: row;

@@ -7,30 +7,53 @@ import Refresh from "components/ui/svg/Refresh";
 import useOrders from "@_hooks/admin/orders/useOrders";
 import { Interval, IntervalButton } from "@_types/admin/orders";
 import DateSelect from "../Reusable/DateSelect/DateSelect";
+import useAnimateModal from "@_hooks/animation/useAnimateModal";
+import DateModal from "../Reusable/DateSelect/DateModal";
+import Button from "components/ui/Reusable/Button";
 
 interface OrderDisplayProps {}
 
 const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
-  const { orders, setInterval, setPickerRange } = useOrders();
+  const { orders, setInterval, setPickerRange, displayRange, orderCount } =
+    useOrders();
   const intervalChange = (interval: Interval) => {
     setInterval(interval);
   };
+  const { playAnimation, showModal, handleModal } = useAnimateModal(300);
   return (
     <>
       <IPageDisplay
-        title="Orders"
+        title={displayRange}
         leftIcon={<AdminBack />}
         rightIcon={<Refresh />}
         className={classes.page_display}
       >
-        {/* <DateFilter intervalChange={intervalChange} /> */}
-        <OrderItemList orders={orders} />
+        <div className={classes.display_info}>
+          <Button
+            color={"var(--primary-blue)"}
+            onClick={handleModal}
+            className={classes.button}
+          >
+            Set Interval
+          </Button>
+          <p>{`Order Count: ${orderCount}`}</p>
+        </div>
+        <div className={classes.orders}>
+          <OrderItemList orders={orders} />
+        </div>
+
+        <DateModal
+          showModal={showModal}
+          playAnimation={playAnimation}
+          handleModal={handleModal}
+        >
+          <DateSelect
+            relativeButtons={relativeButtons}
+            relativeIntervalChange={intervalChange}
+            absoluteIntervalChange={setPickerRange}
+          />
+        </DateModal>
       </IPageDisplay>
-      <DateSelect
-        relativeButtons={relativeButtons}
-        relativeIntervalChange={intervalChange}
-        absoluteIntervalChange={setPickerRange}
-      />
     </>
   );
 };

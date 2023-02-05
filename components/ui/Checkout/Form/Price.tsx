@@ -9,7 +9,7 @@ interface PriceProps {
 const Price: FunctionComponent<PriceProps> = ({ subtotal, tip }) => {
   const tax = 0.06;
   const taxAmount = +(subtotal * tax).toFixed(2);
-  const total = taxAmount + subtotal + tip;
+  const total = taxAmount + subtotal;
   return (
     <div className={classes.info}>
       <div className={classes.amounts}>

@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
 }
 
 .calendar {
@@ -9,4 +10,20 @@
     border-radius: 17px;
     width: fit-content;
     background-color: white;
+}
+
+@media (min-width: 40em) {
+    .date_select {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .selectors select{
+        margin-bottom: 1rem;
+    }
+
+    .selectors p {
+        max-width: 25ch;
+    }
 }

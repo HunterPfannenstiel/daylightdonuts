@@ -1,5 +1,6 @@
 import { DateRange, Interval } from "@_types/admin/orders";
 import { formatDate, getRange } from "@_utils/orders/dates";
+import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { DateRange as PickerRange } from "react-day-picker";
 
@@ -31,7 +32,19 @@ const useDateRange = <T extends Interval>(startingRange: T) => {
     setInterval,
     setPickerRange,
     dateRange,
+    displayRange: formatDateRange(dateRange),
   };
+};
+
+const formatDateRange = (dateRange: DateRange) => {
+  if (dateRange.startDate === dateRange.endDate) {
+    return format(new Date(dateRange.startDate), "PP");
+  } else {
+    return `${format(new Date(dateRange.startDate), "PP")} - ${format(
+      new Date(dateRange.endDate),
+      "PP"
+    )}`;
+  }
 };
 
 export default useDateRange;

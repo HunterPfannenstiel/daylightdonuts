@@ -8,7 +8,7 @@ interface OrderItemListProps {
 }
 
 const OrderItemList: FunctionComponent<OrderItemListProps> = ({ orders }) => {
-  if (orders) {
+  if (orders && orders.length > 0) {
     return (
       <ul className={classes.orders}>
         {orders.map((order) => (
@@ -17,7 +17,11 @@ const OrderItemList: FunctionComponent<OrderItemListProps> = ({ orders }) => {
       </ul>
     );
   } else {
-    return <></>;
+    return (
+      <div className={classes.no_orders}>
+        <h2>No Orders for this range</h2>
+      </div>
+    );
   }
 };
 

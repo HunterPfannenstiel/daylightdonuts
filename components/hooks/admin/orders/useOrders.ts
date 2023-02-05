@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { DateRange, DBOrder, Interval } from "@_types/admin/orders";
+import { format } from "date-fns";
 import useDateRange from "../useDateRange";
 
 const useOrders = () => {
-  const { dateRange, setInterval, setPickerRange } =
+  const { dateRange, setInterval, setPickerRange, displayRange } =
     useDateRange<Interval>("Day");
   const { data, isLoading, isError } = useQuery(
     ["orders", dateRange],
@@ -16,6 +17,8 @@ const useOrders = () => {
     isError,
     setPickerRange,
     setInterval,
+    displayRange,
+    orderCount: data?.length || 0,
   };
 };
 

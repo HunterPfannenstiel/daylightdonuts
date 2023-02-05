@@ -1,6 +1,28 @@
+.page_display {
+    text-align: center;
+}
+
+.display_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.page_display .button {
+    margin-block: 1rem;
+}
+
+.content {
+    max-height: 100vh;
+}
+
 @media (min-width: 40em) {
     .page_display {
         margin-inline: auto;
         max-width: 1275px;
+    }
+
+    .page_display .button {
+        display: none;
     }
 }

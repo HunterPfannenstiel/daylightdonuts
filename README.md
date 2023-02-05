@@ -22,13 +22,14 @@ By utilizing a DYMO printer, the admin of the website has the ability to directl
 By viewing the analytics page, the admin can view various analytics such as: gross revenue from orders for each day of a week, average orders for each day of a week, and more.
 
 ## Website Pages
-### [Menu Page](https://daylight-website-eight.vercel.app/menu)
+### [Menu Page](https://daylightdonuts.vercel.app/menu)
 Shows the products for sale as well as allows the customer to filter for specific items.
-### Dozenable Page
+### [Dozenable Page](https://daylightdonuts.vercel.app/menu?category=Dozenable)
 Displays all of the donuts in a specifc group that can be used to complete a box for a discount and allows the customer to directly build the box to add to their cart.
-### [Item Page](https://daylight-website-eight.vercel.app/menu/Glaze)
+![Box Builder Gif](https://media.giphy.com/media/BdET7Vn7zxylgijQBo/giphy.gif)
+### [Item Page](https://daylightdonuts.vercel.app/menu/Glaze)
 Shows the selected product in detail and is where the customer can modify the product (such as add frostings) and add the product to their cart.
-### [Checkout Page](https://daylight-website-eight.vercel.app/checkout)
+### [Checkout Page](https://daylightdonuts.vercel.app/checkout)
 Displays the customer's cart and subtotal and allows the customer to modify their cart before completing the purchase.
 ### Orders Page (Admin Only)
 Presents the orders for the current day and allows the admin to view orders within a selected date range.

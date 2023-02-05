@@ -17,11 +17,12 @@ const Button: FunctionComponent<ButtonProps> = ({
   children,
   fontWeight,
   width,
+  className,
   ...rest
 }) => {
   const css = { backgroundColor: color, fontWeight, width } as CSSProperties;
   return (
-    <button {...rest} className={classes.button} style={css}>
+    <button {...rest} className={`${classes.button} ${className}`} style={css}>
       {children}
     </button>
   );

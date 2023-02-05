@@ -22,23 +22,27 @@ const DateSelect: FunctionComponent<DateSelectProps> = ({
   };
   return (
     <div className={classes.date_select}>
-      <select onChange={handleSelectChange}>
-        <option value="relative">Relative</option>
-        <option value="absolute">Absolute</option>
-      </select>
-      {timeframe === "relative" && (
-        <DateButtons
-          buttons={relativeButtons}
-          intervalChange={relativeIntervalChange}
+      <div className={classes.selectors}>
+        <select onChange={handleSelectChange}>
+          <option value="relative">Relative</option>
+          <option value="absolute">Absolute</option>
+        </select>
+        {timeframe === "relative" && (
+          <DateButtons
+            buttons={relativeButtons}
+            intervalChange={relativeIntervalChange}
+          />
+        )}
+        {timeframe === "absolute" && (
+          <p>Select a single date or select two dates to specify a range</p>
+        )}
+      </div>
+      {timeframe === "absolute" && (
+        <RangeCalendar
+          className={classes.calendar}
+          onRangeChange={absoluteIntervalChange}
         />
       )}
-      {timeframe === "absolute" && (
-        <p>Select a single date or select two dates to specify a range</p>
-      )}
-      <RangeCalendar
-        className={classes.calendar}
-        onRangeChange={absoluteIntervalChange}
-      />
     </div>
   );
 };
