@@ -60,6 +60,7 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           required
           onChange={(e) => {
+            e.target.value = addDashes(e.target.value);
             updateCustomerInfo(e, "phone");
           }}
         />
@@ -67,6 +68,19 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
       <PickupInfo customerInfo={customerInfo} />
     </Fieldset>
   );
+};
+
+const addDashes = (phoneNumber: string) => {
+  let cleanNumber = phoneNumber.replace(/\D[-]/g, "");
+  if (cleanNumber.length >= 12) {
+    return cleanNumber.slice(0, 12);
+  }
+  if (cleanNumber.length === 4 && cleanNumber[3] !== "-") {
+    return cleanNumber.slice(0, 3) + "-" + cleanNumber.slice(3);
+  } else if (cleanNumber.length === 8 && cleanNumber[7] !== "-") {
+    return cleanNumber.slice(0, 7) + "-" + cleanNumber.slice(7);
+  }
+  return cleanNumber;
 };
 
 export default CustomerInfo;

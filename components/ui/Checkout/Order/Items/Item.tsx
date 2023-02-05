@@ -1,4 +1,4 @@
-import { CSSProperties, FunctionComponent, ReactNode } from "react";
+import { CSSProperties, FunctionComponent, ReactNode, useState } from "react";
 import Image from "next/image";
 import Amount from "./Amount";
 import classes from "./Item.module.css";
@@ -26,12 +26,23 @@ const Item: FunctionComponent<ItemProps> = ({
 }) => {
   const style: CSSProperties = hideUnderline ? { border: "none" } : {};
   let showPrice = price ? price.toFixed(2) : "0.00";
+  const [animateIn, setAnimateIn] = useState(false);
+  const handleLoadComplete = () => {
+    setAnimateIn(true);
+  };
+  const animate = animateIn ? classes.animate_in : "";
   return (
     <div className={classes.item_info} style={style}>
       <div className={classes.item}>
         {image && (
-          <div className={classes.image_container}>
-            <Image src={image} width={100} height={100} alt={name} />
+          <div className={`${classes.image_container} ${animate}`}>
+            <Image
+              src={image}
+              width={100}
+              height={100}
+              alt={name}
+              onLoadingComplete={handleLoadComplete}
+            />
           </div>
         )}
         <div className={classes.info}>

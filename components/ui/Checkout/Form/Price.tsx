@@ -21,10 +21,10 @@ const Price: FunctionComponent<PriceProps> = ({ subtotal, tip }) => {
           <p>Tax</p>
           <p>{`$ ${taxAmount}`}</p>
         </div>
-        <div>
+        {/* <div>
           <p>Tip</p>
           <p>{`$ ${tip.toFixed(2)}`}</p>
-        </div>
+        </div> */}
       </div>
       <div className={classes.total}>
         <p>Total</p>

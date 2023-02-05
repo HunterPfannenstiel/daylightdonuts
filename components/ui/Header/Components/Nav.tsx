@@ -1,6 +1,6 @@
 import Hamburger from "components/ui/svg/NavIcons/Hamburger";
 import Profile from "components/ui/svg/NavIcons/Profile";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import classes from "./Nav.module.css";
 import Link from "next/link";
@@ -15,6 +15,11 @@ interface NavProps {
 const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
   const stick = sticky ? classes.sticky : "";
   const { showModal, playAnimation, handleModal } = useAnimateModal(300);
+  const [animateIn, setAnimateIn] = useState(false);
+  const handleLoadComplete = () => {
+    setAnimateIn(true);
+  };
+  const animate = animateIn ? classes.animate_in : "";
   return (
     <nav className={classes.navbar + " " + stick}>
       <MobileMenu
@@ -23,11 +28,12 @@ const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
         handleModal={handleModal}
       />
       <Hamburger onClick={handleModal} open={showModal} />
-      <div className={classes.image_container}>
+      <div className={`${classes.image_container} ${animate}`}>
         <Image
           src="/Images/DAYLIGHTDONUTS.png"
           alt="Daylight Donuts Logo"
           fill
+          onLoadingComplete={handleLoadComplete}
         />
       </div>
       <div className={classes.header_links}>

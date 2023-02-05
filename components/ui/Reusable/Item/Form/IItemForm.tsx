@@ -18,21 +18,6 @@ const IItemForm = forwardRef<HTMLSelectElement, IItemFormProps>(
     { extras, maxAmount, buttonName, addItemToCart, updateExtras },
     amountRef
   ) => {
-    const getOptions = () => {
-      const options = [];
-      let limit = maxAmount || 12;
-      if (maxAmount === 0) {
-        limit = 0;
-      }
-      for (let i = 1; i <= limit; i++) {
-        options.push(
-          <option value={i} key={i}>
-            {i}
-          </option>
-        );
-      }
-      return options;
-    };
     return (
       <form className={classes.form} onSubmit={addItemToCart}>
         {extras?.map((extra) => {
@@ -57,7 +42,7 @@ const IItemForm = forwardRef<HTMLSelectElement, IItemFormProps>(
           </Button>
           {maxAmount !== 0 && (
             <select id="amount" name="amount" ref={amountRef}>
-              {getOptions()}
+              {getOptions(maxAmount)}
             </select>
           )}
         </div>
@@ -65,6 +50,22 @@ const IItemForm = forwardRef<HTMLSelectElement, IItemFormProps>(
     );
   }
 );
+
+const getOptions = (maxAmount: number | undefined) => {
+  const options = [];
+  let limit = maxAmount || 12;
+  if (maxAmount === 0) {
+    limit = 0;
+  }
+  for (let i = 1; i <= limit; i++) {
+    options.push(
+      <option value={i} key={i}>
+        {i}
+      </option>
+    );
+  }
+  return options;
+};
 
 IItemForm.displayName = "IItemForm";
 

@@ -34,7 +34,6 @@
 }
 
 body {
-    
     font: var(--primary-font);
     background-color: var(--background-color);
     margin: 0;

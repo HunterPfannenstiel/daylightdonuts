@@ -25,6 +25,11 @@
     object-fit: cover;
 }
 
+.animate_in img {
+    opacity: 1;
+    transition: all 1s ease;
+}
+
 .item_info {
     border-top: 1px solid #D1D6DB;
     width: 85%;

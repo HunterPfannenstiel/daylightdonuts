@@ -18,27 +18,23 @@ const Amount: FunctionComponent<AmountProps> = ({
   // let disabled = maxAmount ? amount >= maxAmount : false;
   return (
     <div className={classes.amount}>
-      <div className={classes.minus}>
-        <Arrow
-          role="button"
-          onClick={() => {
-            if (!disabledMinus) getUpdatedAmount(-1);
-          }}
-          direction="Down"
-        />
-      </div>
+      <Arrow
+        role="button"
+        onClick={() => {
+          if (!disabledMinus) getUpdatedAmount(-1);
+        }}
+        direction="Down"
+      />
 
       <div className={classes.amount_value}>
         <p>{amount}</p>
       </div>
-      <div className={classes.plus}>
-        <Arrow
-          role="button"
-          onClick={() => {
-            if (!disabledPlus) getUpdatedAmount(1);
-          }}
-        />
-      </div>
+      <Arrow
+        role="button"
+        onClick={() => {
+          if (!disabledPlus) getUpdatedAmount(1);
+        }}
+      />
     </div>
   );
 };

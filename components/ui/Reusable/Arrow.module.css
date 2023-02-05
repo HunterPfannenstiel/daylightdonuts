@@ -6,8 +6,10 @@
     border: solid black;
     border-right: 2px;
     border-bottom: 2px;
-    margin: 2px;
+    padding-top: 5px;
+    /* padding: 2px; */
     transform: rotate(var(--degree));
+    cursor: pointer;
 }
 
 .arrow.clicked {

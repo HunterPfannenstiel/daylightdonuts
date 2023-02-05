@@ -13,12 +13,16 @@ const MenuItem: FunctionComponent<MenuItemProps> = ({
   item,
   linkURLPrefix,
 }) => {
-  const button = (
-    <Link href={`${linkURLPrefix}${item.name}`} className={classes.button}>
-      Customize
-    </Link>
+  return (
+    <Item
+      item={item}
+      button={
+        <Link href={`${linkURLPrefix}${item.name}`} className={classes.button}>
+          Customize
+        </Link>
+      }
+    />
   );
-  return <Item item={item} button={button} />;
 };
 
 export default MenuItem;

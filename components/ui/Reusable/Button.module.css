@@ -2,6 +2,7 @@
     color: white;
     padding: 2.5% 10%;
     border-radius: 17px;
+    width: fit-content;
 }
 
 .button:disabled {

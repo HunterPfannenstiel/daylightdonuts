@@ -14,6 +14,11 @@
     display: none;
 }
 
+.animate_in img {
+    opacity: 1;
+    transition: all 1s ease;
+}
+
 .name {
     font-weight: var(--bold-font-weight);
     font-size: 1.125rem;

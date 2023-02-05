@@ -23,6 +23,11 @@
     height: 100%;
 }
 
+.animate_in img {
+    opacity: 1;
+    transition: all 1s ease;
+}
+
 .header_links {
     width: var(--container-width);
 }

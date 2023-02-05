@@ -18,7 +18,7 @@
         display: unset;
     }
     .detail_list {
-        overflow: auto;
+        overflow: hidden;
         width: 100%;
     }
 }

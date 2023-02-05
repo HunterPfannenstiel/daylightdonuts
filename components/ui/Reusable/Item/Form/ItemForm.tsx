@@ -17,32 +17,6 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
   addItemToCart,
   updateExtras,
 }) => {
-  // const { updateCart, extraInfo, setExtraInfo } = useCartUpdates(item);
-  // const { displayNotification } = useNotification();
-  // const amountRef = useRef<HTMLSelectElement>(null);
-  // let extraPrice = 0;
-  // Object.keys(extraInfo).forEach((key) => {
-  //   if (extraInfo[key].price) {
-  //     extraPrice += extraInfo[key].price!;
-  //   }
-  // });
-  // const showPrice = moneyToNum(item.price) + extraPrice;
-  // const addItemToCart = (e: FormEvent) => {
-  //   e.preventDefault();
-  //   const amount = +amountRef!.current!.value;
-  //   updateCart(amount, showPrice, !!extraPrice);
-  //   displayNotification(`Added ${item.name} to cart`, "success", 2500);
-  // };
-
-  // const updateExtras = (category: string, extraInfo: ExtraInfo) => {
-  //   setExtraInfo((prevState) => {
-  //     return { ...prevState, [category]: extraInfo };
-  //   });
-  // };
-  // useEffect(() => {
-  //   getShowPrice(showPrice, extraPrice);
-  // }, [extraInfo]);
-
   return (
     <IItemForm
       extras={item.extras}

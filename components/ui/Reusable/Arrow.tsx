@@ -8,6 +8,7 @@ interface ArrowProps extends HTMLAttributes<HTMLDivElement> {
 
 const Arrow: FunctionComponent<ArrowProps> = ({
   direction = "Up",
+  className,
   ...props
 }) => {
   const { buttonClick, playAnimation } = useAnimateButton(250);
@@ -19,7 +20,9 @@ const Arrow: FunctionComponent<ArrowProps> = ({
   } as CSSProperties;
   return (
     <div
-      className={`${classes.arrow} ${playAnimation ? classes.clicked : ""}`}
+      className={`${classes.arrow} ${
+        playAnimation ? classes.clicked : ""
+      } ${className}`}
       {...props}
       onClick={(e) => {
         buttonClick();
