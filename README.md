@@ -17,6 +17,7 @@ This website utilizes Stripe to handle payments. When the user completes the che
 The admin has the ability to sort orders by the current day, week, and month, as well as know which orders have already been printed.
 ### Order Printing
 By utilizing a DYMO printer, the admin of the website has the ability to directly print orders from the website. 
+https://user-images.githubusercontent.com/107196545/217386077-c4ef9ea7-fc07-4cae-a72a-93fc0afcee8c.MP4
 > This feature was implemented on the first version of the website and is currently being implemented on the second version.
 ### Order Analytics
 By viewing the analytics page, the admin can view various analytics such as: gross revenue from orders for each day of a week, average orders for each day of a week, and more.
