@@ -8,6 +8,9 @@ export type DBOrder = {
   time: string;
   location: string;
   printed: boolean;
+  payment_processor: PaymentProcessor;
+  payment_id: string;
+  last_modified: Date;
   order_contents: OrderItemContent[];
 };
 
@@ -17,13 +20,13 @@ export type OrderItemContent = {
   amount: number;
 };
 
-type PaymentProccessor = "Stripe" | "PayPal";
+export type PaymentProcessor = "Stripe" | "PayPal";
 
 type OrderDetails = {
-  date_created: string;
   payment_id: string;
-  payment_processor: PaymentProccessor;
-  total_price: string;
+  payment_processor: PaymentProcessor;
+  email: string;
+  last_modified: Date;
 };
 
 export type DateRange = {

@@ -7,13 +7,17 @@ const AnalyticsInfo = createContext(getInitialAnalytics());
 export const AnalyticsInfoProvider: FunctionComponent<{
   children: ReactNode;
 }> = ({ children }) => {
-  const { analytics, setInterval } = useAnalytics(analyticFetcher, "analytics");
+  const { analytics, setInterval, displayRange, setPickerRange, setSumBy } =
+    useAnalytics(analyticFetcher, "analytics");
 
   console.count("Analytics");
   console.log(analytics);
   const value = {
     analytics,
+    displayRange,
     setInterval,
+    setPickerRange,
+    setSumBy,
   };
   return (
     <AnalyticsInfo.Provider value={value}>{children}</AnalyticsInfo.Provider>

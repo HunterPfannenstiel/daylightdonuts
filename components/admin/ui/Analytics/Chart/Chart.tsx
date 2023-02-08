@@ -23,6 +23,7 @@ const Chart: FunctionComponent<ChartProps> = ({ title, analytics }) => {
               tension: 0.1,
               backgroundColor: "#003472",
               borderColor: "#FFD503",
+              pointRadius: 5,
             },
           ],
         }}

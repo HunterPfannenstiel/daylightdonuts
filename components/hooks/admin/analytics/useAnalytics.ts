@@ -17,7 +17,8 @@ type QueryFetch = (
 ) => Promise<Analytics>;
 
 const useAnalytics = (fetcher: QueryFetch, keyName: string) => {
-  const { dateRange, setInterval } = useDateRange<Interval>("Month");
+  const { dateRange, setInterval, displayRange, setPickerRange } =
+    useDateRange<Interval>("Month");
   const [axisInterval, setAxisInterval] = useState<AxisInterval>("Day");
   const [fetchFor, setFetchFor] = useState<AnalyticItem>("Donuts");
   const [sumBy, setSumBy] = useState<SumParameter>("Amount");
@@ -25,14 +26,15 @@ const useAnalytics = (fetcher: QueryFetch, keyName: string) => {
     [keyName, dateRange, axisInterval, sumBy, fetchFor],
     fetcher.bind(null, dateRange, axisInterval, sumBy, fetchFor)
   );
-  console.log(data);
   return {
     analytics: data,
+    displayRange,
     isLoading,
     isError,
     setInterval,
     setAxisInterval,
     setSumBy,
+    setPickerRange,
   };
 };
 

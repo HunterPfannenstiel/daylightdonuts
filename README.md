@@ -32,6 +32,8 @@ Shows the selected product in detail and is where the customer can modify the pr
 ### [Checkout Page](https://daylightdonuts.vercel.app/checkout)
 Displays the customer's cart and subtotal and allows the customer to modify their cart before completing the purchase.
 ### Orders Page (Admin Only)
-Presents the orders for the current day and allows the admin to view orders within a selected date range.
+Presents the orders within a specified range and allows the owner to pick a date range within a relative time frame or an absolute time frame.
+![Orders Gif](https://media.giphy.com/media/Q4O8Ac0BNxxqNGCt85/giphy.gif)
 ### Order Analytics (Admin Only)
-Displays the gross revenue for each day of the week for the current week and allows the admin to view various analytics for various date ranges.
+Displays the amount of donuts sold or the gross revenue for each day of the week within a specified range.
+![Analytics Gif](https://media.giphy.com/media/DjVcqm2FVEqQUmfeZq/giphy.gif)

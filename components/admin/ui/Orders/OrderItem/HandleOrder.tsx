@@ -2,16 +2,15 @@ import Search from "components/ui/svg/Search";
 import { FunctionComponent } from "react";
 import classes from "./HandleOrder.module.css";
 
-interface HandleOrderProps {}
+interface HandleOrderProps {
+  onClick: () => void;
+}
 
-const HandleOrder: FunctionComponent<HandleOrderProps> = () => {
-  const handleViewClick = () => {
-    console.log("View");
-  };
+const HandleOrder: FunctionComponent<HandleOrderProps> = ({ onClick }) => {
   return (
     <div className={classes.print}>
       <button>Print</button>
-      <Search onClick={handleViewClick} />
+      <Search onClick={onClick} />
     </div>
   );
 };

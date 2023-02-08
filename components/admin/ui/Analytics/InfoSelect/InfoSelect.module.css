@@ -1,0 +1,14 @@
+.selectors {
+    display: flex;
+    margin-block: 1rem;
+    padding-inline: 0.5rem;
+}
+
+.selectors select {
+    max-width: 50%;
+}
+
+.button {
+    width: 100%;
+    text-align: right;
+}

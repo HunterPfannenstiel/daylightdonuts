@@ -5,6 +5,14 @@
     gap: 1rem;
 }
 
+.selectors {
+    text-align: center;
+}
+
+.selectors select {
+    margin-bottom: 1rem;
+}
+
 .calendar {
     border: 2px solid #DCDCDCDC;
     border-radius: 17px;

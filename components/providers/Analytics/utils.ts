@@ -5,16 +5,24 @@ import {
   SumParameter,
 } from "@_types/admin/analytics";
 import { DateRange, Interval } from "@_types/admin/orders";
+import { Dispatch, SetStateAction } from "react";
+import { DateRange as range } from "react-day-picker";
 
 type InitialAnalytics = {
   analytics: Analytics | undefined;
+  displayRange: string;
   setInterval: (interval: Interval) => void;
+  setPickerRange: Dispatch<SetStateAction<range | undefined>>;
+  setSumBy: Dispatch<SetStateAction<SumParameter>>;
 };
 
 export const getInitialAnalytics = (): InitialAnalytics => {
   return {
     analytics: undefined,
+    displayRange: "",
     setInterval: (interval: Interval) => {},
+    setPickerRange: () => {},
+    setSumBy: () => {},
   };
 };
 
