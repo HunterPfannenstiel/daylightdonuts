@@ -1,7 +1,7 @@
 import { MutableRefObject } from "react";
 import { Availability } from "./menu";
 
-export type DBCartItem = {
+export type DBCartItem = { //modify the cart initialization to calculate the subtotal instead of the DB
   subtotal: string;
   unitprice: string;
   cartitemid: number;
@@ -17,6 +17,12 @@ export type DBCartItem = {
   extraprice: number | null;
   availability: Availability;
 };
+
+export type ExtraDetails = {
+  info: Extra[],
+  ids: number[],
+  price: number
+}
 
 export type Extra = {
   category: string;
@@ -105,9 +111,9 @@ export type NewCartItem = {
   cartItemId: number;
   menuItemId: number;
   amount: number;
-  subtotal: number;
+  subtotal: number; //don't need subtotal
   extraIds: number[];
-  extraPrice: number | null;
+  extraPrice: number | null; //don't need extraPrice
 };
 
 export type UpdatedCartItem = {

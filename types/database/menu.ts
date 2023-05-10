@@ -28,7 +28,7 @@ export type Item = {
   price: string;
   image: string;
   description: string;
-  dozenprice: string | null;
+  dozenprice: string | null; //groupprice
   groupname: string | null;
   groupsize: number | null;
   extras: ItemExtras[] | null;

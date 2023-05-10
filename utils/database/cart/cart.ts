@@ -66,6 +66,11 @@ export const isInCart = (
   return false;
 };
 
+/**
+ *
+ * @param extras The selected extras of a menu item
+ * @returns The parsed extras returned as an id array of the database ids and as an extra array for the cart
+ */
 export const getExtraInfo = (extras: CartExtraInfo): [number[], Extra[]] => {
   const ids: number[] = [];
   const extrasArr: Extra[] = [];
