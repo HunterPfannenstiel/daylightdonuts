@@ -1,4 +1,4 @@
-import { Category, DBCategories, Subcategories } from "@_types/header";
+import { Category } from "@_types/header";
 import { customerQuery } from "@_utils/database/connect";
 
 export const getAllItemCategories = async (): Promise<Category[]> => {

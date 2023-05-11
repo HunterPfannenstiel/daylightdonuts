@@ -1,0 +1,6 @@
+{
+    "builds": [
+        {"src": "backend-revamp/**", "use": "ignore"},
+        {"src": "!backend-revamp/**", "use": "@vercel/static"}
+    ]
+}

@@ -2,7 +2,9 @@ import { CartItem, Extra } from "./database/cart";
 import { Availability } from "./database/menu";
 
 export type DozenableDBResponse = {
-  group: { name: string; price: string; size: number };
+  name: string;
+  price: string;
+  size: number;
 };
 
 export type DozenBoxItem = {
