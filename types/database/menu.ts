@@ -6,7 +6,7 @@ export type Availability = {
 export type MenuItem = {
   name: string;
   image: string;
-  price: string;
+  price: number;
   availability: Availability;
 };
 
@@ -23,14 +23,15 @@ export type ItemExtras = {
 };
 
 export type Item = {
+  //MODIFIED
   id: number;
   name: string;
   price: string;
   image: string;
   description: string;
-  dozenprice: string | null; //groupprice
-  groupname: string | null;
-  groupsize: number | null;
+  group_price: string | null;
+  group_name: string | null;
+  group_size: number | null;
   extras: ItemExtras[] | null;
   availability: Availability;
 };

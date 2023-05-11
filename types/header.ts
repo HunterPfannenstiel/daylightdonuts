@@ -1,5 +1,6 @@
 export type Category = {
-  [p: string]: number | null;
+  category: string;
+  subcategories: string[] | [null];
 };
 
 type DBCategory = {

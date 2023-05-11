@@ -1,7 +1,8 @@
 import { MutableRefObject } from "react";
 import { Availability } from "./menu";
 
-export type DBCartItem = { //modify the cart initialization to calculate the subtotal instead of the DB
+export type DBCartItem = {
+  //modify the cart initialization to calculate the subtotal instead of the DB
   subtotal: string;
   unitprice: string;
   cartitemid: number;
@@ -19,10 +20,10 @@ export type DBCartItem = { //modify the cart initialization to calculate the sub
 };
 
 export type ExtraDetails = {
-  info: Extra[],
-  ids: number[],
-  price: number
-}
+  info: Extra[];
+  ids: number[];
+  price: number;
+};
 
 export type Extra = {
   category: string;
@@ -123,9 +124,17 @@ export type UpdatedCartItem = {
 };
 
 export type UpdateDB = {
-  newItems: NewCartItem[];
-  updateItems: UpdatedCartItem[];
+  items: UpdateCartItem[];
 };
+
+type UpdateCartItem =
+  | {
+      cart_item_id: number;
+      menu_item_id: number;
+      amount: number;
+      extra_ids: number[];
+    }
+  | { cart_item_id: number; amount: number };
 
 export type DBModifier = (updates: UpdateDB) => void;
 
