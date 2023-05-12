@@ -17,7 +17,7 @@ type InfoBar =
   | {
       renderInfoBar: true;
       infoParameterName: string;
-      getInfoBarInfo: (() => Category) | (() => Promise<Category>);
+      getInfoBarInfo: (() => Category[]) | (() => Promise<Category[]>);
       sticky?: boolean;
     }
   | {
@@ -29,9 +29,6 @@ type ExtraBar =
   | {
       renderExtraBar: true;
       extraParameterName: string;
-      getExtraBarInfo:
-        | ((category: number | null) => Subcategories)
-        | ((category: number | null) => Promise<Subcategories>);
     }
   | {
       renderExtraBar: false;

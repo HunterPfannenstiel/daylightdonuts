@@ -1,4 +1,4 @@
-import { Category, Subcategories, URLInfo } from "@_types/header";
+import { Category, URLInfo } from "@_types/header";
 
 export const findURLInfo = (pathName: string) => {
   return (
@@ -22,22 +22,11 @@ const URLInfo: URLInfo = {
     getInfoBarInfo: async () => {
       const response = await fetch("/api/menu/categories");
       const data = await response.json();
-      return data as Category;
+      return data as Category[];
     },
     sticky: true,
     renderExtraBar: true,
     extraParameterName: "filter",
-    getExtraBarInfo: async (category: number | null) => {
-      if (category) {
-        const response = await fetch(
-          `/api/menu/categories?category=${category}`
-        );
-        const data = await response.json();
-        return data as Subcategories;
-      } else {
-        return [];
-      }
-    },
   },
 
   "/checkout": {
@@ -45,10 +34,13 @@ const URLInfo: URLInfo = {
     sticky: false,
     infoParameterName: "page",
     getInfoBarInfo: () => {
-      return {
-        "Your Order": null,
-        Payment: null,
-      };
+      return [
+        {
+          category: "Your Order",
+          subcategories: [null],
+        },
+        { category: "Payment", subcategories: [null] },
+      ];
     },
     renderExtraBar: false,
   },

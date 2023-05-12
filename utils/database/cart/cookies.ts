@@ -29,9 +29,9 @@ export const getCartCookieId = (
       cartToken,
       process.env.JWT_PASSWORD!
     ) as CartToken;
-    return cartId;
+    return +cartId;
   }
-  return "";
+  return null;
 };
 
 export const isValidCartId = async (cartId: string) => {

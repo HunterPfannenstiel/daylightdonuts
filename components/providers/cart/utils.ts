@@ -4,7 +4,7 @@ import {
   CartState,
   DBCartItem,
   MutateCart,
-  UpdateDB,
+  UpdateCartItem,
 } from "@_types/database/cart";
 import {
   createCartEntry,
@@ -101,10 +101,6 @@ export const getInitialContext = () => {
   } as CartState;
 };
 
-// export const moneyToNum = (money: string) => {
-//   return +money.replace("$", "");
-// };
-
 export const NO_GROUP = "NULL";
 
 export const fetchCart = async (
@@ -150,7 +146,7 @@ export const updateCart = async ({
   });
 };
 
-export const postCart = (updates: UpdateDB) => {
+export const postCart = (updates: UpdateCartItem[]) => {
   return fetch("/api/cart/modify", {
     method: "POST",
     body: JSON.stringify({ updates }),
