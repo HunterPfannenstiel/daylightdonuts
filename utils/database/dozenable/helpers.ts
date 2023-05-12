@@ -55,9 +55,7 @@ export const updateDozenable = (
         nextItemId += 1;
       } else {
         cartItemId = getCartItemId(cart.groups[groupName].items, itemId);
-        existingItems.push(
-          getExistingDBEntry(item.amount, item.unitPrice, cartItemId)
-        );
+        existingItems.push(getExistingDBEntry(item.amount, cartItemId));
       }
       dozen.push({ id: itemId, item: { ...item, cartItemId } });
     });
@@ -92,12 +90,10 @@ const getDBEntry = (
   boxAmount: number
 ): NewCartItem => {
   return {
-    cartItemId: nextItemId,
-    menuItemId: item.id,
+    cart_item_id: nextItemId,
+    menu_item_id: item.id,
     amount: item.amount * boxAmount,
-    subtotal: item.amount * item.unitPrice * boxAmount,
-    extraIds: item.extraIds,
-    extraPrice: null,
+    extra_ids: item.extraIds,
   };
 };
 

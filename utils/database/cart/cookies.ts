@@ -35,8 +35,12 @@ export const getCartCookieId = (
 };
 
 export const isValidCartId = async (cartId: string) => {
-  const query = "CALL store.CALL store.check_cart_process($1, NULL)";
-  const res = await customerQuery(query, [cartId]);
-  if (res.rows.length < 0) throw new Error("Unexpected Response");
-  return res.rows[0].status as "Complete" | "Pending" | "Open";
+  try {
+    const query = "SELECT * FROM store.check_cart_process($1)";
+    const res = await customerQuery(query, [cartId]);
+    if (res.rows.length === 0) throw new Error("Unexpected Response");
+    return res.rows[0].status as "Complete" | "Pending" | "Open";
+  } catch (error) {
+    throw new Error("There was an error while retrieving cart process!");
+  }
 };

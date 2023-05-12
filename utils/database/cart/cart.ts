@@ -8,7 +8,7 @@ import {
 } from "@_types/database/cart";
 import { Availability } from "@_types/database/menu";
 
-export const getCartId = (menuId: number, extraIds: number[] | null[]) => {
+export const getCartId = (menuId: number, extraIds: number[]) => {
   let id = menuId.toString();
   if (extraIds.length > 0) {
     extraIds.sort().forEach((extraId) => {

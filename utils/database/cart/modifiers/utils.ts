@@ -4,10 +4,8 @@ import {
   CartItem,
   CartModifier,
   DBModifier,
-  NewCartItem,
   UpdatedCartItem,
 } from "@_types/database/cart";
-import { DozenBoxItem } from "@_types/dozenable";
 import {
   createDBEntry,
   getCartItemId,
@@ -15,7 +13,7 @@ import {
   isInCart,
 } from "../cart";
 import { addCartGroup, addNewItem, updateExistingItem } from "./cartModifiers";
-import { addNewDBItem, updateDBItem } from "./dbModifiers";
+import { addDBUpdate } from "./dbModifiers";
 
 export const addItemToCart = (
   groupName: string,
@@ -54,15 +52,14 @@ export const addItemToCart = (
       cartMod = addNewItem(groupName, itemId, cartEntry);
     }
 
-    dbMod = addNewDBItem([dbEntry]);
+    dbMod = addDBUpdate([dbEntry]);
     incrementId();
   } else {
     cartMod = updateExistingItem(groupName, [{ itemId, amount: item.amount }]);
-    dbMod = updateDBItem([
+    dbMod = addDBUpdate([
       {
-        cartItemId: getCartItemId(cart.groups[groupName].items, itemId),
-        updateAmount: item.amount,
-        subtotal: item.amount * item.unitPrice,
+        cart_item_id: getCartItemId(cart.groups[groupName].items, itemId),
+        amount: item.amount,
       },
     ]);
   }
@@ -72,12 +69,10 @@ export const addItemToCart = (
 
 export const getExistingDBEntry = (
   amount: number,
-  unitPrice: number,
   cartItemId: number
 ): UpdatedCartItem => {
   return {
-    cartItemId,
-    updateAmount: amount,
-    subtotal: amount * unitPrice,
+    cart_item_id: cartItemId,
+    amount: amount,
   };
 };

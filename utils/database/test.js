@@ -27,20 +27,9 @@ const customerQuery = async (query, params) => {
 };
 
 const queryItems = async () => {
-  const query = "SELECT * FROM store.fetch_categories()";
+  const query = "SELECT * FROM store.view_cart(1)";
   const res = await customerQuery(query);
-  let categories = res.rows;
-  categories = categories.map((category) => {
-    if (category.subcategories[0] !== null)
-      category.subcategories = ["All", ...category.subcategories];
-    return category;
-  });
-  categories = [
-    { category: "All", subcategories: [null] },
-    ...categories,
-    { category: "Dozenable", subcategories: [null] },
-  ];
-  console.log(categories);
+  console.log(res.rows);
 };
 
 queryItems();

@@ -34,46 +34,46 @@ export const getInitialState = async (
 
 const addItems = (cart: CartDictionary, cartItems: DBCartItem[]) => {
   cartItems.forEach((item) => {
-    const groupId =
-      item.extraprice || !item.groupname ? NO_GROUP : item.groupname;
-    let price: number;
-    if (item.extraprice) {
-      price = item.extraprice;
-    } else {
-      price = moneyToNum(item.unitprice);
+    let extraPrice = 0;
+    if (item.extra_info !== null) {
+      extraPrice = item.extra_info.price;
     }
+    const groupId =
+      extraPrice !== 0 || !item.group_name ? NO_GROUP : item.group_name;
+    const price = item.unit_price + extraPrice;
 
     const cartEntry = createCartEntry(
       item.name,
       item.amount,
-      item.cartitemid,
+      item.cart_item_id,
       price,
       item.image,
-      item.extras,
+      item.extra_info === null ? [] : item.extra_info.info,
       item.availability
     );
+    const extraIds = item.extra_info === null ? [] : item.extra_info.ids;
     if (!isGroupCreated(cart, groupId)) {
       if (groupId === NO_GROUP) {
         addCartGroup(
           groupId,
           0,
           0,
-          getCartId(item.menuitemid, item.extraids),
+          getCartId(item.menu_item_id, extraIds),
           cartEntry
         )(cart);
       } else {
         addCartGroup(
           groupId,
-          item.groupsize!,
-          moneyToNum(item.groupprice!),
-          getCartId(item.menuitemid, item.extraids),
+          item.group_size!,
+          item.group_price!,
+          getCartId(item.menu_item_id, extraIds),
           cartEntry
         )(cart);
       }
     } else {
       addNewItem(
         groupId,
-        getCartId(item.menuitemid, item.extraids),
+        getCartId(item.menu_item_id, extraIds),
         cartEntry
       )(cart);
     }
@@ -89,7 +89,7 @@ export const getDefaultCart = () => {
 };
 
 const getNextItemId = (cartItems: DBCartItem[]) => {
-  let lastId = cartItems[cartItems.length - 1].cartitemid;
+  let lastId = cartItems[cartItems.length - 1].cart_item_id;
   return lastId + 1;
 };
 
@@ -101,17 +101,25 @@ export const getInitialContext = () => {
   } as CartState;
 };
 
-export const moneyToNum = (money: string) => {
-  return +money.replace("$", "");
-};
+// export const moneyToNum = (money: string) => {
+//   return +money.replace("$", "");
+// };
 
 export const NO_GROUP = "NULL";
 
 export const fetchCart = async (
   setNextId: Dispatch<SetStateAction<number>>
 ) => {
-  const response = await fetch("/api/cart/fetchCart");
-  const savedCart = (await response.json()) as DBCartItem[];
+  const response = await fetch("/api/cart/fetch-cart");
+  let savedCart: DBCartItem[] = [];
+  if (!response.ok) console.error("Invalid response when fetching cart");
+  else {
+    const data = (await response.json()) as {
+      cart: DBCartItem[];
+      isPending: boolean;
+    };
+    savedCart = data.cart;
+  }
   const cart = getDefaultCart();
   const [initialCart, cartId] = await getInitialState(savedCart);
   initialCart(cart);

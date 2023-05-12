@@ -1,13 +1,13 @@
-import { DBModifier, UpdateDB } from "@_types/database/cart";
+import { DBModifier, UpdateCartItem } from "@_types/database/cart";
 import { getInitialUpdates } from "@_utils/database/cart/modifiers/dbModifiers";
 import { useRef, useState } from "react";
 
-const reducer = (state: UpdateDB, updateMod: DBModifier) => {
+const reducer = (state: UpdateCartItem[], updateMod: DBModifier) => {
   updateMod(state);
 };
 
 const useDBUpdate = () => {
-  const updates = useRef<UpdateDB>(getInitialUpdates());
+  const updates = useRef<UpdateCartItem[]>(getInitialUpdates());
   const [isUpdatePending, setIsUpdatePending] = useState(false);
   const timer = useRef(setTimeout(() => {}));
 

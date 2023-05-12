@@ -5,12 +5,13 @@ import { updateItemsFromCart } from "@_utils/database/cart/modifiers/cartModifie
 import { updateDBItemsFromCart } from "@_utils/database/cart/modifiers/dbModifiers";
 import { useEffect, useState } from "react";
 import { useCart } from "../optimistic";
-
+//From the cart, we do not want to modify the cart right when the user clicks because it could move the item into a box because it fit the grouping size requirement
+//We are stashing the updates for either 10 seconds or when the user clicks the 'Update' button
 const useUpdates = (resetTotals: () => void) => {
   const updates = useQueuedUpdates();
   const { modifyCart } = useCart();
   const { displayNotification } = useNotification();
-  const [itemUpdates, setItemUpdates] = useState<PendingDBUpdates>();
+  const [itemUpdates, setItemUpdates] = useState<PendingDBUpdates>({});
   const [update, setUpdate] = useState(false);
 
   const triggerUpdates = () => {
@@ -44,11 +45,11 @@ const useUpdates = (resetTotals: () => void) => {
         updates.dozenUpdates,
         updates.dozenItemUpdates
       ),
-      updateDBItemsFromCart(itemUpdates!),
+      updateDBItemsFromCart(itemUpdates),
       0
     );
     updates.resetUpdates();
-    setItemUpdates(undefined);
+    setItemUpdates({});
     resetTotals();
   };
 

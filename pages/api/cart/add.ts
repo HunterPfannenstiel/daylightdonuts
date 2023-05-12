@@ -1,19 +1,18 @@
-import { NewCartItem } from "@_types/database/cart";
+import { NewCartItem, UpdateCartItem } from "@_types/database/cart";
 import { getCartCookieId, setCartCookie } from "@_utils/database/cart/cookies";
-import { addNewItems, createNewCart } from "@_utils/database/cart/updateDB";
+import { createNewCart, updateCart } from "@_utils/database/cart/updateDB";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     let cartId = getCartCookieId(req.cookies);
+    const items = req.body?.items as UpdateCartItem[] | undefined;
     if (!cartId) {
-      cartId = setCartCookie(res);
-      await createNewCart(cartId);
-    }
-    const items = req.body?.items as NewCartItem[] | undefined;
-    if (items) {
+      const cartId = await createNewCart(items);
+      setCartCookie(res, cartId);
+    } else if (items) {
       try {
-        await addNewItems(cartId, items);
+        await updateCart(+cartId, items);
       } catch (e) {
         res.status(500).json({ error: e });
         return;
