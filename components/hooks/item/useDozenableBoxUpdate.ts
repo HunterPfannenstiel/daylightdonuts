@@ -1,4 +1,3 @@
-import { moneyToNum } from "@_providers/cart/utils";
 import { useBuildBox } from "@_providers/Dozenable/BuildBox";
 import { Item } from "@_types/database/menu";
 import { DozenBoxItem } from "@_types/dozenable";
@@ -19,7 +18,7 @@ const useDozenableBoxUpdate = (item: Item) => {
         id: item.id,
         name: item.name,
         amount,
-        unitPrice: moneyToNum(item.price),
+        unitPrice: item.price,
         extras,
         extraIds: ids,
         image: item.image,

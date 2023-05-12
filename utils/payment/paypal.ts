@@ -2,7 +2,6 @@ import {
   Money,
   AmountBreakdown,
 } from "@paypal/checkout-server-sdk/lib/payments/lib";
-import { moneyToNum } from "@_providers/cart/utils";
 import { EligibleDozen, OrderItem, PaypalItem } from "@_types/payment";
 import { getOrderExtraString } from ".";
 
@@ -39,7 +38,7 @@ export const getItemsForPaypal = (
     item.extra_prices.forEach((price) => {
       extraPrice += price;
     });
-    let total = moneyToNum(item.unitprice) + extraPrice;
+    let total = item.unit_price + extraPrice;
     runningTotal += total * item.amount;
     const name = item.name + getOrderExtraString(item.extras);
     paypalItems.push({

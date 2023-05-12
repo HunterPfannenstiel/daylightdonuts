@@ -24,6 +24,7 @@ const IItemPage: FunctionComponent<IItemPageProps> = ({
 }) => {
   const image =
     item.image === "imageURL" ? "/Images/DAYLIGHTDONUTS.png" : item.image;
+
   return (
     <div className={classes.item + " " + className}>
       <div className={classes.item_content}>
@@ -32,7 +33,7 @@ const IItemPage: FunctionComponent<IItemPageProps> = ({
         </div>
         <div className={classes.info}>
           <h2>{item.name}</h2>
-          <p className={extraPrice ? classes.bold : ""}>{`$${price.toFixed(
+          <p className={extraPrice ? classes.bold : ""}>{`$${(+price).toFixed(
             2
           )} / ea`}</p>
           {extraPrice ? (

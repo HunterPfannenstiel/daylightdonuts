@@ -34,7 +34,7 @@ export const getCartCookieId = (
   return null;
 };
 
-export const isValidCartId = async (cartId: string) => {
+export const isValidCartId = async (cartId: number) => {
   try {
     const query = "SELECT * FROM store.check_cart_process($1)";
     const res = await customerQuery(query, [cartId]);

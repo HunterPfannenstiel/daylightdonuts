@@ -6,17 +6,17 @@ import ItemPage from "components/ui/ItemPage/ItemPage";
 import Head from "next/head";
 
 interface ItemProps {
-  itemDetails: Item[];
+  item: Item;
 }
 
-const Item: FunctionComponent<ItemProps> = ({ itemDetails }) => {
+const Item: FunctionComponent<ItemProps> = ({ item }) => {
   return (
     <>
       <Head>
-        <title>{`${itemDetails[0].name} - Delicious and Fresh`}</title>
-        <meta name="description" content={itemDetails[0].description} />
+        <title>{`${item.name} - Delicious and Fresh`}</title>
+        <meta name="description" content={item.description} />
       </Head>
-      <ItemPage item={itemDetails[0]} />
+      <ItemPage item={item} />
     </>
   );
 };
@@ -27,10 +27,11 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const item = context.params?.item;
   if (typeof item === "string") {
     const itemDetails = await getItemDetails(item);
+    console.log({ itemDetails });
     if (itemDetails) {
       return {
         props: {
-          itemDetails,
+          item: itemDetails,
         },
       };
     }

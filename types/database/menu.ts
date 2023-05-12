@@ -6,14 +6,14 @@ export type Availability = {
 export type MenuItem = {
   name: string;
   image: string;
-  price: number;
+  price: string;
   availability: Availability;
 };
 
 /*Specific Item*/
 export type ItemExtra = {
   name: string;
-  price: string | null;
+  price: number | null;
   id: number;
 };
 

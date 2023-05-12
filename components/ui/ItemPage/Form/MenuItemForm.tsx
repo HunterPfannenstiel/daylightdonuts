@@ -1,7 +1,5 @@
 import useCartUpdates from "@_hooks/item/useCartUpdates";
-import { moneyToNum } from "@_providers/cart/utils";
 import { useNotification } from "@_providers/Notification/Notification";
-import { ExtraInfo } from "@_types/database/cart";
 import { Item } from "@_types/database/menu";
 import IItemForm from "components/ui/Reusable/Item/Form/IItemForm";
 import { FormEvent, FunctionComponent, useEffect, useRef } from "react";
@@ -24,7 +22,7 @@ const MenuItemForm: FunctionComponent<MenuItemFormProps> = ({
       extraPrice += extraInfo[key].price!;
     }
   });
-  const showPrice = moneyToNum(item.price) + extraPrice;
+  const showPrice = +item.price + extraPrice;
   const addItemToCart = (e: FormEvent) => {
     e.preventDefault();
     const amount = +amountRef!.current!.value;

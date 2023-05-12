@@ -3,7 +3,7 @@ import { Availability } from "./database/menu";
 
 export type DozenableDBResponse = {
   name: string;
-  price: string;
+  price: number;
   size: number;
 };
 

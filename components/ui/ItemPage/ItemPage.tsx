@@ -1,4 +1,3 @@
-import { moneyToNum } from "@_providers/cart/utils";
 import { Item } from "@_types/database/menu";
 import { useRouter } from "next/router";
 import { FunctionComponent, useState } from "react";
@@ -11,7 +10,7 @@ interface ItemPageProps {
 
 const ItemPage: FunctionComponent<ItemPageProps> = ({ item }) => {
   const [extraPrice, setExtraPrice] = useState(0);
-  const [showPrice, setShowPrice] = useState(moneyToNum(item.price));
+  const [showPrice, setShowPrice] = useState(+item.price);
   const router = useRouter();
   const getShowPrice = (newPrice: number, addedAmount: number) => {
     setShowPrice(newPrice);
@@ -20,6 +19,7 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({ item }) => {
   const backButtonHandler = () => {
     router.back();
   };
+  console.log(showPrice);
   return (
     <IItemPage
       item={item}

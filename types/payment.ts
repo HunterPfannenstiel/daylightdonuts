@@ -2,7 +2,7 @@ import { Extra } from "./database/cart";
 
 export type OrderItem = {
   name: string;
-  unitprice: string;
+  unit_price: number;
   amount: number;
   extras: Extra[];
   extra_prices: number[];

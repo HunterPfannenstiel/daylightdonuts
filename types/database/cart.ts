@@ -3,7 +3,7 @@ import { Availability } from "./menu";
 
 export type DBCartItem = {
   //modify the cart initialization to calculate the subtotal instead of the DB
-  unit_price: number;
+  unit_price: string;
   cart_item_id: number;
   menu_item_id: number;
   amount: number;
@@ -11,7 +11,7 @@ export type DBCartItem = {
   image: string;
   group_name: string | null;
   group_size: number | null;
-  group_price: number | null;
+  group_price: string | null;
   extra_info: ExtraDetails | null;
   availability: Availability;
 };
@@ -19,7 +19,7 @@ export type DBCartItem = {
 export type ExtraDetails = {
   info: Extra[];
   ids: number[];
-  price: number;
+  price: string;
 };
 
 export type Extra = {

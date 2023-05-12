@@ -2,14 +2,13 @@ import { MenuItem, Item } from "@_types/database/menu";
 import { customerQuery } from "./connect";
 
 export const getFilterItems = async (
-  category: string | undefined,
-  filter: string | undefined
+  category: string | undefined | null,
+  filter: string | undefined | null
 ): Promise<MenuItem[]> => {
+  category = category === "All" || category === "undefined" ? null : category;
+  filter = filter === "All" || filter === "undefined" ? null : filter;
   const query = "SELECT * FROM store.fetch_menu_items($1, $2)";
-  const res = await customerQuery(query, [
-    category === "undefined" ? null : category,
-    filter === "undefined" ? null : filter,
-  ]);
+  const res = await customerQuery(query, [category, filter]);
   return res.rows;
 };
 
@@ -17,7 +16,6 @@ export const getItemDetails = async (
   itemName: string | undefined
 ): Promise<Item | undefined> => {
   const query = "SELECT * FROM store.fetch_item_details($1)";
-
   const res = await customerQuery(query, [itemName]);
   if (res.rows.length > 0) return res.rows[0];
   return undefined;

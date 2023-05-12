@@ -36,11 +36,11 @@ const addItems = (cart: CartDictionary, cartItems: DBCartItem[]) => {
   cartItems.forEach((item) => {
     let extraPrice = 0;
     if (item.extra_info !== null) {
-      extraPrice = item.extra_info.price;
+      extraPrice = +item.extra_info.price;
     }
     const groupId =
       extraPrice !== 0 || !item.group_name ? NO_GROUP : item.group_name;
-    const price = item.unit_price + extraPrice;
+    const price = +item.unit_price + extraPrice;
 
     const cartEntry = createCartEntry(
       item.name,
@@ -65,7 +65,7 @@ const addItems = (cart: CartDictionary, cartItems: DBCartItem[]) => {
         addCartGroup(
           groupId,
           item.group_size!,
-          item.group_price!,
+          +item.group_price!,
           getCartId(item.menu_item_id, extraIds),
           cartEntry
         )(cart);

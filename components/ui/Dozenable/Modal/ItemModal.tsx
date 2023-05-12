@@ -1,4 +1,3 @@
-import { moneyToNum } from "@_providers/cart/utils";
 import { Item } from "@_types/database/menu";
 import IItemPage from "components/ui/Reusable/Item/IItemPage";
 import Modal from "components/ui/Reusable/Modal/Modal";
@@ -27,7 +26,7 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
           <IItemPage
             item={item}
             extraPrice={0}
-            price={moneyToNum(item.price)}
+            price={item.price}
             itemForm={<DozenableItemForm item={item} />}
             className={classes.page}
             backButtonHandler={handleModal}

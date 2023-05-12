@@ -1,4 +1,3 @@
-import { moneyToNum } from "@_providers/cart/utils";
 import { Item } from "@_types/database/menu";
 import {
   getAllItemsForGroup,
@@ -52,7 +51,7 @@ export const getStaticProps: GetStaticProps<DozenableGroupProps> = async (
         groupItems: group.items,
         groupName: group.groupInfo.name,
         groupSize: group.groupInfo.size,
-        groupPrice: moneyToNum(group.groupInfo.price),
+        groupPrice: group.groupInfo.price,
       },
     };
   }
