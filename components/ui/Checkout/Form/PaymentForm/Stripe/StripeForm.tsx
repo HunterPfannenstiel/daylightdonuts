@@ -36,6 +36,7 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
       setLoading(true);
       try {
         await postOptimisticOrder(customerInfo);
+        //Set 'isLocked' on cart context
       } catch (e: any) {
         setError();
         displayNotification(e.message, "error", 2000);
@@ -55,6 +56,7 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
         //Display Notification using: error.message
         setError();
         displayNotification(error.message!, "error", 2000);
+        //Unlock cart
       } else {
         //Display Notification using: An unexpected error occurred
         setError();
@@ -63,6 +65,7 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
           "error",
           5000
         );
+        //Unlock cart
       }
       setLoading(false);
     } else {

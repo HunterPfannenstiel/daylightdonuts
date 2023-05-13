@@ -11,7 +11,7 @@ const useUpdates = (resetTotals: () => void) => {
   const updates = useQueuedUpdates();
   const { modifyCart } = useCart();
   const { displayNotification } = useNotification();
-  const [itemUpdates, setItemUpdates] = useState<PendingDBUpdates>({});
+  const [itemUpdates, setItemUpdates] = useState<PendingDBUpdates>();
   const [update, setUpdate] = useState(false);
 
   const triggerUpdates = () => {
@@ -45,11 +45,11 @@ const useUpdates = (resetTotals: () => void) => {
         updates.dozenUpdates,
         updates.dozenItemUpdates
       ),
-      updateDBItemsFromCart(itemUpdates),
+      updateDBItemsFromCart(itemUpdates!),
       0
     );
     updates.resetUpdates();
-    setItemUpdates({});
+    setItemUpdates(undefined);
     resetTotals();
   };
 

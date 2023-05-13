@@ -3,7 +3,7 @@ import { DozenableDBResponse } from "@_types/dozenable";
 import { customerQuery } from "../connect";
 
 export const getGroupNames = async () => {
-  const query = "SELECT * FROM store.fetch_groupings()";
+  const query = "SELECT * FROM store.fetch_grouping_names()";
   const res = await customerQuery(query);
   return res.rows[0].names as string[];
 };

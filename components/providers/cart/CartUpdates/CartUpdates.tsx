@@ -40,7 +40,7 @@ export const CartUpdatesProvider: FunctionComponent<{
   ) => {
     handleCartTotals(modifyPrice, modifyItems);
     updates.updateExisitingUpdates(groupId, update);
-    addDBUpdate(cartItemId, modifyPrice, modifyItems);
+    addDBUpdate(cartItemId, modifyItems);
   };
 
   const handleDozenUpdate = (
@@ -66,36 +66,32 @@ export const CartUpdatesProvider: FunctionComponent<{
     update: UpdateItem
   ) => {
     handleCartTotals(modifyPrice, modifyItems);
-    addDBUpdate(cartItemId, modifyPrice, modifyItems);
+    addDBUpdate(cartItemId, modifyItems);
     updates.updateDozenItemUpdates(groupId, dozenId, update);
   };
 
-  const addDBUpdate = (
-    cartItemId: string,
-    modifyPrice: number,
-    modifyItems: number
-  ) => {
+  const addDBUpdate = (cartItemId: string, modifyItems: number) => {
     if (itemUpdates) {
-      const update = { ...itemUpdates[cartItemId] };
-      if (update.subtotal) {
-        update.subtotal += modifyPrice;
-        update.updateAmount += modifyItems;
-        setItemUpdates((prevState) => {
-          return { ...prevState, [cartItemId]: update };
-        });
-      } else {
-        setItemUpdates((prevState) => {
+      setItemUpdates((prevState) => {
+        //If an update of this item is already in the cart, add to the amount
+        if (prevState![cartItemId]) {
           return {
             ...prevState,
-            [cartItemId]: { subtotal: modifyPrice, updateAmount: modifyItems },
+            [cartItemId]: {
+              updateAmount: prevState![cartItemId].updateAmount + modifyItems,
+            },
           };
-        });
-      }
-    } else {
-      setItemUpdates((prevState) => {
+        }
+        //directly add to the amount
         return {
           ...prevState,
-          [cartItemId]: { subtotal: modifyPrice, updateAmount: modifyItems },
+          [cartItemId]: { updateAmount: modifyItems },
+        };
+      });
+    } else {
+      setItemUpdates(() => {
+        return {
+          [cartItemId]: { updateAmount: modifyItems },
         };
       });
     }
@@ -124,17 +120,9 @@ const getDBEntriesFromDozen = (
 ) => {
   let currentUpdates = { ...itemUpdates };
   dozenItems.forEach((item) => {
-    let currentUpdate = { ...currentUpdates[item.cartItemId] };
-    if (currentUpdate.subtotal) {
-      currentUpdate.subtotal += item.modifyPrice;
-      currentUpdate.updateAmount += item.modifyItems;
-      currentUpdates[item.cartItemId] = currentUpdate;
-    } else {
-      currentUpdates[item.cartItemId] = {
-        subtotal: item.modifyPrice,
-        updateAmount: item.modifyItems,
-      };
-    }
+    currentUpdates[item.cartItemId] = {
+      updateAmount: item.modifyItems,
+    };
   });
   return currentUpdates;
 };

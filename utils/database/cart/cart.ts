@@ -41,11 +41,14 @@ export const createDBEntry = (
   cartItemId: number,
   menuItemId: number,
   amount: number,
-  subtotal: number,
-  extraIds: number[],
-  extraPrice: number | null
+  extraIds: number[]
 ): NewCartItem => {
-  return { cartItemId, menuItemId, amount, subtotal, extraIds, extraPrice };
+  return {
+    cart_item_id: cartItemId,
+    menu_item_id: menuItemId,
+    amount,
+    extra_ids: extraIds,
+  };
 };
 
 export const isGroupCreated = (cart: CartDictionary, groupName: string) => {

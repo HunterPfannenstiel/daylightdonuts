@@ -9,6 +9,7 @@ const handler: NextApiHandler = async (req, res) => {
     const updates = req.body?.updates as UpdateCartItem[] | undefined;
     if (!cartId) {
       console.log("No cartId, creating new");
+      console.log({ updates });
       cartId = await createNewCart(updates);
       setCartCookie(res, cartId);
     } else if (updates) {

@@ -27,7 +27,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const item = context.params?.item;
   if (typeof item === "string") {
     const itemDetails = await getItemDetails(item);
-    console.log({ itemDetails });
     if (itemDetails) {
       return {
         props: {

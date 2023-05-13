@@ -1,5 +1,4 @@
 import { customerQuery } from "@_utils/database/connect";
-import { v4 as uuid } from "uuid";
 
 type CustomerInfo = {
   first_name: string;

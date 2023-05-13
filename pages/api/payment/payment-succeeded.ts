@@ -1,10 +1,7 @@
 import { NextApiHandler } from "next";
 import { buffer } from "micro";
 import Stripe from "stripe";
-import {
-  getCartIdFromPaymentId,
-  verifyOrder,
-} from "@_utils/payment/create-order/queries";
+import { verifyOrder } from "@_utils/payment/create-order/queries";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -43,8 +40,10 @@ const handler: NextApiHandler = async (req, res) => {
     console.log(paymentIntent);
     //Post to DB
     try {
+      paymentIntent.metadata;
       const cartId = await getCartIdFromPaymentId(paymentIntent.id);
-      await verifyOrder(cartId, paymentIntent.amount / 100);
+
+      await verifyOrder(cartId, 10, 5, paymentIntent.amount / 100);
     } catch (e: any) {
       console.log(e);
       res.status(500).send("Unexpected error");

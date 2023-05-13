@@ -24,7 +24,6 @@ export const addItemToCart = (
   cart: CartDictionary,
   nextItemId: number,
   extraIds: number[],
-  modifiedPrice: number | null,
   incrementId: () => void
 ) => {
   let cartMod: CartModifier;
@@ -32,14 +31,7 @@ export const addItemToCart = (
   if (!isInCart(groupName, itemId, cart)) {
     const cartEntry: CartItem = { ...item, cartItemId: nextItemId };
 
-    const dbEntry = createDBEntry(
-      nextItemId,
-      item.id,
-      item.amount,
-      item.amount * item.unitPrice,
-      extraIds,
-      modifiedPrice
-    );
+    const dbEntry = createDBEntry(nextItemId, item.id, item.amount, extraIds);
     if (!isGroupCreated(cart, groupName)) {
       cartMod = addCartGroup(
         groupName,

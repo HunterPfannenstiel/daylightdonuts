@@ -17,9 +17,8 @@ const useCartUpdates = (item: Item) => {
       if (extraPrice || !group_name) {
         group_name = NO_GROUP;
         group_size = 0;
-        group_price = 0;
+        group_price = "0";
       }
-      const modifiedPrice = extraPrice ? price : null;
       let addItem = {
         name: item.name,
         id: item.id,
@@ -32,13 +31,12 @@ const useCartUpdates = (item: Item) => {
       const [cartMod, dbMod] = addItemToCart(
         group_name,
         group_size!,
-        group_price!,
+        +group_price!,
         addItem,
         itemId,
         cart,
         nextItemId,
         ids,
-        modifiedPrice,
         incrementId
       );
       modifyCart(cartMod, dbMod, 1250);

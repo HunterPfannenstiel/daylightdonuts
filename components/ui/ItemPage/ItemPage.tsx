@@ -19,7 +19,6 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({ item }) => {
   const backButtonHandler = () => {
     router.back();
   };
-  console.log(showPrice);
   return (
     <IItemPage
       item={item}

@@ -1,6 +1,6 @@
 import { CustomerInfo } from "@_types/payment";
 import { getCartCookieId } from "@_utils/database/cart/cookies";
-import { createOptimisticOrder } from "@_utils/payment/create-order/queries";
+import { createOrder } from "@_utils/payment/create-order/queries";
 import { NextApiHandler } from "next";
 
 const handler: NextApiHandler = async (req, res) => {
@@ -14,7 +14,7 @@ const handler: NextApiHandler = async (req, res) => {
         return;
       }
       try {
-        await createOptimisticOrder(customerInfo, "Stripe", cartId);
+        await createOrder(customerInfo, 1, cartId);
       } catch (e: any) {
         console.log(e);
         res
