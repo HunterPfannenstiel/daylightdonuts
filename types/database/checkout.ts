@@ -31,3 +31,11 @@ export type DateRange = {
   range: string[2];
 };
 //End of Cart
+
+export type TotalCart = {
+  price: string | null;
+  size: number | null;
+  //holds the unit price along with the amount of items with that price (a grouping could have multiple items with different unitprices)
+  items: [string, number][];
+  total_items: number;
+};

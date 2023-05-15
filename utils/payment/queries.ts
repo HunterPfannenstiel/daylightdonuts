@@ -1,5 +1,6 @@
+import { TotalCart } from "@_types/database/checkout";
 import { EligibleDozen, OrderItem } from "@_types/payment";
-import { customerParamQuery } from "@_utils/database/connect";
+import { customerQuery } from "@_utils/database/connect";
 
 export const getOrderItems = async (cartId: string) => {
   const query = `SELECT cart_item.amount, menu_item.name, menu_item.price AS unitprice,
@@ -37,23 +38,27 @@ export const getEligibleDozens = async (cartId: string) => {
   return result;
 };
 
-export const getStripeId = async (
-  cartId: string
-): Promise<string | undefined> => {
-  const query = "SELECT payment_id FROM cart WHERE cart_id = $1;";
+export const getStripeId = async (cartId: number): Promise<string | null> => {
+  const query = "SELECT * FROM store.retrieve_stripe_id($1)";
 
-  const paymentId = (await customerParamQuery(query, [cartId]))[0].payment_id;
-  console.log("PaymentId", paymentId);
-  return paymentId;
+  const res = await customerQuery(query, [cartId]);
+  if (res.rows.length === 0) return null;
+  return res.rows[0].payment_uid;
 };
 
-export const setPaymentId = async (cartId: string, paymentId: string) => {
-  const query = "UPDATE cart SET payment_id = $1 WHERE cart_id = $2;";
+export const setPaymentId = async (cartId: number, paymentId: string) => {
+  const query = "CALL store.insert_stripe_uid($1, $2)";
 
-  await customerParamQuery(query, [paymentId, cartId]);
+  await customerQuery(query, [cartId, paymentId]);
 };
 
 export const setError = async (cartId: string) => {
   const query = `UPDATE ${'"order"'} SET error = true WHERE cart_id = $1`;
   await customerParamQuery(query, [cartId]);
+};
+
+export const getTotalingCart = async (cartId: number) => {
+  const query = "SELECT * FROM store.fetch_totaling_cart($1)";
+  const res = await customerQuery(query, [cartId]);
+  return res.rows[0] as { cart: TotalCart[]; tax_amount: string };
 };

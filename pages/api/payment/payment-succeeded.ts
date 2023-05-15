@@ -40,7 +40,6 @@ const handler: NextApiHandler = async (req, res) => {
     console.log(paymentIntent);
     //Post to DB
     try {
-      paymentIntent.metadata;
       const cartId = await getCartIdFromPaymentId(paymentIntent.id);
 
       await verifyOrder(cartId, 10, 5, paymentIntent.amount / 100);

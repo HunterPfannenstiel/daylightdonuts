@@ -27,9 +27,45 @@ const customerQuery = async (query, params) => {
 };
 
 const queryItems = async () => {
-  const query = "SELECT * FROM store.view_cart(1)";
+  const query = "SELECT * FROM store.fetch_totaling_cart(7)";
   const res = await customerQuery(query);
-  console.log(res.rows);
+  return res.rows;
 };
 
-queryItems();
+const calculateCartTotal = async (cartId) => {
+  const { cart, tax_amount } = (await queryItems(cartId))[0];
+  console.log(cart);
+  let subtotal = 0;
+  cart.forEach((group) => {
+    const { price: groupPrice, size } = group;
+    let remainingToAdd = group.total_items;
+    if (groupPrice && size) {
+      const groupingCount = Math.floor(group.total_items / size);
+      console.log(typeof group.total_items);
+      subtotal += groupingCount * +groupPrice;
+      remainingToAdd = group.total_items - groupingCount * size;
+    }
+    if (remainingToAdd > 0) {
+      let addedItems = 0;
+      for (let i = 0; i < group.items.length; i++) {
+        const itemAmount = group.items[i][1];
+        const unitPrice = +group.items[i][0];
+        const change = remainingToAdd - addedItems - itemAmount;
+        if (change <= 0) {
+          //more items than need to add
+          subtotal += (remainingToAdd - addedItems) * unitPrice;
+          break;
+        }
+        if (change > 0) {
+          subtotal += itemAmount * unitPrice;
+          addedItems += itemAmount;
+        }
+      }
+    }
+  });
+  subtotal = +subtotal.toFixed(2);
+  const tax = subtotal * +tax_amount;
+  console.log({ subtotal, tax, total: subtotal + tax });
+};
+
+calculateCartTotal(7);
