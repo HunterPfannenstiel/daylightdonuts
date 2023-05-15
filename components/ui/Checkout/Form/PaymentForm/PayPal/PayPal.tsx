@@ -7,7 +7,7 @@ interface PayPalProps {}
 
 const PayPal: FunctionComponent<PayPalProps> = () => {
   const orderHandler = async () => {
-    const response = await fetch("/api/cart/payment/create-order");
+    const response = await fetch("/api/cart/payment/create-paypal-request");
     if (response.ok) {
       const id = await response.json();
       return id;

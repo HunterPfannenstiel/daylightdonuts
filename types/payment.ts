@@ -2,10 +2,9 @@ import { Extra } from "./database/cart";
 
 export type OrderItem = {
   name: string;
-  unit_price: number;
+  price: string;
   amount: number;
   extras: Extra[];
-  extra_prices: number[];
 };
 
 export type PaypalItem = {

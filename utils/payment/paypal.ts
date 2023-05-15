@@ -34,18 +34,13 @@ export const getItemsForPaypal = (
   let runningTotal = 0;
   const paypalItems: PaypalItem[] = [];
   items.forEach((item) => {
-    let extraPrice = 0;
-    item.extra_prices.forEach((price) => {
-      extraPrice += price;
-    });
-    let total = item.unit_price + extraPrice;
-    runningTotal += total * item.amount;
+    runningTotal += +item.price * item.amount;
     const name = item.name + getOrderExtraString(item.extras);
     paypalItems.push({
       name: name,
       unit_amount: {
         currency_code: "USD",
-        value: total.toFixed(2),
+        value: item.price,
       },
       quantity: item.amount.toString(),
       category: "PHYSICAL_GOODS",
