@@ -35,15 +35,19 @@ const queryItems = async () => {
 const calculateCartTotal = async (cartId) => {
   const { cart, tax_amount } = (await queryItems(cartId))[0];
   console.log(cart);
+  let groupingDiscount = 0;
   let subtotal = 0;
   cart.forEach((group) => {
     const { price: groupPrice, size } = group;
     let remainingToAdd = group.total_items;
     if (groupPrice && size) {
+      const unitPrice = +group.items[0][0];
       const groupingCount = Math.floor(group.total_items / size);
       console.log(typeof group.total_items);
-      subtotal += groupingCount * +groupPrice;
+      const price = groupingCount * +groupPrice;
+      subtotal += price;
       remainingToAdd = group.total_items - groupingCount * size;
+      groupingDiscount += unitPrice * groupingCount * size - price;
     }
     if (remainingToAdd > 0) {
       let addedItems = 0;
@@ -65,7 +69,7 @@ const calculateCartTotal = async (cartId) => {
   });
   subtotal = +subtotal.toFixed(2);
   const tax = subtotal * +tax_amount;
-  console.log({ subtotal, tax, total: subtotal + tax });
+  console.log({ subtotal, tax, total: subtotal + tax, groupingDiscount });
 };
 
 calculateCartTotal(7);

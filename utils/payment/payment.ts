@@ -21,13 +21,17 @@ import { getTotalingCart } from "./queries";
 export const calculateCartTotal = async (cartId: number) => {
   const { cart, tax_amount } = await getTotalingCart(cartId);
   let subtotal = 0;
+  let groupingDiscount = 0;
   cart.forEach((group) => {
     const { price: groupPrice, size } = group;
     let remainingToAdd = group.total_items;
     if (groupPrice && size) {
+      const unitPrice = +group.items[0][0];
       const groupingCount = Math.floor(+group.total_items / size);
-      subtotal += groupingCount * +groupPrice;
+      const price = groupingCount * +groupPrice;
+      subtotal += price;
       remainingToAdd = group.total_items - groupingCount * size;
+      groupingDiscount += unitPrice * groupingCount * size - price;
     }
     if (remainingToAdd > 0) {
       let addedItems = 0;
@@ -48,5 +52,5 @@ export const calculateCartTotal = async (cartId: number) => {
   });
   subtotal = +subtotal.toFixed(2);
   const tax = +(subtotal * +tax_amount).toFixed(2);
-  return { subtotal, tax, total: subtotal + tax };
+  return { subtotal, tax, total: subtotal + tax, groupingDiscount };
 };

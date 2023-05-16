@@ -1,13 +1,12 @@
 import { NextApiHandler } from "next";
 import PayPal from "@paypal/checkout-server-sdk";
 import { getCartCookieId } from "@_utils/database/cart/cookies";
-import { calculateOrderAmount } from "@_utils/payment/payment";
 import {
   getItemsForPaypal,
   getPurchaseUnitsAmountDetails,
-  getReducedPriceFromDozens,
 } from "@_utils/payment/paypal";
-import { getEligibleDozens, getOrderItems } from "@_utils/payment/queries";
+import { getOrderItems } from "@_utils/payment/queries";
+import { calculateCartTotal } from "@_utils/payment/payment";
 
 /*UNCOMMENT THIS WHEN IN PRODUCTION*/
 // const Environment =
@@ -33,25 +32,13 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "GET") {
     const cartId = getCartCookieId(req.cookies);
     if (cartId) {
-      const dozenDiscountedPrice = (
-        (await calculateOrderAmount(cartId)) / 100
-      ).toFixed(2);
-
       //The request is the 'thing we want to do'
       const request = new PayPal.orders.OrdersCreateRequest();
       //This makes sure the pop-up section works properly
       const orderItems = await getOrderItems(cartId);
-      const eligbileDozenItems = await getEligibleDozens(cartId);
-      const dozenDiscount = getReducedPriceFromDozens(eligbileDozenItems);
-      const [paypalItems, total] = getItemsForPaypal(orderItems);
-      const totalCartPrice = (+total - +dozenDiscount).toFixed(2);
-      if (totalCartPrice !== dozenDiscountedPrice) {
-        console.error(
-          `Front-end cart calculated incorrect price, correct price: ${totalCartPrice}, front-end cart price: ${dozenDiscountedPrice}`
-        );
-      } else {
-        console.log("Prices match!!");
-      }
+      const [paypalItems, totalFromItems] = getItemsForPaypal(orderItems);
+      const { subtotal, tax, total, groupingDiscount } =
+        await calculateCartTotal(cartId);
       request.prefer("return=representation");
       request.requestBody({
         intent: "CAPTURE",
@@ -59,18 +46,21 @@ const handler: NextApiHandler = async (req, res) => {
           {
             amount: {
               currency_code: "USD",
-              value: totalCartPrice,
+              value: total.toFixed(2),
               breakdown: getPurchaseUnitsAmountDetails(
-                total,
-                "0",
-                dozenDiscount
+                total.toFixed(2),
+                tax.toFixed(2),
+                groupingDiscount.toFixed(2)
               ),
             },
             items: paypalItems,
           },
         ],
       });
-
+      console.log("ENSURE THAT DISCOUNT IS NOT REMOVED FROM TOTAL", {
+        total,
+        groupingDiscount,
+      });
       try {
         //This is how we execute our request
         const order = await paypalClient.execute(request);

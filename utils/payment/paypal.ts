@@ -2,7 +2,7 @@ import {
   Money,
   AmountBreakdown,
 } from "@paypal/checkout-server-sdk/lib/payments/lib";
-import { EligibleDozen, OrderItem, PaypalItem } from "@_types/payment";
+import { OrderItem, PaypalItem } from "@_types/payment";
 import { getOrderExtraString } from ".";
 
 export const getPurchaseUnitsAmountDetails = (
@@ -49,13 +49,13 @@ export const getItemsForPaypal = (
   return [paypalItems, runningTotal.toFixed(2)];
 };
 
-export const getReducedPriceFromDozens = (eligibleDozens: EligibleDozen[]) => {
-  let reductionPrice = 0;
-  eligibleDozens.forEach(({ eligibledozen: dozen }) => {
-    const dozenCount = Math.floor(dozen.amount / dozen.size);
-    const regularPrice = dozen.itemPrice * dozen.size;
-    reductionPrice += (regularPrice - dozen.price) * dozenCount;
-  });
-  console.log("Reduction price", reductionPrice);
-  return reductionPrice.toFixed(2);
-};
+// export const getReducedPriceFromDozens = (eligibleDozens: EligibleDozen[]) => {
+//   let reductionPrice = 0;
+//   eligibleDozens.forEach(({ eligibledozen: dozen }) => {
+//     const dozenCount = Math.floor(dozen.amount / dozen.size);
+//     const regularPrice = dozen.itemPrice * dozen.size;
+//     reductionPrice += (regularPrice - dozen.price) * dozenCount;
+//   });
+//   console.log("Reduction price", reductionPrice);
+//   return reductionPrice.toFixed(2);
+// };
