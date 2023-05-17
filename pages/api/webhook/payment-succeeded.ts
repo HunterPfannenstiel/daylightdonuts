@@ -2,6 +2,7 @@ import { NextApiHandler } from "next";
 import { buffer } from "micro";
 import Stripe from "stripe";
 import { verifyOrder } from "@_utils/payment/create-order/queries";
+import { OrderMetadata } from "@_types/payment";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
@@ -40,9 +41,10 @@ const handler: NextApiHandler = async (req, res) => {
     console.log(paymentIntent);
     //Post to DB
     try {
-      const cartId = await getCartIdFromPaymentId(paymentIntent.id);
+      const { subtotal, tax, total, cartId } =
+        paymentIntent.metadata as OrderMetadata;
 
-      await verifyOrder(cartId, 10, 5, paymentIntent.amount / 100);
+      await verifyOrder(+cartId, +subtotal, +tax, +total, 1, paymentIntent.id);
     } catch (e: any) {
       console.log(e);
       res.status(500).send("Unexpected error");

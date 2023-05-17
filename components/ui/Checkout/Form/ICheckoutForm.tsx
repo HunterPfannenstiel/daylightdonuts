@@ -4,7 +4,12 @@ import Price from "./Price";
 import classes from "./ICheckoutForm.module.css";
 import CustomerInfo from "./CustomerForm/CustomerInfo";
 import PaymentForm from "./PaymentForm/PaymentForm";
-import { CustomerInfo as CInfo, initialCustomerInfo } from "@_types/payment";
+import {
+  CustomerFormInfo,
+  OrderTimeDetails,
+  initialCustomerInfo,
+  initialOrderTimeDetails,
+} from "@_types/database/checkout";
 import MenuButton from "components/ui/Reusable/Checkout/Buttons/MenuButton";
 import Spinner from "components/ui/Reusable/Spinner";
 import { highlightInvalidInput } from "@_utils/payment/form";
@@ -22,7 +27,8 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const customerInfo = useRef<CInfo>(initialCustomerInfo);
+  const customerFormInfo = useRef<CustomerFormInfo>(initialCustomerInfo);
+  const timeDetails = useRef<OrderTimeDetails>(initialOrderTimeDetails);
   const formClass = playAnimation ? classes.animate_out : "";
   const checkCustomerValidity = () => {
     if (formRef.current) {
@@ -42,11 +48,20 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
       {showForm && (
         <div className={classes.form_content + " " + formClass}>
           <form className={classes.form} ref={formRef}>
-            <CustomerInfo customerInfo={customerInfo.current} />
+            <CustomerInfo
+              customerInfo={customerFormInfo.current}
+              orderTimeDetails={timeDetails.current}
+            />
           </form>
           <PaymentForm
             className={classes.form}
-            customerInfo={customerInfo.current}
+            customerInfo={{
+              ...timeDetails.current,
+              customerOrderInfo: customerFormInfo.current,
+              customerInfo: true,
+              accountId: null,
+              userInfoId: null,
+            }}
             setLoading={setIsLoading}
             checkCustomerForm={checkCustomerValidity}
           />

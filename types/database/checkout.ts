@@ -39,3 +39,47 @@ export type TotalCart = {
   items: [string, number][];
   total_items: number;
 };
+
+export type CustomerFormInfo = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+};
+
+export type OrderTimeDetails = {
+  locationId: string;
+  pickupDate: string;
+  pickupTimeId: string;
+};
+
+export type CustomerInfo =
+  | ({
+      customerInfo: true;
+      customerOrderInfo: CustomerFormInfo;
+      accountId: null;
+      userInfoId: null;
+    } & OrderTimeDetails)
+  | ({
+      customerInfo: false;
+      customerOrderInfo: null;
+      accountId: number;
+      userInfoId: number;
+    } & OrderTimeDetails);
+
+export const initialCustomerInfo: CustomerFormInfo = {
+  first_name: "",
+  last_name: "",
+  email: "",
+  phone_number: "",
+};
+
+export const initialOrderTimeDetails: OrderTimeDetails = {
+  locationId: "0",
+  pickupDate: new Date().toISOString(),
+  pickupTimeId: "0",
+};
+
+export type CreateOrder = {
+  cartId: number;
+} & CustomerInfo;

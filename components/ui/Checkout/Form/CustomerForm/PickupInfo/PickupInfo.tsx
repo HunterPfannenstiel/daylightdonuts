@@ -1,20 +1,21 @@
-import { CustomerInfo } from "@_types/payment";
-import CalendarIcon from "components/ui/svg/CalendarIcon";
+import { OrderTimeDetails } from "@_types/database/checkout";
 import { ChangeEvent, FunctionComponent } from "react";
 import Calendar from "../Calendar";
 import classes from "./PickupInfo.module.css";
 import TimeSelect from "./TimeSelect";
 
 interface PickupInfoProps {
-  customerInfo: CustomerInfo;
+  orderTimeDetails: OrderTimeDetails;
 }
 
-const PickupInfo: FunctionComponent<PickupInfoProps> = ({ customerInfo }) => {
+const PickupInfo: FunctionComponent<PickupInfoProps> = ({
+  orderTimeDetails,
+}) => {
   const handleCustomerInfo = (
     e: ChangeEvent<HTMLSelectElement>,
-    keyName: keyof CustomerInfo
+    keyName: keyof OrderTimeDetails
   ) => {
-    customerInfo[keyName] = e.target.value;
+    orderTimeDetails[keyName] = e.target.value;
   };
   return (
     <>
@@ -25,7 +26,7 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({ customerInfo }) => {
             name="location"
             id="location"
             onChange={(e) => {
-              handleCustomerInfo(e, "location");
+              handleCustomerInfo(e, "locationId");
             }}
             required
           >
@@ -41,7 +42,7 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({ customerInfo }) => {
         </div>
         <div className={classes.date}>
           <label htmlFor="date">Date:</label>
-          <Calendar customerInfo={customerInfo} />
+          <Calendar orderTimeDetails={orderTimeDetails} />
           {/* <CalendarIcon /> */}
         </div>
       </div>

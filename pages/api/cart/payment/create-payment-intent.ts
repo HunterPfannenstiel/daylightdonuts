@@ -32,7 +32,8 @@ const handler: NextApiHandler = async (req, res) => {
             stripeTotal,
             subtotal,
             tax,
-            total
+            total,
+            cartId
           );
           setPaymentId(cartId, paymentIntent.id);
         }
@@ -42,7 +43,8 @@ const handler: NextApiHandler = async (req, res) => {
           stripeTotal,
           subtotal,
           tax,
-          total
+          total,
+          cartId
         );
         setPaymentId(cartId, paymentIntent.id);
       }
@@ -62,7 +64,8 @@ const createPaymentIntent = async (
   amount: number,
   subtotal: number,
   tax: number,
-  total: number
+  total: number,
+  cartId: number
 ) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount,
@@ -72,6 +75,7 @@ const createPaymentIntent = async (
       subtotal,
       tax,
       total,
+      cartId,
     },
   });
 

@@ -1,4 +1,4 @@
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
 import Radio from "components/ui/Reusable/Radio";
 import PaypalIcon from "components/ui/svg/PaypalIcon";
 import { FunctionComponent, useState } from "react";
@@ -33,11 +33,11 @@ const PaymentForm: FunctionComponent<PaymentFormProps> = ({
           defaultChecked
           onClick={handleRadioClick.bind(null, 0)}
         />
-        {/* <Radio
+        <Radio
           label="Paypal"
           onClick={handleRadioClick.bind(null, 1)}
           icon={<PaypalIcon />}
-        /> */}
+        />
       </div>
       {selectedRadio === 0 && (
         <StripeElements
@@ -46,7 +46,7 @@ const PaymentForm: FunctionComponent<PaymentFormProps> = ({
           checkCustomerForm={checkCustomerForm}
         />
       )}
-      {selectedRadio === 1 && <PayPal />}
+      {selectedRadio === 1 && <PayPal customerInfo={customerInfo} />}
     </div>
   );
 };

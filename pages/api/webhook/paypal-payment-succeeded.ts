@@ -1,3 +1,4 @@
+import { OrderMetadata } from "@_types/payment";
 import { NextApiHandler } from "next";
 const handler: NextApiHandler = async (req, res) => {
   try {
@@ -29,8 +30,11 @@ const handler: NextApiHandler = async (req, res) => {
       console.log("Response", response);
       const data = await response.json();
       if (data.verification_status === "SUCCESS") {
+        console.log("IMPLEMENT CONFIRM ORDER");
+        const metadata = (await JSON.parse(
+          req.body.custom_id
+        )) as OrderMetadata;
         //confirm order
-        const total = +req.body.resource.amount.total;
       }
       return res.status(200).json({ message: "Complete" });
       // process.env.PAYPAL_WEBHOOK_ID

@@ -4,21 +4,21 @@ import { format } from "date-fns";
 import classes from "./Calendar.module.css";
 import Button from "components/ui/Reusable/Button";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { CustomerInfo } from "@_types/payment";
+import { OrderTimeDetails } from "@_types/database/checkout";
 import { formatDate } from "@_utils/orders/dates";
 import Calendar from "components/ui/Reusable/Calendar/Calendar";
 
 interface CalendarProps {
-  customerInfo: CustomerInfo;
+  orderTimeDetails: OrderTimeDetails;
 }
 
-const DateSelect: FunctionComponent<CalendarProps> = ({ customerInfo }) => {
+const DateSelect: FunctionComponent<CalendarProps> = ({ orderTimeDetails }) => {
   const { handleModal, playAnimation, showModal } = useAnimateModal(300);
   const [selectedDate, setSelectedDate] = useState<string>("Select a Date");
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
       setSelectedDate(format(date, "PP"));
-      customerInfo.pickupDate = formatDate(date);
+      orderTimeDetails.pickupDate = formatDate(date);
     }
   };
 

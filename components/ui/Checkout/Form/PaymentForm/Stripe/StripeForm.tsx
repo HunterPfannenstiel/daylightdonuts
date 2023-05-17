@@ -4,7 +4,7 @@ import {
 } from "@stripe/react-stripe-js";
 import useStripeClient from "@_hooks/stripe/useStripeClient";
 import { useNotification } from "@_providers/Notification/Notification";
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
 import { postOptimisticOrder } from "@_utils/payment/stripe";
 import { FormEvent, FunctionComponent } from "react";
 import classes from "./StripeForm.module.css";

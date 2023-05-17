@@ -14,10 +14,10 @@ export const getPurchaseUnitsAmountDetails = (
     tax_total: getMoneyObject(taxAmount),
     item_total: getMoneyObject(orderAmount),
     discount: getMoneyObject(discountAmount),
-    insurance: getMoneyObject("0"),
-    shipping: getMoneyObject("0"),
-    shipping_discount: getMoneyObject("0"),
-    handling: getMoneyObject("0"),
+    insurance: getMoneyObject(),
+    shipping: getMoneyObject(),
+    shipping_discount: getMoneyObject(),
+    handling: getMoneyObject(),
   };
 };
 
@@ -29,24 +29,29 @@ const getMoneyObject = (value?: string): Money => {
 };
 
 export const getItemsForPaypal = (
-  items: OrderItem[]
-): [PaypalItem[], string] => {
+  items: OrderItem[],
+  tax: number
+): [PaypalItem[], string, string] => {
   let runningTotal = 0;
   const paypalItems: PaypalItem[] = [];
   items.forEach((item) => {
-    runningTotal += +item.price * item.amount;
+    runningTotal += (+item.price + +item.extra_price) * item.amount;
     const name = item.name + getOrderExtraString(item.extras);
     paypalItems.push({
       name: name,
       unit_amount: {
         currency_code: "USD",
-        value: item.price,
+        value: (+item.price + +item.extra_price).toFixed(2),
       },
       quantity: item.amount.toString(),
       category: "PHYSICAL_GOODS",
     });
   });
-  return [paypalItems, runningTotal.toFixed(2)];
+  return [
+    paypalItems,
+    runningTotal.toFixed(2),
+    (runningTotal * tax).toFixed(2),
+  ];
 };
 
 // export const getReducedPriceFromDozens = (eligibleDozens: EligibleDozen[]) => {

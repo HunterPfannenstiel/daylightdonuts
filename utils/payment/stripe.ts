@@ -1,4 +1,4 @@
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
 
 export const fetchStripeClientSecret = async () => {
   const res = await fetch("/api/cart/payment/create-payment-intent");

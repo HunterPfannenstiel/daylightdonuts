@@ -27,7 +27,7 @@ const customerQuery = async (query, params) => {
 };
 
 const queryItems = async () => {
-  const query = "SELECT * FROM store.fetch_totaling_cart(7)";
+  const query = "SELECT * FROM store.fetch_totaling_cart(5)";
   const res = await customerQuery(query);
   return res.rows;
 };

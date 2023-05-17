@@ -1,4 +1,4 @@
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
 import { getCartCookieId } from "@_utils/database/cart/cookies";
 import { createOrder } from "@_utils/payment/create-order/queries";
 import { NextApiHandler } from "next";
@@ -8,13 +8,17 @@ const handler: NextApiHandler = async (req, res) => {
     const cartId = getCartCookieId(req.cookies);
     if (cartId) {
       const customerInfo = req.body as CustomerInfo;
-      const error = verifyCustomerInfo(customerInfo);
-      if (error) {
-        res.status(422).json({ message: error });
-        return;
-      }
+      // const error = verifyCustomerInfo(customerInfo);
+      // if (error) {
+      //   res.status(422).json({ message: error });
+      //   return;
+      // }
       try {
-        await createOrder(customerInfo, 1, cartId);
+        const info = {
+          cartId,
+          ...customerInfo,
+        };
+        await createOrder(info);
       } catch (e: any) {
         console.log(e);
         res
@@ -34,21 +38,21 @@ const handler: NextApiHandler = async (req, res) => {
   }
 };
 
-const verifyCustomerInfo = (info: CustomerInfo) => {
-  console.log(info);
-  if (!info.email || !info.email.includes("@")) {
-    return "Invalid Email";
-  }
-  if (
-    !info.firstName ||
-    !info.lastName ||
-    !info.location ||
-    !info.phone ||
-    !info.pickupDate ||
-    !info.pickupTime
-  ) {
-    return "Missing a required field";
-  }
-};
+// const verifyCustomerInfo = (info: CustomerInfo) => {
+//   console.log(info);
+//   if (!info.email || !info.email.includes("@")) {
+//     return "Invalid Email";
+//   }
+//   if (
+//     !info.firstName ||
+//     !info.lastName ||
+//     !info.location ||
+//     !info.phone ||
+//     !info.pickupDate ||
+//     !info.pickupTime
+//   ) {
+//     return "Missing a required field";
+//   }
+// };
 
 export default handler;
