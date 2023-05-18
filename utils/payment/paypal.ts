@@ -47,11 +47,7 @@ export const getItemsForPaypal = (
       category: "PHYSICAL_GOODS",
     });
   });
-  return [
-    paypalItems,
-    runningTotal.toFixed(2),
-    (runningTotal * tax).toFixed(2),
-  ];
+  return [paypalItems, runningTotal.toFixed(2), tax.toFixed(2)];
 };
 
 // export const getReducedPriceFromDozens = (eligibleDozens: EligibleDozen[]) => {

@@ -29,7 +29,7 @@ export const calculateCartTotal = async (cartId: number) => {
       const unitPrice = +group.items[0][0];
       const groupingCount = Math.floor(+group.total_items / size);
       const price = groupingCount * +groupPrice;
-      console.log(`Found ${groupingCount} grouping price`);
+      console.log(`Found ${groupingCount} grouping price ${price}`);
       subtotal += price;
       remainingToAdd = group.total_items - groupingCount * size;
       groupingDiscount += unitPrice * groupingCount * size - price;

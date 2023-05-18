@@ -1,4 +1,5 @@
 import { Extra } from "@_types/database/cart";
+import { CustomerInfo } from "@_types/database/checkout";
 
 export const getNotificationMessage = (paymentIntent: any) => {
   switch (paymentIntent.status) {
@@ -38,4 +39,9 @@ export const getOrderExtraString = (extras: Extra[]) => {
   }
 
   return extraString;
+};
+
+export const validateCustomerInfo = (customerInfo: CustomerInfo) => {
+  if (customerInfo.customerInfo) {
+  }
 };

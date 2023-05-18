@@ -26,6 +26,7 @@
     "cookie-parser": "^1.4.6",
     "critters": "^0.0.16",
     "date-fns": "^2.29.3",
+    "express-validator": "^7.0.1",
     "fs": "^0.0.1-security",
     "immer": "^9.0.16",
     "jsonwebtoken": "^9.0.0",

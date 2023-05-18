@@ -40,7 +40,7 @@ const handler: NextApiHandler = async (req, res) => {
         const { subtotal, tax, total, groupingDiscount } =
           await calculateCartTotal(cartId);
         const orderItems = await getOrderItems(cartId);
-        const [paypalItems, totalFromItems] = getItemsForPaypal(
+        const [paypalItems, totalFromItems, taxAmount] = getItemsForPaypal(
           orderItems,
           tax
         );
@@ -51,10 +51,14 @@ const handler: NextApiHandler = async (req, res) => {
             {
               amount: {
                 currency_code: "USD",
-                value: totalFromItems,
+                value: (
+                  +totalFromItems +
+                  +taxAmount -
+                  groupingDiscount
+                ).toFixed(2),
                 breakdown: getPurchaseUnitsAmountDetails(
-                  total.toFixed(2),
-                  tax.toFixed(2),
+                  totalFromItems,
+                  taxAmount,
                   groupingDiscount.toFixed(2)
                 ),
               },
@@ -67,12 +71,6 @@ const handler: NextApiHandler = async (req, res) => {
               } as OrderMetadata),
             },
           ],
-        });
-        console.log("ENSURE THAT DISCOUNT IS NOT REMOVED FROM TOTAL", {
-          totalFromItems,
-          total,
-          discount: total - groupingDiscount,
-          cartId,
         });
 
         //This is how we execute our request
