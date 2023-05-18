@@ -7,9 +7,9 @@ export const fetchStripeClientSecret = async () => {
 };
 
 export const postOptimisticOrder = async (customerInfo: CustomerInfo) => {
-  const response = await fetch("/api/cart/order/create-stripe-order", {
+  const response = await fetch("/api/cart/order/create-order", {
     method: "POST",
-    body: JSON.stringify({ ...customerInfo }),
+    body: JSON.stringify(customerInfo),
     headers: { "Content-type": "application/json" },
   });
   const data = (await response.json()) as { message: string };

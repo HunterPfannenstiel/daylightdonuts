@@ -43,7 +43,7 @@ const handler: NextApiHandler = async (req, res) => {
     try {
       const { subtotal, tax, total, cartId } =
         paymentIntent.metadata as OrderMetadata;
-
+      console.log("ORDER METADATA", paymentIntent.metadata);
       await verifyOrder(+cartId, +subtotal, +tax, +total, 1, paymentIntent.id);
     } catch (e: any) {
       console.log(e);

@@ -4,6 +4,7 @@ import {
 } from "@paypal/checkout-server-sdk/lib/payments/lib";
 import { OrderItem, PaypalItem } from "@_types/payment";
 import { getOrderExtraString } from ".";
+import PayPal from "@paypal/checkout-server-sdk";
 
 export const getPurchaseUnitsAmountDetails = (
   orderAmount: string,
@@ -49,6 +50,26 @@ export const getItemsForPaypal = (
   });
   return [paypalItems, runningTotal.toFixed(2), tax.toFixed(2)];
 };
+
+/*UNCOMMENT THIS WHEN IN PRODUCTION*/
+// const Environment =
+//   process.env.NODE_ENV === "production"
+//     ? PayPal.core.LiveEnvironment
+//     : PayPal.core.SandboxEnvironment;
+
+// const paypalClient = new PayPal.core.PayPalHttpClient(
+//   new Environment(
+//     process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+//     process.env.PAYPAL_CLIENT_SECRET!
+//   )
+// );
+
+export const paypalClient = new PayPal.core.PayPalHttpClient(
+  new PayPal.core.SandboxEnvironment(
+    process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+    process.env.PAYPAL_CLIENT_SECRET!
+  )
+);
 
 // export const getReducedPriceFromDozens = (eligibleDozens: EligibleDozen[]) => {
 //   let reductionPrice = 0;

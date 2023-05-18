@@ -2,13 +2,17 @@ import { CreateOrder } from "@_types/database/checkout";
 import { customerQuery } from "@_utils/database/connect";
 
 export const createOrder = async (orderInfo: CreateOrder): Promise<number> => {
-  const query = "CALL store.create_order($1, $2, $3, $4, NULL, $6, $7, $8)";
+  const customerInfo = orderInfo.customerInfo
+    ? JSON.stringify([orderInfo.customerOrderInfo])
+    : null;
+  const query =
+    "CALL store.create_order($1::INTEGER, $2::SMALLINT, $3::SMALLINT, $4::DATE, NULL, $5::JSON, $6::INTEGER, $7::INTEGER)";
   const res = await customerQuery(query, [
     orderInfo.cartId,
     orderInfo.locationId,
     orderInfo.pickupTimeId,
     orderInfo.pickupDate,
-    orderInfo.customerInfo,
+    customerInfo,
     orderInfo.accountId,
     orderInfo.userInfoId,
   ]);

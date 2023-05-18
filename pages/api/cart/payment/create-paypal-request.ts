@@ -1,5 +1,6 @@
 import { NextApiHandler } from "next";
 import PayPal from "@paypal/checkout-server-sdk";
+import { paypalClient } from "@_utils/payment/paypal";
 import { getCartCookieId } from "@_utils/database/cart/cookies";
 import {
   getItemsForPaypal,
@@ -8,26 +9,6 @@ import {
 import { getOrderItems } from "@_utils/payment/queries";
 import { calculateCartTotal } from "@_utils/payment/payment";
 import { OrderMetadata } from "@_types/payment";
-
-/*UNCOMMENT THIS WHEN IN PRODUCTION*/
-// const Environment =
-//   process.env.NODE_ENV === "production"
-//     ? PayPal.core.LiveEnvironment
-//     : PayPal.core.SandboxEnvironment;
-
-// const paypalClient = new PayPal.core.PayPalHttpClient(
-//   new Environment(
-//     process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-//     process.env.PAYPAL_CLIENT_SECRET!
-//   )
-// );
-
-const paypalClient = new PayPal.core.PayPalHttpClient(
-  new PayPal.core.SandboxEnvironment(
-    process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-    process.env.PAYPAL_CLIENT_SECRET!
-  )
-);
 
 const handler: NextApiHandler = async (req, res) => {
   try {

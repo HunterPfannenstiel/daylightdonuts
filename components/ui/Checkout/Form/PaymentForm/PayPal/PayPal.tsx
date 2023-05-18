@@ -3,6 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FunctionComponent } from "react";
 import classes from "./PayPal.module.css";
 import { CustomerInfo } from "@_types/database/checkout";
+import { postOptimisticOrder } from "@_utils/payment/stripe";
 
 interface PayPalProps {
   customerInfo: CustomerInfo;
@@ -24,14 +25,12 @@ const PayPal: FunctionComponent<PayPalProps> = ({ customerInfo }) => {
     actions: OnApproveActions
   ) => {
     if (actions.order) {
-      //This is important, it charges the user, if we don't do this, no funds are captured
-      const details = await fetch("/api/cart/order/create-paypal-order", {
-        method: "POST",
-        body: JSON.stringify({ orderId: data.orderID, customerInfo }),
-        headers: { "Content-Type": "application/json" },
-      });
-      // const details = await actions.order.capture();
-      // console.log(`Transaction completed by ${details.payer.name?.given_name}`);
+      try {
+        await postOptimisticOrder(customerInfo);
+        await actions.order.capture(); //This is important, it charges the user, if we don't do this, no funds are captured
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (

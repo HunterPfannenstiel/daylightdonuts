@@ -72,4 +72,32 @@ const calculateCartTotal = async (cartId) => {
   console.log({ subtotal, tax, total: subtotal + tax, groupingDiscount });
 };
 
-calculateCartTotal(7);
+const createOrder = async () => {
+  try {
+    const query =
+      "CALL store.create_order($1::INTEGER, $2::SMALLINT, $3::SMALLINT, $4::DATE, $5::INTEGER, $6::JSON, $7::INTEGER, $8::INTEGER)";
+    const res = await customerQuery(query, [
+      1,
+      1,
+      1,
+      "2023-05-12",
+      null,
+      JSON.stringify([
+        {
+          first_name: "Test",
+          last_name: "Tester",
+          email: "test@gmail.com",
+          phone_number: "(620) 003-2332",
+        },
+      ]),
+      null,
+      null,
+    ]);
+    console.log(res);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// calculateCartTotal(7);
+createOrder();
