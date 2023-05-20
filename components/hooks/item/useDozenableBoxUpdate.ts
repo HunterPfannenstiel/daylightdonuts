@@ -18,7 +18,7 @@ const useDozenableBoxUpdate = (item: Item) => {
         id: item.id,
         name: item.name,
         amount,
-        unitPrice: item.price,
+        unitPrice: +item.price,
         extras,
         extraIds: ids,
         image: item.image,

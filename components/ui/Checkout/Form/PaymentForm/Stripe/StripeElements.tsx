@@ -4,7 +4,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import StripeForm from "./StripeForm";
 import { useQuery } from "@tanstack/react-query";
 import { fetchStripeClientSecret } from "@_utils/payment/stripe";
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
 
 interface StripeElementsProps {
   customerInfo: CustomerInfo;

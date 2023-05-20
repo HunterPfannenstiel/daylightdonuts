@@ -38,7 +38,7 @@ const IItemForm = forwardRef<HTMLSelectElement, IItemFormProps>(
             color={"var(--primary-blue)"}
             disabled={maxAmount === 0}
           >
-            {buttonName || "Add to Order"}
+            {buttonName || "Add to Cart"}
           </Button>
           {maxAmount !== 0 && (
             <select id="amount" name="amount" ref={amountRef}>
