@@ -1,3 +1,6 @@
+import Providers from "@_providers/Providers";
+import Header from "components/ui/Header/Header";
+import "../public/css/global.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,8 +23,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div id="modal"></div>
-        {children}
+        <Providers>
+          <Header />
+          <div id="modal"></div>
+          {children}
+        </Providers>
       </body>
     </html>
   );

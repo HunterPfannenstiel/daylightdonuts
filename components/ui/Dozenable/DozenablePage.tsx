@@ -1,3 +1,5 @@
+"use client";
+
 import BuildBoxProvider from "@_providers/Dozenable/BuildBox";
 import { Item } from "@_types/database/menu";
 import { FunctionComponent } from "react";

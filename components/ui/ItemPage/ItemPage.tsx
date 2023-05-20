@@ -1,5 +1,7 @@
+"use client";
+
 import { Item } from "@_types/database/menu";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FunctionComponent, useState } from "react";
 import IItemPage from "../Reusable/Item/IItemPage";
 import MenuItemForm from "./Form/MenuItemForm";

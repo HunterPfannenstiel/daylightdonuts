@@ -1,8 +1,8 @@
 import { Bar, Category } from "@_types/header";
-import { ParsedUrlQuery } from "querystring";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const useInfoBar = (info: Bar, query: ParsedUrlQuery) => {
+const useInfoBar = (info: Bar, params: ReadonlyURLSearchParams | null) => {
   const [infoContents, setInfoContents] = useState<Category[]>([]);
   const [infoHeadings, setInfoHeadings] = useState<string[]>([]);
   const [extraContents, setExtraContents] = useState<string[]>([]);
@@ -17,9 +17,12 @@ const useInfoBar = (info: Bar, query: ParsedUrlQuery) => {
 
   const getExtraBarContents = () => {
     if (info.renderExtraBar && info.renderInfoBar) {
-      const index = infoContents.findIndex(
-        (category) => category.category === query[info.infoParameterName]
-      );
+      let index = -1;
+      if (params) {
+        index = infoContents.findIndex(
+          (category) => category.category === params.get(info.infoParameterName)
+        );
+      }
       // (query[info.infoParameterName] as string) || infoHeadings[0];
       if (index !== -1) {
         const subcategories = infoContents[index].subcategories;
@@ -37,7 +40,7 @@ const useInfoBar = (info: Bar, query: ParsedUrlQuery) => {
 
   useEffect(() => {
     getExtraBarContents();
-  }, [query]);
+  }, [params]);
 
   return { infoHeadings, extraContents };
 };

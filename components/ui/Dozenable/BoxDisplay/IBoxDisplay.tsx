@@ -1,5 +1,5 @@
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import BoxDetails from "./BoxDetails/BoxDetails";
 import classes from "./IBoxDisplay.module.css";
 import Buttons from "./Buttons";

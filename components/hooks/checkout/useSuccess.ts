@@ -1,15 +1,16 @@
 import { useNotification } from "@_providers/Notification/Notification";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const useSuccess = () => {
-  const { query } = useRouter();
+  const searchParams = useSearchParams();
+  const orderStatus = searchParams?.get("orderStatus");
   const { displayNotification } = useNotification();
   useEffect(() => {
-    if (query.orderStatus === "success") {
+    if (orderStatus === "success") {
       displayNotification("Order has been placed!", "success", 5000);
     }
-  }, [query]);
+  }, [searchParams]);
 };
 
 export default useSuccess;

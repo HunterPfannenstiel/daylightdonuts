@@ -1,18 +1,18 @@
 import { useElements, useStripe } from "@stripe/react-stripe-js";
 import { getNotificationMessage } from "@_utils/payment";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const useStripeClient = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (!stripe) {
       return;
     }
-    const clientSecret = router.query.payment_intent_client_secret;
+    const clientSecret = searchParams?.get("payment_intent_client_secret");
     if (clientSecret === "undefined" || !clientSecret) {
       return;
     }

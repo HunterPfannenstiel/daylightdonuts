@@ -1,8 +1,10 @@
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const usePage = (animationTime: number) => {
-  const { page, orderStatus } = useRouter().query;
+  const searchParams = useSearchParams();
+  const page = searchParams?.get("page");
+  const orderStatus = searchParams?.get("orderStatus");
   const [renderOrder, setRenderOrder] = useState(
     !page || page === "Your Order"
   );

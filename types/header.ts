@@ -13,7 +13,7 @@ export type DBCategories = {
   categories: DBCategory[];
 };
 
-type InfoBar =
+export type InfoBar =
   | {
       renderInfoBar: true;
       infoParameterName: string;
@@ -25,7 +25,7 @@ type InfoBar =
       sticky: false;
     };
 
-type ExtraBar =
+export type ExtraBar =
   | {
       renderExtraBar: true;
       extraParameterName: string;

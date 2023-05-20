@@ -1,3 +1,5 @@
+"use client";
+
 import usePage from "@_hooks/checkout/usePage";
 import useSuccess from "@_hooks/checkout/useSuccess";
 import { CartUpdatesProvider } from "@_providers/cart/CartUpdates/CartUpdates";

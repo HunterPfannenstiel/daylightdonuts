@@ -1,11 +1,13 @@
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { MenuItem } from "@_types/database/menu";
 
 const useMenu = () => {
-  const { query } = useRouter();
-  const { category, filter } = query;
+  const params = useSearchParams();
+  const category = params?.get("category") || undefined;
+  const filter = params?.get("filter") || undefined;
   const { data, isLoading } = useQuery(["menu", category, filter], async () => {
+    console.log("fetching");
     let response: Response;
     if (category === "Dozenable") {
       response = await fetch("/api/menu/dozenable");

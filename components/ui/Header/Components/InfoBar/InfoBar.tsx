@@ -1,20 +1,19 @@
-import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { ParsedUrlQuery } from "querystring";
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent } from "react";
 import IInfoBar from "./IInfoBar";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 interface InfoBarProps {
   contents: string[];
   sticky?: boolean;
   queryParameterName: string;
-  query: ParsedUrlQuery;
+  params: ReadonlyURLSearchParams | null;
 }
 
 const InfoBar: FunctionComponent<InfoBarProps> = ({
   contents,
   sticky,
   queryParameterName,
-  query,
+  params,
 }) => {
   // const { showModal, playAnimation, handleModal } = useAnimateModal(250);
   // useEffect(() => {
@@ -28,7 +27,7 @@ const InfoBar: FunctionComponent<InfoBarProps> = ({
     <IInfoBar
       contents={contents}
       queryParameterName={queryParameterName}
-      query={query}
+      params={params}
       showBar={true}
       sticky={sticky}
     />

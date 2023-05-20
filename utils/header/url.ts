@@ -1,15 +1,24 @@
-import { Category, URLInfo } from "@_types/header";
+import {
+  Category,
+  ExtraBar,
+  InfoBar,
+  URLInfo as URLInfoT,
+} from "@_types/header";
 
-export const findURLInfo = (pathName: string) => {
-  return (
-    URLInfo[pathName] || {
-      renderInfoBar: false,
-      renderExtraBar: false,
-    }
-  );
+export const findURLInfo = (pathName: string | null): InfoBar & ExtraBar => {
+  return pathName
+    ? URLInfo[pathName] || {
+        renderInfoBar: false,
+        renderExtraBar: false,
+      }
+    : {
+        renderInfoBar: false,
+        sticky: false,
+        renderExtraBar: false,
+      };
 };
 
-const URLInfo: URLInfo = {
+const URLInfo: URLInfoT = {
   "/menu/[item]": {
     renderInfoBar: false,
     sticky: false,
@@ -46,8 +55,8 @@ const URLInfo: URLInfo = {
   },
 };
 
-export const getPageName = (pathName: string) => {
-  return pageNames[pathName] || "Daylight";
+export const getPageName = (pathName: string | null) => {
+  return pathName ? pageNames[pathName] || "Daylight" : "Daylight";
 };
 
 const pageNames: { [p: string]: string } = {

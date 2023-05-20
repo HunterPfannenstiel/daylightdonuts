@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent } from "react";
 import classes from "./IInfoBar.module.css";
+import { ReadonlyURLSearchParams, usePathname } from "next/navigation";
 
 interface IInfoBarProps {
   contents: string[];
   queryParameterName: string;
   sticky?: boolean;
-  query: ParsedUrlQuery;
+  params: ReadonlyURLSearchParams | null;
   showBar: boolean;
 }
 
@@ -15,10 +15,11 @@ const IInfoBar: FunctionComponent<IInfoBarProps> = ({
   contents,
   queryParameterName,
   sticky,
-  query,
+  params,
   showBar,
 }) => {
-  const param = query[queryParameterName];
+  const param = params?.get(queryParameterName);
+  const pathname = usePathname();
   //   const infoBarClass = playAnimation ? classes.animate_out : "";
   if (showBar) {
     const className = sticky ? classes.sticky : "";
@@ -37,6 +38,7 @@ const IInfoBar: FunctionComponent<IInfoBarProps> = ({
                 <Link
                   href={{
                     query: { [queryParameterName]: item },
+                    pathname,
                   }}
                 >
                   <h2 className={classes.item}>{item}</h2>

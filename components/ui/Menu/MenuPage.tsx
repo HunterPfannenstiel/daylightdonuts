@@ -1,3 +1,5 @@
+"use client";
+
 import useMenu from "@_hooks/menu/useMenu";
 import { FunctionComponent } from "react";
 import MenuItemList from "./MenuItemList";
