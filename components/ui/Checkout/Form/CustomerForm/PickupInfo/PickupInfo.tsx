@@ -7,19 +7,18 @@ import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import Calendar from "../Calendar";
 import classes from "./PickupInfo.module.css";
 import TimeSelect from "./TimeSelect";
-import usePickupInfo from "@_hooks/checkout/usePickupInfo";
 
 interface PickupInfoProps {
   orderTimeDetails: OrderTimeDetails;
+  locations: LocationDetails[] | undefined;
+  locationTimes: LocationTimes | undefined;
 }
 
 const PickupInfo: FunctionComponent<PickupInfoProps> = ({
   orderTimeDetails,
+  locations,
+  locationTimes,
 }) => {
-  const { data, isLoading, isError } = usePickupInfo(orderTimeDetails);
-  const [selectStoreTimes, setSelectedStoreTimes] = useState<LocationTimes>();
-  if (isLoading) return <h1>Show Loading</h1>;
-  if (isError) return <h1>error</h1>;
   const handleCustomerInfo = (
     e: ChangeEvent<HTMLSelectElement>,
     keyName: keyof OrderTimeDetails
@@ -27,15 +26,6 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({
     orderTimeDetails[keyName] = e.target.value;
   };
 
-  useEffect(() => {
-    console.log("Change");
-    const index = data?.findIndex(
-      (info) => info.location_id.toString() === orderTimeDetails["locationId"]
-    );
-    if (index && index !== -1) {
-      setSelectedStoreTimes(data![index].times);
-    }
-  }, [orderTimeDetails["locationId"]]);
   return (
     <>
       <div className={classes.info}>
@@ -49,7 +39,7 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({
             }}
             required
           >
-            {data!.map((info) => {
+            {locations?.map((info) => {
               return (
                 <option value={info.location_id}>{info.common_name}</option>
               );
@@ -58,7 +48,10 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({
         </div>
         <div className={classes.time}>
           <label htmlFor="time">Time:</label>
-          <TimeSelect handleCustomerInfo={handleCustomerInfo} />
+          <TimeSelect
+            handleCustomerInfo={handleCustomerInfo}
+            locationTimes={locationTimes}
+          />
         </div>
         <div className={classes.date}>
           <label htmlFor="date">Date:</label>

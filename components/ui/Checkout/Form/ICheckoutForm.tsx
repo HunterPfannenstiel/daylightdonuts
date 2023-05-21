@@ -48,10 +48,7 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
       {showForm && (
         <div className={classes.form_content + " " + formClass}>
           <form className={classes.form} ref={formRef}>
-            <CustomerInfo
-              customerInfo={customerFormInfo.current}
-              orderTimeDetails={timeDetails.current}
-            />
+            <CustomerInfo />
           </form>
           <PaymentForm
             className={classes.form}
@@ -59,7 +56,7 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
               ...timeDetails.current,
               customerOrderInfo: customerFormInfo.current,
               customerInfo: true,
-              accountId: null,
+
               userInfoId: null,
             }}
             setLoading={setIsLoading}

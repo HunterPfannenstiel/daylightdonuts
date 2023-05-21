@@ -45,6 +45,7 @@ export type CustomerFormInfo = {
   last_name: string;
   email: string;
   phone_number: string;
+  userInfoId?: string;
 };
 
 export type OrderTimeDetails = {
@@ -57,13 +58,11 @@ export type CustomerInfo =
   | ({
       customerInfo: true;
       customerOrderInfo: CustomerFormInfo;
-      accountId: null;
       userInfoId: null;
     } & OrderTimeDetails)
   | ({
       customerInfo: false;
       customerOrderInfo: null;
-      accountId: number;
       userInfoId: number;
     } & OrderTimeDetails);
 
