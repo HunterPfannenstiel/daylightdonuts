@@ -75,10 +75,23 @@ export const initialCustomerInfo: CustomerFormInfo = {
 };
 
 export const initialOrderTimeDetails: OrderTimeDetails = {
-  locationId: "0",
-  pickupDate: new Date().toISOString(),
-  pickupTimeId: "0",
+  locationId: "",
+  pickupDate: "",
+  pickupTimeId: "",
 };
+
+export type LocationDetails = {
+  common_name: string;
+  city: string;
+  state: string;
+  zip: string;
+  address: string;
+  phone_number: string;
+  location_id: number;
+  times: LocationTimes;
+};
+
+export type LocationTimes = { time: string; id: number }[];
 
 export type CreateOrder = {
   cartId: number;

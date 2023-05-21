@@ -1,8 +1,13 @@
-import { OrderTimeDetails } from "@_types/database/checkout";
-import { ChangeEvent, FunctionComponent } from "react";
+import {
+  LocationDetails,
+  LocationTimes,
+  OrderTimeDetails,
+} from "@_types/database/checkout";
+import { ChangeEvent, FunctionComponent, useEffect, useState } from "react";
 import Calendar from "../Calendar";
 import classes from "./PickupInfo.module.css";
 import TimeSelect from "./TimeSelect";
+import usePickupInfo from "@_hooks/checkout/usePickupInfo";
 
 interface PickupInfoProps {
   orderTimeDetails: OrderTimeDetails;
@@ -11,12 +16,26 @@ interface PickupInfoProps {
 const PickupInfo: FunctionComponent<PickupInfoProps> = ({
   orderTimeDetails,
 }) => {
+  const { data, isLoading, isError } = usePickupInfo(orderTimeDetails);
+  const [selectStoreTimes, setSelectedStoreTimes] = useState<LocationTimes>();
+  if (isLoading) return <h1>Show Loading</h1>;
+  if (isError) return <h1>error</h1>;
   const handleCustomerInfo = (
     e: ChangeEvent<HTMLSelectElement>,
     keyName: keyof OrderTimeDetails
   ) => {
     orderTimeDetails[keyName] = e.target.value;
   };
+
+  useEffect(() => {
+    console.log("Change");
+    const index = data?.findIndex(
+      (info) => info.location_id.toString() === orderTimeDetails["locationId"]
+    );
+    if (index && index !== -1) {
+      setSelectedStoreTimes(data![index].times);
+    }
+  }, [orderTimeDetails["locationId"]]);
   return (
     <>
       <div className={classes.info}>
@@ -30,10 +49,11 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({
             }}
             required
           >
-            <option value="" disabled selected>
-              Select a location
-            </option>
-            <option>1435 East 30th Avenue</option>
+            {data!.map((info) => {
+              return (
+                <option value={info.location_id}>{info.common_name}</option>
+              );
+            })}
           </select>
         </div>
         <div className={classes.time}>
