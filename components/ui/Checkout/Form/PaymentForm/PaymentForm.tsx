@@ -1,4 +1,3 @@
-import { CustomerInfo } from "@_types/database/checkout";
 import Radio from "components/ui/Reusable/Radio";
 import PaypalIcon from "components/ui/svg/PaypalIcon";
 import { FunctionComponent, useState } from "react";
@@ -8,14 +7,12 @@ import PayPal from "./PayPal/PayPal";
 import StripeElements from "./Stripe/StripeElements";
 
 interface PaymentFormProps {
-  customerInfo: CustomerInfo;
   className?: string;
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
 }
 //TODO: Setup up PayPal webhook to finish integration
 const PaymentForm: FunctionComponent<PaymentFormProps> = ({
-  customerInfo,
   className,
   setLoading,
   checkCustomerForm,
@@ -41,12 +38,11 @@ const PaymentForm: FunctionComponent<PaymentFormProps> = ({
       </div>
       {selectedRadio === 0 && (
         <StripeElements
-          customerInfo={customerInfo}
           setLoading={setLoading}
           checkCustomerForm={checkCustomerForm}
         />
       )}
-      {selectedRadio === 1 && <PayPal customerInfo={customerInfo} />}
+      {selectedRadio === 1 && <PayPal />}
     </div>
   );
 };

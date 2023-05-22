@@ -4,10 +4,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import StripeForm from "./StripeForm";
 import { useQuery } from "@tanstack/react-query";
 import { fetchStripeClientSecret } from "@_utils/payment/stripe";
-import { CustomerInfo } from "@_types/database/checkout";
 
 interface StripeElementsProps {
-  customerInfo: CustomerInfo;
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
 }
@@ -15,7 +13,6 @@ interface StripeElementsProps {
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 const StripeElements: FunctionComponent<StripeElementsProps> = ({
-  customerInfo,
   setLoading,
   checkCustomerForm,
 }) => {
@@ -32,7 +29,6 @@ const StripeElements: FunctionComponent<StripeElementsProps> = ({
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
           <StripeForm
-            customerInfo={customerInfo}
             setLoading={setLoading}
             checkCustomerForm={checkCustomerForm}
           />

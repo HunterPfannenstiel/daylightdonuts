@@ -1,4 +1,4 @@
-import { CustomerFormInfo, OrderTimeDetails } from "@_types/database/checkout";
+import { CustomerFormInfo } from "@_types/database/checkout";
 import { ChangeEvent, FunctionComponent } from "react";
 import Fieldset from "../Fieldset";
 import classes from "./CustomerInfo.module.css";
@@ -8,9 +8,14 @@ import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
 
 interface CustomerInfoProps {}
 
-const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({}) => {
-  const { customerFormInfo, orderTimeDetails, currentStoreTimes, locations } =
-    useCheckoutInfo();
+const CustomerInfo: FunctionComponent<CustomerInfoProps> = () => {
+  const {
+    customerFormInfo,
+    orderTimeDetails,
+    currentStoreTimes,
+    locations,
+    setSelectedLocationId,
+  } = useCheckoutInfo();
   const updateCustomerInfo = (
     e: ChangeEvent<HTMLInputElement>,
     keyName: keyof CustomerFormInfo
@@ -68,6 +73,7 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({}) => {
         orderTimeDetails={orderTimeDetails}
         locationTimes={currentStoreTimes}
         locations={locations}
+        setSelectedLocationId={setSelectedLocationId}
       />
     </Fieldset>
   );

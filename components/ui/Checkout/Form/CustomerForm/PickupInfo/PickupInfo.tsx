@@ -12,18 +12,21 @@ interface PickupInfoProps {
   orderTimeDetails: OrderTimeDetails;
   locations: LocationDetails[] | undefined;
   locationTimes: LocationTimes | undefined;
+  setSelectedLocationId: (locationId: number) => void;
 }
 
 const PickupInfo: FunctionComponent<PickupInfoProps> = ({
   orderTimeDetails,
   locations,
   locationTimes,
+  setSelectedLocationId,
 }) => {
   const handleCustomerInfo = (
     e: ChangeEvent<HTMLSelectElement>,
     keyName: keyof OrderTimeDetails
   ) => {
     orderTimeDetails[keyName] = e.target.value;
+    if (keyName === "locationId") setSelectedLocationId(+e.target.value);
   };
 
   return (
@@ -41,7 +44,9 @@ const PickupInfo: FunctionComponent<PickupInfoProps> = ({
           >
             {locations?.map((info) => {
               return (
-                <option value={info.location_id}>{info.common_name}</option>
+                <option value={info.location_id} key={info.location_id}>
+                  {info.common_name}
+                </option>
               );
             })}
           </select>

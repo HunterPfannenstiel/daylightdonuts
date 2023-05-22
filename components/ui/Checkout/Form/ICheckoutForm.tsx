@@ -4,12 +4,6 @@ import Price from "./Price";
 import classes from "./ICheckoutForm.module.css";
 import CustomerInfo from "./CustomerForm/CustomerInfo";
 import PaymentForm from "./PaymentForm/PaymentForm";
-import {
-  CustomerFormInfo,
-  OrderTimeDetails,
-  initialCustomerInfo,
-  initialOrderTimeDetails,
-} from "@_types/database/checkout";
 import MenuButton from "components/ui/Reusable/Checkout/Buttons/MenuButton";
 import Spinner from "components/ui/Reusable/Spinner";
 import { highlightInvalidInput } from "@_utils/payment/form";
@@ -27,8 +21,6 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
 }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const customerFormInfo = useRef<CustomerFormInfo>(initialCustomerInfo);
-  const timeDetails = useRef<OrderTimeDetails>(initialOrderTimeDetails);
   const formClass = playAnimation ? classes.animate_out : "";
   const checkCustomerValidity = () => {
     if (formRef.current) {
@@ -52,13 +44,6 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
           </form>
           <PaymentForm
             className={classes.form}
-            customerInfo={{
-              ...timeDetails.current,
-              customerOrderInfo: customerFormInfo.current,
-              customerInfo: true,
-
-              userInfoId: null,
-            }}
             setLoading={setIsLoading}
             checkCustomerForm={checkCustomerValidity}
           />

@@ -3,10 +3,13 @@ import {
   LocationDetails,
   LocationTimes,
   OrderTimeDetails,
+  UserInfo,
 } from "@_types/database/checkout";
 
 export type CustomerInfoContext = {
   setSelectedLocationId: (locationId: number) => void;
+  setSelectedInfoId: (infoId: number) => void;
+  initializeUserInfo: (info: UserInfo[], selectedId: number) => void;
   locations: LocationDetails[] | undefined;
   postOrder: () => Promise<void>;
   currentStoreTimes: LocationTimes | undefined;
@@ -29,6 +32,8 @@ export const getInitialContext = (): CustomerInfoContext => {
     },
     locations: undefined,
     setSelectedLocationId: () => {},
+    setSelectedInfoId: () => {},
+    initializeUserInfo: () => {},
     currentStoreTimes: undefined,
     postOrder: () => new Promise((resolve) => resolve()),
   };

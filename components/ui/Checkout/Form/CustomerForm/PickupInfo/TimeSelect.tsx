@@ -25,7 +25,11 @@ const TimeSelect: FunctionComponent<TimeSelectProps> = ({
       required
     >
       {locationTimes?.map((time) => {
-        return <option value={time.id}>{time.time}</option>;
+        return (
+          <option value={time.id} key={time.id}>
+            {time.time}
+          </option>
+        );
       })}
     </select>
   );

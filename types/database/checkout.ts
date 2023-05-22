@@ -45,7 +45,6 @@ export type CustomerFormInfo = {
   last_name: string;
   email: string;
   phone_number: string;
-  userInfoId?: string;
 };
 
 export type OrderTimeDetails = {
@@ -95,3 +94,11 @@ export type LocationTimes = { time: string; id: number }[];
 export type CreateOrder = {
   cartId: number;
 } & CustomerInfo;
+
+export type UserInfo = {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  user_info_id: number;
+  email: string;
+};
