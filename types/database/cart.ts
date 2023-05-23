@@ -88,7 +88,7 @@ export type CartModifier = (cart: CartDictionary) => void;
 
 export type ModifyCart = (
   modifier: CartModifier,
-  dbModifier: DBModifier,
+  dbModifier: DBModifier | null,
   timeoutTime: number
 ) => void;
 

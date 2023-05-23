@@ -15,6 +15,7 @@ export const config = {
 };
 
 const handler: NextApiHandler = async (req, res) => {
+  if (req.method === "GET") return res.status(200);
   if (req.method === "POST") {
     let rawBody = await buffer(req);
     let event: Stripe.Event;

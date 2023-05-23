@@ -14,7 +14,8 @@ const handler: NextApiHandler = async (req, res) => {
         cartId,
         ...customerInfo,
       };
-      await createOrder(info);
+      console.log("/api/order/create-order, get actual account_id");
+      await createOrder(info, null);
       console.log("Created Order!");
       res.status(200).json({ message: "Complete" });
     } catch (e: any) {

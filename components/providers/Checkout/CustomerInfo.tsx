@@ -19,18 +19,24 @@ const CheckoutInfoProvider: FunctionComponent<{
   children: ReactNode;
 }> = ({ children }) => {
   const customerInput = useCustomerInput(); //Stores the refs used to manage the customer input and is also responsible for sending the correct data when creating an order
-  const [selectedLocationId, setSelectedLocationId] = useState<number>();
-  const currentStoreTimes = useRef<LocationTimes>();
+  const [currentStoreTimes, setCurrentStoreTimes] = useState<LocationTimes>();
   const changeSelectedLocationId = (locationId: number) => {
     const index = data?.findIndex((info) => info.location_id === locationId);
     if ((index && index !== -1) || index === 0) {
-      currentStoreTimes.current = data![index].times;
+      setCurrentStoreTimes(data![index].times);
       customerInput.orderTimeDetails.pickupTimeId =
-        currentStoreTimes.current[0].id.toString();
-      setSelectedLocationId(locationId);
+        data![index].times[0].id.toString();
     }
   };
-  const { data } = usePickupInfo(changeSelectedLocationId); //This will set the locationId to the first location id in the fecthed info and return all locations
+  const { data } = usePickupInfo(); //This will set the locationId to the first location id in the fecthed info and return all locations
+
+  useEffect(() => {
+    if (data) {
+      changeSelectedLocationId(data[0].location_id);
+      customerInput.orderTimeDetails.locationId =
+        data[0].location_id.toString();
+    }
+  }, [data]);
   return (
     <CheckoutInfo.Provider
       value={{
@@ -39,7 +45,7 @@ const CheckoutInfoProvider: FunctionComponent<{
         setSelectedLocationId: changeSelectedLocationId,
         setSelectedInfoId: customerInput.setSelectedInfoId,
         initializeUserInfo: customerInput.initializeUserInfo,
-        currentStoreTimes: currentStoreTimes.current,
+        currentStoreTimes: currentStoreTimes,
         locations: data,
         postOrder: customerInput.postOrder,
       }}

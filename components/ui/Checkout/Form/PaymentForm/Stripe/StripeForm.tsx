@@ -65,8 +65,6 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
         //Unlock cart
       }
       setLoading(false);
-    } else {
-      displayNotification("Missing pickup details", "error", 3000);
     }
   };
 

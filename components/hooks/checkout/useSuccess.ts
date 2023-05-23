@@ -1,16 +1,21 @@
 import { useNotification } from "@_providers/Notification/Notification";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useCart } from "@_providers/cart/optimistic";
+import { initializeCart } from "@_utils/database/cart/modifiers/cartModifiers";
 
 const useSuccess = () => {
-  const searchParams = useSearchParams();
-  const orderStatus = searchParams?.get("orderStatus");
+  const { modifyCart } = useCart();
   const { displayNotification } = useNotification();
-  useEffect(() => {
-    if (orderStatus === "success") {
-      displayNotification("Order has been placed!", "success", 5000);
-    }
-  }, [searchParams]);
+  const completeOrder = () => {
+    fetch("/api/cart/remove-cart");
+    displayNotification("Order has been placed!", "success", 5000);
+    modifyCart(
+      initializeCart({ groups: {}, totalItems: 0, totalPrice: 0 }),
+      null,
+      0
+    );
+  };
+
+  return completeOrder;
 };
 
 export default useSuccess;

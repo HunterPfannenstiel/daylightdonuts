@@ -134,9 +134,9 @@ export const verifyPayPalWebhook = async (req: NextApiRequest) => {
       webhook_event: req.body,
     }),
   });
-  console.log("Response ", res);
+
   const data = await res.json();
-  console.log("Data", data);
+
   if (!res.ok) {
     throw new Error(data.error_description);
   }

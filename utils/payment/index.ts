@@ -43,6 +43,7 @@ export const getOrderExtraString = (extras: Extra[]) => {
 };
 
 export const validateCustomerInfo = (info: CustomerInfo) => {
+  console.log(info);
   if (!info) throw new Error("Please provide pickup information");
   if (!info.locationId) throw new Error("Please provide a location");
   if (!info.pickupDate) throw new Error("Please provide a pickup date");

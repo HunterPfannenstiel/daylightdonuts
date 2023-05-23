@@ -10,39 +10,39 @@ interface PaymentFormProps {
   className?: string;
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
+  setIsPayPalSelected: (selected: boolean) => void;
 }
 //TODO: Setup up PayPal webhook to finish integration
 const PaymentForm: FunctionComponent<PaymentFormProps> = ({
   className,
   setLoading,
   checkCustomerForm,
+  setIsPayPalSelected,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState(0);
   const handleRadioClick = (selected: number) => {
     setSelectedRadio(selected);
+    setIsPayPalSelected(selected === 0);
   };
   return (
     <div className={classes.payment + " " + className}>
       <h2>Payment Information</h2>
       <div className={classes.radio}>
         <Radio
-          label="Stripe"
+          label="Paypal"
           defaultChecked
           onClick={handleRadioClick.bind(null, 0)}
-        />
-        <Radio
-          label="Paypal"
-          onClick={handleRadioClick.bind(null, 1)}
           icon={<PaypalIcon />}
         />
+        <Radio label="Stripe" onClick={handleRadioClick.bind(null, 1)} />
       </div>
-      {selectedRadio === 0 && (
+      {selectedRadio === 0 && <PayPal checkCustomerForm={checkCustomerForm} />}
+      {selectedRadio === 1 && (
         <StripeElements
           setLoading={setLoading}
           checkCustomerForm={checkCustomerForm}
         />
       )}
-      {selectedRadio === 1 && <PayPal />}
     </div>
   );
 };

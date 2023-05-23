@@ -1,10 +1,10 @@
-import { LocationDetails, OrderTimeDetails } from "@_types/database/checkout";
+import { LocationDetails } from "@_types/database/checkout";
 import { useQuery } from "@tanstack/react-query";
 
-const usePickupInfo = (setLocationId: (locationId: number) => void) => {
+const usePickupInfo = () => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["pickup-info"],
-    queryFn: fetchPickupInfo.bind(null, setLocationId),
+    queryFn: fetchPickupInfo,
   });
 
   return { data, isLoading, isError };
@@ -12,12 +12,11 @@ const usePickupInfo = (setLocationId: (locationId: number) => void) => {
 
 export default usePickupInfo;
 
-const fetchPickupInfo = async (setLocationId: (locationId: number) => void) => {
+const fetchPickupInfo = async () => {
   const res = await fetch("/api/checkout/pickup", { cache: "force-cache" });
   const data = await res.json();
   if (!res.ok) {
     throw new Error(data.message);
   }
-  setLocationId(data[0].location_id);
   return data as LocationDetails[];
 };

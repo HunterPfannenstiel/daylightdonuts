@@ -12,8 +12,10 @@ const handler: NextApiHandler = async (req, res) => {
     } else if (req.method === "POST") {
       console.log("body", req.body);
       console.log("header", req.headers);
+      console.log("Webhook Id", process.env.PAYPAL_WEBHOOK_ID);
       try {
-        orderMetadata = await JSON.parse(req.body.custom_id);
+        console.log("Custom Id", req.body.resource.custom_id);
+        orderMetadata = await JSON.parse(req.body.resource.custom_id);
       } catch (error) {
         console.log("Couldnt parse order info from custom id");
       }

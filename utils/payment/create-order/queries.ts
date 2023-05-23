@@ -1,7 +1,10 @@
 import { CreateOrder } from "@_types/database/checkout";
 import { customerQuery } from "@_utils/database/connect";
 
-export const createOrder = async (orderInfo: CreateOrder): Promise<number> => {
+export const createOrder = async (
+  orderInfo: CreateOrder,
+  accountId: number | null
+): Promise<number> => {
   const customerInfo = orderInfo.customerInfo
     ? JSON.stringify([orderInfo.customerOrderInfo])
     : null;
@@ -13,7 +16,7 @@ export const createOrder = async (orderInfo: CreateOrder): Promise<number> => {
     orderInfo.pickupTimeId,
     orderInfo.pickupDate,
     customerInfo,
-    orderInfo.accountId,
+    accountId,
     orderInfo.userInfoId,
   ]);
   if (res.rows.length === 0)
@@ -22,7 +25,7 @@ export const createOrder = async (orderInfo: CreateOrder): Promise<number> => {
 };
 
 export const verifyOrder = async (
-  orderId: number,
+  cartId: number,
   subtotal: number,
   tax: number,
   totalPrice: number,
@@ -31,7 +34,7 @@ export const verifyOrder = async (
 ) => {
   const query = "CALL store.confirm_order($1, $2, $3, $4, $5, $6)";
   await customerQuery(query, [
-    orderId,
+    cartId,
     subtotal,
     tax,
     totalPrice,
