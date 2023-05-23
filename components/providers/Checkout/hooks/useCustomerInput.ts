@@ -45,8 +45,8 @@ const useCustomerInput = () => {
       }
     }
     console.log(info);
-    return new Promise<void>((resolve, reject) => reject("Testing"));
-    // return postOptimisticOrder(info);
+    // return new Promise<void>((resolve, reject) => reject("Testing"));
+    return postOptimisticOrder(info);
   };
 
   const initializeUserInfo = (info: UserInfo[], selectedId: number) => {

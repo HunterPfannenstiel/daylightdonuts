@@ -5,6 +5,8 @@ import {
 import { OrderItem, PaypalItem } from "@_types/payment";
 import { getOrderExtraString } from ".";
 import PayPal from "@paypal/checkout-server-sdk";
+import { NextApiRequest } from "next";
+import { createVerify } from "crypto";
 
 export const getPurchaseUnitsAmountDetails = (
   orderAmount: string,
@@ -81,3 +83,62 @@ export const paypalClient = new PayPal.core.PayPalHttpClient(
 //   console.log("Reduction price", reductionPrice);
 //   return reductionPrice.toFixed(2);
 // };
+
+export const verifyPaypalWebhookV2 = async (req: NextApiRequest) => {
+  const transmissionId = req.headers["paypal-transmission-id"];
+  const transmissionTime = req.headers["paypal-transmission-time"];
+  const webhookId = process.env.PAYPAL_WEBHOOK_ID;
+  const signature = req.headers["paypal-transmission-sig"];
+
+  if (!transmissionId || !transmissionTime || !signature) return false;
+
+  const payload =
+    (transmissionId as string) +
+    transmissionTime +
+    webhookId +
+    JSON.stringify(req.body);
+
+  const response = await fetch(req.headers["paypal-cert-url"] as string);
+  const certificate = await response.json();
+  const verifier = createVerify(req.headers["paypal-auth-algo"] as string);
+  verifier.update(
+    (req.headers["paypal-transmission-id"] as string) +
+      req.headers["paypal-transmission-time"] +
+      process.env.PAYPAL_WEBHOOK_ID +
+      JSON.stringify(req.body),
+    "utf8"
+  );
+  const isSigValid = verifier.verify(
+    certificate,
+    req.headers["paypal-transmission-sig"] as string,
+    "base64"
+  );
+};
+
+export const verifyPayPalWebhook = async (req: NextApiRequest) => {
+  const url =
+    "https://api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature";
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.PAYPAL_CLIENT_SECRET}`,
+    },
+    body: JSON.stringify({
+      transmission_id: req.headers["paypal-transmission-id"],
+      transmission_time: req.headers["paypal-transmission-time"],
+      cert_url: req.headers["paypal-cert-url"],
+      auth_algo: req.headers["paypal-auth-algo"],
+      transmission_sig: req.headers["paypal-transmission-sig"],
+      webhook_id: process.env.PAYPAL_WEBHOOK_ID,
+      webhook_event: req.body,
+    }),
+  });
+  console.log("Response ", res);
+  const data = await res.json();
+  console.log("Data", data);
+  if (!res.ok) {
+    throw new Error(data.error_description);
+  }
+  return data.verification_status === "SUCCESS";
+};
