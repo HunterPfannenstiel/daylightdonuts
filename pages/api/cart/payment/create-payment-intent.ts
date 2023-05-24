@@ -4,7 +4,7 @@ import { getStripeId, setPaymentId } from "@_utils/payment/queries";
 import { NextApiHandler } from "next";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2022-11-15",
 });
 

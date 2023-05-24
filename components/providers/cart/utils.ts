@@ -128,6 +128,9 @@ export const updateCart = async ({
   timer,
   timeoutTime,
 }: MutateCart) => {
+  if (updates.length === 0) {
+    return new Promise<string>((resolve) => resolve("Update succesful"));
+  }
   clearTimeout(timer.current);
   return new Promise<string>(async (resolve, reject) => {
     timer.current = setTimeout(async () => {

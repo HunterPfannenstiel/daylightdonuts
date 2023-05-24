@@ -22,6 +22,9 @@ const handler: NextApiHandler = async (req, res) => {
       const isVerified = await verifyPayPalWebhook(req);
       if (isVerified) {
         if (orderMetadata) {
+          const paypalFee =
+            req.body.resource.seller_receivable_breakdown.paypal_fee;
+          console.log("FEE", paypalFee);
           const { cartId, subtotal, tax, total } = orderMetadata;
           await verifyOrder(
             +cartId,
@@ -29,7 +32,8 @@ const handler: NextApiHandler = async (req, res) => {
             +tax,
             +total,
             1,
-            req.body?.resource?.id
+            req.body?.resource?.id,
+            +paypalFee
           );
         }
         console.log("ORDER METADATA", orderMetadata);

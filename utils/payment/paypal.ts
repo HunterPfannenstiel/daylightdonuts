@@ -116,13 +116,14 @@ export const verifyPaypalWebhookV2 = async (req: NextApiRequest) => {
 };
 
 export const verifyPayPalWebhook = async (req: NextApiRequest) => {
+  const accessToken = await generateAccessToken();
   const url =
     "https://api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature";
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.PAYPAL_CLIENT_SECRET}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       transmission_id: req.headers["paypal-transmission-id"],
@@ -141,4 +142,28 @@ export const verifyPayPalWebhook = async (req: NextApiRequest) => {
     throw new Error(data.error_description);
   }
   return data.verification_status === "SUCCESS";
+};
+
+const baseURL = {
+  sandbox: "https://api-m.sandbox.paypal.com",
+  production: "https://api-m.paypal.com",
+};
+
+export const generateAccessToken = async () => {
+  const { PAYPAL_CLIENT_SECRET: SECRET, NEXT_PUBLIC_PAYPAL_CLIENT_ID: ID } =
+    process.env;
+  const auth = Buffer.from(`${ID}:${SECRET}`).toString("base64");
+  const res = await fetch(`${baseURL.sandbox}/v1/oauth2/token`, {
+    method: "POST",
+    body: "grant_type=client_credentials",
+    headers: {
+      Authorization: `Basic ${auth}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Could not generate access token");
+  }
+  const data = await res.json();
+  console.log(data.access_token);
+  return data.access_token;
 };

@@ -30,9 +30,10 @@ export const verifyOrder = async (
   tax: number,
   totalPrice: number,
   paymentProcessorId: number,
-  paymentUID: string
+  paymentUID: string,
+  fee?: number
 ) => {
-  const query = "CALL store.confirm_order($1, $2, $3, $4, $5, $6)";
+  const query = "CALL store.confirm_order($1, $2, $3, $4, $5, $6, $7)";
   await customerQuery(query, [
     cartId,
     subtotal,
@@ -40,5 +41,6 @@ export const verifyOrder = async (
     totalPrice,
     paymentProcessorId,
     paymentUID,
+    fee || null,
   ]);
 };
