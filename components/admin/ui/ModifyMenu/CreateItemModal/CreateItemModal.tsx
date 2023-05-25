@@ -1,21 +1,47 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./CreateItemModal.module.css";
-import useMenuModal from "@_hooks/admin/menu/useMenuModal";
+import useCollectModalInfo from "@_hooks/admin/menu/useCollectModalInfo";
 import ItemDetails from "../../Reusable/ModifyMenuItem/ItemDetails";
+import ItemGroupings from "../../Reusable/ModifyMenuItem/ItemGroupings";
+import { Grouping } from "@_types/admin/forms";
 
-interface CreateItemModalProps {}
+interface CreateItemModalProps {
+  groupings: Grouping[];
+}
 
-const CreateItemModal: FunctionComponent<CreateItemModalProps> = () => {
-  const { itemDetails, updateItemDetails } = useMenuModal();
+const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
+  groupings,
+}) => {
+  const {
+    menuItemDetails,
+    updateItemDetails,
+    selectedGroupingId,
+    updateGroupingId,
+  } = useCollectModalInfo();
+  const [pageNum, setPageNum] = useState(0);
+  const flipPage = (amount: number) => {
+    setPageNum((prevState) => prevState + amount);
+  };
+
   return (
     <form>
-      <ItemDetails
-        image={itemDetails.image}
-        name={itemDetails.name}
-        price={itemDetails.price}
-        description={itemDetails.description}
-        updateHandler={updateItemDetails}
-      />
+      {pageNum === 0 && (
+        <ItemDetails
+          initialDetails={menuItemDetails.current}
+          updateHandler={updateItemDetails}
+        />
+      )}
+      {pageNum === 1 && (
+        <ItemGroupings
+          availableGroupings={groupings}
+          groupingSelectHandler={updateGroupingId}
+          selectedId={selectedGroupingId.current}
+        />
+      )}
+      {pageNum !== 0 && (
+        <button onClick={flipPage.bind(null, -1)}>{"<"}</button>
+      )}
+      {pageNum !== 1 && <button onClick={flipPage.bind(null, 1)}>{">"}</button>}
     </form>
   );
 };

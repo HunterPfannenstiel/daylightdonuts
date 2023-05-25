@@ -1,28 +1,36 @@
-import { ChangeEvent, FunctionComponent } from "react";
+import { ChangeEvent, FunctionComponent, useState } from "react";
 import classes from "./ImageInput.module.css";
 import { ClientImage } from "@_types/admin/forms";
 import ImageComponent from "next/image";
 
 interface ImageInputProps {
   initialImage?: ClientImage | { url: string; blob: undefined };
+  width: number;
+  height: number;
   imageHandler: (image: ClientImage) => void;
 }
 
 const ImageInput: FunctionComponent<ImageInputProps> = ({
   initialImage,
+  width,
+  height,
   imageHandler,
 }) => {
+  const [image, setImage] = useState(initialImage);
   const onImageInput = async (e: ChangeEvent<HTMLInputElement>) => {
-    const image = await readImage(e);
-    if (image) {
-      if (initialImage?.blob) URL.revokeObjectURL(initialImage.url);
-      imageHandler(image);
+    const newImage = await readImage(e);
+    if (newImage) {
+      if (image?.blob) URL.revokeObjectURL(image.url);
+      imageHandler(newImage);
+      setImage(newImage);
     }
   };
   return (
     <div className={classes.image_input}>
       <label htmlFor="image">Click</label>
-      <ImageComponent src={initialImage?.url || ""} alt="" />
+      {image?.url && (
+        <ImageComponent src={image.url} alt="" width={width} height={height} />
+      )}
       <input
         type="file"
         id="image"
