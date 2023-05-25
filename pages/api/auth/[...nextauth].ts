@@ -1,5 +1,6 @@
+import { createAccount, getUserId } from '@_utils/database/account/queries';
 import NextAuth from 'next-auth/next';
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from 'next-auth/providers/google';
 
 export default NextAuth({
 	session: {
@@ -9,7 +10,19 @@ export default NextAuth({
 	providers: [
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID!,
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET!
-		})
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+		}),
 	],
+	callbacks: {
+		async jwt({ token, account }) {
+			if (account) {
+				token.userId = await getUserId(token.email!);
+				if (!token.userId) {
+					token.userId = await createAccount(token.email!);
+				}
+			}
+			console.log(token);
+			return token;
+		},
+	},
 });
