@@ -1,6 +1,6 @@
 type UserInfo = {
     infos: Info[];
-    favorite_id: number | null;
+    favorite_id: number;
 }
 
 type Info = {

@@ -4,7 +4,7 @@ import { CartProvider } from '@_providers/cart/optimistic';
 import { NotificationProvider } from '@_providers/Notification/Notification';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
-import { AuthContextProvider } from './Auth/Auth';
+import { AuthContextProvider } from './UserInfo/UserInfo';
 
 interface ProvidersProps {
 	children: ReactNode;
@@ -20,11 +20,11 @@ const Providers: FunctionComponent<ProvidersProps> = ({ children }) => {
 	return (
 		<NotificationProvider>
 			<SessionProvider>
-				<AuthContextProvider>
-					<QueryClientProvider client={client}>
+				<QueryClientProvider client={client}>
+					<AuthContextProvider>
 						<CartProvider>{children}</CartProvider>
-					</QueryClientProvider>
-				</AuthContextProvider>
+					</AuthContextProvider>
+				</QueryClientProvider>
 			</SessionProvider>
 		</NotificationProvider>
 	);

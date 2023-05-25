@@ -1,4 +1,4 @@
-import { createAccount, getUserId } from '@_utils/database/account/queries';
+import { createAccount, getAccountId } from '@_utils/database/account/queries';
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 
@@ -16,13 +16,16 @@ export default NextAuth({
 	callbacks: {
 		async jwt({ token, account }) {
 			if (account) {
-				token.userId = await getUserId(token.email!);
-				if (!token.userId) {
-					token.userId = await createAccount(token.email!);
+				token.accountId = await getAccountId(token.email!);
+				if (!token.accountId) {
+					token.accountId = await createAccount(token.email!);
 				}
 			}
-			console.log(token);
 			return token;
+		},
+		session({ session, token }: { session: any; token: any }) {
+			session.accountId = token.accountId;
+			return session;
 		},
 	},
 });

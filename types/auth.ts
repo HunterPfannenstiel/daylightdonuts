@@ -8,5 +8,5 @@ export type UserSession = {
 }
 
 export type UserToken = {
-    userId: number;
+    accountId: number;
 } & Session;
