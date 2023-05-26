@@ -1,12 +1,11 @@
 import {
-  ItemRange,
+  ItemDateRange,
   MenuItemDetials,
   SelectedExtraGroupings,
   SelectedItemCategories,
   SelectedWeekdays,
   UpdateRangeAvailability,
 } from "@_types/admin/forms";
-
 import { useRef, useState } from "react";
 
 const useCollectModalInfo = (
@@ -15,7 +14,7 @@ const useCollectModalInfo = (
   initialExtraGroupings?: SelectedExtraGroupings,
   initialItemCategories?: SelectedItemCategories,
   initialWeekdays?: SelectedWeekdays,
-  iniitalRanges?: ItemRange[]
+  iniitalRanges?: ItemDateRange
 ) => {
   const menuItemDetails = useRef<MenuItemDetials>(
     initialDetails || initialItemDetails
@@ -76,9 +75,9 @@ const useCollectModalInfo = (
 
   const selectedWeekdays = useRef<SelectedWeekdays>(initialWeekdays || {});
 
-  const [availabilityRanges, setAvailabilityRanges] = useState<ItemRange[]>(
-    iniitalRanges || []
-  );
+  const [availabilityRange, setAvailabilityRange] = useState<
+    ItemDateRange | undefined
+  >(iniitalRanges);
 
   const updateWeekdayAvailability = (key: number) => {
     if (selectedWeekdays.current[key]) {
@@ -88,14 +87,8 @@ const useCollectModalInfo = (
     }
   };
 
-  const updateAvailableRange = (update: UpdateRangeAvailability) => {
-    setAvailabilityRanges((prevState) => {
-      const copyState = [...prevState];
-      if (update.index) copyState.splice(update.index, 1);
-      else if (update.range)
-        copyState.push({ isNewRange: true, range: update.range });
-      return copyState;
-    });
+  const updateAvailableRange = (range: ItemDateRange | undefined) => {
+    setAvailabilityRange(range);
   };
 
   return {
@@ -109,7 +102,7 @@ const useCollectModalInfo = (
     updateItemCategories,
     selectedWeekdays: selectedWeekdays.current,
     updateWeekdayAvailability,
-    availabilityRanges,
+    availabilityRange,
     updateAvailableRange,
   };
 };

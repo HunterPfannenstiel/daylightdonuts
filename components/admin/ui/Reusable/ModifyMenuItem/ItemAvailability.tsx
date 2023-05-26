@@ -1,25 +1,21 @@
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent } from "react";
 import classes from "./ItemAvailability.module.css";
 import styles from "react-day-picker/dist/style.module.css";
 import { DayPicker } from "react-day-picker";
-import {
-  ItemRange,
-  SelectedWeekdays,
-  UpdateRangeAvailability,
-} from "@_types/admin/forms";
+import { ItemDateRange, SelectedWeekdays } from "@_types/admin/forms";
 
 //CHECKBOX
 
 interface ItemAvailabilityProps {
   selectedWeekdays: SelectedWeekdays;
-  availabilityRanges: ItemRange[];
+  availabilityRange: ItemDateRange | undefined;
   updateWeekdayHandler: (key: number) => void;
-  updateRangeHandler: (update: UpdateRangeAvailability) => void;
+  updateRangeHandler: (range: ItemDateRange | undefined) => void;
 }
 
 const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
   selectedWeekdays,
-  availabilityRanges,
+  availabilityRange,
   updateWeekdayHandler,
   updateRangeHandler,
 }) => {
@@ -39,39 +35,29 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
           </div>
         );
       })}
-      {availabilityRanges.length !== 0 && (
+      {availabilityRange && (
         <>
           <h2>Range Availability</h2>
-          {availabilityRanges.map((range, i) => {
-            {
-              range.isNewRange && (
-                <div>
-                  <p>{`From: ${range.range.from}`}</p>
-                  <button>Update</button>
-                  <button onClick={updateRangeHandler.bind(null, { index: i })}>
-                    X
-                  </button>
-                </div>
-              );
-            }
-            {
-              !range.isNewRange && (
-                <div>
-                  <p>{range.range}</p>
-                  <button onClick={updateRangeHandler.bind(null, { index: i })}>
-                    X
-                  </button>
-                </div>
-              );
-            }
-          })}
+          <div>
+            <p>{`From: ${availabilityRange.from} To: ${availabilityRange.to}`}</p>
+            <button>Update</button>
+            <button onClick={updateRangeHandler.bind(null, undefined)}>
+              X
+            </button>
+          </div>
         </>
       )}
       <DayPicker
         mode="range"
         classNames={classNames}
         onSelect={(range) => {
-          if (range) updateRangeHandler({ range });
+          if (range && range.from && range.to) {
+            const dateRange = {
+              from: range.from?.toISOString(),
+              to: range.to?.toISOString(),
+            };
+            updateRangeHandler(dateRange);
+          }
         }}
       />
     </fieldset>

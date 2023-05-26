@@ -50,20 +50,16 @@ export type SelectedItemCategories = {
   [categoryId: number]: { [subcategoryId: number]: boolean };
 };
 
+export type ItemDateRange = { from: string; to: string };
+
 export type UpdateRangeAvailability = {
   index?: number;
   range?: DateRange;
 };
 
-export type ItemRange =
-  | { isNewRange: true; range: DateRange }
-  | { isNewRange: false; range_availability_id: number; range: string };
-
 export type SelectedWeekdays = {
   [weekdayId: number]: boolean;
 };
-
-export type SelectedRanges = { [range: number]: boolean };
 
 export type NewMenuItemInfo = {
   details: MenuItemDetials;
@@ -76,18 +72,23 @@ export type NewMenuItemInfo = {
 export type NewDBItem = {
   name: string;
   price: number;
-  image: ClientImage;
+  images: Blob[];
   description: string;
-  groupingId: (number | string) | null;
-  extraGroups: (number | string)[] | null;
-  categories: (number | string)[] | null;
-  subcategories: (number | string)[] | null;
-  availableWeekdays: (number | string)[] | null;
-  availableRanges: string[] | null;
+  groupingId?: number | string;
+  extraGroups?: (number | string)[];
+  categories?: (number | string)[];
+  subcategories?: (number | string)[];
+  availableWeekdays?: (number | string)[];
+  availabilityRange?: ItemDateRange;
 };
 
 export type Customizations = {
   groupings: AvailableGrouping[];
   extra_groupings: AvailableExtraGrouping[];
   item_categories: AvailableItemCategory[];
+};
+
+export type ImageUpload = {
+  publicId: string;
+  imageUrl: string;
 };

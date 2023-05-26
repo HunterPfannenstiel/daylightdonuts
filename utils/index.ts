@@ -20,3 +20,23 @@ const formatPhoneNumber = (phoneNumber: string) => {
   const lastFour = phoneNumber.slice(8, 12);
   return `(${areaCode}) ${firstThree}-${lastFour}`;
 };
+
+export const createFormData = (
+  data?: { [key: string]: any },
+  imageArray?: { [key: string]: Array<Blob> }
+) => {
+  const formData = new FormData();
+  if (data) {
+    Object.keys(data).forEach((key) => {
+      formData.append(key, data[key]);
+    });
+  }
+  if (imageArray) {
+    Object.keys(imageArray).forEach((key) => {
+      imageArray[key].forEach((item) => {
+        formData.append(key, item);
+      });
+    });
+  }
+  return formData;
+};

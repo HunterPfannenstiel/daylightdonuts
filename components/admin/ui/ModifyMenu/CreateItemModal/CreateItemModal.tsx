@@ -12,6 +12,7 @@ import {
 import ItemExtras from "../../Reusable/ModifyMenuItem/ItemExtras";
 import ItemCategories from "../../Reusable/ModifyMenuItem/ItemCategories";
 import ItemAvailability from "../../Reusable/ModifyMenuItem/ItemAvailability";
+import { createFormData } from "@_utils/index";
 
 interface CreateItemModalProps {
   groupings: AvailableGrouping[];
@@ -30,7 +31,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
     setPageNum((prevState) => prevState + amount);
   };
 
-  const createItem = (e: FormEvent<HTMLFormElement>) => {
+  const createItem = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, price, image, description } = itemInfo.menuItemDetails;
     const groupingId = itemInfo.selectedGroupingId;
@@ -48,27 +49,35 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
     });
     const { selectedWeekdays } = itemInfo;
     const availableWeekdays = Object.keys(selectedWeekdays);
-    const { availabilityRanges } = itemInfo;
-    let availableRanges = availabilityRanges.map((range) => {
-      if (range.isNewRange) {
-        return `[${range.range.from?.toISOString()}-${range.range.to?.toISOString()}]`;
-      }
-    }) as string[];
-    availableRanges = availableRanges.filter((range) => !!range);
-
-    const item: NewDBItem = {
+    const { availabilityRange } = itemInfo;
+    const dataValues = {
       name,
       price: +(+price).toFixed(2),
-      image,
       description,
-      groupingId: groupingId || null,
-      extraGroups: extraGroups.length > 0 ? extraGroups : null,
-      categories: categories.length > 0 ? categories : null,
-      subcategories: subcategories.length > 0 ? subcategories : null,
-      availableWeekdays:
-        availableWeekdays.length > 0 ? availableWeekdays : null,
-      availableRanges: availableRanges.length > 0 ? availableRanges : null,
+      groupingId,
+      extraGroups: JSON.stringify(extraGroups),
+      categories: JSON.stringify(categories),
+      subcategories: JSON.stringify(subcategories),
+      availableWeekdays: JSON.stringify(availableWeekdays),
+      availabilityRange,
     };
+    // const arrayValues = {
+    //   images: [image.blob!],
+    //   extraGroups,
+    //   categories,
+    //   subcategories,
+    //   availableWeekdays,
+    // };
+    const formData = createFormData(dataValues, { images: [image.blob!] });
+    const res = await fetch("/api/admin/modify-menu/modify-item", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      console.log(data.message);
+    }
+    console.log("New item id", data.itemId);
   };
 
   return (
@@ -103,15 +112,22 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       {pageNum === 4 && (
         <ItemAvailability
           selectedWeekdays={itemInfo.selectedWeekdays}
-          availabilityRanges={itemInfo.availabilityRanges}
+          availabilityRange={itemInfo.availabilityRange}
           updateRangeHandler={itemInfo.updateAvailableRange}
           updateWeekdayHandler={itemInfo.updateWeekdayAvailability}
         />
       )}
       {pageNum !== 0 && (
-        <button onClick={flipPage.bind(null, -1)}>{"<"}</button>
+        <button type="button" onClick={flipPage.bind(null, -1)}>
+          {"<"}
+        </button>
       )}
-      {pageNum !== 4 && <button onClick={flipPage.bind(null, 1)}>{">"}</button>}
+      {pageNum !== 4 && (
+        <button type="button" onClick={flipPage.bind(null, 1)}>
+          {">"}
+        </button>
+      )}
+      {pageNum === 4 && <button type="submit">Submit</button>}
     </form>
   );
 };
