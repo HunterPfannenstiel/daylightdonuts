@@ -10,3 +10,11 @@ type Info = {
     email: string;
     id: number;
 }
+
+type FetchedInfo = {
+    info: UserInfo;
+    isSignedIn: boolean;
+}
+
+type UserInfoContext = {
+} & UserInfo;

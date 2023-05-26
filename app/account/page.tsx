@@ -4,35 +4,33 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import InfoContext from '../../components/providers/UserInfo/UserInfo';
 import classes from './AccountPage.module.css';
 import { Session } from 'next-auth';
-import { getSession, signIn, signOut } from 'next-auth/react';
+import { getSession, signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface AccountPageProps {}
 
 const AccountPage: FunctionComponent<AccountPageProps> = () => {
-	const [session, setSession] = useState<Session | null>(null);
+	const router = useRouter();
+	const { data, status } = useSession();
 	const infoCtx = useContext(InfoContext);
 
-	useEffect(() => {
-		getSession().then((res) => setSession(res));
-	}, []);
-
-	return (
-		<>
-			{session && (
-				<div>
-					<p>Welcome, {session.user!.name}!</p>
-					<p>{infoCtx.favorite_id ? infoCtx.favorite_id : 'null'}</p>
-					<button onClick={() => signOut()}>Sign out</button>
-				</div>
-			)}
-
-			{!session && 
-				<div>
-					<button onClick={() => signIn('google')}>Sign in!</button>
-				</div>
-			}
-		</>
-	);
+	if (status === 'loading') return <p>Loading...</p>;
+	else if (status === 'unauthenticated') {
+		router.push('/login');
+		return <></>;
+	} else {
+		return (
+			<>
+				{status && data && (
+					<div>
+						<p>Welcome, {data.user!.name}!</p>
+						<p>{infoCtx.favorite_id ? infoCtx.favorite_id : 'null'}</p>
+						<button onClick={() => signOut()}>Sign out</button>
+					</div>
+				)}
+			</>
+		);
+	}
 };
 
 export default AccountPage;
