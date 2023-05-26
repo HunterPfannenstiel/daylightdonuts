@@ -1,12 +1,14 @@
 import { FunctionComponent } from "react";
 import classes from "./ItemExtras.module.css";
 import {
-  AvailableExtraGroupings,
+  AvailableExtraGrouping,
   SelectedExtraGroupings,
 } from "@_types/admin/forms";
 
+//RADIO
+
 interface ItemExtrasProps {
-  groupings: AvailableExtraGroupings;
+  groupings: AvailableExtraGrouping[];
   selectedGroupings: SelectedExtraGroupings;
   updateSelectedGroupings: (
     category: string,
@@ -23,19 +25,19 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
     <fieldset>
       {groupings.map((group) => {
         return (
-          <div>
-            <h2>{group.category}</h2>
+          <div key={group.name}>
+            <h2>{group.name}</h2>
             <div>
               <div>
-                <label htmlFor={`none-${group.category}`}>None</label>
+                <label htmlFor={`none-${group.name}`}>None</label>
                 <input
                   type="radio"
-                  id={`none-${group.category}`}
-                  name={group.category}
-                  defaultChecked={!selectedGroupings[group.category]}
+                  id={`none-${group.name}`}
+                  name={group.name}
+                  defaultChecked={!selectedGroupings[group.name]}
                   onClick={updateSelectedGroupings.bind(
                     null,
-                    group.category,
+                    group.name,
                     undefined
                   )}
                 />
@@ -47,14 +49,14 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
                     <input
                       type="radio"
                       id={grouping.name}
-                      name={group.category}
+                      name={group.name}
                       defaultChecked={
-                        selectedGroupings[group.category] ===
+                        selectedGroupings[group.name] ===
                         grouping.extra_group_id
                       }
                       onClick={updateSelectedGroupings.bind(
                         null,
-                        group.category,
+                        group.name,
                         grouping.extra_group_id
                       )}
                     />

@@ -1,9 +1,11 @@
 import { FunctionComponent, useState } from "react";
 import classes from "./ItemGroupings.module.css";
-import { Grouping } from "@_types/admin/forms";
+import { AvailableGrouping } from "@_types/admin/forms";
+
+//RADIO
 
 interface ItemGroupingsProps {
-  availableGroupings: Grouping[];
+  availableGroupings: AvailableGrouping[];
   selectedId?: number;
   groupingSelectHandler: (selectedId: number | undefined) => void;
 }

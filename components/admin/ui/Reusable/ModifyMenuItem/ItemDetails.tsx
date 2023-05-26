@@ -2,7 +2,8 @@ import { FunctionComponent } from "react";
 import classes from "./ItemDetails.module.css";
 import ImageInput from "../Form/ImageInput";
 import { ClientImage, MenuItemDetials } from "@_types/admin/forms";
-import useMenuItemDetails from "@_hooks/admin/menu/useMenuItemDetails";
+
+//TEXT INPUTS
 
 interface ItemDetailsProps {
   initialDetails: {
