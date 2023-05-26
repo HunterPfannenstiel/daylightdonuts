@@ -47,7 +47,7 @@ export type AvailableItemCategory = {
  * Shape: {1: {1: true, 2: true}} //The item belongs to the Category with 'id' 1 and belongs to the Subcategories that belong to 'id' 1 and 2
  */
 export type SelectedItemCategories = {
-  [categoryId: number]: { [subcategoryId: number]: boolean } | undefined;
+  [categoryId: number]: { [subcategoryId: number]: boolean };
 };
 
 export type UpdateRangeAvailability = {
@@ -71,6 +71,19 @@ export type NewMenuItemInfo = {
   extraGroupingIds: number[];
   itemCategories: number[];
   itemSubcategories: number[];
+};
+
+export type NewDBItem = {
+  name: string;
+  price: number;
+  image: ClientImage;
+  description: string;
+  groupingId: (number | string) | null;
+  extraGroups: (number | string)[] | null;
+  categories: (number | string)[] | null;
+  subcategories: (number | string)[] | null;
+  availableWeekdays: (number | string)[] | null;
+  availableRanges: string[] | null;
 };
 
 export type Customizations = {

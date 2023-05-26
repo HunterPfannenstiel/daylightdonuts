@@ -40,6 +40,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
           onChange={(e) => {
             updateHandler("name", e.target.value);
           }}
+          required
           defaultValue={initialDetails.name}
           // value={itemDetails.name}
         />
@@ -52,6 +53,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
           onChange={(e) => {
             updateHandler("price", e.target.value);
           }}
+          required
           defaultValue={initialDetails.price}
           // value={itemDetails.price}
         />
@@ -63,6 +65,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
           onChange={(e) => {
             updateHandler("description", e.target.value);
           }}
+          required
           defaultValue={initialDetails.description}
           // value={itemDetails.description}
         />
