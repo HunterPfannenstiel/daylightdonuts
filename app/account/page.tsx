@@ -6,6 +6,7 @@ import classes from './AccountPage.module.css';
 import { Session } from 'next-auth';
 import { getSession, signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Account from 'components/ui/Account/Account';
 
 interface AccountPageProps {}
 
@@ -20,15 +21,7 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 
 	if (status === 'authenticated') {
 		return (
-			<>
-				{status && data && (
-					<div>
-						<p>Welcome, {data.user!.name}!</p>
-						<p>{infoCtx.favorite_id ? infoCtx.favorite_id : 'null'}</p>
-						<button onClick={() => signOut()}>Sign out</button>
-					</div>
-				)}
-			</>
+			<Account name={data.user!.name!}/>
 		);
 	}
 	return <p>Loading...</p>;

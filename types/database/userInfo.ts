@@ -1,9 +1,11 @@
-type UserInfo = {
+import { DBCartItem } from "./cart";
+
+export type UserInfo = {
     infos: Info[] | undefined;
     favorite_id: number | undefined;
 }
 
-type Info = {
+export type Info = {
     first_name: string;
     last_name: string;
     phone_number: string;
@@ -11,10 +13,14 @@ type Info = {
     id: number;
 }
 
-type FetchedInfo = {
+export type FetchedInfo = {
     info: UserInfo | null;
     isSignedIn: boolean;
 }
 
-type UserInfoContext = {
+export type UserInfoContext = {
 } & UserInfo;
+
+export type UserOrder = {
+    cart_id: number;
+} & DBCartItem

@@ -2,7 +2,7 @@
 import { FunctionComponent } from 'react';
 import classes from './LoginPage.module.css';
 import { signIn } from 'next-auth/react';
-import GoogleIcon from '../svg/GoogleIcon';
+import GoogleIcon from '../../svg/GoogleIcon';
 
 interface LoginPageProps {}
 

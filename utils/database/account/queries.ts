@@ -3,6 +3,7 @@ import { customerQuery } from "../connect";
 import { NextApiRequest } from "next";
 import { UserSession, UserToken } from "@_types/auth";
 import { getSession } from "next-auth/react";
+import { UserInfo, UserOrder } from "@_types/database/userInfo";
 
 export const getAccountId = async (userEmail: string) => {
 	const query = 'SELECT * FROM store.get_user_id($1)';
@@ -22,9 +23,14 @@ export const createAccount = async (email: string) => {
 	return res.rows[0].id as number;
 }
 
+export const getAccountOrders = async (accountId: number) => {
+	const query = 'SELECT * FROM store.view_account_orders($1)';
+	const res = await customerQuery(query, [accountId]);
+	return res.rows as UserOrder[];
+}
+
 export const getAccountIdFromSession = async (req: NextApiRequest) => {
 	const session = await getSession({req}) as UserToken;
-	console.log(session);
 	if (session) return session.accountId;
 	else return null;
 }

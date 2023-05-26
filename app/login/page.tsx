@@ -1,7 +1,7 @@
 'use client';
 import { FunctionComponent, useEffect } from 'react';
 import classes from './Login.module.css';
-import LoginPage from '../../components/ui/Account/LoginPage';
+import LoginPage from '../../components/ui/Account/Login/LoginPage';
 import { getSession, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 

@@ -1,3 +1,4 @@
+import { UserInfo } from "@_types/database/userInfo";
 import { getAccountIdFromSession, getUserInfo } from "@_utils/database/account/queries";
 import { NextApiHandler } from "next";
 
