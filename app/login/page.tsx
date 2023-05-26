@@ -8,15 +8,16 @@ import { useRouter } from 'next/navigation';
 interface LoginProps {}
 
 const Login: FunctionComponent<LoginProps> = () => {
-    const router = useRouter();
+	const router = useRouter();
 	const { data, status } = useSession();
 
-	if (status === 'loading') return <p>Loading...</p>;
-	else if (status === 'unauthenticated') return <LoginPage />;
-	else {
-		router.push('/account');
-		return <></>;
-	}
+	useEffect(() => {
+		if (status === 'authenticated') router.push('/account');
+	}, [status]);
+
+	if (status === 'unauthenticated') return <LoginPage />;
+
+	return <p>Loading...</p>;
 };
 
 export default Login;

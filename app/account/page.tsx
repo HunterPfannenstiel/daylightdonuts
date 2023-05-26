@@ -14,11 +14,11 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 	const { data, status } = useSession();
 	const infoCtx = useContext(InfoContext);
 
-	if (status === 'loading') return <p>Loading...</p>;
-	else if (status === 'unauthenticated') {
-		router.push('/login');
-		return <></>;
-	} else {
+	useEffect(() => {
+		if (status === 'unauthenticated') router.push('/login');
+	}, [status]);
+
+	if (status === 'authenticated') {
 		return (
 			<>
 				{status && data && (
@@ -31,6 +31,7 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 			</>
 		);
 	}
+	return <p>Loading...</p>;
 };
 
 export default AccountPage;

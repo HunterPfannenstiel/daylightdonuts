@@ -16,33 +16,22 @@ export default Context;
 export const AuthContextProvider: FunctionComponent<
 	React.PropsWithChildren
 > = ({ children }) => {
-	const infos = useRef<Info[]>([]);
-	const favoriteId = useRef<number>(0);
-
-	const updateFavoriteId = (id: number) => {
-		favoriteId.current = id;
-		console.log(favoriteId.current);
-	};
 
 	const fetchUserInfos = async () => {
 		const res = await fetch('/api/account/fetch-info');
 		if (!res.ok) {
 			throw new Error("Couldn't fetch user infos");
 		}
-		const userInfo = (await res.json()) as FetchedInfo;
-		infos.current = userInfo.info.infos;
-		favoriteId.current = userInfo.info.favorite_id;
-		console.log(userInfo.info.favorite_id);
-		return res;
+		return res.json();
 	};
 
-	useQuery({ queryKey: ['userInfos'], queryFn: fetchUserInfos });
+	const {data, status} = useQuery<UserInfo>({ queryKey: ['userInfos'], queryFn: fetchUserInfos });
 
 	return (
 		<Context.Provider
 			value={{
-				infos: infos.current,
-				favorite_id: favoriteId.current,
+				infos: data?.infos,
+				favorite_id: data?.favorite_id,
 			}}
 		>
 			{children}

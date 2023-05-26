@@ -21,7 +21,7 @@ const CartIcon: FunctionComponent<CartIconProps> = () => {
           r="9.49763"
           fill="#003472"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <circle
           cx="27.109"
@@ -29,7 +29,7 @@ const CartIcon: FunctionComponent<CartIconProps> = () => {
           r="9.49763"
           fill="#003472"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <circle
           cx="18.7461"
@@ -37,7 +37,7 @@ const CartIcon: FunctionComponent<CartIconProps> = () => {
           r="11.7471"
           fill="#003472"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
         />
         <rect
           x="4.49902"
@@ -46,13 +46,13 @@ const CartIcon: FunctionComponent<CartIconProps> = () => {
           height="5.99864"
           fill="#003472"
           stroke="#003472"
-          stroke-width="1.25"
+          strokeWidth="1.25"
         />
         <circle cx="18.7456" cy="14.2475" r="2.24949" fill="white" />
         <path
           d="M2.99903 18.746H34.7805M2.99903 18.746C2.99903 17.6501 3.63372 17.6501 3.63372 17.6501M2.99903 18.746V25.4945C2.99873 26.9942 2.99902 26.994 4.49869 26.9941H32.531C34.7805 26.9941 34.7805 26.9941 34.7805 25.4945V18.746M34.7805 18.746C34.7805 18.1692 35.0112 17.6501 34.2614 17.6501"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
         />
       </svg>
     </Link>

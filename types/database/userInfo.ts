@@ -1,6 +1,6 @@
 type UserInfo = {
-    infos: Info[];
-    favorite_id: number;
+    infos: Info[] | undefined;
+    favorite_id: number | undefined;
 }
 
 type Info = {
@@ -12,7 +12,7 @@ type Info = {
 }
 
 type FetchedInfo = {
-    info: UserInfo;
+    info: UserInfo | null;
     isSignedIn: boolean;
 }
 

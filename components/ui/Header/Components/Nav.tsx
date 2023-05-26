@@ -8,7 +8,7 @@ import Cart from './Cart';
 import MobileMenu from './MobileMenu';
 import useAnimateModal from '@_hooks/animation/useAnimateModal';
 import { Session } from 'next-auth';
-import { getSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 
 interface NavProps {
 	sticky?: boolean;
@@ -18,19 +18,11 @@ const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
 	const stick = sticky ? classes.sticky : '';
 	const { showModal, playAnimation, handleModal } = useAnimateModal(300);
 	const [animateIn, setAnimateIn] = useState(false);
-	const [session, setSession] = useState<Session | null>(null);
+	const { data, status } = useSession();
 	const handleLoadComplete = () => {
 		setAnimateIn(true);
 	};
 	const animate = animateIn ? classes.animate_in : '';
-
-	useEffect(() => {
-		const fetchSession = async () => {
-			const res = await getSession();
-			setSession(res);
-		};
-		fetchSession();
-	}, []);
 
 	return (
 		<nav className={classes.navbar + ' ' + stick}>
@@ -62,12 +54,15 @@ const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
 				</ul>
 				<ul className={classes.header_icons}>
 					<li>
-						{session && (
+						{status === 'loading' ||
+							(status === 'unauthenticated' && (
+								<Link href={'/login'}>Login</Link>
+							))}
+						{status === 'authenticated' && (
 							<Link href={'/account'}>
 								<Profile />
 							</Link>
 						)}
-						{!session && <Link href={'/login'}>Login</Link>}
 					</li>
 					<li>
 						<Cart />
