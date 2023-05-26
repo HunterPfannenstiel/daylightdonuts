@@ -38,7 +38,7 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
               })}
             />
             <label htmlFor={category.name}>{category.name}</label>
-            {categoryIsSelected && (
+            {categoryIsSelected && category.subcategories[0].name && (
               <div>
                 {category.subcategories.map((subcategory) => {
                   return (

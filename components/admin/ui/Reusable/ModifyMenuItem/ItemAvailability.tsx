@@ -28,7 +28,7 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
       <h2>Weekdays</h2>
       {weekdays.map((weekday) => {
         return (
-          <div>
+          <div key={weekday.weekday_id}>
             <label htmlFor={weekday.weekday}>{weekday.weekday}</label>
             <input
               id={weekday.weekday}

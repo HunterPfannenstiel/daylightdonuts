@@ -44,7 +44,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
               </div>
               {group.extra_groupings.map((grouping) => {
                 return (
-                  <div>
+                  <div key={grouping.name}>
                     <label htmlFor={grouping.name}>{grouping.name}</label>
                     <input
                       type="radio"

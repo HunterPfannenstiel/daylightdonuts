@@ -72,3 +72,9 @@ export type NewMenuItemInfo = {
   itemCategories: number[];
   itemSubcategories: number[];
 };
+
+export type Customizations = {
+  groupings: AvailableGrouping[];
+  extra_groupings: AvailableExtraGrouping[];
+  item_categories: AvailableItemCategory[];
+};
