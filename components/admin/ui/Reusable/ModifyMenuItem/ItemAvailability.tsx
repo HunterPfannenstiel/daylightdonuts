@@ -3,6 +3,7 @@ import classes from "./ItemAvailability.module.css";
 import styles from "react-day-picker/dist/style.module.css";
 import { DayPicker } from "react-day-picker";
 import { ItemDateRange, SelectedWeekdays } from "@_types/admin/forms";
+import Fieldset from "../Form/Fieldset";
 
 //CHECKBOX
 
@@ -20,7 +21,7 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
   updateRangeHandler,
 }) => {
   return (
-    <fieldset>
+    <Fieldset legend="Availability">
       <h2>Weekdays</h2>
       {weekdays.map((weekday) => {
         return (
@@ -60,7 +61,7 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
           }
         }}
       />
-    </fieldset>
+    </Fieldset>
   );
 };
 

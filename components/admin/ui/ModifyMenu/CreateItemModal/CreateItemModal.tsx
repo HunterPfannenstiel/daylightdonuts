@@ -81,7 +81,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
   };
 
   return (
-    <form onSubmit={createItem}>
+    <form onSubmit={createItem} className={classes.form}>
       {pageNum === 0 && (
         <ItemDetails
           initialDetails={itemInfo.menuItemDetails}
@@ -117,17 +117,26 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
           updateWeekdayHandler={itemInfo.updateWeekdayAvailability}
         />
       )}
-      {pageNum !== 0 && (
-        <button type="button" onClick={flipPage.bind(null, -1)}>
+      <div className={classes.buttons}>
+        <button
+          type="button"
+          onClick={flipPage.bind(null, -1)}
+          disabled={pageNum === 0}
+        >
           {"<"}
         </button>
-      )}
-      {pageNum !== 4 && (
-        <button type="button" onClick={flipPage.bind(null, 1)}>
+
+        <button type="submit" disabled={pageNum !== 4}>
+          Submit
+        </button>
+        <button
+          type="button"
+          onClick={flipPage.bind(null, 1)}
+          disabled={pageNum === 4}
+        >
           {">"}
         </button>
-      )}
-      {pageNum === 4 && <button type="submit">Submit</button>}
+      </div>
     </form>
   );
 };

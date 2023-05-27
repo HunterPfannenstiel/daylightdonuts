@@ -1,0 +1,14 @@
+.form {
+    width: 50%;
+    margin-inline: auto;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons button:disabled {
+    color: red;
+}

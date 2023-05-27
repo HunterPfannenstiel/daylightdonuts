@@ -1,6 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import classes from "./ItemGroupings.module.css";
 import { AvailableGrouping } from "@_types/admin/forms";
+import Fieldset from "../Form/Fieldset";
 
 //RADIO
 
@@ -19,7 +20,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
     return <p>No groupings have been added to the store</p>;
   }
   return (
-    <fieldset>
+    <Fieldset legend="Groupings">
       <div>
         <label htmlFor="none">No Grouping</label>
         <input
@@ -44,7 +45,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
           </div>
         );
       })}
-    </fieldset>
+    </Fieldset>
   );
 };
 

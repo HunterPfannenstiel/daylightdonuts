@@ -4,6 +4,7 @@ import {
   AvailableExtraGrouping,
   SelectedExtraGroupings,
 } from "@_types/admin/forms";
+import Fieldset from "../Form/Fieldset";
 
 //RADIO
 
@@ -22,7 +23,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
   updateSelectedGroupings,
 }) => {
   return (
-    <fieldset>
+    <Fieldset legend="Extras">
       {groupings.map((group) => {
         return (
           <div key={group.name}>
@@ -67,7 +68,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
           </div>
         );
       })}
-    </fieldset>
+    </Fieldset>
   );
 };
 

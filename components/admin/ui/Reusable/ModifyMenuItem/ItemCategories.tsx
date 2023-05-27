@@ -4,6 +4,7 @@ import {
   AvailableItemCategory,
   SelectedItemCategories,
 } from "@_types/admin/forms";
+import Fieldset from "../Form/Fieldset";
 
 //CHECK BOXES
 
@@ -22,7 +23,7 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
   updateHandler,
 }) => {
   return (
-    <fieldset>
+    <Fieldset legend="Categories">
       {itemCategories.map((category) => {
         const categoryIsSelected =
           !!selectedCategories[category.item_category_id];
@@ -67,7 +68,7 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
           </div>
         );
       })}
-    </fieldset>
+    </Fieldset>
   );
 };
 

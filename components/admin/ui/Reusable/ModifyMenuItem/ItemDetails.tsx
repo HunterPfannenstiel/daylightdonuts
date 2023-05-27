@@ -2,6 +2,7 @@ import { FunctionComponent } from "react";
 import classes from "./ItemDetails.module.css";
 import ImageInput from "../Form/ImageInput";
 import { ClientImage, MenuItemDetials } from "@_types/admin/forms";
+import Fieldset from "../Form/Fieldset";
 
 //TEXT INPUTS
 
@@ -25,7 +26,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
     // updateItemDetails(key, value); //update state to display changes
   };
   return (
-    <fieldset>
+    <Fieldset legend="Item Details">
       <ImageInput
         imageHandler={updateHandler.bind(null, "image")}
         initialImage={initialDetails.image}
@@ -70,7 +71,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
           // value={itemDetails.description}
         />
       </div>
-    </fieldset>
+    </Fieldset>
   );
 };
 
