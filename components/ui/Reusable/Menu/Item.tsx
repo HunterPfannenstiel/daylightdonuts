@@ -10,7 +10,9 @@ interface ItemProps {
 
 const Item: FunctionComponent<ItemProps> = ({ item, button }) => {
   const image =
-    item.image === "imageURL" ? "/Images/DAYLIGHTDONUTS.png" : item.image;
+    item.image_url === "imageURL"
+      ? "/Images/DAYLIGHTDONUTS.png"
+      : item.image_url;
   const [animateIn, setAnimateIn] = useState(false);
   const handleLoadComplete = () => {
     setAnimateIn(true);

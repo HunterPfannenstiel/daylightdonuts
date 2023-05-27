@@ -23,7 +23,9 @@ const IItemPage: FunctionComponent<IItemPageProps> = ({
   backButtonHandler,
 }) => {
   const image =
-    item.image === "imageURL" ? "/Images/DAYLIGHTDONUTS.png" : item.image;
+    item.image_urls[0] === "imageURL"
+      ? "/Images/DAYLIGHTDONUTS.png"
+      : item.image_urls[0];
 
   return (
     <div className={classes.item + " " + className}>
