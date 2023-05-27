@@ -40,3 +40,8 @@ export const createFormData = (
   }
   return formData;
 };
+
+export const parseUndefinedToNull = (value: any) => {
+  if (value === "undefined" || value === "null") return null;
+  return value;
+};

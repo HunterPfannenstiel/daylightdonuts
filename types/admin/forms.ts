@@ -75,11 +75,11 @@ export type NewDBItem = {
   images: Blob[];
   description: string;
   groupingId?: number | string;
-  extraGroups?: (number | string)[];
-  categories?: (number | string)[];
-  subcategories?: (number | string)[];
-  availableWeekdays?: (number | string)[];
-  availabilityRange?: ItemDateRange;
+  extraGroups?: string; //JSON array of ids
+  categories?: string; //JSON array of ids;
+  subcategories?: string; //JSON array of ids;
+  availableWeekdays?: string; //JSON array of ids;
+  availabilityRange?: ItemDateRange | "undefined";
 };
 
 export type Customizations = {
