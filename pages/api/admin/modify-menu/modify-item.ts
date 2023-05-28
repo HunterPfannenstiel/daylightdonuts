@@ -20,7 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
       validateNewItem(newItem, files);
       images = await uploadManyImages(files);
       console.log(newItem);
-      const itemId = await createNewMenuItem(newItem, images[0].imageUrl); //PASS IN 'images'
+      const itemId = await createNewMenuItem(newItem, images); //PASS IN 'images'
       return res.status(200).json({ itemId });
     } else if (req.method === "PATCH") {
     } else {

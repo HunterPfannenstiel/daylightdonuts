@@ -60,14 +60,9 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       subcategories: JSON.stringify(subcategories),
       availableWeekdays: JSON.stringify(availableWeekdays),
       availabilityRange,
+      imageDisplayOrders: undefined,
     };
-    // const arrayValues = {
-    //   images: [image.blob!],
-    //   extraGroups,
-    //   categories,
-    //   subcategories,
-    //   availableWeekdays,
-    // };
+    //Implement multi-image select and imageDisplayOrders
     const formData = createFormData(dataValues, { images: [image.blob!] });
     const res = await fetch("/api/admin/modify-menu/modify-item", {
       method: "POST",

@@ -1,8 +1,11 @@
-import { Customizations, NewDBItem } from "@_types/admin/forms";
+import { Customizations, ImageUpload, NewDBItem } from "@_types/admin/forms";
 import { adminQuery } from "../connect";
 import { parseUndefinedToNull } from "@_utils/index";
 
-export const createNewMenuItem = async (item: NewDBItem, imageUrl: string) => {
+export const createNewMenuItem = async (
+  item: NewDBItem,
+  images: ImageUpload[]
+) => {
   const groupingId = parseUndefinedToNull(item.groupingId);
   const extraGroups = parseUndefinedToNull(item.extraGroups)
     ? JSON.parse(item.extraGroups!)
@@ -17,12 +20,20 @@ export const createNewMenuItem = async (item: NewDBItem, imageUrl: string) => {
     ? JSON.parse(item.availableWeekdays!)
     : null;
   const availabilityRange = parseUndefinedToNull(item.availabilityRange);
+  const imageDisplayOrders = parseUndefinedToNull(item.imageDisplayOrders)
+    ? JSON.parse(item.imageDisplayOrders!)
+    : null;
+  const displayImage = images.splice(0, 1);
+  const extraImages = images.length > 0 ? images : null;
+  extraImages?.forEach((img, i, arr) => {
+    arr[i].displayOrder = imageDisplayOrders[i];
+  });
   const query =
-    "CALL store.create_menu_item($1, $2, $3, $4, NULL, $5, $6, $7, $8, $9, $10)";
+    "CALL store.create_menu_item($1, $2, $3, $4, NULL, $5, $6, $7, $8, $9, $10, $11)";
   const res = await adminQuery(query, [
     item.name,
     item.price,
-    imageUrl,
+    displayImage,
     item.description,
     groupingId,
     extraGroups,
@@ -30,6 +41,7 @@ export const createNewMenuItem = async (item: NewDBItem, imageUrl: string) => {
     subcategories,
     avaiableWeekdays,
     availabilityRange,
+    extraImages,
   ]);
   return res.rows[0]?.item_id as number;
 };

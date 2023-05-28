@@ -80,6 +80,7 @@ export type NewDBItem = {
   subcategories?: string; //JSON array of ids;
   availableWeekdays?: string; //JSON array of ids;
   availabilityRange?: ItemDateRange | "undefined";
+  imageDisplayOrders?: string; //JSON array of display orders
 };
 
 export type Customizations = {
@@ -91,4 +92,5 @@ export type Customizations = {
 export type ImageUpload = {
   publicId: string;
   imageUrl: string;
+  displayOrder?: number;
 };
