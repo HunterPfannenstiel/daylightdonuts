@@ -23,4 +23,5 @@ export type UserInfoContext = {
 
 export type UserOrder = {
     cart_id: number;
-} & DBCartItem
+    cart: DBCartItem[];
+}

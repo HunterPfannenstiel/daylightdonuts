@@ -5,12 +5,14 @@ import { NotificationProvider } from '@_providers/Notification/Notification';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from 'next-auth/react';
 import { AuthContextProvider } from './UserInfo/UserInfo';
+import { Session } from 'next-auth';
 
 interface ProvidersProps {
 	children: ReactNode;
+	session: Session;
 }
 
-const Providers: FunctionComponent<ProvidersProps> = ({ children }) => {
+const Providers: FunctionComponent<ProvidersProps> = ({ children, session }) => {
 	const [client] = useState(
 		new QueryClient({
 			defaultOptions: { queries: { refetchOnWindowFocus: false } },
@@ -19,7 +21,7 @@ const Providers: FunctionComponent<ProvidersProps> = ({ children }) => {
 
 	return (
 		<NotificationProvider>
-			<SessionProvider>
+			<SessionProvider session={session}>
 				<QueryClientProvider client={client}>
 					<AuthContextProvider>
 						<CartProvider>{children}</CartProvider>
