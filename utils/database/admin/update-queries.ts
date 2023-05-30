@@ -1,6 +1,7 @@
 import { Customizations, ImageUpload, NewDBItem } from "@_types/admin/forms";
 import { adminQuery } from "../connect";
 import { parseUndefinedToNull } from "@_utils/index";
+import { Item } from "@_types/admin/modify-menu";
 
 export const createNewMenuItem = async (
   item: NewDBItem,
@@ -50,4 +51,20 @@ export const fetchItemCustomizations = async () => {
   const query = "SELECT * FROM store.fetch_item_customizations()";
   const res = await adminQuery(query);
   return res.rows[0] as Customizations;
+};
+
+export const fetchItems = async (
+  phrase: string | string[] | undefined,
+  includeArchived: boolean | null,
+  includeInactive: boolean | null
+) => {
+  if (!phrase || typeof phrase !== "string") phrase = "";
+  const query = "SELECT * FROM store.search_items($1, $2, $3)";
+  const res = await adminQuery(query, [
+    phrase,
+    includeArchived,
+    includeInactive,
+  ]);
+
+  return res.rows as Item[];
 };
