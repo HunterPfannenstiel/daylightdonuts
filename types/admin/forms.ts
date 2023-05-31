@@ -94,3 +94,15 @@ export type ImageUpload = {
   imageUrl: string;
   displayOrder?: number;
 };
+
+export type InitialItemSelections = {
+  initial_details: MenuItemDetials;
+  initial_group_id: number | null;
+  initial_extra_groupings: SelectedExtraGroupings | null;
+  initial_item_categories: SelectedItemCategories | null;
+  initial_weekdays: SelectedWeekdays | null;
+  initial_range: ItemDateRange | null;
+  extra_images: (ItemImage & { display_order: number }[]) | null;
+};
+
+type ItemImage = { url: string; id: number };

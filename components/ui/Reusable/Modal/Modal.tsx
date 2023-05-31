@@ -9,7 +9,9 @@ interface ModalProps {
 const Modal = ({ children, selector }: ModalProps) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
-    setMounted(true);
+    if (selector && children) {
+      setMounted(true);
+    }
     return () => setMounted(false);
   }, [selector]);
   return mounted

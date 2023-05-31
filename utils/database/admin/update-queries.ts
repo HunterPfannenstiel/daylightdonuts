@@ -1,8 +1,15 @@
-import { Customizations, ImageUpload, NewDBItem } from "@_types/admin/forms";
+import {
+  Customizations,
+  ImageUpload,
+  InitialItemSelections,
+  NewDBItem,
+} from "@_types/admin/forms";
 import { adminQuery } from "../connect";
 import { parseUndefinedToNull } from "@_utils/index";
 import { Item } from "@_types/admin/modify-menu";
+import { ServerError } from "custom-objects/ServerError";
 
+//Complex because formData must be sent to endpoint when working with images
 export const createNewMenuItem = async (
   item: NewDBItem,
   images: ImageUpload[]
@@ -67,4 +74,13 @@ export const fetchItems = async (
   ]);
 
   return res.rows as Item[];
+};
+
+export const fetchItemSelections = async (itemId: number) => {
+  const query = "SELECT * FROM store.fetch_item_selections($1)";
+  const res = await adminQuery(query, [itemId]);
+  if (res.rows.length < 1) {
+    throw new ServerError("Item not found in the database", 400);
+  }
+  return res.rows[0] as InitialItemSelections;
 };

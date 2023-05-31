@@ -136,15 +136,3 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
   );
 };
 export default CreateItemModal;
-
-// const fetchMenuCusomizations = async () => {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/customizations`
-//   );
-//   const data = await res.json();
-//   if (!res.ok) {
-//     throw new Error(data.message);
-//   }
-
-//   return data as Customizations;
-// };

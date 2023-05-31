@@ -30,7 +30,8 @@
       ],
       "@_utils/*": [
         "utils/*"
-      ]
+      ],
+      "@_admin-reuse/*": ["components/admin/ui/Reusable/*"]
     },
     "baseUrl": ".",
     "plugins": [
