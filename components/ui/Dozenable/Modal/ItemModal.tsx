@@ -26,7 +26,7 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
           <IItemPage
             item={item}
             extraPrice={0}
-            price={item.price}
+            price={+item.price}
             itemForm={<DozenableItemForm item={item} />}
             className={classes.page}
             backButtonHandler={handleModal}

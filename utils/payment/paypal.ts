@@ -5,6 +5,8 @@ import {
 import { OrderItem, PaypalItem } from "@_types/payment";
 import { getOrderExtraString } from ".";
 import PayPal from "@paypal/checkout-server-sdk";
+import { NextApiRequest } from "next";
+import { createVerify } from "crypto";
 
 export const getPurchaseUnitsAmountDetails = (
   orderAmount: string,
@@ -81,3 +83,87 @@ export const paypalClient = new PayPal.core.PayPalHttpClient(
 //   console.log("Reduction price", reductionPrice);
 //   return reductionPrice.toFixed(2);
 // };
+
+export const verifyPaypalWebhookV2 = async (req: NextApiRequest) => {
+  const transmissionId = req.headers["paypal-transmission-id"];
+  const transmissionTime = req.headers["paypal-transmission-time"];
+  const webhookId = process.env.PAYPAL_WEBHOOK_ID;
+  const signature = req.headers["paypal-transmission-sig"];
+
+  if (!transmissionId || !transmissionTime || !signature) return false;
+
+  const payload =
+    (transmissionId as string) +
+    transmissionTime +
+    webhookId +
+    JSON.stringify(req.body);
+
+  const response = await fetch(req.headers["paypal-cert-url"] as string);
+  const certificate = await response.json();
+  const verifier = createVerify(req.headers["paypal-auth-algo"] as string);
+  verifier.update(
+    (req.headers["paypal-transmission-id"] as string) +
+      req.headers["paypal-transmission-time"] +
+      process.env.PAYPAL_WEBHOOK_ID +
+      JSON.stringify(req.body),
+    "utf8"
+  );
+  const isSigValid = verifier.verify(
+    certificate,
+    req.headers["paypal-transmission-sig"] as string,
+    "base64"
+  );
+};
+
+export const verifyPayPalWebhook = async (req: NextApiRequest) => {
+  const accessToken = await generateAccessToken();
+  const url =
+    "https://api-m.sandbox.paypal.com/v1/notifications/verify-webhook-signature";
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      transmission_id: req.headers["paypal-transmission-id"],
+      transmission_time: req.headers["paypal-transmission-time"],
+      cert_url: req.headers["paypal-cert-url"],
+      auth_algo: req.headers["paypal-auth-algo"],
+      transmission_sig: req.headers["paypal-transmission-sig"],
+      webhook_id: process.env.PAYPAL_WEBHOOK_ID,
+      webhook_event: req.body,
+    }),
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error_description);
+  }
+  return data.verification_status === "SUCCESS";
+};
+
+const baseURL = {
+  sandbox: "https://api-m.sandbox.paypal.com",
+  production: "https://api-m.paypal.com",
+};
+
+export const generateAccessToken = async () => {
+  const { PAYPAL_CLIENT_SECRET: SECRET, NEXT_PUBLIC_PAYPAL_CLIENT_ID: ID } =
+    process.env;
+  const auth = Buffer.from(`${ID}:${SECRET}`).toString("base64");
+  const res = await fetch(`${baseURL.sandbox}/v1/oauth2/token`, {
+    method: "POST",
+    body: "grant_type=client_credentials",
+    headers: {
+      Authorization: `Basic ${auth}`,
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Could not generate access token");
+  }
+  const data = await res.json();
+  console.log(data.access_token);
+  return data.access_token;
+};

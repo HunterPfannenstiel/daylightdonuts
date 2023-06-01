@@ -1,7 +1,6 @@
 import { ExtraInfo } from "@_types/database/cart";
 import { ItemExtras } from "@_types/database/menu";
 import { FunctionComponent } from "react";
-import classes from "./Fieldset.module.css";
 import Select from "./Select";
 
 interface FieldsetProps {

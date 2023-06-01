@@ -1,6 +1,5 @@
 import { FunctionComponent } from "react";
 import { Metadata } from "next";
-import classes from "./Menu.module.css";
 import MenuPage from "components/ui/Menu/MenuPage";
 
 export const metadata: Metadata = {

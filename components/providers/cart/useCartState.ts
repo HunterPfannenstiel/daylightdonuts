@@ -96,11 +96,12 @@ const useCart = () => {
 
   const modifyCart = (
     cartModifier: CartModifier,
-    dbModifier: DBModifier,
+    dbModifier: DBModifier | null,
     timeoutTime: number
   ) => {
     //Add new updates to the queue
-    dbUpdates.addUpdates(dbModifier);
+    if (dbModifier) dbUpdates.addUpdates(dbModifier);
+
     //Mutate the state with cart modifier and pass in db updates
     mutation.mutate({
       updates: dbUpdates.updates,

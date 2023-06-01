@@ -4,15 +4,15 @@ import Price from "./Price";
 import classes from "./ICheckoutForm.module.css";
 import CustomerInfo from "./CustomerForm/CustomerInfo";
 import PaymentForm from "./PaymentForm/PaymentForm";
-import {
-  CustomerFormInfo,
-  OrderTimeDetails,
-  initialCustomerInfo,
-  initialOrderTimeDetails,
-} from "@_types/database/checkout";
 import MenuButton from "components/ui/Reusable/Checkout/Buttons/MenuButton";
 import Spinner from "components/ui/Reusable/Spinner";
-import { highlightInvalidInput } from "@_utils/payment/form";
+import {
+  highlightInvalidInput,
+  isFormValid,
+  isValidClientEmail,
+  isValidClientPhone,
+} from "@_utils/payment/form";
+import { useNotification } from "@_providers/Notification/Notification";
 
 interface ICheckoutFormProps {
   subtotal: number;
@@ -25,49 +25,34 @@ const ICheckoutForm: FunctionComponent<ICheckoutFormProps> = ({
   playAnimation,
   showForm,
 }) => {
+  const { displayNotification } = useNotification();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isPayPalSelected, setIsPayPalSelected] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const customerFormInfo = useRef<CustomerFormInfo>(initialCustomerInfo);
-  const timeDetails = useRef<OrderTimeDetails>(initialOrderTimeDetails);
   const formClass = playAnimation ? classes.animate_out : "";
   const checkCustomerValidity = () => {
-    if (formRef.current) {
-      if (formRef.current.checkValidity()) {
-        return true;
-      } else {
-        highlightInvalidInput(formRef.current);
-        window.scroll(0, 0);
-        return false;
-      }
-    } else {
-      return false;
-    }
+    //[1 -> firstName, 2 -> lastName, 3 -> email, 4 -> phone, 5 -> location, 6 -> time, 7 -> date]
+    const { isValid, message } = isFormValid(formRef.current);
+    console.log(message);
+    if (message) displayNotification(message, "error", 5000);
+    return isValid;
   };
   return (
     <>
       {showForm && (
         <div className={classes.form_content + " " + formClass}>
           <form className={classes.form} ref={formRef}>
-            <CustomerInfo
-              customerInfo={customerFormInfo.current}
-              orderTimeDetails={timeDetails.current}
-            />
+            <CustomerInfo />
           </form>
           <PaymentForm
             className={classes.form}
-            customerInfo={{
-              ...timeDetails.current,
-              customerOrderInfo: customerFormInfo.current,
-              customerInfo: true,
-              accountId: null,
-              userInfoId: null,
-            }}
             setLoading={setIsLoading}
             checkCustomerForm={checkCustomerValidity}
+            setIsPayPalSelected={setIsPayPalSelected}
           />
           <Price subtotal={subtotal} tip={16.1} />
           <div className={classes.button_container}>
-            {!isLoading && (
+            {!isLoading && !isPayPalSelected && (
               <button
                 className={classes.button}
                 type="submit"

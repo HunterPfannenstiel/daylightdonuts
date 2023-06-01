@@ -57,13 +57,11 @@ export type CustomerInfo =
   | ({
       customerInfo: true;
       customerOrderInfo: CustomerFormInfo;
-      accountId: null;
       userInfoId: null;
     } & OrderTimeDetails)
   | ({
       customerInfo: false;
       customerOrderInfo: null;
-      accountId: number;
       userInfoId: number;
     } & OrderTimeDetails);
 
@@ -75,11 +73,32 @@ export const initialCustomerInfo: CustomerFormInfo = {
 };
 
 export const initialOrderTimeDetails: OrderTimeDetails = {
-  locationId: "0",
-  pickupDate: new Date().toISOString(),
-  pickupTimeId: "0",
+  locationId: "",
+  pickupDate: "",
+  pickupTimeId: "",
 };
+
+export type LocationDetails = {
+  common_name: string;
+  city: string;
+  state: string;
+  zip: string;
+  address: string;
+  phone_number: string;
+  location_id: number;
+  times: LocationTimes;
+};
+
+export type LocationTimes = { time: string; id: number }[];
 
 export type CreateOrder = {
   cartId: number;
 } & CustomerInfo;
+
+export type UserInfo = {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  user_info_id: number;
+  email: string;
+};

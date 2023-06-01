@@ -2,22 +2,28 @@ import { OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FunctionComponent } from "react";
 import classes from "./PayPal.module.css";
-import { CustomerInfo } from "@_types/database/checkout";
-import { postOptimisticOrder } from "@_utils/payment/stripe";
+import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
+import useSuccess from "@_hooks/checkout/useSuccess";
 
 interface PayPalProps {
-  customerInfo: CustomerInfo;
+  checkCustomerForm: () => boolean;
 }
 
-const PayPal: FunctionComponent<PayPalProps> = ({ customerInfo }) => {
+const PayPal: FunctionComponent<PayPalProps> = ({ checkCustomerForm }) => {
+  const completeOrder = useSuccess();
+  const { postOrder } = useCheckoutInfo();
   const orderHandler = async () => {
-    const response = await fetch("/api/cart/payment/create-paypal-request");
-    if (response.ok) {
-      const id = await response.json();
-      return id;
+    if (checkCustomerForm()) {
+      const response = await fetch("/api/cart/payment/create-paypal-request");
+      if (response.ok) {
+        const id = await response.json();
+        return id;
+      } else {
+        const error = await response.json();
+        return Promise.reject(error);
+      }
     } else {
-      const error = await response.json();
-      return Promise.reject(error);
+      return Promise.reject("Please fill in the form");
     }
   };
   const approveHandler = async (
@@ -26,8 +32,9 @@ const PayPal: FunctionComponent<PayPalProps> = ({ customerInfo }) => {
   ) => {
     if (actions.order) {
       try {
-        await postOptimisticOrder(customerInfo);
+        await postOrder();
         await actions.order.capture(); //This is important, it charges the user, if we don't do this, no funds are captured
+        completeOrder();
       } catch (error) {
         console.log(error);
       }

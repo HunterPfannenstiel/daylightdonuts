@@ -10,7 +10,7 @@ export const generateMetadata = async ({
 }: {
   params: { item: string };
 }): Promise<Metadata> => {
-  const item = await getItems(params);
+  const item = await getItem(params);
   return {
     title: `${item?.name} - Delicious and Fresh`,
     description: item?.description,
@@ -18,6 +18,22 @@ export const generateMetadata = async ({
       icon: item?.image,
     },
   };
+};
+
+const Item = async ({ params }: { params: { item: string } }) => {
+  const itemDetails = await getItem(params);
+  if (itemDetails) {
+    return <ItemPage item={itemDetails} />;
+  }
+  return <></>;
+};
+
+const getItem = async (params: { item: string }) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DOMAIN}/api/item?item=${params.item}`
+  );
+  const data = (await res.json()) as ItemT | undefined;
+  return data;
 };
 
 export const generateStaticParams = async () => {
@@ -28,21 +44,6 @@ export const generateStaticParams = async () => {
   });
 
   return params;
-};
-
-const getItems = async (params: { item: string }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/item?item=${params.item}`
-  );
-  const data = (await res.json()) as ItemT | undefined;
-  return data;
-};
-const Item = async ({ params }: { params: { item: string } }) => {
-  const itemDetails = await getItems(params);
-  if (itemDetails) {
-    return <ItemPage item={itemDetails} />;
-  }
-  return <></>;
 };
 
 export default Item;

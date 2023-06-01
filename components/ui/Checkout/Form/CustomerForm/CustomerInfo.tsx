@@ -1,24 +1,26 @@
-import { CustomerFormInfo, OrderTimeDetails } from "@_types/database/checkout";
+import { CustomerFormInfo } from "@_types/database/checkout";
 import { ChangeEvent, FunctionComponent } from "react";
 import Fieldset from "../Fieldset";
 import classes from "./CustomerInfo.module.css";
 import Input from "./Input";
 import PickupInfo from "./PickupInfo/PickupInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
 
-interface CustomerInfoProps {
-  customerInfo: CustomerFormInfo;
-  orderTimeDetails: OrderTimeDetails;
-}
+interface CustomerInfoProps {}
 
-const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
-  customerInfo,
-  orderTimeDetails,
-}) => {
+const CustomerInfo: FunctionComponent<CustomerInfoProps> = () => {
+  const {
+    customerFormInfo,
+    orderTimeDetails,
+    currentStoreTimes,
+    locations,
+    setSelectedLocationId,
+  } = useCheckoutInfo();
   const updateCustomerInfo = (
     e: ChangeEvent<HTMLInputElement>,
     keyName: keyof CustomerFormInfo
   ) => {
-    customerInfo[keyName] = e.target.value;
+    customerFormInfo[keyName] = e.target.value;
   };
 
   return (
@@ -67,7 +69,12 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
           }}
         />
       </div>
-      <PickupInfo orderTimeDetails={orderTimeDetails} />
+      <PickupInfo
+        orderTimeDetails={orderTimeDetails}
+        locationTimes={currentStoreTimes}
+        locations={locations}
+        setSelectedLocationId={setSelectedLocationId}
+      />
     </Fieldset>
   );
 };
