@@ -8,7 +8,7 @@ import {
 import { FunctionComponent } from 'react';
 import { getInitialInfo } from './util';
 import { useQuery } from '@tanstack/react-query';
-import { UserInfo } from '@_types/database/userInfo';
+import { Info, UpdatingInfo, UserInfo } from '@_types/database/userInfo';
 
 const Context = createContext(getInitialInfo());
 
@@ -30,11 +30,21 @@ export const AuthContextProvider: FunctionComponent<
 		queryFn: fetchUserInfos,
 	});
 
+	const editInfo = async (info: UpdatingInfo) => {
+		return false;
+	};
+
+	const deleteInfo = async (id: number) => {
+		return false;
+	};
+
 	return (
 		<Context.Provider
 			value={{
 				infos: data?.infos,
 				favorite_id: data?.favorite_id,
+				editInfo,
+				deleteInfo,
 			}}
 		>
 			{children}
