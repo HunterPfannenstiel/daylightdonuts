@@ -27,7 +27,8 @@ export const AuthContextProvider: FunctionComponent<
 		if (!res.ok) {
 			throw new Error("Couldn't fetch user infos");
 		}
-		return res.json();
+		const info = await res.json();
+		return info.info;
 	};
 
 	const { data } = useQuery<UserInfo>({
@@ -51,18 +52,39 @@ export const AuthContextProvider: FunctionComponent<
 	};
 
 	const editInfo = async (info: UpdatingInfo) => {
-		return false;
+		const res = await fetch('/api/account/edit-info', {
+			method: 'PUT',
+			body: JSON.stringify({ info }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (!res.ok) {
+			const error = await res.json();
+			console.log(error.message);
+		}
+		return res.ok;
 	};
 
 	const deleteInfo = async (id: number) => {
-		return false;
+		const res = await fetch('/api/account/edit-info?id=' + id, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (!res.ok) {
+			const error = await res.json();
+			console.log(error.message);
+		}
+		return res.ok;
 	};
 
 	return (
 		<Context.Provider
 			value={{
-				infos: data?.infos,
-				favorite_id: data?.favorite_id,
+				infos: data ? data.infos : null,
+				favorite_id: data ? data?.favorite_id : null,
 				addInfo,
 				editInfo,
 				deleteInfo,

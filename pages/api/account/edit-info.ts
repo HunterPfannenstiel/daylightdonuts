@@ -33,7 +33,7 @@ const handler: NextApiHandler = async (req, res) => {
 				});
 			}
 		} else if (req.method === 'DELETE') {
-			const info_id = req.body.info_id as number | undefined;
+			const info_id = req.query.id as number | undefined;
 			if (accountId && info_id) {
 				await deleteUserInfo(accountId, info_id);
 				res.status(204);

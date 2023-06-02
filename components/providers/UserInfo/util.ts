@@ -10,7 +10,7 @@ export type UserInfoContext = {
 export const getInitialInfo = (): UserInfoContext => {
 	return {
 		infos: [],
-		favorite_id: 0,
+		favorite_id: null,
 		async addInfo(info: AddUserInfo) {
 			return false;
 		},

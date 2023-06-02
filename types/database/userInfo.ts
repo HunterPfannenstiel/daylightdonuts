@@ -1,8 +1,8 @@
 import { DBCartItem } from './cart';
 
 export type UserInfo = {
-	infos: Info[] | undefined;
-	favorite_id: number | undefined;
+	infos: Info[] | null;
+	favorite_id: number | null;
 };
 
 export type Info = {
