@@ -30,6 +30,7 @@ const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
     <div>
       <p onClick={closeModal}>X</p>
       <ModalContents
+        id={id}
         selections={selections}
         groupings={groupings}
         extraGroupings={extraGroupings}

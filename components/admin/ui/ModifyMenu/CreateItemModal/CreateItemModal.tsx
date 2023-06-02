@@ -35,20 +35,10 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
     e.preventDefault();
     const { name, price, image, description } = itemInfo.menuItemDetails;
     const groupingId = itemInfo.selectedGroupingId;
-    const { selectedExtraGroupings } = itemInfo;
-    const extraGroups = Object.values(selectedExtraGroupings).filter(
-      (id) => !!id
-    ) as number[];
-    const { selectedItemCategories } = itemInfo;
-    const categories = Object.keys(selectedItemCategories).filter(
-      (key) => !!selectedItemCategories[+key]
-    );
-    const subcategories: string[] = [];
-    categories.forEach((id) => {
-      subcategories.push(...Object.keys(selectedItemCategories[+id]));
-    });
-    const { selectedWeekdays } = itemInfo;
-    const availableWeekdays = Object.keys(selectedWeekdays);
+    const extraGroups = itemInfo.dbHelpers.getSelectedExtraGroups();
+    const { categories, subcategories } =
+      itemInfo.dbHelpers.getSelectedCategories();
+    const availableWeekdays = itemInfo.dbHelpers.getSelectedWeekdays();
     const { availabilityRange } = itemInfo;
     const dataValues = {
       name,

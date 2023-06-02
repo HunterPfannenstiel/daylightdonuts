@@ -5,11 +5,13 @@ export type ClientImage = {
   blob?: Blob;
 };
 
-export type MenuItemDetials = {
+export type MenuItemDetails = {
   image: ClientImage;
   name: string;
   price: string;
   description: string;
+  isActive: boolean;
+  isArchived: boolean;
 };
 
 export type AvailableGrouping = {
@@ -62,7 +64,7 @@ export type SelectedWeekdays = {
 };
 
 export type NewMenuItemInfo = {
-  details: MenuItemDetials;
+  details: MenuItemDetails;
   groupingId: number;
   extraGroupingIds: number[];
   itemCategories: number[];
@@ -96,7 +98,7 @@ export type ImageUpload = {
 };
 
 export type InitialItemSelections = {
-  initial_details: MenuItemDetials;
+  initial_details: MenuItemDetails;
   initial_group_id: number | null;
   initial_extra_groupings: SelectedExtraGroupings | null;
   initial_item_categories: SelectedItemCategories | null;
@@ -106,3 +108,36 @@ export type InitialItemSelections = {
 };
 
 type ItemImage = { url: string; id: number };
+
+export type ModifyItem = {
+  itemId: number;
+  itemDetails?: string; //JSON of ModifyItemDetails;
+  addExtraGroups?: string; //JSON array of ids
+  removeExtraGroups?: string; //JSON array of ids
+  addCategories?: string; //JSON array of ids
+  removeCategories?: string; //JSON array of ids
+  addSubcategories?: string; //JSON array of ids,
+  removeSubcategories?: string; //JSON array of ids,
+  addWeekdays?: string; //JSON array of ids,
+  removeWeekdays?: string; //JSON array of ids,
+  addExtraImages?: ModifyItemImage[];
+  removeExtraImages?: string; //JSON array of ids
+};
+
+export type ModifyItemDetails = {
+  name: string | null;
+  price: string | null;
+  description: string | null;
+  groupingId: number | null;
+  displayImage: ModifyItemImage | null;
+  isActive: boolean | null;
+  isArchived: boolean | null;
+  availabilityRange: string | null;
+};
+
+type ModifyItemImage = {
+  imageId?: number;
+  imageUrl?: string | null;
+  publicId?: string | null;
+  displayOrder?: number;
+};

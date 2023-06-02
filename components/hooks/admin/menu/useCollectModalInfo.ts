@@ -1,27 +1,26 @@
 import {
   ItemDateRange,
-  MenuItemDetials,
+  MenuItemDetails,
   SelectedExtraGroupings,
   SelectedItemCategories,
   SelectedWeekdays,
-  UpdateRangeAvailability,
 } from "@_types/admin/forms";
 import { useRef, useState } from "react";
 
 const useCollectModalInfo = (
-  initialDetails?: MenuItemDetials,
+  initialDetails?: MenuItemDetails,
   initialGroupId?: number,
   initialExtraGroupings?: SelectedExtraGroupings,
   initialItemCategories?: SelectedItemCategories,
   initialWeekdays?: SelectedWeekdays,
   iniitalRanges?: ItemDateRange
 ) => {
-  const menuItemDetails = useRef<MenuItemDetials>(
+  const menuItemDetails = useRef<MenuItemDetails>(
     initialDetails || initialItemDetails
   );
 
-  const updateItemDetails = (key: keyof MenuItemDetials, value: any) => {
-    menuItemDetails.current[key] = value;
+  const updateItemDetails = (key: keyof MenuItemDetails, value: any) => {
+    menuItemDetails.current[key] = value as never;
   };
 
   const selectedGroupingId = useRef<number | undefined>(initialGroupId);
@@ -31,7 +30,7 @@ const useCollectModalInfo = (
   };
 
   const selectedExtraGroupings = useRef<SelectedExtraGroupings>(
-    initialExtraGroupings || {}
+    { ...initialExtraGroupings } || {}
   );
 
   const updateExtraGroupingIds = (key: string, value: number | undefined) => {
@@ -73,7 +72,9 @@ const useCollectModalInfo = (
     });
   };
 
-  const selectedWeekdays = useRef<SelectedWeekdays>(initialWeekdays || {});
+  const selectedWeekdays = useRef<SelectedWeekdays>(
+    { ...initialWeekdays } || {}
+  );
 
   const [availabilityRange, setAvailabilityRange] = useState<
     ItemDateRange | undefined
@@ -91,10 +92,30 @@ const useCollectModalInfo = (
     setAvailabilityRange(range);
   };
 
+  const getSelectedExtraGroups = (
+    groupings = selectedExtraGroupings.current
+  ) => {
+    return Object.values(groupings).filter((id) => !!id) as number[];
+  };
+
+  const getSelectedCategories = (cats = selectedItemCategories) => {
+    const categories = Object.keys(cats).filter((key) => !!cats[+key]);
+    const subcategories: string[] = [];
+    categories.forEach((id) => {
+      subcategories.push(...Object.keys(cats[+id]));
+    });
+
+    return { categories, subcategories };
+  };
+
+  const getSelectedWeekdays = (weekdays = selectedWeekdays.current) => {
+    return Object.keys(weekdays);
+  };
+
   return {
     menuItemDetails: menuItemDetails.current,
     updateItemDetails,
-    selectedGroupingId: selectedGroupingId.current,
+    selectedGroupingId: selectedGroupingId,
     updateGroupingId,
     selectedExtraGroupings: selectedExtraGroupings.current,
     updateExtraGroupingIds,
@@ -104,14 +125,21 @@ const useCollectModalInfo = (
     updateWeekdayAvailability,
     availabilityRange,
     updateAvailableRange,
+    dbHelpers: {
+      getSelectedExtraGroups,
+      getSelectedCategories,
+      getSelectedWeekdays,
+    },
   };
 };
 
 export default useCollectModalInfo;
 
-const initialItemDetails: MenuItemDetials = {
+const initialItemDetails: MenuItemDetails = {
   image: { url: "" },
   name: "",
   price: "",
   description: "",
+  isActive: true,
+  isArchived: false,
 };

@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import classes from "./ItemDetails.module.css";
 import ImageInput from "../Form/ImageInput";
-import { ClientImage, MenuItemDetials } from "@_types/admin/forms";
+import { ClientImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 
 //TEXT INPUTS
@@ -13,18 +13,13 @@ interface ItemDetailsProps {
     price: string;
     description: string;
   };
-  updateHandler: (key: keyof MenuItemDetials, value: any) => void;
+  updateHandler: (key: keyof MenuItemDetails, value: any) => void;
 }
 
 const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   initialDetails,
   updateHandler,
 }) => {
-  // const { itemDetails, updateItemDetails } = useMenuItemDetails(initialDetails);
-  const updateDetails = (key: keyof MenuItemDetials, value: any) => {
-    updateHandler(key, value); //store value in a localized ref
-    // updateItemDetails(key, value); //update state to display changes
-  };
   return (
     <Fieldset legend="Item Details">
       <ImageInput

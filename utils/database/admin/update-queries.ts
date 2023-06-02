@@ -2,6 +2,7 @@ import {
   Customizations,
   ImageUpload,
   InitialItemSelections,
+  ModifyItem,
   NewDBItem,
 } from "@_types/admin/forms";
 import { adminQuery } from "../connect";
@@ -52,6 +53,59 @@ export const createNewMenuItem = async (
     extraImages,
   ]);
   return res.rows[0]?.item_id as number;
+};
+
+export const modifyMenuItem = async (
+  item: ModifyItem,
+  images: ImageUpload[]
+) => {
+  const itemDetails = parseUndefinedToNull(item.itemDetails)
+    ? JSON.parse(item.itemDetails!)
+    : null;
+  const addExtraGroups = parseUndefinedToNull(item.addExtraGroups)
+    ? JSON.parse(item.addExtraGroups!)
+    : null;
+  const removeExtraGroups = parseUndefinedToNull(item.removeExtraGroups)
+    ? JSON.parse(item.removeExtraGroups!)
+    : null;
+  const addCategories = parseUndefinedToNull(item.addCategories)
+    ? JSON.parse(item.addCategories!)
+    : null;
+  const removeCategories = parseUndefinedToNull(item.removeCategories)
+    ? JSON.parse(item.removeCategories!)
+    : null;
+  const addSubcategories = parseUndefinedToNull(item.addSubcategories)
+    ? JSON.parse(item.addSubcategories!)
+    : null;
+  const removeSubcategories = parseUndefinedToNull(item.removeSubcategories)
+    ? JSON.parse(item.removeSubcategories!)
+    : null;
+  const addWeekdays = parseUndefinedToNull(item.addWeekdays)
+    ? JSON.parse(item.addWeekdays!)
+    : null;
+  const removeWeekdays = parseUndefinedToNull(item.removeWeekdays)
+    ? JSON.parse(item.removeWeekdays!)
+    : null;
+
+  const query =
+    "CALL store.modify_menu_item($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NULL)";
+
+  const res = await adminQuery(query, [
+    item.itemId,
+    itemDetails,
+    addExtraGroups,
+    removeExtraGroups,
+    addCategories,
+    removeCategories,
+    addSubcategories,
+    removeSubcategories,
+    addWeekdays,
+    removeWeekdays,
+    null,
+    null,
+  ]);
+
+  return res.rows as string[];
 };
 
 export const fetchItemCustomizations = async () => {

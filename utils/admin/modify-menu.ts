@@ -1,4 +1,4 @@
-import { NewDBItem } from "@_types/admin/forms";
+import { ItemDateRange, NewDBItem } from "@_types/admin/forms";
 import { parseUndefinedToNull } from "..";
 import { NextApiResponse } from "next";
 import { ServerError } from "custom-objects/ServerError";
@@ -26,4 +26,9 @@ export const sendErrorResponse = (error: any, res: NextApiResponse) => {
   }
   console.log("ERROR", error.message);
   return res.status(500).json({ message: "An unexpected error has occurred" });
+};
+
+export const formatDateRange = (range?: ItemDateRange | null) => {
+  if (!range) return range;
+  return `[${range.from}, ${range.to}]`;
 };

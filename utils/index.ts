@@ -23,9 +23,9 @@ const formatPhoneNumber = (phoneNumber: string) => {
 
 export const createFormData = (
   data?: { [key: string]: any },
-  imageArray?: { [key: string]: Array<Blob> }
+  imageArray?: { [key: string]: Array<Blob> },
+  formData = new FormData()
 ) => {
-  const formData = new FormData();
   if (data) {
     Object.keys(data).forEach((key) => {
       formData.append(key, data[key]);
