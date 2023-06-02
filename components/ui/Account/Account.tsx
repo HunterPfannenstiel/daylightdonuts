@@ -11,11 +11,23 @@ interface AccountProps {
 }
 
 const Account: FunctionComponent<AccountProps> = ({ name }) => {
-
+	const ctx = useContext(UserInfoContext);
 	return (
 		<div className={classes.container}>
 			<h1>Welcome, {name}!</h1>
 			<button onClick={() => signOut()}>Sign out</button>
+			<button
+				onClick={() => {
+					ctx.addInfo({
+						first_name: 'yoyo',
+						last_name: 'heyhey',
+						phone_number: '630645938',
+						favorite: true,
+					});
+				}}
+			>
+				Add Info
+			</button>
 			<OrderList />
 		</div>
 	);

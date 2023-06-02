@@ -15,18 +15,19 @@ export type Info = {
 
 export type UpdatingInfo = {
 	favorite: boolean;
-	should_update: boolean;
 } & Partial<Info>;
+
+export type AddUserInfo = {
+	first_name: string;
+	last_name: string;
+	phone_number: string;
+	favorite: boolean;
+};
 
 export type FetchedInfo = {
 	info: UserInfo | null;
 	isSignedIn: boolean;
 };
-
-export type UserInfoContext = {
-	editInfo: (info: UpdatingInfo) => Promise<boolean>;
-	deleteInfo: (id: number) => Promise<boolean>;
-} & UserInfo;
 
 export type UserOrder = {
 	cart_id: number;

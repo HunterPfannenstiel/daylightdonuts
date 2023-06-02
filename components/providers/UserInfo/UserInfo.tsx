@@ -8,7 +8,12 @@ import {
 import { FunctionComponent } from 'react';
 import { getInitialInfo } from './util';
 import { useQuery } from '@tanstack/react-query';
-import { Info, UpdatingInfo, UserInfo } from '@_types/database/userInfo';
+import {
+	AddUserInfo,
+	Info,
+	UpdatingInfo,
+	UserInfo,
+} from '@_types/database/userInfo';
 
 const Context = createContext(getInitialInfo());
 
@@ -30,6 +35,21 @@ export const AuthContextProvider: FunctionComponent<
 		queryFn: fetchUserInfos,
 	});
 
+	const addInfo = async (info: AddUserInfo) => {
+		const res = await fetch('/api/account/edit-info', {
+			method: 'POST',
+			body: JSON.stringify({ info }),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (!res.ok) {
+			const error = await res.json();
+			console.log(error.message);
+		}
+		return res.ok;
+	};
+
 	const editInfo = async (info: UpdatingInfo) => {
 		return false;
 	};
@@ -43,6 +63,7 @@ export const AuthContextProvider: FunctionComponent<
 			value={{
 				infos: data?.infos,
 				favorite_id: data?.favorite_id,
+				addInfo,
 				editInfo,
 				deleteInfo,
 			}}
