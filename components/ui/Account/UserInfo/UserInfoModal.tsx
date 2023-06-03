@@ -3,7 +3,7 @@ import classes from './UserInfoModal.module.css';
 import { AddUserInfo } from '@_types/database/userInfo';
 
 interface UserInfoModalProps {
-	callback: ({}: AddUserInfo) => Promise<boolean>;
+	callback: (info: AddUserInfo) => Promise<boolean>;
 }
 
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({ callback }) => {
@@ -21,15 +21,15 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({ callback }) => {
 			favorite: favoriteRef.current!.checked,
 		};
 		const success = await callback(enteredInfo);
-        if (success) {
-            firstNameRef.current!.value = "";
-            lastNameRef.current!.value = "";
-            phoneNumberRef.current!.value = "";
-            favoriteRef.current!.checked = false;
-            console.log("It worked!");
-        } else {
-            console.log("There was an error!");
-        }
+		if (success) {
+			firstNameRef.current!.value = '';
+			lastNameRef.current!.value = '';
+			phoneNumberRef.current!.value = '';
+			favoriteRef.current!.checked = false;
+			console.log('It worked!');
+		} else {
+			console.log('There was an error!');
+		}
 	};
 
 	return (

@@ -8,12 +8,10 @@ interface OrderListProps {}
 
 const OrderList: FunctionComponent<OrderListProps> = () => {
 	const fetchOrders = async () => {
-		console.log('Fetching orders...');
 		const res = await fetch('/api/account/fetch-orders');
 		if (!res.ok) {
 			throw new Error("Couldn't fetch orders");
 		}
-		console.log('Orders fetched!');
 		return res.json();
 	};
 

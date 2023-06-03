@@ -6,6 +6,7 @@ import { UserOrder } from '@_types/database/userInfo';
 import { signOut } from 'next-auth/react';
 import OrderList from './Orders/OrderList';
 import UserInfoModal from './UserInfo/UserInfoModal';
+import UserInfoList from './UserInfo/UserInfoList';
 
 interface AccountProps {
 	name: string;
@@ -17,6 +18,7 @@ const Account: FunctionComponent<AccountProps> = ({ name }) => {
 		<div className={classes.container}>
 			<h1>Welcome, {name}!</h1>
 			<button onClick={() => signOut()}>Sign out</button>
+			<UserInfoList />
 			<UserInfoModal callback={ctx.addInfo}/>
 			<OrderList />
 		</div>
