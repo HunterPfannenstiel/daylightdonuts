@@ -78,15 +78,14 @@ export type NewMenuItemInfo = {
 export type NewDBItem = {
   name: string;
   price: number;
-  images: Blob[];
   description: string;
   groupingId?: number | string;
   extraGroups?: string; //JSON array of ids
   categories?: string; //JSON array of ids;
   subcategories?: string; //JSON array of ids;
   availableWeekdays?: string; //JSON array of ids;
-  availabilityRange?: ItemDateRange | "undefined";
-  imageDisplayOrders?: string; //JSON array of display orders
+  availabilityRange?: string;
+  newImageDisplayOrder?: string; //JSON object mapping image name to display order
 };
 
 export type Customizations = {
@@ -99,6 +98,7 @@ export type ImageUpload = {
   publicId: string;
   imageUrl: string;
   displayOrder?: number;
+  name: string;
 };
 
 export type InitialItemSelections = {
@@ -122,8 +122,9 @@ export type ModifyItem = {
   removeSubcategories?: string; //JSON array of ids,
   addWeekdays?: string; //JSON array of ids,
   removeWeekdays?: string; //JSON array of ids,
-  addExtraImages?: ItemImage[];
   removeExtraImages?: string; //JSON array of ids
+  initialImages?: string; //JSON array of ItemImage
+  newImageDisplayOrder?: string; //JSON object mapping image name to display order
 };
 
 export type ModifyItemDetails = {

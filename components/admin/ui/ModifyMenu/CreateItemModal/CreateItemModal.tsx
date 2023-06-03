@@ -12,6 +12,7 @@ import {
 import ItemExtras from "../../Reusable/ModifyMenuItem/ItemExtras";
 import ItemCategories from "../../Reusable/ModifyMenuItem/ItemCategories";
 import ItemAvailability from "../../Reusable/ModifyMenuItem/ItemAvailability";
+import { formatDateRange } from "@_utils/admin/modify-menu";
 import { createFormData } from "@_utils/index";
 
 interface CreateItemModalProps {
@@ -40,21 +41,22 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       itemInfo.dbHelpers.getSelectedCategories();
     const availableWeekdays = itemInfo.dbHelpers.getSelectedWeekdays();
     const { availabilityRange } = itemInfo;
-    const dataValues = {
+    const { newImages, newImageDisplayOrder } =
+      itemInfo.dbHelpers.getImageDetails();
+    const dataValues: NewDBItem = {
       name,
       price: +(+price).toFixed(2),
       description,
-      groupingId,
+      groupingId: groupingId.current,
       extraGroups: JSON.stringify(extraGroups),
       categories: JSON.stringify(categories),
       subcategories: JSON.stringify(subcategories),
       availableWeekdays: JSON.stringify(availableWeekdays),
-      availabilityRange,
-      imageDisplayOrders: undefined,
+      availabilityRange: formatDateRange(availabilityRange) || undefined,
+      newImageDisplayOrder: JSON.stringify(newImageDisplayOrder),
     };
-    const images = itemInfo.itemImages;
     //Implement multi-image select and imageDisplayOrders
-    const formData = createFormData(dataValues, { images: [images[0].blob!] });
+    const formData = createFormData(dataValues, { images: newImages });
     const res = await fetch("/api/admin/modify-menu/modify-item", {
       method: "POST",
       body: formData,

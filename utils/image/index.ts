@@ -1,3 +1,4 @@
+import { MulterImage } from "@_types/admin/modify-menu";
 import multer from "multer";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -15,8 +16,9 @@ export const parseImage = async (
       resolve();
     });
   });
-  if (singleImage) return req.file as { buffer: Buffer };
-  return req.files as { buffer: Buffer }[];
+  console.log(req.files);
+  if (singleImage) return req.file as MulterImage;
+  return req.files as MulterImage[];
 };
 
 export const parseManyImages = async (
@@ -34,7 +36,5 @@ export const parseManyImages = async (
       }
     },
   }).array(imageKey, maxImageCount);
-  return (await parseImage(req, res, imageParser, false)) as {
-    buffer: Buffer;
-  }[];
+  return (await parseImage(req, res, imageParser, false)) as MulterImage[];
 };

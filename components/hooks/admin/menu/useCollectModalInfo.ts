@@ -55,13 +55,13 @@ const useCollectModalInfo = (
   const getImageDetails = () => {
     const newImageDisplayOrder = {} as any;
     const newImages: Blob[] = [];
-    const initialImages: ItemImage[] = [];
+    const initialImages: { imageId: number; displayOrder: number }[] = [];
     itemImages.forEach((image, i) => {
       if (image.blob) {
         newImageDisplayOrder[image.name!] = i;
         newImages.push(image.blob);
       } else {
-        initialImages.push({ ...image, displayOrder: i });
+        initialImages.push({ imageId: image.imageId!, displayOrder: i });
       }
     });
     return { newImageDisplayOrder, newImages, initialImages };

@@ -112,6 +112,18 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
 
     addWeekdays = addWeekdays!.length > 0 ? addWeekdays : undefined;
     removeWeekdays = removeWeekdays!.length > 0 ? removeWeekdays : undefined;
+    const { newImageDisplayOrder, newImages, initialImages } =
+      itemInfo.dbHelpers.getImageDetails();
+    let removeExtraImages = selections.initial_images
+      .filter((image) => {
+        for (let i = 0; i < initialImages.length; i++) {
+          if (initialImages[i].imageId === image.imageId) return false;
+        }
+        return true;
+      })
+      .map((image) => image.imageId!) as number[] | undefined;
+    removeExtraImages =
+      removeExtraImages!.length > 0 ? removeExtraImages : undefined;
     const item: ModifyItem = {
       itemId: id,
       itemDetails: JSON.stringify(itemDetails),
@@ -123,24 +135,22 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       removeSubcategories: JSON.stringify(removeSubcategories),
       addWeekdays: JSON.stringify(addWeekdays),
       removeWeekdays: JSON.stringify(removeWeekdays),
+      removeExtraImages: JSON.stringify(removeExtraImages),
+      initialImages: JSON.stringify(initialImages),
+      newImageDisplayOrder: JSON.stringify(newImageDisplayOrder),
     };
 
-    // addExtraImages?: ModifyItemImage[];
-    // removeExtraImages?: string; //JSON array of ids
+    const formData = createFormData(item, { images: newImages });
 
-    console.log(item);
+    const res = await fetch("/api/admin/modify-menu/modify-item", {
+      method: "PATCH",
+      body: formData,
+    });
 
-    // const formData = createFormData(item, { images: [] });
-
-    // const res = await fetch("/api/admin/modify-menu/modify-item", {
-    //   method: "PATCH",
-    //   body: formData,
-    // });
-
-    // if (!res.ok) {
-    //   const data = await res.json();
-    //   console.error(data);
-    // }
+    if (!res.ok) {
+      const data = await res.json();
+      console.error(data);
+    }
   };
   return (
     <form onSubmit={modifyItem}>

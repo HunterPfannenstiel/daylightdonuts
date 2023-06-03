@@ -22,7 +22,6 @@ const handler: NextApiHandler = async (req, res) => {
       const newItem = req.body as NewDBItem;
       validateNewItem(newItem, files);
       images = await uploadManyImages(files);
-      console.log(newItem);
       const itemId = await createNewMenuItem(newItem, images); //PASS IN 'images'
       return res.status(200).json({ itemId });
     } else if (req.method === "PATCH") {
@@ -31,7 +30,7 @@ const handler: NextApiHandler = async (req, res) => {
       images = await uploadManyImages(files);
       const removedPublicIds = await modifyMenuItem(modifications, images);
       if (removedPublicIds.length > 0) deleteManyImages(removedPublicIds);
-      return res.status(200);
+      return res.status(200).json({ message: "Success!" });
     } else {
       return res.status(400).json({ message: "Invalid method" });
     }

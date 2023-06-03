@@ -6,7 +6,6 @@ const Menu = async () => {
   const items = await fetchItems();
   const { groupings, extra_groupings, item_categories } =
     await fetchMenuCusomizations();
-  console.log(items);
   return (
     <ModifyMenu
       items={items}

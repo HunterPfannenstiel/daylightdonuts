@@ -2,6 +2,7 @@ import {
   Customizations,
   ImageUpload,
   InitialItemSelections,
+  ItemImage,
   ModifyItem,
   NewDBItem,
 } from "@_types/admin/forms";
@@ -29,14 +30,14 @@ export const createNewMenuItem = async (
     ? JSON.parse(item.availableWeekdays!)
     : null;
   const availabilityRange = parseUndefinedToNull(item.availabilityRange);
-  const imageDisplayOrders = parseUndefinedToNull(item.imageDisplayOrders)
-    ? JSON.parse(item.imageDisplayOrders!)
+  const imageDisplayOrders = parseUndefinedToNull(item.newImageDisplayOrder)
+    ? JSON.parse(item.newImageDisplayOrder!)
     : null;
-  const displayImage = images.splice(0, 1);
-  const extraImages = images.length > 0 ? images : null;
-  extraImages?.forEach((img, i, arr) => {
-    arr[i].displayOrder = imageDisplayOrders[i];
-  });
+  const newImages = getNewImageDisplayOrders(imageDisplayOrders, images);
+  const displayImage = newImages.find((img) => img.displayOrder === 0);
+  const extraImages = newImages.filter((img) => img.displayOrder !== 0);
+  console.log(displayImage);
+  console.log(extraImages);
   const query =
     "CALL store.create_menu_item($1, $2, $3, $4, NULL, $5, $6, $7, $8, $9, $10, $11)";
   const res = await adminQuery(query, [
@@ -50,7 +51,7 @@ export const createNewMenuItem = async (
     subcategories,
     avaiableWeekdays,
     availabilityRange,
-    extraImages,
+    JSON.stringify(extraImages),
   ]);
   return res.rows[0]?.item_id as number;
 };
@@ -59,7 +60,7 @@ export const modifyMenuItem = async (
   item: ModifyItem,
   images: ImageUpload[]
 ) => {
-  const itemDetails = parseUndefinedToNull(item.itemDetails)
+  let itemDetails = parseUndefinedToNull(item.itemDetails)
     ? JSON.parse(item.itemDetails!)
     : null;
   const addExtraGroups = parseUndefinedToNull(item.addExtraGroups)
@@ -86,7 +87,28 @@ export const modifyMenuItem = async (
   const removeWeekdays = parseUndefinedToNull(item.removeWeekdays)
     ? JSON.parse(item.removeWeekdays!)
     : null;
+  const removeImages = parseUndefinedToNull(item.removeExtraImages)
+    ? JSON.parse(item.removeExtraImages!)
+    : null;
 
+  const imageDisplayOrders = parseUndefinedToNull(item.newImageDisplayOrder)
+    ? JSON.parse(item.newImageDisplayOrder!)
+    : null;
+  const allImages = parseUndefinedToNull(item.initialImages)
+    ? (JSON.parse(item.initialImages!) as ItemImage[])
+    : [];
+
+  allImages.push(...getNewImageDisplayOrders(imageDisplayOrders, images));
+  const index = allImages.findIndex((img) => img.displayOrder === 0);
+  if (index !== -1) {
+    const image = allImages.splice(index, 1)[0];
+    console.log("Display Image", image);
+    if (itemDetails) {
+      itemDetails["displayImage"] = image;
+    } else {
+      itemDetails = { displayImage: image };
+    }
+  }
   const query =
     "CALL store.modify_menu_item($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NULL)";
 
@@ -101,10 +123,11 @@ export const modifyMenuItem = async (
     removeSubcategories,
     addWeekdays,
     removeWeekdays,
-    null,
-    null,
+    JSON.stringify(allImages),
+    removeImages,
   ]);
 
+  console.log("removed images", res.rows);
   return res.rows as string[];
 };
 
@@ -137,4 +160,15 @@ export const fetchItemSelections = async (itemId: number) => {
     throw new ServerError("Item not found in the database", 400);
   }
   return res.rows[0] as InitialItemSelections;
+};
+
+const getNewImageDisplayOrders = (mapping: any, images: ImageUpload[]) => {
+  return images.map((image) => {
+    const displayOrder = mapping[image.name];
+    return {
+      imageUrl: image.imageUrl,
+      publicId: image.publicId,
+      displayOrder,
+    } as ItemImage;
+  });
 };

@@ -1,4 +1,5 @@
 import { ImageUpload } from "@_types/admin/forms";
+import { MulterImage } from "@_types/admin/modify-menu";
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
 
@@ -8,7 +9,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-export const uploadImage = (buffer: Buffer) => {
+export const uploadImage = (buffer: Buffer, imageName: string) => {
   return new Promise<ImageUpload>((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       { folder: "menu-items" },
@@ -16,15 +17,21 @@ export const uploadImage = (buffer: Buffer) => {
         if (err) {
           reject(new Error(err.message));
         }
-        resolve({ imageUrl: result.secure_url, publicId: result.public_id });
+        resolve({
+          imageUrl: result.secure_url,
+          publicId: result.public_id,
+          name: imageName,
+        });
       }
     );
     streamifier.createReadStream(buffer).pipe(uploadStream);
   });
 };
 
-export const uploadManyImages = async (buffers: { buffer: Buffer }[]) => {
-  const promises = buffers.map((img) => uploadImage(img.buffer));
+export const uploadManyImages = async (buffers: MulterImage[]) => {
+  const promises = buffers.map((img) =>
+    uploadImage(img.buffer, img.originalname)
+  );
   return await Promise.all(promises);
 };
 

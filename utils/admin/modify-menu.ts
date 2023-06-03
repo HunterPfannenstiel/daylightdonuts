@@ -24,7 +24,7 @@ export const sendErrorResponse = (error: any, res: NextApiResponse) => {
   if (error instanceof ServerError) {
     return res.status(error.statusCode).json({ message: error.message });
   }
-  console.log("ERROR", error.message);
+  console.log("ERROR", error);
   return res.status(500).json({ message: "An unexpected error has occurred" });
 };
 
