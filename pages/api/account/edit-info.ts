@@ -15,8 +15,9 @@ const handler: NextApiHandler = async (req, res) => {
 			if (accountId && info) {
 				await addUserInfo(accountId, info);
 				res.status(204);
+				res.end();
 			} else {
-				res.status(400).json({
+				return res.status(400).json({
 					message:
 						'The user did not have an account or an info object was not supplied on the request body',
 				});
@@ -26,8 +27,9 @@ const handler: NextApiHandler = async (req, res) => {
 			if (accountId && info) {
 				await editUserInfo(accountId, info);
 				res.status(204);
+				res.end();
 			} else {
-				res.status(400).json({
+				return res.status(400).json({
 					message:
 						'The user did not have an account or an info object was not supplied on the request body',
 				});
@@ -37,6 +39,7 @@ const handler: NextApiHandler = async (req, res) => {
 			if (accountId && info_id) {
 				await deleteUserInfo(accountId, info_id);
 				res.status(204);
+				res.end();
 			} else {
 				res.status(400).json({
 					message:

@@ -1,0 +1,23 @@
+.form_container {
+    width: 500px;
+    margin: auto;
+    border: 2px solid black;
+    padding: 1rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.field label {
+    margin-right: 1rem;
+}
+
+.form button {
+    background-color: lightblue;
+    border-radius: 1rem;
+    width: 150px;
+    margin: auto;
+}
