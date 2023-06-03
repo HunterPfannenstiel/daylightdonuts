@@ -1,37 +1,25 @@
-import { ChangeEvent, FunctionComponent, useState } from "react";
+import { ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
-import { ClientImage } from "@_types/admin/forms";
-import ImageComponent from "next/image";
+import { ItemImage } from "@_types/admin/forms";
 
 interface ImageInputProps {
-  initialImage?: ClientImage | { url: string; blob: undefined };
-  width: number;
-  height: number;
-  imageHandler: (image: ClientImage) => void;
+  imageHandler: (images: ItemImage[]) => void;
 }
 
-const ImageInput: FunctionComponent<ImageInputProps> = ({
-  initialImage,
-  width,
-  height,
-  imageHandler,
-}) => {
-  const [image, setImage] = useState(initialImage);
+const ImageInput: FunctionComponent<ImageInputProps> = ({ imageHandler }) => {
   const onImageInput = async (e: ChangeEvent<HTMLInputElement>) => {
-    const newImage = await readImage(e);
-    if (newImage) {
-      if (image?.blob) URL.revokeObjectURL(image.url);
-      imageHandler(newImage);
-      setImage(newImage);
+    const imagePromises = readImages(e);
+    if (imagePromises) {
+      const images = await Promise.all(imagePromises);
+      console.log(images);
+      imageHandler(images);
     }
   };
   return (
     <div className={classes.image_input}>
       <label htmlFor="image">Click</label>
-      {image?.url && (
-        <ImageComponent src={image.url} alt="" width={width} height={height} />
-      )}
       <input
+        multiple
         type="file"
         id="image"
         accept="image/*"
@@ -46,13 +34,32 @@ export default ImageInput;
 
 const readImage = async (e: ChangeEvent<HTMLInputElement>) => {
   if (e.target.files && e.target.files.length > 0) {
-    return new Promise<ClientImage>((resolve) => {
+    return new Promise<ItemImage>((resolve) => {
       const img = new Image();
       const file = e.target.files![0];
       img.src = URL.createObjectURL(file);
       img.onload = () => {
-        resolve({ url: img.src, blob: file });
+        resolve({ imageUrl: img.src, blob: file });
       };
     });
+  }
+};
+
+const readImages = (e: ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    const imagePromises: Promise<ItemImage>[] = [];
+    for (let i = 0; i < e.target.files.length; i++) {
+      imagePromises.push(
+        new Promise<ItemImage>((resolve) => {
+          const img = new Image();
+          const file = e.target.files![i];
+          img.src = URL.createObjectURL(file);
+          img.onload = () => {
+            resolve({ imageUrl: img.src, blob: file, name: file.name });
+          };
+        })
+      );
+    }
+    return imagePromises;
   }
 };

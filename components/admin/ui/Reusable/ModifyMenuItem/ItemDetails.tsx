@@ -1,32 +1,37 @@
 import { FunctionComponent } from "react";
 import classes from "./ItemDetails.module.css";
 import ImageInput from "../Form/ImageInput";
-import { ClientImage, MenuItemDetails } from "@_types/admin/forms";
+import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
+import ImageModifications from "./ImageComponent/ImageModifications";
 
 //TEXT INPUTS
 
 interface ItemDetailsProps {
   initialDetails: {
-    image: ClientImage;
     name: string;
     price: string;
     description: string;
   };
+  images: ItemImage[];
+  addImages: (images: ItemImage[]) => void;
   updateHandler: (key: keyof MenuItemDetails, value: any) => void;
+  swapImages: (indexOne: number, indexTwo: number) => void;
 }
 
 const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   initialDetails,
+  images,
+  addImages,
   updateHandler,
+  swapImages,
 }) => {
   return (
     <Fieldset legend="Item Details">
-      <ImageInput
-        imageHandler={updateHandler.bind(null, "image")}
-        initialImage={initialDetails.image}
-        width={200}
-        height={200}
+      <ImageModifications
+        addImages={addImages}
+        images={images}
+        swapImages={swapImages}
       />
       <div>
         <label htmlFor="item-name">Name</label>

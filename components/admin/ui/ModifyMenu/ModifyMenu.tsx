@@ -25,38 +25,38 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
   itemCategories,
 }) => {
   const [selectedId, setSelectedId] = useState<number>();
-  return (
-    <>
-      <ul className={classes.menu_items}>
-        {items.map((item) => {
-          return (
-            <li key={item.name}>
-              <h2>{item.name}</h2>
-              <button onClick={setSelectedId.bind(null, item.menu_item_id)}>
-                Modify
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {selectedId && (
-        <ModifyItemModal
-          closeModal={setSelectedId.bind(null, undefined)}
-          id={selectedId}
-          groupings={groupings}
-          extraGroupings={extraGroupings}
-          itemCategories={itemCategories}
-        />
-      )}
-    </>
-  );
   // return (
-  // <CreateItemModal
-  //   groupings={customizations!.groupings}
-  //   extraGroupings={customizations!.extra_groupings}
-  //   itemCategories={customizations!.item_categories}
-  // />
+  //   <>
+  //     <ul className={classes.menu_items}>
+  //       {items.map((item) => {
+  //         return (
+  //           <li key={item.name}>
+  //             <h2>{item.name}</h2>
+  //             <button onClick={setSelectedId.bind(null, item.menu_item_id)}>
+  //               Modify
+  //             </button>
+  //           </li>
+  //         );
+  //       })}
+  //     </ul>
+  //     {selectedId && (
+  //       <ModifyItemModal
+  //         closeModal={setSelectedId.bind(null, undefined)}
+  //         id={selectedId}
+  //         groupings={groupings}
+  //         extraGroupings={extraGroupings}
+  //         itemCategories={itemCategories}
+  //       />
+  //     )}
+  //   </>
   // );
+  return (
+    <CreateItemModal
+      groupings={groupings}
+      extraGroupings={extraGroupings}
+      itemCategories={itemCategories}
+    />
+  );
 };
 
 export default ModifyMenu;

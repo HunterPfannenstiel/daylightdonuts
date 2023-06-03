@@ -40,7 +40,8 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     selections.initial_extra_groupings || undefined,
     selections.initial_item_categories || undefined,
     selections.initial_weekdays || undefined,
-    selections.initial_range || undefined
+    selections.initial_range || undefined,
+    selections.initial_images
   );
 
   const modifyItem = async (e: FormEvent) => {
@@ -144,6 +145,9 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   return (
     <form onSubmit={modifyItem}>
       <ItemDetails
+        images={itemInfo.itemImages}
+        swapImages={itemInfo.swapImages}
+        addImages={itemInfo.addImages}
         initialDetails={itemInfo.menuItemDetails}
         updateHandler={itemInfo.updateItemDetails}
       />
@@ -188,7 +192,6 @@ const getItemDetails = (
   const {
     name: newName,
     description: newDesc,
-    image,
     price: newPrice,
     isActive: newActive,
     isArchived: newArchive,

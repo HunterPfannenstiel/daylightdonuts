@@ -33,7 +33,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
 
   const createItem = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, price, image, description } = itemInfo.menuItemDetails;
+    const { name, price, description } = itemInfo.menuItemDetails;
     const groupingId = itemInfo.selectedGroupingId;
     const extraGroups = itemInfo.dbHelpers.getSelectedExtraGroups();
     const { categories, subcategories } =
@@ -52,8 +52,9 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       availabilityRange,
       imageDisplayOrders: undefined,
     };
+    const images = itemInfo.itemImages;
     //Implement multi-image select and imageDisplayOrders
-    const formData = createFormData(dataValues, { images: [image.blob!] });
+    const formData = createFormData(dataValues, { images: [images[0].blob!] });
     const res = await fetch("/api/admin/modify-menu/modify-item", {
       method: "POST",
       body: formData,
@@ -69,6 +70,9 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
     <form onSubmit={createItem} className={classes.form}>
       {pageNum === 0 && (
         <ItemDetails
+          images={itemInfo.itemImages}
+          swapImages={itemInfo.swapImages}
+          addImages={itemInfo.addImages}
           initialDetails={itemInfo.menuItemDetails}
           updateHandler={itemInfo.updateItemDetails}
         />
@@ -77,7 +81,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
         <ItemGroupings
           availableGroupings={groupings}
           groupingSelectHandler={itemInfo.updateGroupingId}
-          selectedId={itemInfo.selectedGroupingId}
+          selectedId={itemInfo.selectedGroupingId.current}
         />
       )}
       {pageNum === 2 && (

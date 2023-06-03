@@ -1,7 +1,7 @@
 import { MenuItem } from "@_types/database/menu";
-import Image from "next/image";
 import { FunctionComponent, ReactNode, useState } from "react";
 import classes from "./Item.module.css";
+import MenuItemImage from "../Image/MenuItemImage";
 
 interface ItemProps {
   item: MenuItem;
@@ -21,15 +21,12 @@ const Item: FunctionComponent<ItemProps> = ({ item, button }) => {
   return (
     <li className={classes.item}>
       <div className={classes.top}>
-        <div className={`${classes.image_container} ${animate}`}>
-          <Image
-            src={image}
-            alt={item.name}
-            width={500}
-            height={500}
-            onLoadingComplete={handleLoadComplete}
-          />
-        </div>
+        <MenuItemImage
+          className={animate}
+          imageUrl={image}
+          alt={item.name}
+          handleLoadComplete={handleLoadComplete}
+        />
       </div>
       <div className={classes.item_info}>
         <div className={classes.item_text}>

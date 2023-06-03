@@ -1,5 +1,6 @@
 import {
   ItemDateRange,
+  ItemImage,
   MenuItemDetails,
   SelectedExtraGroupings,
   SelectedItemCategories,
@@ -13,7 +14,8 @@ const useCollectModalInfo = (
   initialExtraGroupings?: SelectedExtraGroupings,
   initialItemCategories?: SelectedItemCategories,
   initialWeekdays?: SelectedWeekdays,
-  iniitalRanges?: ItemDateRange
+  iniitalRanges?: ItemDateRange,
+  initialImages?: ItemImage[]
 ) => {
   const menuItemDetails = useRef<MenuItemDetails>(
     initialDetails || initialItemDetails
@@ -21,6 +23,48 @@ const useCollectModalInfo = (
 
   const updateItemDetails = (key: keyof MenuItemDetails, value: any) => {
     menuItemDetails.current[key] = value as never;
+  };
+
+  const [itemImages, setItemImages] = useState(initialImages || []);
+
+  const swapImages = (indexOne: number, indexTwo: number) => {
+    setItemImages((prevState) => {
+      const copyState = [...prevState];
+      const temp = copyState[indexOne];
+      copyState[indexOne] = copyState[indexTwo];
+      copyState[indexTwo] = temp;
+      return copyState;
+    });
+  };
+
+  const addImages = (images: ItemImage[]) => {
+    setItemImages((prevState) => {
+      return [...prevState, ...images];
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setItemImages((prevState) => {
+      const copyState = [...prevState];
+      const removedImage = copyState.splice(index, 1)[0];
+      if (removedImage.blob) URL.revokeObjectURL(removedImage.imageUrl!);
+      return copyState;
+    });
+  };
+
+  const getImageDetails = () => {
+    const newImageDisplayOrder = {} as any;
+    const newImages: Blob[] = [];
+    const initialImages: ItemImage[] = [];
+    itemImages.forEach((image, i) => {
+      if (image.blob) {
+        newImageDisplayOrder[image.name!] = i;
+        newImages.push(image.blob);
+      } else {
+        initialImages.push({ ...image, displayOrder: i });
+      }
+    });
+    return { newImageDisplayOrder, newImages, initialImages };
   };
 
   const selectedGroupingId = useRef<number | undefined>(initialGroupId);
@@ -125,10 +169,15 @@ const useCollectModalInfo = (
     updateWeekdayAvailability,
     availabilityRange,
     updateAvailableRange,
+    itemImages,
+    swapImages,
+    addImages,
+    removeImage,
     dbHelpers: {
       getSelectedExtraGroups,
       getSelectedCategories,
       getSelectedWeekdays,
+      getImageDetails,
     },
   };
 };
@@ -136,7 +185,6 @@ const useCollectModalInfo = (
 export default useCollectModalInfo;
 
 const initialItemDetails: MenuItemDetails = {
-  image: { url: "" },
   name: "",
   price: "",
   description: "",

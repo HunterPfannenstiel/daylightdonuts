@@ -1,12 +1,16 @@
 import { DateRange } from "react-day-picker";
 
-export type ClientImage = {
-  url: string;
+export type ItemImage = {
+  imageId?: number;
+  imageUrl: string;
+  publicId?: string | null;
+  displayOrder?: number;
   blob?: Blob;
+  name?: string;
 };
 
 export type MenuItemDetails = {
-  image: ClientImage;
+  // 'image: ItemImage;'
   name: string;
   price: string;
   description: string;
@@ -104,10 +108,8 @@ export type InitialItemSelections = {
   initial_item_categories: SelectedItemCategories | null;
   initial_weekdays: SelectedWeekdays | null;
   initial_range: ItemDateRange | null;
-  extra_images: (ItemImage & { display_order: number }[]) | null;
+  initial_images: ItemImage[];
 };
-
-type ItemImage = { url: string; id: number };
 
 export type ModifyItem = {
   itemId: number;
@@ -120,7 +122,7 @@ export type ModifyItem = {
   removeSubcategories?: string; //JSON array of ids,
   addWeekdays?: string; //JSON array of ids,
   removeWeekdays?: string; //JSON array of ids,
-  addExtraImages?: ModifyItemImage[];
+  addExtraImages?: ItemImage[];
   removeExtraImages?: string; //JSON array of ids
 };
 
@@ -129,15 +131,8 @@ export type ModifyItemDetails = {
   price: string | null;
   description: string | null;
   groupingId: number | null;
-  displayImage: ModifyItemImage | null;
+  displayImage: ItemImage | null;
   isActive: boolean | null;
   isArchived: boolean | null;
   availabilityRange: string | null;
-};
-
-type ModifyItemImage = {
-  imageId?: number;
-  imageUrl?: string | null;
-  publicId?: string | null;
-  displayOrder?: number;
 };

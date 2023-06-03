@@ -1,0 +1,9 @@
+.images {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.images > * {
+    width: 50%;
+}
