@@ -3,3 +3,10 @@
     margin: auto;
     margin-bottom: 2rem;
 }
+
+.modal {
+    position: absolute;
+    right: 50%;
+    transform: translate(50%);
+    background-color: white;
+}

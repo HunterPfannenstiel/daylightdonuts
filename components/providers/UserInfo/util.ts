@@ -27,3 +27,56 @@ export const getInitialInfo = (): UserInfoContext => {
 		},
 	};
 };
+
+export const fetchUserInfos = async () => {
+	const res = await fetch('/api/account/fetch-info');
+	if (!res.ok) {
+		throw new Error("Couldn't fetch user infos");
+	}
+	const info = await res.json();
+	return info.info;
+};
+
+export const addInfo = async (info: AddUserInfo) => {
+	const res = await fetch('/api/account/edit-info', {
+		method: 'POST',
+		body: JSON.stringify({ info }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	if (!res.ok) {
+		const error = await res.json();
+		console.log(error.message);
+	}
+	return res.ok;
+};
+
+export const editInfo = async (info: UserInfo) => {
+	const res = await fetch('/api/account/edit-info', {
+		method: 'PUT',
+		body: JSON.stringify({ info }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	if (!res.ok) {
+		const error = await res.json();
+		console.log(error.message);
+	}
+	return res.ok;
+};
+
+export const deleteInfo = async (id: number) => {
+	const res = await fetch('/api/account/edit-info?id=' + id, {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+	if (!res.ok) {
+		const error = await res.json();
+		console.log(error.message);
+	}
+	return res.ok;
+};

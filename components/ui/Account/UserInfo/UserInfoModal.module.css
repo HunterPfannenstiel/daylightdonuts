@@ -21,3 +21,10 @@
     width: 150px;
     margin: auto;
 }
+
+.exit {
+    position: absolute;
+    background-color: white;
+    border: 2px solid black;
+    right: 0;
+}
