@@ -19,7 +19,6 @@ const Account: FunctionComponent<AccountProps> = ({ name }) => {
 			<h1>Welcome, {name}!</h1>
 			<button onClick={() => signOut()}>Sign out</button>
 			<UserInfoList />
-			<UserInfoModal callback={ctx.addInfo}/>
 			<OrderList />
 		</div>
 	);

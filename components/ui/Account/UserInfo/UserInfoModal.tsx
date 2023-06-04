@@ -3,10 +3,11 @@ import classes from './UserInfoModal.module.css';
 import { AddUserInfo } from '@_types/database/userInfo';
 
 interface UserInfoModalProps {
-	callback: (info: AddUserInfo) => Promise<boolean>;
+	callback: (info: AddUserInfo, infoId: number | null) => Promise<boolean>;
+	infoId: number | null;
 }
 
-const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({ callback }) => {
+const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({ callback, infoId }) => {
 	const firstNameRef = useRef<HTMLInputElement>(null);
 	const lastNameRef = useRef<HTMLInputElement>(null);
 	const phoneNumberRef = useRef<HTMLInputElement>(null);
@@ -20,7 +21,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({ callback }) => {
 			phone_number: phoneNumberRef.current!.value,
 			favorite: favoriteRef.current!.checked,
 		};
-		const success = await callback(enteredInfo);
+		const success = await callback(enteredInfo, infoId);
 		if (success) {
 			firstNameRef.current!.value = '';
 			lastNameRef.current!.value = '';

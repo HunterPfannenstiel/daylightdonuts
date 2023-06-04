@@ -10,9 +10,8 @@ import { getInitialInfo } from './util';
 import { useQuery } from '@tanstack/react-query';
 import {
 	AddUserInfo,
-	Info,
-	UpdatingInfo,
 	UserInfo,
+	FetchedUserInfo,
 } from '@_types/database/userInfo';
 
 const Context = createContext(getInitialInfo());
@@ -31,7 +30,7 @@ export const AuthContextProvider: FunctionComponent<
 		return info.info;
 	};
 
-	const { data } = useQuery<UserInfo>({
+	const { data } = useQuery<FetchedUserInfo>({
 		queryKey: ['userInfos'],
 		queryFn: fetchUserInfos,
 	});
@@ -51,7 +50,7 @@ export const AuthContextProvider: FunctionComponent<
 		return res.ok;
 	};
 
-	const editInfo = async (info: UpdatingInfo) => {
+	const editInfo = async (info: UserInfo) => {
 		const res = await fetch('/api/account/edit-info', {
 			method: 'PUT',
 			body: JSON.stringify({ info }),
@@ -85,6 +84,7 @@ export const AuthContextProvider: FunctionComponent<
 			value={{
 				infos: data ? data.infos : null,
 				favorite_id: data ? data?.favorite_id : null,
+				isSignedIn: data ? data.isSignedIn : false,
 				addInfo,
 				editInfo,
 				deleteInfo,

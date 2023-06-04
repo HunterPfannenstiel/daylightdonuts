@@ -5,8 +5,7 @@ import { UserSession, UserToken } from '@_types/auth';
 import { getSession } from 'next-auth/react';
 import {
 	AddUserInfo,
-	Info,
-	UpdatingInfo,
+	FetchedUserInfo,
 	UserInfo,
 	UserOrder,
 } from '@_types/database/userInfo';
@@ -21,7 +20,7 @@ export const getAccountId = async (userEmail: string) => {
 export const getUserInfo = async (accountId: number) => {
 	const query = 'SELECT * FROM store.get_user_infos($1)';
 	const res = await customerQuery(query, [accountId]);
-	return res.rows[0] as UserInfo;
+	return {...res.rows[0], isSignedIn: true} as FetchedUserInfo;
 };
 
 export const addUserInfo = async (accountId: number, info: AddUserInfo) => {
@@ -48,7 +47,7 @@ export const deleteUserInfo = async (accountId: number, info_id: number) => {
 	]);
 };
 
-export const editUserInfo = async (accountId: number, info: UpdatingInfo) => {
+export const editUserInfo = async (accountId: number, info: UserInfo) => {
 	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7)';
 	await customerQuery(query, [
 		accountId,
