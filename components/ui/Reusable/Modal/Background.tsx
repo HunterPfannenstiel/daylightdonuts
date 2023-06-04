@@ -6,6 +6,7 @@ interface BackgroundProps {
   handleModal: () => void;
   playAnimation: boolean;
   animationTime: number;
+  backgroundColor?: string;
 }
 
 const Background: FunctionComponent<BackgroundProps> = ({
@@ -13,6 +14,7 @@ const Background: FunctionComponent<BackgroundProps> = ({
   handleModal,
   playAnimation,
   animationTime,
+  backgroundColor,
 }) => {
   const className = `${classes.background} ${
     playAnimation ? classes.animate_out : ""
@@ -24,6 +26,7 @@ const Background: FunctionComponent<BackgroundProps> = ({
         {
           zIndex: zIndex,
           "--animation-time": `${animationTime}ms`,
+          backgroundColor,
         } as CSSProperties
       }
       onClick={handleModal}

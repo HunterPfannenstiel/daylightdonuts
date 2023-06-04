@@ -10,6 +10,7 @@ import {
 } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
 import ModifyItemModal from "./ModifyItemModal";
+import useAnimateModal from "@_hooks/animation/useAnimateModal";
 
 interface ModifyMenuProps {
   items: Item[];
@@ -25,6 +26,15 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
   itemCategories,
 }) => {
   const [selectedId, setSelectedId] = useState<number>();
+  const { handleModal, playAnimation, showModal } = useAnimateModal(300);
+  const openModal = (id: number) => {
+    setSelectedId(id);
+    handleModal();
+  };
+  const closeModal = () => {
+    setSelectedId(undefined);
+    handleModal();
+  };
   return (
     <>
       <ul className={classes.menu_items}>
@@ -32,17 +42,18 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
           return (
             <li key={item.name}>
               <h2>{item.name}</h2>
-              <button onClick={setSelectedId.bind(null, item.menu_item_id)}>
+              <button onClick={openModal.bind(null, item.menu_item_id)}>
                 Modify
               </button>
             </li>
           );
         })}
       </ul>
-      {selectedId && (
+      {showModal && (
         <ModifyItemModal
-          closeModal={setSelectedId.bind(null, undefined)}
-          id={selectedId}
+          playAnimation={playAnimation}
+          closeModal={closeModal}
+          id={selectedId!}
           groupings={groupings}
           extraGroupings={extraGroupings}
           itemCategories={itemCategories}

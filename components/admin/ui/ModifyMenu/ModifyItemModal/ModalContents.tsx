@@ -153,7 +153,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     }
   };
   return (
-    <form onSubmit={modifyItem}>
+    <form onSubmit={modifyItem} className={classes.form}>
       <ItemDetails
         images={itemInfo.itemImages}
         swapImages={itemInfo.swapImages}

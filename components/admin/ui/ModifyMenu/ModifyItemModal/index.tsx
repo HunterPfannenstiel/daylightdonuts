@@ -8,6 +8,7 @@ import {
   AvailableItemCategory,
 } from "@_types/admin/forms";
 import Modal from "components/ui/Reusable/Modal/Modal";
+import Background from "components/ui/Reusable/Modal/Background";
 
 interface ModifyItemModalProps {
   id: number;
@@ -15,6 +16,7 @@ interface ModifyItemModalProps {
   extraGroupings: AvailableExtraGrouping[];
   itemCategories: AvailableItemCategory[];
   closeModal: () => void;
+  playAnimation: boolean;
 }
 
 const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
@@ -23,20 +25,29 @@ const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
   extraGroupings,
   itemCategories,
   closeModal,
+  playAnimation,
 }) => {
   const { selections } = useItemSelections(id);
   if (!selections) return <p>Loading...</p>;
   return (
-    <div>
-      <p onClick={closeModal}>X</p>
-      <ModalContents
-        id={id}
-        selections={selections}
-        groupings={groupings}
-        extraGroupings={extraGroupings}
-        itemCategories={itemCategories}
+    <Modal selector="modal">
+      <div className={classes.modal}>
+        <p onClick={closeModal}>X</p>
+        <ModalContents
+          id={id}
+          selections={selections}
+          groupings={groupings}
+          extraGroupings={extraGroupings}
+          itemCategories={itemCategories}
+        />
+      </div>
+      <Background
+        backgroundColor="var(--primary-blue)"
+        handleModal={closeModal}
+        playAnimation={playAnimation}
+        animationTime={300}
       />
-    </div>
+    </Modal>
   );
 };
 

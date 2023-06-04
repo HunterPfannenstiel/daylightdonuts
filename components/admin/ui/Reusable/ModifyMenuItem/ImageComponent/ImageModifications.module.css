@@ -1,9 +1,27 @@
+.container {
+    display: flex;
+    margin-inline: 1rem;
+    gap: 1rem;
+}
+
+.container .images {
+    width: 75%;
+    overflow-x: scroll;
+}
+
+.container:last-child {
+    width: 25%;
+}
+
 .images {
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 
 .images > * {
-    width: 50%;
+    min-width: 50%;
+}
+
+.image p{
+    text-align: center;
 }

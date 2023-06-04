@@ -4,6 +4,7 @@ import ImageInput from "../Form/ImageInput";
 import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import ImageModifications from "./ImageComponent/ImageModifications";
+import TextInput from "@_admin-reuse/Form/TextInput";
 
 //TEXT INPUTS
 
@@ -27,50 +28,42 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   swapImages,
 }) => {
   return (
-    <Fieldset legend="Item Details">
+    <Fieldset>
       <ImageModifications
         addImages={addImages}
         images={images}
         swapImages={swapImages}
       />
-      <div>
-        <label htmlFor="item-name">Name</label>
-        <input
-          type="text"
-          id="item-name"
-          onChange={(e) => {
-            updateHandler("name", e.target.value);
-          }}
-          required
-          defaultValue={initialDetails.name}
-          // value={itemDetails.name}
-        />
-      </div>
-      <div>
-        <label htmlFor="item-price">Price</label>
-        <input
-          id="item-price"
-          type="number"
-          onChange={(e) => {
-            updateHandler("price", e.target.value);
-          }}
-          required
-          defaultValue={initialDetails.price}
-          // value={itemDetails.price}
-        />
-      </div>
-      <div>
-        <label htmlFor="item-description">Description</label>
-        <textarea
-          id="item-description"
-          onChange={(e) => {
-            updateHandler("description", e.target.value);
-          }}
-          required
-          defaultValue={initialDetails.description}
-          // value={itemDetails.description}
-        />
-      </div>
+      <TextInput
+        inputId="item-name"
+        label="Name"
+        inputType="text"
+        handler={(inputValue) => {
+          updateHandler("name", inputValue);
+        }}
+        required
+        defaultValue={initialDetails.name}
+      />
+      <TextInput
+        inputId="item-price"
+        label="Price"
+        inputType="number"
+        handler={(inputValue) => {
+          updateHandler("price", inputValue);
+        }}
+        required
+        defaultValue={initialDetails.price}
+      />
+      <TextInput
+        inputId="item-description"
+        label="Description"
+        handler={(inputValue) => {
+          updateHandler("description", inputValue);
+        }}
+        required
+        defaultValue={initialDetails.description}
+        isTextArea
+      />
     </Fieldset>
   );
 };

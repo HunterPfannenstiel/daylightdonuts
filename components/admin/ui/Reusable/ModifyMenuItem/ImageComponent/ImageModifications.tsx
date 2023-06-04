@@ -23,22 +23,23 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
     swapImages(+draggedImageIndex, index);
   };
   return (
-    <div>
-      <h2>Images!</h2>
+    <div className={classes.container}>
       <ul className={classes.images}>
         {images.map((image, i) => {
           return (
-            <ImageComponent
-              imageUrl={image.imageUrl}
-              index={i}
-              onImageDragged={onImageDragged}
-              onImageDropped={onImageDropped}
-            />
+            <div className={classes.image}>
+              <ImageComponent
+                imageUrl={image.imageUrl}
+                index={i}
+                onImageDragged={onImageDragged}
+                onImageDropped={onImageDropped}
+              />
+              <p>{i + 1}</p>
+            </div>
           );
         })}
       </ul>
-      <h2>Add images</h2>
-      <ImageInput imageHandler={addImages} />
+      <ImageInput imageHandler={addImages} width="25%" />
     </div>
   );
 };

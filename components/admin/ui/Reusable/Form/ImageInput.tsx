@@ -4,19 +4,21 @@ import { ItemImage } from "@_types/admin/forms";
 
 interface ImageInputProps {
   imageHandler: (images: ItemImage[]) => void;
+  width?: string;
 }
 
-const ImageInput: FunctionComponent<ImageInputProps> = ({ imageHandler }) => {
+const ImageInput: FunctionComponent<ImageInputProps> = ({
+  imageHandler,
+  width,
+}) => {
   const onImageInput = async (e: ChangeEvent<HTMLInputElement>) => {
-    const imagePromises = readImages(e);
-    if (imagePromises) {
-      const images = await Promise.all(imagePromises);
-      console.log(images);
+    const images = await readImages(e);
+    if (images) {
       imageHandler(images);
     }
   };
   return (
-    <div className={classes.image_input}>
+    <div className={classes.image_input} style={{ width, paddingTop: width }}>
       <label htmlFor="image">Click</label>
       <input
         multiple
@@ -60,6 +62,6 @@ const readImages = (e: ChangeEvent<HTMLInputElement>) => {
         })
       );
     }
-    return imagePromises;
+    return Promise.all(imagePromises);
   }
 };

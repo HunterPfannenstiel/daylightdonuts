@@ -20,7 +20,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
     return <p>No groupings have been added to the store</p>;
   }
   return (
-    <Fieldset legend="Groupings">
+    <Fieldset legend="Groupings" className={classes.groupings}>
       <div>
         <label htmlFor="none">No Grouping</label>
         <input
