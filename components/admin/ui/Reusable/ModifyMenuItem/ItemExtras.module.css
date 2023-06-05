@@ -1,0 +1,14 @@
+.extras {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 1rem;
+    justify-content: center;
+    margin-inline: auto;
+}
+
+.header {
+    font-weight: normal;
+    font-size: 1.2rem;
+    text-align: center;
+}

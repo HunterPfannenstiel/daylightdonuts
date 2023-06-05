@@ -94,7 +94,7 @@ const useCollectModalInfo = (
       const category = copyState[categoryId];
       if (!subcategoryId) {
         //Modifying a Category
-        if (category) {
+        if (category || category === null) {
           delete copyState[categoryId];
         } else copyState[categoryId] = {};
       } else {
@@ -143,19 +143,20 @@ const useCollectModalInfo = (
   };
 
   const getSelectedCategories = (cats = selectedItemCategories) => {
-    const categories = Object.keys(cats).filter((key) => !!cats[+key]);
+    const categories = Object.keys(cats).filter(
+      (key) => !!cats[+key] || cats[+key] === null
+    );
     const subcategories: string[] = [];
     categories.forEach((id) => {
-      subcategories.push(...Object.keys(cats[+id]));
+      const subcats = cats[+id];
+      if (subcats) subcategories.push(...Object.keys(subcats));
     });
 
     return { categories, subcategories };
   };
-
   const getSelectedWeekdays = (weekdays = selectedWeekdays.current) => {
     return Object.keys(weekdays);
   };
-
   return {
     menuItemDetails: menuItemDetails.current,
     updateItemDetails,

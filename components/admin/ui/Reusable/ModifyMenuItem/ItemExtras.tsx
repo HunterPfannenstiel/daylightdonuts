@@ -5,6 +5,7 @@ import {
   SelectedExtraGroupings,
 } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
+import Accordian from "components/ui/Reusable/Accordian";
 
 //RADIO
 
@@ -23,12 +24,16 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
   updateSelectedGroupings,
 }) => {
   return (
-    <Fieldset legend="Extras">
+    <Fieldset legend="Extras" className={classes.extras}>
       {groupings.map((group) => {
         return (
           <div key={group.name}>
-            <h2>{group.name}</h2>
-            <div>
+            <Accordian
+              RevealingContent={
+                <h2 className={classes.header}>{group.name}</h2>
+              }
+              maxChildrenHeight="70px"
+            >
               <div>
                 <label htmlFor={`none-${group.name}`}>None</label>
                 <input
@@ -64,7 +69,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
                   </div>
                 );
               })}
-            </div>
+            </Accordian>
           </div>
         );
       })}

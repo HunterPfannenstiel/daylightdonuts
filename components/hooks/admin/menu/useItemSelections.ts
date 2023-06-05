@@ -3,8 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 
 const useItemSelections = (id: number) => {
   const { data, isLoading, isError } = useQuery({
-    queryKey: [`selection-${id}`],
+    queryKey: [],
     queryFn: fetcher.bind(null, id),
+    cacheTime: 0,
   });
 
   return { selections: data, isLoading, isError };

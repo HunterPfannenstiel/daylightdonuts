@@ -19,6 +19,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
   if (availableGroupings.length === 0) {
     return <p>No groupings have been added to the store</p>;
   }
+  console.log(selectedId);
   return (
     <Fieldset legend="Groupings" className={classes.groupings}>
       <div>

@@ -28,7 +28,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   swapImages,
 }) => {
   return (
-    <Fieldset>
+    <Fieldset className={classes.details}>
       <ImageModifications
         addImages={addImages}
         images={images}

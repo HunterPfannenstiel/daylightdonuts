@@ -22,20 +22,21 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
 }) => {
   return (
     <Fieldset legend="Availability">
-      <h2>Weekdays</h2>
-      {weekdays.map((weekday) => {
-        return (
-          <div key={weekday.weekday_id}>
-            <label htmlFor={weekday.weekday}>{weekday.weekday}</label>
-            <input
-              id={weekday.weekday}
-              type="checkbox"
-              defaultChecked={selectedWeekdays[weekday.weekday_id]}
-              onChange={updateWeekdayHandler.bind(null, weekday.weekday_id)}
-            />
-          </div>
-        );
-      })}
+      <div className={classes.weekdays}>
+        {weekdays.map((weekday) => {
+          return (
+            <div key={weekday.weekday_id}>
+              <label htmlFor={weekday.weekday}>{weekday.weekday}</label>
+              <input
+                id={weekday.weekday}
+                type="checkbox"
+                defaultChecked={selectedWeekdays[weekday.weekday_id]}
+                onChange={updateWeekdayHandler.bind(null, weekday.weekday_id)}
+              />
+            </div>
+          );
+        })}
+      </div>
       {availabilityRange && (
         <>
           <h2>Range Availability</h2>

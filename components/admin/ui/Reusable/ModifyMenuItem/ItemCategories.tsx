@@ -23,10 +23,12 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
   updateHandler,
 }) => {
   return (
-    <Fieldset legend="Categories">
+    <Fieldset legend="Categories" className={classes.categories}>
       {itemCategories.map((category) => {
-        const categoryIsSelected =
-          !!selectedCategories[category.item_category_id];
+        const categoryIsSelected = !!(
+          selectedCategories[category.item_category_id] ||
+          selectedCategories[category.item_category_id] === null
+        );
         return (
           <div key={category.name}>
             <input
@@ -38,9 +40,11 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
                 subcategoryId: undefined,
               })}
             />
-            <label htmlFor={category.name}>{category.name}</label>
+            <label htmlFor={category.name} className={classes.cat_name}>
+              {category.name}
+            </label>
             {categoryIsSelected && category.subcategories[0].name && (
-              <div>
+              <div className={classes.subcategories}>
                 {category.subcategories.map((subcategory) => {
                   return (
                     <div key={subcategory.name}>

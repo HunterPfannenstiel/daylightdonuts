@@ -1,0 +1,17 @@
+.categories {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 45% 45%;
+    gap: 1rem;
+}
+
+.cat_name {
+    color: white;
+    text-align: center;
+}
+
+.subcategories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}

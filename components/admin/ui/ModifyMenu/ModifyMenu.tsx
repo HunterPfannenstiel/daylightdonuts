@@ -49,7 +49,7 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
           );
         })}
       </ul>
-      {showModal && (
+      {showModal && selectedId && (
         <ModifyItemModal
           playAnimation={playAnimation}
           closeModal={closeModal}

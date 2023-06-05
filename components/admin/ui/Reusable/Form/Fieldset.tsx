@@ -13,8 +13,8 @@ const Fieldset: FunctionComponent<FieldsetProps> = ({
   className,
 }) => {
   return (
-    <fieldset className={`${classes.fieldset} ${className ? className : ""}`}>
-      {legend && <legend>{legend}</legend>}
+    <fieldset className={`${className ? className : ""}`}>
+      {legend && <legend className={classes.legend}>{legend}</legend>}
       {children}
     </fieldset>
   );

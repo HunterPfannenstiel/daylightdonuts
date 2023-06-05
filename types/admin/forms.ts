@@ -53,7 +53,7 @@ export type AvailableItemCategory = {
  * Shape: {1: {1: true, 2: true}} //The item belongs to the Category with 'id' 1 and belongs to the Subcategories that belong to 'id' 1 and 2
  */
 export type SelectedItemCategories = {
-  [categoryId: number]: { [subcategoryId: number]: boolean };
+  [categoryId: number]: { [subcategoryId: number]: boolean } | null;
 };
 
 export type ItemDateRange = { from: string; to: string };
