@@ -42,3 +42,14 @@ export type IntervalButton<T> = {
 };
 
 export type IntervalChange<T> = (interval: T) => void;
+
+export type LabelCategory = {
+  categoryName: string; //item name
+  amount: number;
+  breakdown: LabelItem[];
+};
+
+type LabelItem = {
+  extras: Extra[];
+  amount: number;
+};
