@@ -4,12 +4,16 @@ import classes from "./HandleOrder.module.css";
 
 interface HandleOrderProps {
   onClick: () => void;
+  onPrintClick: () => void;
 }
 
-const HandleOrder: FunctionComponent<HandleOrderProps> = ({ onClick }) => {
+const HandleOrder: FunctionComponent<HandleOrderProps> = ({
+  onClick,
+  onPrintClick,
+}) => {
   return (
     <div className={classes.print}>
-      <button>Print</button>
+      <button onClick={onPrintClick}>Print</button>
       <Search onClick={onClick} />
     </div>
   );

@@ -15,8 +15,15 @@ export type DBOrder = {
   error_message: string | null;
   payment_processor: PaymentProcessor;
   payment_uid: string;
-  last_modified: Date;
+  created_on: Date;
   order_contents: LabelSection[];
+  price_details: OrderPriceDetails;
+};
+
+export type OrderPriceDetails = {
+  subtotal: number;
+  tax: number;
+  processor_fee: number | null;
 };
 
 export type OrderItemContent = {

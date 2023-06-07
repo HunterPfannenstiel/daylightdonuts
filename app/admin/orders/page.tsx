@@ -1,14 +1,9 @@
 import { DBOrder } from "@_types/admin/orders";
+import OrderItemList from "components/admin/ui/Orders/OrderItem/OrderItemList";
 
 const OrderPage = async () => {
   const orders = await getTodaysOrders();
-  return (
-    <>
-      {orders.map((order) => {
-        return <h2>{order.customer_info.name}</h2>;
-      })}
-    </>
-  );
+  return <OrderItemList orders={orders} />;
 };
 
 export default OrderPage;

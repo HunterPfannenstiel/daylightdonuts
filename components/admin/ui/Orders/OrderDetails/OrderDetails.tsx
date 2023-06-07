@@ -1,4 +1,4 @@
-import { PaymentProcessor } from "@_types/admin/orders";
+import { OrderPriceDetails, PaymentProcessor } from "@_types/admin/orders";
 import Background from "components/ui/Reusable/Modal/Background";
 import Modal from "components/ui/Reusable/Modal/Modal";
 import Link from "next/link";
@@ -10,6 +10,7 @@ interface OrderDetailsProps {
   email: string;
   paymentProcessor: PaymentProcessor;
   orderPlaced: Date;
+  priceDetails: OrderPriceDetails;
   handleModal: () => void;
   playAnimation: boolean;
   animationTime: number;
@@ -20,6 +21,7 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   email,
   paymentProcessor,
   orderPlaced,
+  priceDetails,
   handleModal,
   playAnimation,
   animationTime,
@@ -28,7 +30,7 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
     playAnimation ? classes.animate_out : ""
   }`;
   return (
-    <Modal selector="#modal">
+    <Modal selector="modal">
       <div className={className}>
         <h2>Payment Details</h2>
         <Link
@@ -38,7 +40,12 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
           View Payment Transaction
         </Link>
         <p>{`Email: ${email}`}</p>
-        <p>{`Order Placed: ${new Date(orderPlaced).toDateString()}`}</p>
+        <p>{`Order Placed: ${orderPlaced}`}</p>
+        <p>{`Subtotal: ${priceDetails.subtotal}`}</p>
+        <p>{`Tax: ${priceDetails.tax}`}</p>
+        <p>{`Total: ${(priceDetails.subtotal + priceDetails.tax).toFixed(
+          2
+        )}`}</p>
       </div>
       <Background
         handleModal={handleModal}
@@ -55,6 +62,8 @@ const getPaymentLink = (processor: PaymentProcessor, paymentId: string) => {
       return `https://dashboard.stripe.com/test/payments/${paymentId}`;
     case "PayPal":
       return "https://paypal.com";
+    default:
+      return "https://postmalone.com";
   }
 };
 

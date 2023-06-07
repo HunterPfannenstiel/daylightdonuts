@@ -18,17 +18,25 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({ order }) => {
       <IOrderItem
         className={classes.order}
         storeName={order.location}
-        customerName={order.name}
-        orderDate={order.date}
-        orderTime={order.time}
-        orderContents={getOrderContentString(order.order_contents)}
-        extraContent={<HandleOrder onClick={handleModal} />}
+        customerName={order.customer_info.name}
+        orderDate={order.pickup_date}
+        orderTime={order.pickup_time}
+        orderContents={"Get order contents string"}
+        extraContent={
+          <HandleOrder
+            onClick={handleModal}
+            onPrintClick={() => {
+              console.log("Print");
+            }}
+          />
+        }
       />
       {showModal && (
         <OrderDetails
-          paymentId={order.payment_id}
-          email={order.email}
-          orderPlaced={order.last_modified}
+          priceDetails={order.price_details}
+          paymentId={order.payment_uid}
+          email={order.customer_info.email}
+          orderPlaced={order.created_on}
           paymentProcessor={order.payment_processor}
           handleModal={handleModal}
           playAnimation={playAnimation}

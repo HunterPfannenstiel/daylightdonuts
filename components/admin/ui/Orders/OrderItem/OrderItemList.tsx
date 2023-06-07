@@ -1,3 +1,5 @@
+"use client";
+
 import { DBOrder } from "@_types/admin/orders";
 import { FunctionComponent } from "react";
 import OrderItem from "./OrderItem";
