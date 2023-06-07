@@ -1,4 +1,3 @@
-import { UserSession } from '@_types/auth';
 import {
 	AddUserInfo,
 	FetchedUserInfo,
@@ -37,7 +36,7 @@ export const fetchUserInfos = async () => {
 	return info.info;
 };
 
-export const addInfo = async (info: AddUserInfo) => {
+export const addUserInfo = async (info: AddUserInfo) => {
 	const res = await fetch('/api/account/edit-info', {
 		method: 'POST',
 		body: JSON.stringify({ info }),
@@ -49,7 +48,7 @@ export const addInfo = async (info: AddUserInfo) => {
 		const error = await res.json();
 		console.log(error.message);
 	}
-	return res.ok;
+	return await res.json() as number;
 };
 
 export const editInfo = async (info: UserInfo) => {
@@ -67,7 +66,7 @@ export const editInfo = async (info: UserInfo) => {
 	return res.ok;
 };
 
-export const deleteInfo = async (id: number) => {
+export const deleteUserInfo = async (id: number) => {
 	const res = await fetch('/api/account/edit-info?id=' + id, {
 		method: 'DELETE',
 		headers: {

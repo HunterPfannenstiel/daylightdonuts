@@ -8,36 +8,39 @@ import { UserInfo as UserInfoType } from '@_types/database/userInfo';
 interface UserInfoListProps {}
 
 const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
-	const [selectedUserInfo, setSelectedUserInfo] = useState<UserInfoType | null>(null);
+	const [showModal, setShowModal] = useState(false);
+	const [selectedUserInfo, setSelectedUserInfo] = useState<UserInfoType | null>(
+		null
+	);
 	const ctx = useContext(UserInfoContext);
 
 	const onClickHandler = async (info: UserInfoType | null) => {
-		setSelectedUserInfo((prev) => {
-			if (prev) return null;
-			else return info;
-		});
+		setSelectedUserInfo(info);
+		setShowModal(true);
 	};
 
 	const onSubmitHandler = async (info: UserInfoType) => {
 		if (info.id !== -1) {
 			const res = await ctx.editInfo({ ...info, id: info.id });
 			setSelectedUserInfo(null);
+			setShowModal(false);
 			return res;
 		} else {
 			const res = await ctx.addInfo(info);
 			setSelectedUserInfo(null);
+			setShowModal(false);
 			return res;
 		}
 	};
 
 	return (
 		<>
-			{selectedUserInfo && (
+			{showModal && (
 				<div className={classes.modal}>
 					<UserInfoModal
 						callback={onSubmitHandler}
 						info={selectedUserInfo}
-						exitHandler={() => onClickHandler(null)}
+						exitHandler={() => setShowModal(false)}
 					/>
 				</div>
 			)}
@@ -45,10 +48,11 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 				<h1>Stored Information</h1>
 				<button onClick={() => onClickHandler(null)}>Add Information</button>
 				<ul>
-					{ctx.infos?.map((info) => (
+					{ctx.infos?.map((info, idx) => (
 						<UserInfo
 							info={info}
 							key={info.id}
+							idx={idx}
 							onClickHandler={onClickHandler}
 							deleteHandler={ctx.deleteInfo}
 						/>

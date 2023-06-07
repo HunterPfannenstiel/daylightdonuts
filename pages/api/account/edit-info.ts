@@ -1,4 +1,4 @@
-import { AddUserInfo, UpdatingInfo } from '@_types/database/userInfo';
+import { AddUserInfo, UserInfo } from '@_types/database/userInfo';
 import {
 	addUserInfo,
 	deleteUserInfo,
@@ -13,8 +13,8 @@ const handler: NextApiHandler = async (req, res) => {
 		if (req.method === 'POST') {
 			const info = req.body.info as AddUserInfo | undefined;
 			if (accountId && info) {
-				await addUserInfo(accountId, info);
-				res.status(204);
+				const new_info_id = await addUserInfo(accountId, info);
+				res.status(200).json(new_info_id);
 				res.end();
 			} else {
 				return res.status(400).json({
@@ -23,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
 				});
 			}
 		} else if (req.method === 'PUT') {
-			const info = req.body.info as UpdatingInfo | undefined;
+			const info = req.body.info as UserInfo | undefined;
 			if (accountId && info) {
 				await editUserInfo(accountId, info);
 				res.status(204);

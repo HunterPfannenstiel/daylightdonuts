@@ -1,15 +1,17 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import classes from './UserInfo.module.css';
 import { UserInfo } from '@_types/database/userInfo';
 
 interface UserInfoProps {
 	info: UserInfo;
+	idx: number;
 	onClickHandler: (info: UserInfo) => void;
 	deleteHandler: (infoId: number) => void;
 }
 
 const UserInfo: FunctionComponent<UserInfoProps> = ({
 	info,
+	idx,
 	onClickHandler,
 	deleteHandler,
 }) => {
@@ -20,7 +22,7 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 			<p>{info.phone_number}</p>
 			<p>{info.favorite ? 'Favorite' : 'Not favorite'}</p>
 			<button onClick={() => onClickHandler(info)}>Select</button>
-			<button onClick={() => deleteHandler(info.id)}>Del</button>
+			<button onClick={() => deleteHandler(idx)}>Del</button>
 		</li>
 	);
 };

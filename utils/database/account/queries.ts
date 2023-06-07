@@ -20,23 +20,26 @@ export const getAccountId = async (userEmail: string) => {
 export const getUserInfo = async (accountId: number) => {
 	const query = 'SELECT * FROM store.get_user_infos($1)';
 	const res = await customerQuery(query, [accountId]);
-	return {...res.rows[0], isSignedIn: true} as FetchedUserInfo;
+	return { ...res.rows[0], isSignedIn: true } as FetchedUserInfo;
 };
 
 export const addUserInfo = async (accountId: number, info: AddUserInfo) => {
-	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5)';
-	await customerQuery(query, [
+	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6)';
+	const res = await customerQuery(query, [
+		null,
 		accountId,
 		info.first_name,
 		info.last_name,
 		info.phone_number,
 		info.favorite,
 	]);
+	return res.rows[0].new_info_id as number;
 };
 
 export const deleteUserInfo = async (accountId: number, info_id: number) => {
-	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7)';
+	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7, $8)';
 	await customerQuery(query, [
+		null,
 		accountId,
 		null,
 		null,
@@ -48,8 +51,9 @@ export const deleteUserInfo = async (accountId: number, info_id: number) => {
 };
 
 export const editUserInfo = async (accountId: number, info: UserInfo) => {
-	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7)';
+	const query = 'CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7, $8)';
 	await customerQuery(query, [
+		null,
 		accountId,
 		info.first_name,
 		info.last_name,
