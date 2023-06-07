@@ -34,7 +34,7 @@ export const buildLabel = (labelCategories) => {
 
 const getCategoryString = (category, xVal) => {
   const obj = {
-    string: `${category.categoryName} - ${category.amount}`,
+    string: `${category.name} - ${category.amount}`,
     x: xVal.nextX,
   };
   xVal.nextX += 0.38;

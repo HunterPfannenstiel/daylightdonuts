@@ -1,7 +1,6 @@
 import { Customizations } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
 import ModifyMenu from "components/admin/ui/ModifyMenu/ModifyMenu";
-import Script from "next/script";
 
 const Menu = async () => {
   const items = await fetchItems();
@@ -9,7 +8,6 @@ const Menu = async () => {
     await fetchMenuCusomizations();
   return (
     <>
-      <Script src="https://s3.amazonaws.com/download.dymo.com/dymo/Software/JavaScript/dymo.connect.framework.js" />
       <ModifyMenu
         items={items}
         groupings={groupings}

@@ -4,7 +4,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { buildLabel, previewLabel } from "@_utils/dymo";
 import classes from "./Home.module.css";
 import Image from "next/image";
-import { LabelCategory } from "@_types/admin/orders";
+import { LabelSection } from "@_types/admin/orders";
 
 declare global {
   interface Window {
@@ -37,13 +37,23 @@ const Home: FunctionComponent<HomeProps> = () => {
   );
 };
 
-const categories: LabelCategory[] = [
+const categories: LabelSection[] = [
   {
-    categoryName: "Glaze",
+    name: "Glaze",
     amount: 24,
     breakdown: [
-      { extras: [{ category: "Topping", extra: "Peanuts" }], amount: 12 },
-      { extras: [{ category: "Frosting", extra: "Chocolate" }], amount: 12 },
+      {
+        extras: [
+          { category: "Topping", extra: "Peanuts", abbreviation: "Nuts" },
+        ],
+        amount: 12,
+      },
+      {
+        extras: [
+          { category: "Frosting", extra: "Chocolate", abbreviation: "Choc." },
+        ],
+        amount: 12,
+      },
     ],
   },
 ];

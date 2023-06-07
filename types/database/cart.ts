@@ -25,6 +25,7 @@ export type ExtraDetails = {
 export type Extra = {
   category: string;
   extra: string;
+  abbreviation: string | null;
 };
 
 export type CartItem = {

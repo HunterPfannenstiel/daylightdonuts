@@ -2,16 +2,21 @@ import { Extra } from "@_types/database/cart";
 
 export type DBOrder = {
   order_id: string;
-  name: string;
-  email: string;
-  date: string;
-  time: string;
+  customer_info: {
+    name: string;
+    email: string;
+    phone_number: string;
+  };
+  pickup_date: string;
+  pickup_time: string;
   location: string;
-  printed: boolean;
+  is_printed: boolean;
+  is_verified: boolean;
+  error_message: string | null;
   payment_processor: PaymentProcessor;
-  payment_id: string;
+  payment_uid: string;
   last_modified: Date;
-  order_contents: OrderItemContent[];
+  order_contents: LabelSection[];
 };
 
 export type OrderItemContent = {
@@ -43,13 +48,13 @@ export type IntervalButton<T> = {
 
 export type IntervalChange<T> = (interval: T) => void;
 
-export type LabelCategory = {
-  categoryName: string; //item name
+export type LabelSection = {
+  name: string; //item name
   amount: number;
   breakdown: LabelItem[];
 };
 
 type LabelItem = {
-  extras: Extra[];
+  extras: Extra[] | null;
   amount: number;
 };
