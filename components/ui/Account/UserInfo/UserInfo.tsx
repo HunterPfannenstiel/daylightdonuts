@@ -5,14 +5,14 @@ import { UserInfo } from '@_types/database/userInfo';
 interface UserInfoProps {
 	info: UserInfo;
 	idx: number;
-	onClickHandler: (info: UserInfo) => void;
+	onSelectHandler: (info: UserInfo, infoIdx: number) => void;
 	deleteHandler: (infoId: number) => void;
 }
 
 const UserInfo: FunctionComponent<UserInfoProps> = ({
 	info,
 	idx,
-	onClickHandler,
+	onSelectHandler,
 	deleteHandler,
 }) => {
 	return (
@@ -21,7 +21,7 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 			<p>{info.last_name}</p>
 			<p>{info.phone_number}</p>
 			<p>{info.favorite ? 'Favorite' : 'Not favorite'}</p>
-			<button onClick={() => onClickHandler(info)}>Select</button>
+			<button onClick={() => onSelectHandler(info, idx)}>Select</button>
 			<button onClick={() => deleteHandler(idx)}>Del</button>
 		</li>
 	);

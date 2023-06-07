@@ -3,15 +3,17 @@ import classes from './UserInfoModal.module.css';
 import { AddUserInfo, UserInfo } from '@_types/database/userInfo';
 
 interface UserInfoModalProps {
-	callback: (info: UserInfo) => Promise<boolean>;
+	onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
 	exitHandler: () => void;
 	info: UserInfo | null;
+	infoIdx: number | null;
 }
 
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
-	callback,
+	onSubmitHandler,
 	exitHandler,
 	info,
+	infoIdx
 }) => {
 	const firstNameRef = useRef<HTMLInputElement>(null);
 	const lastNameRef = useRef<HTMLInputElement>(null);
@@ -27,7 +29,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 			favorite: favoriteRef.current!.checked,
 			id: info ? info.id : -1,
 		};
-		const success = await callback(enteredInfo);
+		const success = await onSubmitHandler(enteredInfo, infoIdx);
 		/* if (success) {
 			firstNameRef.current!.value = '';
 			lastNameRef.current!.value = '';

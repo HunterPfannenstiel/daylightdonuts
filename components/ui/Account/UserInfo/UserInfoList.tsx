@@ -9,19 +9,23 @@ interface UserInfoListProps {}
 
 const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 	const [showModal, setShowModal] = useState(false);
-	const [selectedUserInfo, setSelectedUserInfo] = useState<UserInfoType | null>(
-		null
-	);
+	const [selectedUserInfo, setSelectedUserInfo] = useState<
+		({ infoIdx: number } & UserInfoType) | null
+	>(null);
 	const ctx = useContext(UserInfoContext);
 
-	const onClickHandler = async (info: UserInfoType | null) => {
-		setSelectedUserInfo(info);
+	const onSelectHandler = async (
+		info: UserInfoType | null,
+		infoIdx: number
+	) => {
+		if (!info) setSelectedUserInfo(null);
+		else setSelectedUserInfo({ ...info, infoIdx });
 		setShowModal(true);
 	};
 
-	const onSubmitHandler = async (info: UserInfoType) => {
-		if (info.id !== -1) {
-			const res = await ctx.editInfo({ ...info, id: info.id });
+	const onSubmitHandler = async (info: UserInfoType, infoIdx: number | null) => {
+		if (infoIdx) {
+			const res = await ctx.editInfo(info, infoIdx);
 			setSelectedUserInfo(null);
 			setShowModal(false);
 			return res;
@@ -38,22 +42,25 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 			{showModal && (
 				<div className={classes.modal}>
 					<UserInfoModal
-						callback={onSubmitHandler}
+						onSubmitHandler={onSubmitHandler}
 						info={selectedUserInfo}
+						infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
 						exitHandler={() => setShowModal(false)}
 					/>
 				</div>
 			)}
 			<div className={classes.container}>
 				<h1>Stored Information</h1>
-				<button onClick={() => onClickHandler(null)}>Add Information</button>
+				<button onClick={() => onSelectHandler(null, -1)}>
+					Add Information
+				</button>
 				<ul>
 					{ctx.infos?.map((info, idx) => (
 						<UserInfo
 							info={info}
 							key={info.id}
 							idx={idx}
-							onClickHandler={onClickHandler}
+							onSelectHandler={onSelectHandler}
 							deleteHandler={ctx.deleteInfo}
 						/>
 					))}

@@ -5,7 +5,7 @@ import {
 	fetchUserInfos,
 	addUserInfo,
 	deleteUserInfo,
-	editInfo,
+	editUserInfo,
 } from './util';
 import { useQuery } from '@tanstack/react-query';
 import {
@@ -46,6 +46,18 @@ export const AuthContextProvider: FunctionComponent<
 		return addedId !== -1;
 	};
 
+	const editInfoHandler = async (info: UserInfo, infoIdx: number) => {
+		const isEdited = await editUserInfo(info);
+		if (isEdited) {
+			setInfoArray((prev) => {
+				const copy = [...prev!];
+				copy[infoIdx] = info;
+				return copy;
+			});
+		}
+		return isEdited;
+	};
+
 	const deleteInfoHandler = async (infoIdx: number) => {
 		if (!infoArray) return false;
 		const isDeleted = await deleteUserInfo(infoArray[infoIdx].id);
@@ -71,7 +83,7 @@ export const AuthContextProvider: FunctionComponent<
 				favorite_id: favoriteId,
 				isSignedIn: infoArray ? true : false,
 				addInfo: addInfoHandler,
-				editInfo,
+				editInfo: editInfoHandler,
 				deleteInfo: deleteInfoHandler,
 			}}
 		>

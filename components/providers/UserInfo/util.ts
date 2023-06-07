@@ -6,8 +6,8 @@ import {
 
 export type UserInfoContext = {
 	addInfo: (info: AddUserInfo) => Promise<boolean>;
-	editInfo: (info: UserInfo) => Promise<boolean>;
-	deleteInfo: (id: number) => Promise<boolean>;
+	editInfo: (info: UserInfo, infoIdx: number) => Promise<boolean>;
+	deleteInfo: (infoIdx: number) => Promise<boolean>;
 } & FetchedUserInfo;
 
 export const getInitialInfo = (): UserInfoContext => {
@@ -18,7 +18,7 @@ export const getInitialInfo = (): UserInfoContext => {
 		async addInfo(info: AddUserInfo) {
 			return false;
 		},
-		async editInfo(info: UserInfo) {
+		async editInfo(info: UserInfo, infoIdx: number) {
 			return false;
 		},
 		async deleteInfo(id: number) {
@@ -51,7 +51,7 @@ export const addUserInfo = async (info: AddUserInfo) => {
 	return await res.json() as number;
 };
 
-export const editInfo = async (info: UserInfo) => {
+export const editUserInfo = async (info: UserInfo) => {
 	const res = await fetch('/api/account/edit-info', {
 		method: 'PUT',
 		body: JSON.stringify({ info }),
