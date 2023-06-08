@@ -1,18 +1,53 @@
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { DBOrder } from "@_types/admin/orders";
+import { DBOrder, LabelBlock, OrderLabelDetails } from "@_types/admin/orders";
 import { getOrderContentString } from "@_utils/orders";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useRef, useState } from "react";
 import IOrderItem from "../../Reusable/Order/IOrderItem";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import HandleOrder from "./HandleOrder";
 import classes from "./OrderItem.module.css";
+import { buildLabelBlocks } from "@_utils/dymo/format";
 
 interface OrderItemProps {
   order: DBOrder;
+  onSelectedForPrint: (
+    id: number,
+    details?: OrderLabelDetails,
+    labelBlocks?: LabelBlock[]
+  ) => void;
 }
 
-const OrderItem: FunctionComponent<OrderItemProps> = ({ order }) => {
+const OrderItem: FunctionComponent<OrderItemProps> = ({
+  order,
+  onSelectedForPrint,
+}) => {
   const { playAnimation, showModal, handleModal } = useAnimateModal(300);
+  const selectedForPrint = useRef<boolean>(false);
+  const [labelBlocks, setLabelBlocks] = useState(
+    buildLabelBlocks(order.order_contents, false, false)
+  );
+
+  const updateLabelBlocks = (blocks: LabelBlock[]) => {
+    if (selectedForPrint.current)
+      onSelectedForPrint(order.order_id, undefined, blocks);
+    setLabelBlocks(blocks);
+  };
+
+  const onSelectedChange = () => {
+    selectedForPrint.current = !selectedForPrint.current;
+    if (selectedForPrint.current)
+      onSelectedForPrint(
+        order.order_id,
+        {
+          storeName: order.location,
+          customerName: order.customer_info.name,
+          date: order.pickup_date,
+          time: order.pickup_time,
+        },
+        labelBlocks
+      );
+    else onSelectedForPrint(order.order_id);
+  };
   return (
     <div>
       <IOrderItem
@@ -21,7 +56,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({ order }) => {
         customerName={order.customer_info.name}
         orderDate={order.pickup_date}
         orderTime={order.pickup_time}
-        orderContents={"Get order contents string"}
+        labelBlocks={labelBlocks}
         extraContent={
           <HandleOrder
             onClick={handleModal}
@@ -30,17 +65,15 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({ order }) => {
             }}
           />
         }
+        onSelectedForPrint={onSelectedChange}
       />
       {showModal && (
         <OrderDetails
-          priceDetails={order.price_details}
-          paymentId={order.payment_uid}
-          email={order.customer_info.email}
-          orderPlaced={order.created_on}
-          paymentProcessor={order.payment_processor}
+          order={order}
           handleModal={handleModal}
           playAnimation={playAnimation}
           animationTime={300}
+          labelBlocks={labelBlocks}
         />
       )}
     </div>

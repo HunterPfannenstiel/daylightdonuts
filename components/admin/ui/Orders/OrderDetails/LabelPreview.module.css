@@ -1,0 +1,4 @@
+.label {
+    transform: rotateZ(90deg);
+    z-index: 2;
+}

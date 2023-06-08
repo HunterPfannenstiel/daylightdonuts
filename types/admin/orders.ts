@@ -1,7 +1,7 @@
 import { Extra } from "@_types/database/cart";
 
 export type DBOrder = {
-  order_id: string;
+  order_id: number;
   customer_info: {
     name: string;
     email: string;
@@ -18,6 +18,14 @@ export type DBOrder = {
   created_on: Date;
   order_contents: LabelSection[];
   price_details: OrderPriceDetails;
+};
+
+export type OrderLabelDetails = {
+  storeName: string;
+  customerName: string;
+  date: string;
+  time: string;
+  detailMessage?: string;
 };
 
 export type OrderPriceDetails = {
@@ -61,7 +69,18 @@ export type LabelSection = {
   breakdown: LabelItem[];
 };
 
-type LabelItem = {
+export type LabelItem = {
   extras: Extra[] | null;
   amount: number;
+};
+
+export type TextObject = {
+  string: string;
+  x: number;
+  width?: number;
+};
+
+export type LabelBlock = {
+  header: TextObject;
+  breakdown: TextObject[];
 };

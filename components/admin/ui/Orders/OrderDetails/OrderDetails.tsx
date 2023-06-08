@@ -1,30 +1,25 @@
-import { OrderPriceDetails, PaymentProcessor } from "@_types/admin/orders";
+import { DBOrder, LabelBlock, PaymentProcessor } from "@_types/admin/orders";
 import Background from "components/ui/Reusable/Modal/Background";
 import Modal from "components/ui/Reusable/Modal/Modal";
 import Link from "next/link";
 import { FunctionComponent } from "react";
 import classes from "./OrderDetails.module.css";
+import LabelPreview from "./LabelPreview";
 
 interface OrderDetailsProps {
-  paymentId: string;
-  email: string;
-  paymentProcessor: PaymentProcessor;
-  orderPlaced: Date;
-  priceDetails: OrderPriceDetails;
+  order: DBOrder;
   handleModal: () => void;
   playAnimation: boolean;
   animationTime: number;
+  labelBlocks: LabelBlock[];
 }
 
 const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
-  paymentId,
-  email,
-  paymentProcessor,
-  orderPlaced,
-  priceDetails,
+  order,
   handleModal,
   playAnimation,
   animationTime,
+  labelBlocks,
 }) => {
   const className = `${classes.modal_content} ${
     playAnimation ? classes.animate_out : ""
@@ -32,20 +27,30 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   return (
     <Modal selector="modal">
       <div className={className}>
-        <h2>Payment Details</h2>
-        <Link
-          href={getPaymentLink(paymentProcessor, paymentId)}
-          target="_blank"
-        >
-          View Payment Transaction
-        </Link>
-        <p>{`Email: ${email}`}</p>
-        <p>{`Order Placed: ${orderPlaced}`}</p>
-        <p>{`Subtotal: ${priceDetails.subtotal}`}</p>
-        <p>{`Tax: ${priceDetails.tax}`}</p>
-        <p>{`Total: ${(priceDetails.subtotal + priceDetails.tax).toFixed(
-          2
-        )}`}</p>
+        <div>
+          <h2>Payment Details</h2>
+          <Link
+            href={getPaymentLink(order.payment_processor, order.payment_uid)}
+            target="_blank"
+          >
+            View Payment Transaction
+          </Link>
+          <p>{`Email: ${order.customer_info.email}`}</p>
+          <p>{`Order Placed: ${order.created_on}`}</p>
+          <p>{`Subtotal: ${order.price_details.subtotal}`}</p>
+          <p>{`Tax: ${order.price_details.tax}`}</p>
+          <p>{`Total: ${(
+            order.price_details.subtotal + order.price_details.tax
+          ).toFixed(2)}`}</p>
+        </div>
+        <LabelPreview
+          imageSrc={undefined}
+          labelBlocks={labelBlocks}
+          storeName={order.location}
+          customerName={order.customer_info.name}
+          date={order.pickup_date}
+          time={order.pickup_time}
+        />
       </div>
       <Background
         handleModal={handleModal}

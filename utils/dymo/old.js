@@ -1,4 +1,146 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+export const header = (text, xVal) => `
+<TextObject>
+<Name>Category</Name>
+<Brushes>
+  <BackgroundBrush>
+    <SolidColorBrush>
+      <Color A="0" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </BackgroundBrush>
+  <BorderBrush>
+    <SolidColorBrush>
+      <Color A="1" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </BorderBrush>
+  <StrokeBrush>
+    <SolidColorBrush>
+      <Color A="1" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </StrokeBrush>
+  <FillBrush>
+    <SolidColorBrush>
+      <Color A="0" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </FillBrush>
+</Brushes>
+<Rotation>Rotation270</Rotation>
+<OutlineThickness>1</OutlineThickness>
+<IsOutlined>False</IsOutlined>
+<BorderStyle>SolidLine</BorderStyle>
+<Margin>
+  <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+</Margin>
+<HorizontalAlignment>Center</HorizontalAlignment>
+<VerticalAlignment>Top</VerticalAlignment>
+<FitMode>AlwaysFit</FitMode>
+<IsVertical>False</IsVertical>
+<FormattedText>
+  <FitMode>AlwaysFit</FitMode>
+  <HorizontalAlignment>Center</HorizontalAlignment>
+  <VerticalAlignment>Top</VerticalAlignment>
+  <IsVertical>False</IsVertical>
+  <LineTextSpan>
+    <TextSpan>
+      <Text>${text}</Text>
+      <FontInfo>
+        <FontName>Bubblegum Sans</FontName>
+        <FontSize>16</FontSize>
+        <IsBold>False</IsBold>
+        <IsItalic>False</IsItalic>
+        <IsUnderline>False</IsUnderline>
+        <FontBrush>
+          <SolidColorBrush>
+            <Color A="1" R="0" G="0" B="0"></Color>
+          </SolidColorBrush>
+        </FontBrush>
+      </FontInfo>
+    </TextSpan>
+  </LineTextSpan>
+</FormattedText>
+<ObjectLayout>
+  <DYMOPoint>
+    <X>${xVal}</X>
+    <Y>0.06666666</Y>
+  </DYMOPoint>
+  <Size>
+    <Width>0.381678</Width>
+    <Height>2.186667</Height>
+  </Size>
+</ObjectLayout>
+</TextObject>`;
+
+export const section = (text, xVal) => `<TextObject>
+<Name>Breakdown</Name>
+<Brushes>
+  <BackgroundBrush>
+    <SolidColorBrush>
+      <Color A="0" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </BackgroundBrush>
+  <BorderBrush>
+    <SolidColorBrush>
+      <Color A="1" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </BorderBrush>
+  <StrokeBrush>
+    <SolidColorBrush>
+      <Color A="1" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </StrokeBrush>
+  <FillBrush>
+    <SolidColorBrush>
+      <Color A="0" R="0" G="0" B="0"></Color>
+    </SolidColorBrush>
+  </FillBrush>
+</Brushes>
+<Rotation>Rotation270</Rotation>
+<OutlineThickness>1</OutlineThickness>
+<IsOutlined>False</IsOutlined>
+<BorderStyle>SolidLine</BorderStyle>
+<Margin>
+  <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+</Margin>
+<HorizontalAlignment>Left</HorizontalAlignment>
+<VerticalAlignment>Top</VerticalAlignment>
+<FitMode>None</FitMode>
+<IsVertical>False</IsVertical>
+<FormattedText>
+  <FitMode>None</FitMode>
+  <HorizontalAlignment>Left</HorizontalAlignment>
+  <VerticalAlignment>Top</VerticalAlignment>
+  <IsVertical>False</IsVertical>
+  <LineTextSpan>
+    <TextSpan>
+      <Text>${text}</Text>
+      <FontInfo>
+        <FontName>Bubblegum Sans</FontName>
+        <FontSize>16</FontSize>
+        <IsBold>False</IsBold>
+        <IsItalic>False</IsItalic>
+        <IsUnderline>False</IsUnderline>
+        <FontBrush>
+          <SolidColorBrush>
+            <Color A="1" R="0" G="0" B="0"></Color>
+          </SolidColorBrush>
+        </FontBrush>
+      </FontInfo>
+    </TextSpan>
+  </LineTextSpan>
+</FormattedText>
+<ObjectLayout>
+  <DYMOPoint>
+    <X>${xVal}</X>
+    <Y>0.07166624</Y>
+  </DYMOPoint>
+  <Size>
+    <Width>0.381678</Width>
+    <Height>2.186667</Height>
+  </Size>
+</ObjectLayout>
+</TextObject>`;
+
+const label = (textObjectsString) =>
+  `<?xml version="1.0" encoding="utf-8"?>
 <DesktopLabel Version="1">
   <DYMOLabel Version="3">
     <Description>DYMO Label</Description>
@@ -302,75 +444,7 @@
             </Size>
           </ObjectLayout>
         </TextObject>
-        <TextObject>
-          <Name>ITextObject4</Name>
-          <Brushes>
-            <BackgroundBrush>
-              <SolidColorBrush>
-                <Color A="0" R="0" G="0" B="0"></Color>
-              </SolidColorBrush>
-            </BackgroundBrush>
-            <BorderBrush>
-              <SolidColorBrush>
-                <Color A="1" R="0" G="0" B="0"></Color>
-              </SolidColorBrush>
-            </BorderBrush>
-            <StrokeBrush>
-              <SolidColorBrush>
-                <Color A="1" R="0" G="0" B="0"></Color>
-              </SolidColorBrush>
-            </StrokeBrush>
-            <FillBrush>
-              <SolidColorBrush>
-                <Color A="0" R="0" G="0" B="0"></Color>
-              </SolidColorBrush>
-            </FillBrush>
-          </Brushes>
-          <Rotation>Rotation270</Rotation>
-          <OutlineThickness>1</OutlineThickness>
-          <IsOutlined>False</IsOutlined>
-          <BorderStyle>SolidLine</BorderStyle>
-          <Margin>
-            <DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
-          </Margin>
-          <HorizontalAlignment>Center</HorizontalAlignment>
-          <VerticalAlignment>Top</VerticalAlignment>
-          <FitMode>AlwaysFit</FitMode>
-          <IsVertical>False</IsVertical>
-          <FormattedText>
-            <FitMode>AlwaysFit</FitMode>
-            <HorizontalAlignment>Center</HorizontalAlignment>
-            <VerticalAlignment>Top</VerticalAlignment>
-            <IsVertical>False</IsVertical>
-            <LineTextSpan>
-              <TextSpan>
-                <Text />
-                <FontInfo>
-                  <FontName>Bubblegum Sans</FontName>
-                  <FontSize>1</FontSize>
-                  <IsBold>False</IsBold>
-                  <IsItalic>False</IsItalic>
-                  <IsUnderline>False</IsUnderline>
-                  <FontBrush>
-                    <SolidColorBrush>
-                      <Color A="1" R="0" G="0" B="0"></Color>
-                    </SolidColorBrush>
-                  </FontBrush>
-                </FontInfo>
-              </TextSpan>
-            </LineTextSpan>
-          </FormattedText>
-          <ObjectLayout>
-            <DYMOPoint>
-              <X>2.629444</X>
-              <Y>0.06666666</Y>
-            </DYMOPoint>
-            <Size>
-              <Width>4.770556</Width>
-              <Height>2.186667</Height>
-            </Size>
-          </ObjectLayout>
-        </TextObject>
+        ${textObjectsString}
       </LabelObjects>
     </DynamicLayoutManager>
   </DYMOLabel>
@@ -379,4 +453,19 @@
     <Columns></Columns>
     <Rows></Rows>
   </DataTable>
-</DesktopLabel>
+</DesktopLabel>`;
+
+export const getLabel = (labelBlocks) => {
+  let textObjectsString = "";
+  labelBlocks.forEach((labelBlock) => {
+    textObjectsString += header(labelBlock.header.string, labelBlock.header.x);
+    labelBlock.breakdown.forEach((breakdown) => {
+      textObjectsString += section(
+        breakdown.string,
+        breakdown.x,
+        breakdown.width
+      );
+    });
+  });
+  return dymo.label.framework.openLabelXml(label(textObjectsString));
+};

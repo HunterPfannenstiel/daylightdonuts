@@ -39,7 +39,12 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
           <p>{`Order Count: ${orderCount}`}</p>
         </div>
         <div className={classes.orders}>
-          <OrderItemList orders={orders} />
+          <OrderItemList
+            orders={orders}
+            onSelectedForPrint={(id: number) => {
+              console.log(id);
+            }}
+          />
         </div>
 
         <DateModal
