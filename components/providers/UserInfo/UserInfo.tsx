@@ -21,9 +21,7 @@ export default Context;
 export const AuthContextProvider: FunctionComponent<
 	React.PropsWithChildren
 > = ({ children }) => {
-	const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>(
-		null
-	);
+	const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>([]);
 	const [favoriteId, setFavoriteId] = useState<number | null>(null);
 
 	useEffect(() => {
@@ -35,23 +33,34 @@ export const AuthContextProvider: FunctionComponent<
 		fetchInfo();
 	}, []);
 
-	const addInfoHandler = async (info: AddUserInfo) => {
+	const addInfoHandler = async (info: AddUserInfo, favIdx?: number | null) => {
 		const addedId = await addUserInfo(info);
 		if (addedId !== -1) {
 			setInfoArray((prev) => {
-				if (prev) return [...prev, { ...info, id: addedId }];
-				else return [{ ...info, id: addedId }];
+				if (prev) {
+					const res = [...prev];
+					if (favIdx && favIdx < infoArray!.length) res[favIdx].favorite = false;
+					res.push({ ...info, id: addedId });
+					setFavoriteId(addedId);
+					return res;
+				} else return [{ ...info, id: addedId }];
 			});
 		}
 		return addedId !== -1;
 	};
 
-	const editInfoHandler = async (info: UserInfo, infoIdx: number) => {
+	const editInfoHandler = async (
+		info: UserInfo,
+		infoIdx: number,
+		favIdx?: number | null
+	) => {
 		const isEdited = await editUserInfo(info);
 		if (isEdited) {
 			setInfoArray((prev) => {
 				const copy = [...prev!];
+				if (favIdx && favIdx < infoArray!.length) copy[favIdx].favorite = false;
 				copy[infoIdx] = info;
+				setFavoriteId(info.id);
 				return copy;
 			});
 		}

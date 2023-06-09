@@ -14,6 +14,8 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 	>(null);
 	const ctx = useContext(UserInfoContext);
 
+	let favIdx: number | null = null;
+
 	const onSelectHandler = async (
 		info: UserInfoType | null,
 		infoIdx: number
@@ -23,14 +25,23 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 		setShowModal(true);
 	};
 
-	const onSubmitHandler = async (info: UserInfoType, infoIdx: number | null) => {
+	const onSubmitHandler = async (
+		info: UserInfoType,
+		infoIdx: number | null
+	) => {
 		if (infoIdx) {
-			const res = await ctx.editInfo(info, infoIdx);
+			const res = info.favorite
+				? await ctx.editInfo(info, infoIdx, favIdx)
+				: await ctx.editInfo(info, infoIdx);
+			if (info.favorite && res) favIdx = infoIdx;
 			setSelectedUserInfo(null);
 			setShowModal(false);
 			return res;
 		} else {
-			const res = await ctx.addInfo(info);
+			const res = info.favorite
+				? await ctx.addInfo(info, favIdx)
+				: await ctx.addInfo(info);
+			if (info.favorite && res) favIdx = ctx.infos!.length - 1;
 			setSelectedUserInfo(null);
 			setShowModal(false);
 			return res;
@@ -55,15 +66,18 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 					Add Information
 				</button>
 				<ul>
-					{ctx.infos?.map((info, idx) => (
-						<UserInfo
-							info={info}
-							key={info.id}
-							idx={idx}
-							onSelectHandler={onSelectHandler}
-							deleteHandler={ctx.deleteInfo}
-						/>
-					))}
+					{ctx.infos?.map((info, idx) => {
+						if (info.favorite) favIdx = idx;
+						return (
+							<UserInfo
+								info={info}
+								key={info.id}
+								idx={idx}
+								onSelectHandler={onSelectHandler}
+								deleteHandler={ctx.deleteInfo}
+							/>
+						);
+					})}
 				</ul>
 			</div>
 		</>

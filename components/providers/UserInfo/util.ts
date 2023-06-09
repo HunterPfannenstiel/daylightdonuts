@@ -5,8 +5,8 @@ import {
 } from '@_types/database/userInfo';
 
 export type UserInfoContext = {
-	addInfo: (info: AddUserInfo) => Promise<boolean>;
-	editInfo: (info: UserInfo, infoIdx: number) => Promise<boolean>;
+	addInfo: (info: AddUserInfo, favIdx?: number | null) => Promise<boolean>;
+	editInfo: (info: UserInfo, infoIdx: number, favIdx?: number | null) => Promise<boolean>;
 	deleteInfo: (infoIdx: number) => Promise<boolean>;
 } & FetchedUserInfo;
 
