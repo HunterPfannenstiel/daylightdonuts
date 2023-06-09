@@ -1,0 +1,28 @@
+.modal {
+    position: absolute;
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 2;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.form {
+    margin-block: auto;
+}
+
+.label_container {
+    position: relative;
+    width: 200px;
+    height: 648px;
+    padding: 1rem;
+}
+
+.label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
+}

@@ -1,4 +1,12 @@
+.label_container {
+    position: relative;
+    width: 200px;
+    height: 648px;
+}
+
 .label {
-    transform: rotateZ(90deg);
-    z-index: 2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(90deg);
 }

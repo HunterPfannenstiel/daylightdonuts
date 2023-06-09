@@ -1,6 +1,11 @@
 "use client";
 
-import { DBOrder, LabelBlock, OrderLabelDetails } from "@_types/admin/orders";
+import {
+  DBOrder,
+  LabelBlock,
+  LabelSection,
+  OrderLabelDetails,
+} from "@_types/admin/orders";
 import { FunctionComponent } from "react";
 import OrderItem from "./OrderItem";
 import classes from "./OrderItemList.module.css";
@@ -10,7 +15,7 @@ interface OrderItemListProps {
   onSelectedForPrint: (
     id: number,
     details?: OrderLabelDetails,
-    labelBlocks?: LabelBlock[]
+    labelSections?: LabelSection[]
   ) => void;
 }
 

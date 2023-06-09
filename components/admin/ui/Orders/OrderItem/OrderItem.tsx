@@ -1,5 +1,10 @@
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { DBOrder, LabelBlock, OrderLabelDetails } from "@_types/admin/orders";
+import {
+  DBOrder,
+  LabelBlock,
+  LabelSection,
+  OrderLabelDetails,
+} from "@_types/admin/orders";
 import { getOrderContentString } from "@_utils/orders";
 import { FunctionComponent, useRef, useState } from "react";
 import IOrderItem from "../../Reusable/Order/IOrderItem";
@@ -13,7 +18,7 @@ interface OrderItemProps {
   onSelectedForPrint: (
     id: number,
     details?: OrderLabelDetails,
-    labelBlocks?: LabelBlock[]
+    labelSections?: LabelSection[]
   ) => void;
 }
 
@@ -23,14 +28,10 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 }) => {
   const { playAnimation, showModal, handleModal } = useAnimateModal(300);
   const selectedForPrint = useRef<boolean>(false);
-  const [labelBlocks, setLabelBlocks] = useState(
-    buildLabelBlocks(order.order_contents, false, false)
-  );
 
   const updateLabelBlocks = (blocks: LabelBlock[]) => {
     if (selectedForPrint.current)
-      onSelectedForPrint(order.order_id, undefined, blocks);
-    setLabelBlocks(blocks);
+      onSelectedForPrint(order.order_id, undefined, order.order_contents);
   };
 
   const onSelectedChange = () => {
@@ -44,7 +45,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
           date: order.pickup_date,
           time: order.pickup_time,
         },
-        labelBlocks
+        order.order_contents
       );
     else onSelectedForPrint(order.order_id);
   };
@@ -56,7 +57,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
         customerName={order.customer_info.name}
         orderDate={order.pickup_date}
         orderTime={order.pickup_time}
-        labelBlocks={labelBlocks}
+        labelBlocks={buildLabelBlocks(order.order_contents, false, false)}
         extraContent={
           <HandleOrder
             onClick={handleModal}
@@ -73,7 +74,6 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
           handleModal={handleModal}
           playAnimation={playAnimation}
           animationTime={300}
-          labelBlocks={labelBlocks}
         />
       )}
     </div>

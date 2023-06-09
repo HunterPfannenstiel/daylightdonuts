@@ -4,45 +4,23 @@ import { LabelBlock } from "@_types/admin/orders";
 import Image from "next/image";
 import { getLabel } from "@_utils/dymo/format";
 
-type LabelPreviewProps =
-  | {
-      imageSrc?: undefined;
-      storeName: string;
-      customerName: string;
-      date: string;
-      time: string;
-      labelBlocks: LabelBlock[];
-    }
-  | {
-      imageSrc: string;
-      storeName?: undefined;
-      customerName?: undefined;
-      date?: undefined;
-      time?: undefined;
-      labelBlocks?: undefined;
-    };
+type LabelPreviewProps = {
+  imageSrc: string;
+  className?: string;
+  onClick?: () => void;
+};
 
 const LabelPreview: FunctionComponent<LabelPreviewProps> = ({
-  storeName,
-  customerName,
-  date,
-  time,
-  labelBlocks,
   imageSrc,
+  className,
+  onClick,
 }) => {
-  if (imageSrc === undefined) {
-    imageSrc = `data:image/png;base64,${getLabel(
-      storeName,
-      customerName,
-      date,
-      time,
-      labelBlocks
-    ).render()}`;
-  }
-
+  const classN = !!className ? `${classes.label} ${className}` : classes.label;
   return (
-    <div className={classes.label}>
-      <Image src={imageSrc} alt="" width={648} height={200} />
+    <div className={classes.label_container}>
+      <div className={classN} onClick={onClick}>
+        <Image src={imageSrc} alt="" width={648} height={200} />
+      </div>
     </div>
   );
 };

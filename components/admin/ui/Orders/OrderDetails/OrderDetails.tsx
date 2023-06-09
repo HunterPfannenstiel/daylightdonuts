@@ -11,7 +11,6 @@ interface OrderDetailsProps {
   handleModal: () => void;
   playAnimation: boolean;
   animationTime: number;
-  labelBlocks: LabelBlock[];
 }
 
 const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
@@ -19,7 +18,6 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   handleModal,
   playAnimation,
   animationTime,
-  labelBlocks,
 }) => {
   const className = `${classes.modal_content} ${
     playAnimation ? classes.animate_out : ""
@@ -43,14 +41,14 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
             order.price_details.subtotal + order.price_details.tax
           ).toFixed(2)}`}</p>
         </div>
-        <LabelPreview
+        {/* <LabelPreview
           imageSrc={undefined}
           labelBlocks={labelBlocks}
           storeName={order.location}
           customerName={order.customer_info.name}
           date={order.pickup_date}
           time={order.pickup_time}
-        />
+        /> */}
       </div>
       <Background
         handleModal={handleModal}
