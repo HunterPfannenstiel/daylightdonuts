@@ -1,8 +1,9 @@
 import { createAccount, getAccountId } from '@_utils/database/account/queries';
+import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import GoogleProvider from 'next-auth/providers/google';
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
 	session: {
 		strategy: 'jwt',
 	},
@@ -28,4 +29,6 @@ export default NextAuth({
 			return session;
 		},
 	},
-});
+};
+
+export default NextAuth(authOptions);

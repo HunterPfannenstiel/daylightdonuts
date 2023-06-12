@@ -25,15 +25,15 @@ const Providers: FunctionComponent<ProvidersProps> = ({
 
 	return (
 		<NotificationProvider>
-			<CheckoutInfoProvider>
-				<SessionProvider session={session}>
-					<QueryClientProvider client={client}>
+			<SessionProvider session={session}>
+				<QueryClientProvider client={client}>
+					<CheckoutInfoProvider>
 						<AuthContextProvider>
 							<CartProvider>{children}</CartProvider>
 						</AuthContextProvider>
-					</QueryClientProvider>
-				</SessionProvider>
-			</CheckoutInfoProvider>
+					</CheckoutInfoProvider>
+				</QueryClientProvider>
+			</SessionProvider>
 		</NotificationProvider>
 	);
 };

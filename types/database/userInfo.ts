@@ -1,27 +1,27 @@
-import { DBCartItem } from "./cart";
+import { DBCartItem } from './cart';
+
+export type FetchedUserInfo = {
+	infos: UserInfo[] | null;
+	favorite_id: number | null;
+	isSignedIn: boolean;
+};
 
 export type UserInfo = {
-    infos: Info[] | undefined;
-    favorite_id: number | undefined;
-}
+	first_name: string;
+	last_name: string;
+	phone_number: string;
+	favorite: boolean;
+	id: number;
+};
 
-export type Info = {
-    first_name: string;
-    last_name: string;
-    phone_number: string;
-    email: string;
-    id: number;
-}
-
-export type FetchedInfo = {
-    info: UserInfo | null;
-    isSignedIn: boolean;
-}
-
-export type UserInfoContext = {
-} & UserInfo;
+export type AddUserInfo = {
+	first_name: string;
+	last_name: string;
+	phone_number: string;
+	favorite: boolean;
+};
 
 export type UserOrder = {
-    cart_id: number;
-    cart: DBCartItem[];
-}
+	cart_id: number;
+	cart: DBCartItem[];
+};
