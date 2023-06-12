@@ -1,6 +1,6 @@
 "use client";
 
-import { FunctionComponent, useEffect, useRef } from "react";
+import { FunctionComponent, useRef } from "react";
 import classes from "./Orders.module.css";
 import OrderItemList from "../Orders/OrderItem/OrderItemList";
 import { DBOrder } from "@_types/admin/orders";
@@ -34,9 +34,14 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
     selectedOrderId.current = orderId;
     handleDymo();
   };
-  useEffect(() => {
-    if (window.dymo) window.dymo.label.framework.init();
-  }, [window?.dymo]);
+  const initDymo = async () => {
+    try {
+      window.dymo.label.framework.init();
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
+  };
 
   return (
     <>
@@ -47,16 +52,34 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
       )}
       <OrderItemList orders={orders} onSelectedForPrint={updateSelectedOrder} />
       {showModal && (
-        <ModalDisplay handleModal={handleModal} playAnimation={playAnimation}>
+        <ModalDisplay
+          handleModal={handleModal}
+          playAnimation={playAnimation}
+          className={classes.orders}
+        >
           {Object.keys(selectedOrders).map((key) => {
             const label = selectedOrders[+key];
             let image = `data:image/png;base64,${label.render()}`;
             return (
-              <LabelPreview
-                key={Math.random()}
-                imageSrc={image}
-                onClick={onLabelSelected.bind(null, +key)}
-              />
+              <li>
+                <LabelPreview
+                  key={Math.random()}
+                  imageSrc={image}
+                  onClick={onLabelSelected.bind(null, +key)}
+                />
+                <button
+                  onClick={updateSelectedOrder.bind(
+                    null,
+                    +key,
+                    undefined,
+                    undefined,
+                    undefined,
+                    undefined
+                  )}
+                >
+                  Remove Label
+                </button>
+              </li>
             );
           })}
         </ModalDisplay>
