@@ -99,5 +99,26 @@ const createOrder = async () => {
   }
 };
 
+const getOrders = async () => {
+  try {
+    const query = "SELECT * FROM store.get_user_id($1)";
+    const res = await customerQuery(query, ['jstarz@monkey.com']);
+    console.log(res.rows);
+    const query2 = "SELECT * FROM store.get_user_infos($1)";
+    const res2 = await customerQuery(query2, [res.rows[0].get_user_id]);
+    console.log(res2.rows[0].infos);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const createAccount = async (email) => {
+	const query = 'CALL store.create_account($1, $2, $3)';
+	const res = await customerQuery(query, [email, null, null]);
+	console.log(res.rows[0].id);
+}
+
 // calculateCartTotal(7);
-createOrder();
+//createOrder();
+//getOrders();
+//createAccount('payton@gmail.com');
