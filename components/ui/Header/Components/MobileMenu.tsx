@@ -1,4 +1,3 @@
-import e from "@_utils/cloudinary";
 import Link from "next/link";
 import { FunctionComponent } from "react";
 import classes from "./MobileMenu.module.css";

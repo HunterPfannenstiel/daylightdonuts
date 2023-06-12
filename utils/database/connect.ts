@@ -34,31 +34,14 @@ export const customerQuery = async (query: string, params?: any[]) => {
   }
 };
 
-// export const customerQuery = async (query: string) => {
-//   const client = await customerPool.connect();
-//   try {
-//     const res = await client.query(query);
-//     return res.rows;
-//   } catch (e) {
-//     console.log(e);
-//     throw e;
-//   } finally {
-//     client.release();
-//   }
-// };
-
-// export const customerParamQuery = async (
-//   query: string,
-//   parameters: (string | null)[]
-// ) => {
-//   const client = await customerPool.connect();
-//   try {
-//     const res = await client.query(query, parameters);
-//     return res.rows;
-//   } catch (e) {
-//     console.log(e);
-//     throw e;
-//   } finally {
-//     client.release();
-//   }
-// };
+export const adminQuery = async (query: string, params?: any[]) => {
+  const connection = await customerPool.connect();
+  try {
+    const res = await connection.query(query, params);
+    return res;
+  } catch (error) {
+    throw error;
+  } finally {
+    connection.release();
+  }
+};

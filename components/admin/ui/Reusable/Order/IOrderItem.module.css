@@ -15,6 +15,18 @@
     padding-inline: .5rem;
 }
 
+.block_header {
+    margin-top: 0.25rem;
+    color: black;
+    font-size: 1rem;
+}
+
+.breakdown_string {
+    margin-top: 0.25rem;
+    text-align: left;
+    font-size: 0.875rem;
+}
+
 .store {
     font-weight: var(--bold-font-weight);
     font-size: 1rem;
@@ -49,8 +61,20 @@
     overflow: auto;
 }
 
+.checkbox {
+    display: none;
+}
+
 @media (min-width: 40em) {
     .order {
+        position: relative;
         width: 200px;
+    }
+
+    .checkbox {
+        display: unset;
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 }

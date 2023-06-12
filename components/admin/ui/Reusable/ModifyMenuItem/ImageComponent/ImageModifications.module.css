@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    margin-inline: 1rem;
+    gap: 1rem;
+}
+
+.container .images {
+    width: 75%;
+    overflow-x: scroll;
+}
+
+.container:last-child {
+    width: 25%;
+}
+
+.images {
+    display: flex;
+    align-items: center;
+}
+
+.images > * {
+    min-width: 50%;
+}
+
+.image p{
+    text-align: center;
+}

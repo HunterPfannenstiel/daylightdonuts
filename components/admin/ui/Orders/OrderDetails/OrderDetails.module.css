@@ -4,16 +4,17 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    width: 75%;
+    /* width: 75%; */
     margin-inline: auto;
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 0.5rem;
     z-index: 2;
     animation: fade_in 300ms ease;
+    min-height: 324px;
 }
 
 .animate_out {

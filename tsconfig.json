@@ -30,7 +30,8 @@
       ],
       "@_utils/*": [
         "utils/*"
-      ]
+      ],
+      "@_admin-reuse/*": ["components/admin/ui/Reusable/*"]
     },
     "baseUrl": ".",
     "plugins": [
@@ -45,7 +46,7 @@
     "**/*.tsx",
     "utils/database/test.js",
     ".next/types/**/*.ts"
-  ],
+, "utils/dymo/old.js"  ],
   "exclude": [
     "node_modules"
   ]

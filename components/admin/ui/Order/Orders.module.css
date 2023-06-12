@@ -1,0 +1,14 @@
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+}
+
+.orders {
+    display: flex;
+    max-width: 75%;
+    margin-inline: auto;
+    overflow-x: scroll;
+    gap: 1rem;
+}

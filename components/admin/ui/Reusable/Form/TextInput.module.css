@@ -1,0 +1,10 @@
+.input {
+    display: flex;
+    flex-direction: column;
+}
+
+.textarea {
+    border-radius: 8px;
+    min-height: 3.5lh;
+    font: var(--primary-font)
+}

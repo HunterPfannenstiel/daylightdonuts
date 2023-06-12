@@ -15,7 +15,7 @@ export const generateMetadata = async ({
     title: `${item?.name} - Delicious and Fresh`,
     description: item?.description,
     icons: {
-      icon: item?.image,
+      icon: item?.image_urls[0],
     },
   };
 };
