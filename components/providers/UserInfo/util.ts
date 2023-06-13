@@ -1,81 +1,85 @@
 import {
-	AddUserInfo,
-	FetchedUserInfo,
-	UserInfo,
-} from '@_types/database/userInfo';
+  AddUserInfo,
+  FetchedUserInfo,
+  UserInfo,
+} from "@_types/database/userInfo";
 
 export type UserInfoContext = {
-	addInfo: (info: AddUserInfo, favIdx?: number | null) => Promise<boolean>;
-	editInfo: (info: UserInfo, infoIdx: number, favIdx?: number | null) => Promise<boolean>;
-	deleteInfo: (infoIdx: number) => Promise<boolean>;
+  addInfo: (info: AddUserInfo, favIdx?: number | null) => Promise<boolean>;
+  editInfo: (
+    info: UserInfo,
+    infoIdx: number,
+    favIdx?: number | null
+  ) => Promise<boolean>;
+  deleteInfo: (infoIdx: number) => Promise<boolean>;
 } & FetchedUserInfo;
 
 export const getInitialInfo = (): UserInfoContext => {
-	return {
-		infos: [],
-		favorite_id: null,
-		isSignedIn: false,
-		async addInfo(info: AddUserInfo) {
-			return false;
-		},
-		async editInfo(info: UserInfo, infoIdx: number) {
-			return false;
-		},
-		async deleteInfo(id: number) {
-			return false;
-		},
-	};
+  return {
+    infos: [],
+    favorite_id: null,
+    isSignedIn: false,
+    async addInfo(info: AddUserInfo) {
+      return false;
+    },
+    async editInfo(info: UserInfo, infoIdx: number) {
+      return false;
+    },
+    async deleteInfo(id: number) {
+      return false;
+    },
+  };
 };
 
 export const fetchUserInfos = async () => {
-	const res = await fetch('/api/account/fetch-info');
-	if (!res.ok) {
-		throw new Error("Couldn't fetch user infos");
-	}
-	const info = await res.json();
-	return info.info;
+  const res = await fetch("/api/account/fetch-info");
+  if (!res.ok) {
+    throw new Error("Couldn't fetch user infos");
+  }
+  const info = await res.json();
+  return info.info;
 };
 
 export const addUserInfo = async (info: AddUserInfo) => {
-	const res = await fetch('/api/account/edit-info', {
-		method: 'POST',
-		body: JSON.stringify({ info }),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!res.ok) {
-		const error = await res.json();
-		console.log(error.message);
-	}
-	return await res.json() as number;
+  const res = await fetch("/api/account/edit-info", {
+    method: "POST",
+    body: JSON.stringify({ info }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    console.log(error.message);
+  }
+  return (await res.json()) as number;
 };
 
 export const editUserInfo = async (info: UserInfo) => {
-	const res = await fetch('/api/account/edit-info', {
-		method: 'PUT',
-		body: JSON.stringify({ info }),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!res.ok) {
-		const error = await res.json();
-		console.log(error.message);
-	}
-	return res.ok;
+  const res = await fetch("/api/account/edit-info", {
+    method: "PUT",
+    body: JSON.stringify({ info }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    console.log(error.message);
+  }
+  return res.ok;
 };
 
 export const deleteUserInfo = async (id: number) => {
-	const res = await fetch('/api/account/edit-info?id=' + id, {
-		method: 'DELETE',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	if (!res.ok) {
-		const error = await res.json();
-		console.log(error.message);
-	}
-	return res.ok;
+  const res = await fetch("/api/account/edit-info?id=" + id, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    console.log(error.message);
+  }
+  return res.ok;
 };
