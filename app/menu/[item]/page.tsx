@@ -1,5 +1,5 @@
 import { Item as ItemT } from "@_types/database/menu";
-import { getAllItemNames } from "@_utils/database/menu";
+import { getAllItemNames, getItemDetails } from "@_utils/database/menu";
 import ItemPage from "components/ui/ItemPage/ItemPage";
 import { Metadata } from "next";
 
@@ -33,6 +33,7 @@ const getItem = async (params: { item: string }) => {
     `${process.env.NEXT_PUBLIC_DOMAIN}/api/item?item=${params.item}`
   );
   const data = (await res.json()) as ItemT | undefined;
+  // const itemDetails = await getItemDetails(params.item);
   return data;
 };
 

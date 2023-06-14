@@ -14,6 +14,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
   addItemToCart,
   updateExtras,
 }) => {
+  console.log(item);
   return (
     <IItemForm
       extras={item.extras}

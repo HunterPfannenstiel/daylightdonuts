@@ -24,7 +24,7 @@ const useCartUpdates = (item: Item) => {
         id: item.id,
         amount,
         unitPrice: price,
-        image: item.image,
+        image: item.image_urls[0],
         extras,
         availability: item.availability,
       };

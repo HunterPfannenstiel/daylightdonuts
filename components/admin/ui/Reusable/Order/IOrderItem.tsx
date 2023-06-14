@@ -43,11 +43,11 @@ const IOrderItem: FunctionComponent<IOrderItemProps> = ({
           <p>Order:</p>
           {labelBlocks.map((block) => {
             return (
-              <div>
+              <div key={block.header.string}>
                 <h2 className={classes.block_header}>{block.header.string}</h2>
                 {block.breakdown.map((breakdown) => {
                   return (
-                    <p className={classes.breakdown_string}>
+                    <p className={classes.breakdown_string} key={breakdown.x}>
                       {breakdown.string}
                     </p>
                   );

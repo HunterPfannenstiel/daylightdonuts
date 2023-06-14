@@ -1,6 +1,9 @@
 import { Item } from "@_types/database/menu";
 import { DozenableDBResponse } from "@_types/dozenable";
-import { getGroupNames } from "@_utils/database/dozenable/queries";
+import {
+  getAllItemsForGroup,
+  getGroupNames,
+} from "@_utils/database/dozenable/queries";
 import DozenablePage from "components/ui/Dozenable/DozenablePage";
 import { Metadata } from "next/types";
 
@@ -36,6 +39,7 @@ const getGroup = async (params: { group: string }) => {
     groupInfo: DozenableDBResponse;
     items: Item[];
   };
+  // const group = await getAllItemsForGroup(params.group);
   return data;
 };
 

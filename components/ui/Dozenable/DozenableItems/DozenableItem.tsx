@@ -18,7 +18,10 @@ const DozenableItem: FunctionComponent<DozenableItemProps> = ({ item }) => {
   );
   return (
     <>
-      <IItem item={item} button={button} />
+      <IItem
+        item={{ ...item, image_url: item.image_urls[0] }}
+        button={button}
+      />
       <ItemModal
         item={item}
         displayModal={showModal}
