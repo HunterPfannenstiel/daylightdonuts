@@ -17,8 +17,8 @@ const Header: FunctionComponent<HeaderProps> = () => {
   return (
     <>
       <Nav sticky={info.sticky} />
-      <PageBar pageName={pageName} />
-      <Info info={info} sticky={info.sticky} />
+      {/* <PageBar pageName={pageName} /> */}
+      {/* <Info info={info} sticky={info.sticky} /> */}
     </>
   );
 };

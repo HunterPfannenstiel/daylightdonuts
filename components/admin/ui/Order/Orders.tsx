@@ -61,21 +61,15 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
             const label = selectedOrders[+key];
             let image = `data:image/png;base64,${label.render()}`;
             return (
-              <li>
+              <li key={Math.random()}>
                 <LabelPreview
-                  key={Math.random()}
                   imageSrc={image}
                   onClick={onLabelSelected.bind(null, +key)}
                 />
                 <button
-                  onClick={updateSelectedOrder.bind(
-                    null,
-                    +key,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined
-                  )}
+                  onClick={() => {
+                    updateSelectedOrder(+key);
+                  }}
                 >
                   Remove Label
                 </button>

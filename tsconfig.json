@@ -46,7 +46,7 @@
     "**/*.tsx",
     "utils/database/test.js",
     ".next/types/**/*.ts"
-, "utils/dymo/old.js"  ],
+, "utils/dymo/old.js", "utils/database/admin/menu-queries"  ],
   "exclude": [
     "node_modules"
   ]

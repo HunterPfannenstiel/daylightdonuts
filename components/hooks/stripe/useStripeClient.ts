@@ -10,6 +10,7 @@ const useStripeClient = () => {
   const stripe = useStripe();
   const elements = useElements();
   const searchParams = useSearchParams();
+  const { displayNotification } = useNotification();
 
   useEffect(() => {
     if (!stripe) {
@@ -24,7 +25,6 @@ const useStripeClient = () => {
       .retrievePaymentIntent(clientSecret as string)
       .then(({ paymentIntent }) => {
         const message = getNotificationMessage(paymentIntent);
-        const { displayNotification } = useNotification();
         if (
           message !== "Payment Succeeded!" &&
           message !== "Payment is Processing"

@@ -1,4 +1,4 @@
-import { fetchItems } from "@_utils/database/admin/update-queries";
+import { fetchItems } from "@_utils/database/admin/menu-queries/modify-item";
 import { NextApiHandler } from "next";
 const handler: NextApiHandler = async (req, res) => {
   try {

@@ -20,12 +20,17 @@
     /* --Colors-- */
     --font-black: #212121;
     --font-white: #FFFFFF;
-    --background-color: #F1F3F5;
+    --background-color: #FBFBFD;
 
     /* --Notification-- */
     --success: #70F36D;
     --pending: #FFFFFF;
     --error: #FF6666;
+
+    /* --Width-- */
+    --max-width: 1280px;
+    --page-margin: 1rem;
+
     scroll-behavior: smooth;
 }
 

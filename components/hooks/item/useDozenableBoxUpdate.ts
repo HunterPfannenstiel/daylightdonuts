@@ -21,7 +21,7 @@ const useDozenableBoxUpdate = (item: Item) => {
         unitPrice: +item.price,
         extras,
         extraIds: ids,
-        image: item.image,
+        image: item.image_urls[0],
         availability: item.availability,
       };
       dispatchBox({ type: "New", item: boxItem, itemId });

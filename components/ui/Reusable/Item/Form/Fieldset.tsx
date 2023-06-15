@@ -12,6 +12,7 @@ const Fieldset: FunctionComponent<FieldsetProps> = ({
   extra,
   updateExtras,
 }) => {
+  console.log(extra);
   const { category } = extra;
   return (
     <fieldset>

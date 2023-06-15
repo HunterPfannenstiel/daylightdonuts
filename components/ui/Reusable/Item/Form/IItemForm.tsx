@@ -6,7 +6,7 @@ import Fieldset from "./Fieldset";
 import classes from "./IItemForm.module.css";
 
 interface IItemFormProps {
-  extras: ItemExtras[] | null;
+  extras: { group: ItemExtras }[] | null;
   buttonName?: string;
   maxAmount?: number;
   addItemToCart: (e: FormEvent) => void;
@@ -18,14 +18,15 @@ const IItemForm = forwardRef<HTMLSelectElement, IItemFormProps>(
     { extras, maxAmount, buttonName, addItemToCart, updateExtras },
     amountRef
   ) => {
+    console.log(extras);
     return (
       <form className={classes.form} onSubmit={addItemToCart}>
         {extras?.map((extra) => {
-          if (extra.category !== null) {
+          if (extra.group.category !== null) {
             return (
               <Fieldset
-                key={extra.category}
-                extra={extra}
+                key={extra.group.category}
+                extra={extra.group}
                 updateExtras={updateExtras}
               />
             );

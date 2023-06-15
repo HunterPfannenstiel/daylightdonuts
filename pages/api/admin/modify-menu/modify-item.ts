@@ -3,7 +3,7 @@ import { sendErrorResponse, validateNewItem } from "@_utils/admin/modify-menu";
 import {
   createNewMenuItem,
   modifyMenuItem,
-} from "@_utils/database/admin/update-queries";
+} from "@_utils/database/admin/menu-queries/modify-item";
 import { parseManyImages } from "@_utils/image";
 import { deleteManyImages, uploadManyImages } from "@_utils/image/cloudinary";
 import { NextApiHandler } from "next";

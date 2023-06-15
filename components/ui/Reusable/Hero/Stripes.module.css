@@ -1,0 +1,9 @@
+.stripes {
+    transform: rotate(-45deg);
+    background: repeating-linear-gradient(
+  transparent,
+  transparent 20px,
+  #0072BC 20px,
+  #0072BC 40px
+);
+}

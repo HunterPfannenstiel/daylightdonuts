@@ -6,10 +6,11 @@ import {
   ModifyItem,
   NewDBItem,
 } from "@_types/admin/forms";
-import { adminQuery } from "../connect";
+import { adminQuery } from "../../connect";
 import { parseUndefinedToNull } from "@_utils/index";
 import { Item } from "@_types/admin/modify-menu";
 import { ServerError } from "custom-objects/ServerError";
+import { QueryResult } from "pg";
 
 //Complex because formData must be sent to endpoint when working with images
 export const createNewMenuItem = async (
@@ -156,9 +157,7 @@ export const fetchItems = async (
 export const fetchItemSelections = async (itemId: number) => {
   const query = "SELECT * FROM store.fetch_item_selections($1)";
   const res = await adminQuery(query, [itemId]);
-  if (res.rows.length < 1) {
-    throw new ServerError("Item not found in the database", 400);
-  }
+  checkRowLength(res);
   return res.rows[0] as InitialItemSelections;
 };
 
@@ -171,4 +170,10 @@ const getNewImageDisplayOrders = (mapping: any, images: ImageUpload[]) => {
       displayOrder,
     } as ItemImage;
   });
+};
+
+export const checkRowLength = (res: QueryResult<any>) => {
+  if (res.rows.length < 1) {
+    throw new ServerError("Item not found in the database", 400);
+  }
 };

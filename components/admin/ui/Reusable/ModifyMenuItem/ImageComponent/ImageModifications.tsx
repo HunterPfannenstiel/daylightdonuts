@@ -27,7 +27,7 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
       <ul className={classes.images}>
         {images.map((image, i) => {
           return (
-            <div className={classes.image}>
+            <div className={classes.image} key={image.imageUrl}>
               <ImageComponent
                 imageUrl={image.imageUrl}
                 index={i}

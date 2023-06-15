@@ -81,7 +81,7 @@ export const getExtraInfo = (extras: CartExtraInfo): [number[], Extra[]] => {
   Object.keys(extras).forEach((key) => {
     const extra = extras[key];
     ids.push(extra.id);
-    extrasArr.push({ category: key, extra: extra.extra });
+    extrasArr.push({ category: key, extra: extra.extra, abbreviation: null });
   });
 
   return [ids, extrasArr];

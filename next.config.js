@@ -5,9 +5,9 @@ const nextConfig = {
   images: {
     domains: ["res.cloudinary.com"],
   },
-  experimental: {
-    optimizeCss: true,
-  },
+  // experimental: {
+  //   optimizeCss: true,
+  // },
 };
 
 module.exports = nextConfig;
