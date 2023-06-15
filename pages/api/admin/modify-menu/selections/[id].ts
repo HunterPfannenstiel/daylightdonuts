@@ -1,5 +1,5 @@
 import { sendErrorResponse } from "@_utils/admin/modify-menu";
-import { fetchItemSelections } from "@_utils/database/admin/update-queries";
+import { fetchItemSelections } from "@_utils/database/admin/menu-queries/modify-item";
 import { ServerError } from "custom-objects/ServerError";
 import { NextApiHandler } from "next";
 const handler: NextApiHandler = async (req, res) => {
