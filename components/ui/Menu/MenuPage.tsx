@@ -1,14 +1,24 @@
-"use client";
+'use client';
 
-import useMenu from "@_hooks/menu/useMenu";
-import { FunctionComponent } from "react";
-import MenuItemList from "./MenuItemList";
+import useMenu from '@_hooks/menu/useMenu';
+import { FunctionComponent } from 'react';
+import MenuItemList from './MenuItemList';
+import MenuNavBar from './MenuNavBar';
+import classes from './MenuPage.module.css';
 
 interface MenuPageProps {}
 
 const MenuPage: FunctionComponent<MenuPageProps> = () => {
-  const [menuItems, isLoading, query] = useMenu();
-  return <MenuItemList items={menuItems} category={query.category} />;
+	const [menuItems, isLoading, query] = useMenu();
+	return (
+		<>
+			<div className={classes.header_box}>
+				<h1 className={classes.header}>Our Menu</h1>
+			</div>
+			<MenuNavBar />
+			<MenuItemList items={menuItems} category={query.category} />;
+		</>
+	);
 };
 
 export default MenuPage;

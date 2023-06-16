@@ -1,0 +1,21 @@
+.nav_bar {
+    display: flex;
+    overflow-x: scroll;
+}
+
+.nav_bar >*:first-child {
+    margin-left: auto;
+}
+
+.nav_bar >*:last-child {
+    margin-right: auto;
+}
+
+.nav_bar a {
+    margin: .5rem;
+    padding: 0 .5rem;
+}
+
+.nav_bar a:hover {
+    background: linear-gradient(#ffffff00 50%, #FFD503 50%);
+}
