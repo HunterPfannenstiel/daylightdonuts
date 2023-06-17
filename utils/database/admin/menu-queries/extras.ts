@@ -4,8 +4,11 @@ import {
   ExtraCustomizations,
   ExtraGroup,
   ExtraGroupCustomizations,
+  ExtraGroupExtraInfo,
+  ExtraGroupInfo,
   ExtraGroupSelections,
   ExtraSelections,
+  NewExtraCategoryExtra,
 } from "@_types/admin/modify-menu";
 import { adminQuery } from "@_utils/database/connect";
 import { checkRowLength } from "./modify-item";
@@ -55,4 +58,112 @@ export const viewExtraCategories = async () => {
   const query = "SELECT * FROM store.view_extra_categories()";
   const res = await adminQuery(query);
   return res.rows as DBEntity[];
+};
+
+export const createExtra = async (
+  name: string,
+  price: string,
+  categoryId: number,
+  groupInfo?: ExtraGroupInfo[],
+  abbreviation?: string
+) => {
+  const query = "CALL store.create_extra($1, $2, $3, $4, $5, NULL)";
+  const res = await adminQuery(query, [
+    name,
+    price,
+    groupInfo,
+    categoryId,
+    abbreviation || null,
+  ]);
+
+  return res.rows[0] as { new_extra_id: number };
+};
+
+export const modifyExtra = async (
+  extraId: number,
+  name?: string,
+  price?: string,
+  groupInfo?: ExtraGroupInfo[],
+  removeGroupIds?: number[],
+  categoryId?: number,
+  abbreviation?: string,
+  archived?: boolean
+) => {
+  const query = "CALL store.modify_extra($1, $2, $3, $4, $5, $6, $7, $8)";
+  await adminQuery(query, [
+    extraId,
+    name || null,
+    price || null,
+    groupInfo || null,
+    removeGroupIds || null,
+    categoryId === undefined ? null : categoryId,
+    abbreviation || null,
+    archived === undefined ? null : archived,
+  ]);
+};
+
+export const createExtraGroup = async (
+  name: string,
+  categoryId: number,
+  extrasInfo?: ExtraGroupExtraInfo[],
+  menuItemIds?: number[]
+) => {
+  const query = "CALL store.create_extra_group($1, $2, $3, $4 NULL)";
+  const res = await adminQuery(query, [
+    name,
+    extrasInfo || null,
+    categoryId,
+    menuItemIds || null,
+  ]);
+  return res.rows[0] as { new_group_id: number };
+};
+
+export const modifyExtraGroup = async (
+  extraGroupId: number,
+  name?: string,
+  categoryId?: number,
+  extrasInfo?: ExtraGroupExtraInfo[],
+  removeExtraIds?: number[],
+  addMenuItemIds?: number[],
+  removeMenuItemIds?: number[]
+) => {
+  const query = "CALL store.modify_extra_group($1, $2, $3, $4, $5, $6, $7)";
+  await adminQuery(query, [
+    extraGroupId,
+    name || null,
+    extrasInfo || null,
+    removeExtraIds || null,
+    categoryId === undefined ? null : categoryId,
+    addMenuItemIds || null,
+    removeMenuItemIds || null,
+  ]);
+};
+
+export const createExtraCategory = async (
+  name: string,
+  newExtras?: NewExtraCategoryExtra[],
+  addExtraIds?: number[]
+) => {
+  const query = "CALL store.create_extra_category($1, $2, $3, NULL)";
+  const res = await adminQuery(query, [
+    name,
+    newExtras || null,
+    addExtraIds || null,
+  ]);
+  return res.rows[0] as { new_id: number };
+};
+
+export const modifyExtraCategory = async (
+  extraCategoryId: number,
+  newExtras?: NewExtraCategoryExtra[],
+  addExtraIds?: number[],
+  changeExtraIds?: { extraId: number; categoryId: number }[]
+) => {
+  const query = "CALL store.modify_extra_category($1, $2, $3, $4)";
+  await adminQuery(query, [
+    extraCategoryId,
+    newExtras || null,
+    addExtraIds || null,
+    changeExtraIds || null,
+  ]);
 };

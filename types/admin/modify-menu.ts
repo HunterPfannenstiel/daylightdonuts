@@ -35,6 +35,7 @@ export type ExtraCustomizations = {
 export type ExtraSelections = {
   initial_category_id: number;
   initial_groups: InitialSelections;
+  initial_abbreviation: string | null;
 };
 
 export type ExtraGroupCustomizations = {
@@ -77,3 +78,23 @@ export type GroupingSelections = {
   image: string;
   is_active: boolean;
 };
+
+export type ExtraGroupInfo = {
+  extraGroupId: number;
+  displayOrder: number | null;
+};
+
+export type ExtraGroupExtraInfo = {
+  extraId: number;
+  displayOrder: number | null;
+};
+
+export type NewExtraCategoryExtra = {
+  name: string;
+  price: number | null;
+  abbreviation: number | null;
+};
+
+export type NewCategorySubcategory = { name: string };
+
+export type CategoryItemInfo = { itemId: number; subcategory: string };
