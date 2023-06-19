@@ -3,6 +3,10 @@
     overflow-x: scroll;
 }
 
+.nav_bar::-webkit-scrollbar {
+    display: none;
+}
+
 .nav_bar >*:first-child {
     margin-left: auto;
 }
@@ -17,5 +21,10 @@
 }
 
 .nav_bar a:hover {
+    background: linear-gradient(#ffffff00 50%, #FFD503 50%);
+}
+
+.selected {
+    font-weight: bold;
     background: linear-gradient(#ffffff00 50%, #FFD503 50%);
 }

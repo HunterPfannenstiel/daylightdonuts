@@ -1,18 +1,32 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import classes from './MenuNavBar.module.css';
 import Link from 'next/link';
 
 interface MenuNavBarProps {}
 
+const categories = [
+	'All',
+	'Featured',
+	'Donuts',
+	'Savory',
+	'Drinks',
+	'Dozenable',
+];
+
 const MenuNavBar: FunctionComponent<MenuNavBarProps> = () => {
+	const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
 	return (
 		<ul className={classes.nav_bar}>
-			<Link href={"menu?category=All"}>All</Link>
-			<Link href={"menu?category=Featured"}>Featured</Link>
-			<Link href={"menu?category=Donuts"}>Donuts</Link>
-			<Link href={"menu?category=Savory"}>Savory</Link>
-			<Link href={"menu?category=Drinks"}>Drinks</Link>
-			<Link href={"menu?category=Dozenable"}>Dozenable</Link>
+			{categories.map((category, index) => (
+				<Link
+					href={`menu?category=${category}`}
+					className={selectedIndex === index ? classes.selected : ''}
+					onClick={setSelectedIndex.bind(this, index)}
+				>
+					{category}
+				</Link>
+			))}
 		</ul>
 	);
 };
