@@ -38,6 +38,13 @@ export type ExtraSelections = {
   initial_abbreviation: string | null;
 };
 
+export type ExtraDetails = {
+  name: string;
+  price: string;
+  abbreviation: string;
+  isArchived?: boolean;
+};
+
 export type ExtraGroupCustomizations = {
   categories: DBEntity[];
   items: DBEntity & { extra_group_ids: number[] }[];

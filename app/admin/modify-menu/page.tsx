@@ -1,5 +1,6 @@
 import { Customizations } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
+import CreateExtraModal from "components/admin/ui/ModifyMenu/CreateExtraModal";
 import ModifyMenu from "components/admin/ui/ModifyMenu/ModifyMenu";
 
 const Menu = async () => {
@@ -8,12 +9,13 @@ const Menu = async () => {
     await fetchMenuCusomizations();
   return (
     <>
-      <ModifyMenu
+      {/* <ModifyMenu
         items={items}
         groupings={groupings}
         extraGroupings={extra_groupings}
         itemCategories={item_categories}
-      />
+      /> */}
+      <CreateExtraModal />
     </>
   );
 };
