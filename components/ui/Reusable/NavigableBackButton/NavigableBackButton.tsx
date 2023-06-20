@@ -1,32 +1,32 @@
 'use client';
 import { FunctionComponent } from 'react';
-import classes from './NavigableBackButton.module.css';
+import classes from './NavigableBackBar.module.css';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-interface NavigableBackButtonProps {}
+interface NavigableBackBarProps {}
 
-const NavigableBackButton: FunctionComponent<NavigableBackButtonProps> = () => {
-    const path = usePathname();
-    if (path === '/') return <></>;
+const NavigableBackBar: FunctionComponent<NavigableBackBarProps> = () => {
+	const path = usePathname();
+	if (path === '/') return <></>;
 
 	const splitPath = path?.split('/');
-    let buildString = '';
-
+	let buildString = '';
 
 	return (
-		<>
-            <Link href={'/'}>Home</Link>
+		<div className={classes.back_bar}>
+			<Link href={'/'}>&lt; Home </Link>
 			{splitPath?.map((piece, index) => {
+				if (piece.length === 0) return;
 				buildString += index === splitPath.length - 1 ? piece : piece + '/';
-				return (
-					<Link href={buildString}>
-						{piece.slice(0, 1).toUpperCase() + piece.slice(1)}
-					</Link>
-				);
+				const formattedPiece =
+					' / ' + piece.slice(0, 1).toUpperCase() + piece.slice(1);
+				if (index !== splitPath.length - 1) {
+					return <Link href={buildString}>{formattedPiece + ' '}</Link>;
+				} else return <p className={classes.last_piece}>{formattedPiece}</p>;
 			})}
-		</>
+		</div>
 	);
 };
 
-export default NavigableBackButton;
+export default NavigableBackBar;

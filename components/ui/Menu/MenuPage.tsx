@@ -13,7 +13,9 @@ const MenuPage: FunctionComponent<MenuPageProps> = () => {
 	return (
 		<>
 			<div className={classes.header_box}>
-				<h1 className={classes.header}>Our Menu</h1>
+				<div className={classes.text_container}>
+					<h1 className={classes.header}>Our Menu</h1>
+				</div>
 			</div>
 			<MenuNavBar />
 			<MenuItemList items={menuItems} category={query.category} />;

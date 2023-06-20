@@ -1,0 +1,9 @@
+.back_bar {
+    margin-left: 4rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+.last_piece {
+    display: inline-block;
+}
