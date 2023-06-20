@@ -60,45 +60,50 @@ export const viewExtraCategories = async () => {
   return res.rows as DBEntity[];
 };
 
-export const createExtra = async (
-  name: string,
-  price: string,
-  categoryId: number,
-  groupInfo?: ExtraGroupInfo[],
-  abbreviation?: string
-) => {
+export type CreateExtra = {
+  name: string;
+  price: string;
+  categoryId: number;
+  groupInfo?: ExtraGroupInfo[];
+  abbreviation?: string;
+};
+
+export const createExtra = async (info: CreateExtra) => {
+  const groupInfo = info.groupInfo ? JSON.stringify(info.groupInfo) : null;
   const query = "CALL store.create_extra($1, $2, $3, $4, $5, NULL)";
   const res = await adminQuery(query, [
-    name,
-    price,
+    info.name,
+    info.price,
     groupInfo,
-    categoryId,
-    abbreviation || null,
+    info.categoryId,
+    info.abbreviation || null,
   ]);
 
   return res.rows[0] as { new_extra_id: number };
 };
 
-export const modifyExtra = async (
-  extraId: number,
-  name?: string,
-  price?: string,
-  groupInfo?: ExtraGroupInfo[],
-  removeGroupIds?: number[],
-  categoryId?: number,
-  abbreviation?: string,
-  archived?: boolean
-) => {
+export type ModifyExtra = {
+  extraId: number;
+  name?: string;
+  price?: string;
+  groupInfo?: ExtraGroupInfo[];
+  removeGroupIds?: number[];
+  categoryId?: number;
+  abbreviation?: string;
+  archived?: boolean;
+};
+
+export const modifyExtra = async (info: ModifyExtra) => {
   const query = "CALL store.modify_extra($1, $2, $3, $4, $5, $6, $7, $8)";
   await adminQuery(query, [
-    extraId,
-    name || null,
-    price || null,
-    groupInfo || null,
-    removeGroupIds || null,
-    categoryId === undefined ? null : categoryId,
-    abbreviation || null,
-    archived === undefined ? null : archived,
+    info.extraId,
+    info.name || null,
+    info.price || null,
+    info.groupInfo || null,
+    info.removeGroupIds || null,
+    info.categoryId === undefined ? null : info.categoryId,
+    info.abbreviation || null,
+    info.archived === undefined ? null : info.archived,
   ]);
 };
 

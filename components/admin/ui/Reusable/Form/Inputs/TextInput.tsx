@@ -7,8 +7,9 @@ interface TextInputProps {
   inputType?: string;
   handler: (inputValue: string) => void;
   required?: boolean;
-  defaultValue: string;
+  defaultValue?: string;
   isTextArea?: boolean;
+  value?: string;
 }
 
 const TextInput: FunctionComponent<TextInputProps> = ({
@@ -19,6 +20,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   required,
   defaultValue,
   isTextArea = false,
+  value,
 }) => {
   return (
     <div className={classes.input}>
@@ -30,6 +32,7 @@ const TextInput: FunctionComponent<TextInputProps> = ({
           onChange={(e) => {
             handler(e.target.value);
           }}
+          value={value}
           required={required}
           defaultValue={defaultValue}
         />

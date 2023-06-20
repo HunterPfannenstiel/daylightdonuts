@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import classes from "./ImageModifications.module.css";
 import { ItemImage } from "@_types/admin/forms";
 import ImageComponent from ".";
-import ImageInput from "@_admin-reuse/Form/ImageInput";
+import ImageInput from "@_admin-reuse/Form/Inputs/ImageInput";
 
 interface ImageModificationsProps {
   addImages: (image: ItemImage[]) => void;

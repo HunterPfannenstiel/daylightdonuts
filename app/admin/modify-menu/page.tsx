@@ -9,13 +9,12 @@ const Menu = async () => {
     await fetchMenuCusomizations();
   return (
     <>
-      {/* <ModifyMenu
+      <ModifyMenu
         items={items}
         groupings={groupings}
         extraGroupings={extra_groupings}
         itemCategories={item_categories}
-      /> */}
-      <CreateExtraModal />
+      />
     </>
   );
 };
