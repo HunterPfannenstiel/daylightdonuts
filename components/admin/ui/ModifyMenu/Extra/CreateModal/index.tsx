@@ -6,17 +6,21 @@ import Pages from "@_admin-reuse/Pages";
 import ExtraDetails from "@_admin-reuse/Modify/Extras/ExtraDetails";
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import { DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
-import useCollectExtraInfo from "@_hooks/admin/menu/useCollectExtraInfo";
+import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { CreateExtra } from "@_utils/database/admin/menu-queries/extras";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
+import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface CreateExtraModalProps {
   categories: DBEntity[];
   groupings: ExtraGroup[];
+  modalProps: ModalProps;
 }
 
 const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
   categories,
   groupings,
+  modalProps,
 }) => {
   const info = useCollectExtraInfo();
   const canFlipCurrPage = useRef(true);
@@ -47,26 +51,28 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
     }
   };
   return (
-    <Pages
-      beforePageTurn={() => canFlipCurrPage.current}
-      pages={[
-        <ExtraDetails
-          initialDetails={info.extraDetails}
-          updateHandler={info.updateDetails}
-          canFlipPage={updatePageFlip}
-        />,
-        <ExtraGroups
-          initialGroups={info.selectedGroupingIds}
-          initialCategoryId={info.selectedCategoryId}
-          updateCategory={info.updateCategoryId}
-          updateGroupings={info.updateGroup}
-          categories={categories}
-          groupSelections={groupings}
-          canFlipPage={updatePageFlip}
-        />,
-      ]}
-      submitHandler={onSubmit}
-    />
+    <ModalDisplay modalProps={modalProps}>
+      <Pages
+        beforePageTurn={() => canFlipCurrPage.current}
+        pages={[
+          <ExtraDetails
+            initialDetails={info.extraDetails}
+            updateHandler={info.updateDetails}
+            canFlipPage={updatePageFlip}
+          />,
+          <ExtraGroups
+            initialGroups={info.selectedGroupingIds}
+            initialCategoryId={info.selectedCategoryId}
+            updateCategory={info.updateCategoryId}
+            updateGroupings={info.updateGroup}
+            categories={categories}
+            groupSelections={groupings}
+            canFlipPage={updatePageFlip}
+          />,
+        ]}
+        submitHandler={onSubmit}
+      />
+    </ModalDisplay>
   );
 };
 export default CreateExtraModal;

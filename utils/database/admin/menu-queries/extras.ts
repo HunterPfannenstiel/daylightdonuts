@@ -99,7 +99,7 @@ export const modifyExtra = async (info: ModifyExtra) => {
     info.extraId,
     info.name || null,
     info.price || null,
-    info.groupInfo || null,
+    !!info.groupInfo ? JSON.stringify(info.groupInfo) : null,
     info.removeGroupIds || null,
     info.categoryId === undefined ? null : info.categoryId,
     info.abbreviation || null,

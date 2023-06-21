@@ -24,15 +24,11 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
     selectedOrderInfo,
   } = useSelectedOrders();
   const { showModal, handleModal, playAnimation } = useAnimateModal(300);
-  const {
-    showModal: showDymo,
-    playAnimation: animDymo,
-    handleModal: handleDymo,
-  } = useAnimateModal(300);
+  const dymoModal = useAnimateModal(300);
   const selectedOrderId = useRef<number>(0);
   const onLabelSelected = (orderId: number) => {
     selectedOrderId.current = orderId;
-    handleDymo();
+    dymoModal.handleModal();
   };
   const initDymo = async () => {
     try {
@@ -52,11 +48,7 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
       )}
       <OrderItemList orders={orders} onSelectedForPrint={updateSelectedOrder} />
       {showModal && (
-        <ModalDisplay
-          handleModal={handleModal}
-          playAnimation={playAnimation}
-          className={classes.orders}
-        >
+        <ModalDisplay modalProps={dymoModal} className={classes.orders}>
           {Object.keys(selectedOrders).map((key) => {
             const label = selectedOrders[+key];
             let image = `data:image/png;base64,${label.render()}`;
@@ -78,7 +70,7 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
           })}
         </ModalDisplay>
       )}
-      {showDymo && (
+      {dymoModal.showModal && (
         <DymoDisplay
           orderId={selectedOrderId.current}
           abbreviate={
@@ -91,8 +83,7 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
             selectedOrderId.current
           ].render()}`}
           onTextStyleChange={onTextChange}
-          handle={handleDymo}
-          playAnimation={animDymo}
+          modalProps={dymoModal}
         />
       )}
     </>

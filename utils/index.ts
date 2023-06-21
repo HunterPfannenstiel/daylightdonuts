@@ -1,3 +1,4 @@
+import { ServerError } from "custom-objects/ServerError";
 import { validate } from "email-validator";
 import { phone } from "phone";
 
@@ -44,4 +45,18 @@ export const createFormData = (
 export const parseUndefinedToNull = (value: any) => {
   if (value === "undefined" || value === "null") return null;
   return value;
+};
+
+export const typeCheck = (
+  type: "string" | "number" | "object",
+  ...variables: { name: string; value: any }[]
+) => {
+  variables.forEach((variable) => {
+    if (typeof variable.value !== type) {
+      throw new ServerError(
+        `Variable [${variable.name}] is not of type ${type}. Value received: ${variable.value}`,
+        400
+      );
+    }
+  });
 };

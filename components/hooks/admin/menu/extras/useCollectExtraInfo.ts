@@ -32,8 +32,10 @@ const useCollectExtraInfo = (
     }
   };
 
-  const getExtraGroupInfo = (): ExtraGroupInfo[] => {
-    return Object.keys(selectedGroupingIds.current).map((key) => {
+  const getExtraGroupInfo = (
+    selections = selectedGroupingIds.current
+  ): ExtraGroupInfo[] => {
+    return Object.keys(selections).map((key) => {
       return { extraGroupId: +key, displayOrder: null };
     });
   };

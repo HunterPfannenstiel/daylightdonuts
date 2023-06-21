@@ -36,6 +36,8 @@ export type ExtraSelections = {
   initial_category_id: number;
   initial_groups: InitialSelections;
   initial_abbreviation: string | null;
+  initial_price: string | null;
+  initital_archive: boolean;
 };
 
 export type ExtraDetails = {

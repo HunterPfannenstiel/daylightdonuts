@@ -17,7 +17,7 @@ const handler: NextApiHandler = async (req, res) => {
     } else if (req.method === "PATCH") {
       const info = req.body as ModifyExtra;
       await modifyExtra(info);
-      return res.status(200).end();
+      return res.status(200).json({ message: "Updated!" });
     } else {
       return res.status(400).json({ message: "Invalid method" });
     }
