@@ -1,9 +1,9 @@
 import { FunctionComponent } from "react";
 import useExtraSelections from "@_hooks/admin/menu/extras/useExtraSelections";
-import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModalContents from "./ModalContents";
 import { DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
+import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 
 interface ModifyExtraModalProps {
   extraId: number;
@@ -23,7 +23,7 @@ const ModifyExtraModal: FunctionComponent<ModifyExtraModalProps> = ({
   const { selections, isLoading, isError } = useExtraSelections(extraId);
   if (isLoading) return <p>Loading...</p>;
   return (
-    <ModalDisplay modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps}>
       <ModalContents
         extraId={extraId}
         selections={selections!}
@@ -31,7 +31,7 @@ const ModifyExtraModal: FunctionComponent<ModifyExtraModalProps> = ({
         categories={categories}
         groupings={groupings}
       />
-    </ModalDisplay>
+    </ModifyMenuModal>
   );
 };
 

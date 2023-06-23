@@ -1,0 +1,7 @@
+.modal {
+    background-color: var(--background-color);
+    width: 90%;
+    height: 80%;
+    padding: 2rem;
+    border-radius: 8px;
+}

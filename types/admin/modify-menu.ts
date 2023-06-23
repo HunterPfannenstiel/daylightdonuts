@@ -20,7 +20,7 @@ export type DBEntity = {
 
 export type InitialSelections = { [id: number]: boolean };
 
-export type ExtraGroup = DBEntity & { extra_category_id: number };
+export type ExtraGroup = { category: string; groups: DBEntity[] };
 
 export type CategoryExtras = {
   category: string;
@@ -49,9 +49,11 @@ export type ExtraDetails = {
 
 export type ExtraGroupCustomizations = {
   categories: DBEntity[];
-  items: DBEntity & { extra_group_ids: number[] }[];
-  extras: { category: string; extras: DBEntity[] };
+  items: (DBEntity & { extra_group_ids: number[] })[];
+  extras: CategoryExtra[];
 };
+
+export type CategoryExtra = { category_id: number; extras: DBEntity[] };
 
 export type ExtraGroupSelections = {
   initial_extras: InitialSelections;

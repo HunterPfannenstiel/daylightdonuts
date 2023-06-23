@@ -1,15 +1,14 @@
 "use client";
 
 import { FunctionComponent, useRef } from "react";
-import classes from "./CreateExtraModal.module.css";
 import Pages from "@_admin-reuse/Pages";
 import ExtraDetails from "@_admin-reuse/Modify/Extras/ExtraDetails";
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import { DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { CreateExtra } from "@_utils/database/admin/menu-queries/extras";
-import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 
 interface CreateExtraModalProps {
   categories: DBEntity[];
@@ -51,7 +50,7 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
     }
   };
   return (
-    <ModalDisplay modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps}>
       <Pages
         beforePageTurn={() => canFlipCurrPage.current}
         pages={[
@@ -72,7 +71,7 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
         ]}
         submitHandler={onSubmit}
       />
-    </ModalDisplay>
+    </ModifyMenuModal>
   );
 };
 export default CreateExtraModal;

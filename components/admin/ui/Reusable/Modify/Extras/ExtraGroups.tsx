@@ -12,6 +12,7 @@ import {
   InitialSelections,
 } from "@_types/admin/modify-menu";
 import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
+import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ExtraGroupsProps {
   initialGroups: InitialSelections;
@@ -40,42 +41,30 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
   }, [selectedCategory]);
   return (
     <Fieldset legend="Choose Groups!">
-      <h2>Category</h2>
-      <ul className={classes.categories}>
-        {categories.map((category) => {
-          return (
-            <SelectInput
-              inputId={category.name}
-              label={category.name}
-              defaultChecked={initialCategoryId.current === category.id}
-              handler={() => {
-                updateCategory(category.id);
-                setSelectedCategory(category.id);
-              }}
-              type="radio"
-              radioName="category"
-            />
-          );
-        })}
-      </ul>
+      <SelectInputList
+        selections={categories}
+        initialSelections={undefined}
+        initialSelection={selectedCategory}
+        type="radio"
+        title="Category"
+        onSelect={(id) => {
+          updateCategory(id);
+          setSelectedCategory(id);
+        }}
+      />
       {selectedCategory !== undefined && (
         <>
-          <h2>Select Groups</h2>
-          {groupSelections
-            .filter((group) => group.extra_category_id === selectedCategory)
-            .map((group) => {
-              return (
-                <SelectInput
-                  inputId={group.name}
-                  label={group.name}
-                  type="checkbox"
-                  defaultChecked={!!initialGroups[group.id]}
-                  handler={(isSelected) => {
-                    updateGroupings(group.id);
-                  }}
-                />
-              );
-            })}
+          <SelectInputList
+            selections={groupSelections.filter(
+              (group) => group.extra_category_id === selectedCategory
+            )}
+            title="Select Groups"
+            initialSelections={initialGroups}
+            type="checkbox"
+            onSelect={(id) => {
+              updateGroupings(id);
+            }}
+          />
         </>
       )}
     </Fieldset>

@@ -107,40 +107,44 @@ export const modifyExtra = async (info: ModifyExtra) => {
   ]);
 };
 
-export const createExtraGroup = async (
-  name: string,
-  categoryId: number,
-  extrasInfo?: ExtraGroupExtraInfo[],
-  menuItemIds?: number[]
-) => {
-  const query = "CALL store.create_extra_group($1, $2, $3, $4 NULL)";
+export type CreateExtraGroup = {
+  name: string;
+  categoryId: number;
+  extrasInfo?: ExtraGroupExtraInfo[];
+  menuItemIds?: number[];
+};
+
+export const createExtraGroup = async (info: CreateExtraGroup) => {
+  const query = "CALL store.create_extra_group($1, $2, $3, $4, NULL)";
   const res = await adminQuery(query, [
-    name,
-    extrasInfo || null,
-    categoryId,
-    menuItemIds || null,
+    info.name,
+    info.extrasInfo ? JSON.stringify(info.extrasInfo) : null,
+    info.categoryId,
+    info.menuItemIds || null,
   ]);
   return res.rows[0] as { new_group_id: number };
 };
 
-export const modifyExtraGroup = async (
-  extraGroupId: number,
-  name?: string,
-  categoryId?: number,
-  extrasInfo?: ExtraGroupExtraInfo[],
-  removeExtraIds?: number[],
-  addMenuItemIds?: number[],
-  removeMenuItemIds?: number[]
-) => {
+export type ModifyExtraGroup = {
+  extraGroupId: number;
+  name?: string;
+  categoryId?: number;
+  extrasInfo?: ExtraGroupExtraInfo[];
+  removeExtraIds?: number[];
+  addMenuItemIds?: number[];
+  removeMenuItemIds?: number[];
+};
+
+export const modifyExtraGroup = async (info: ModifyExtraGroup) => {
   const query = "CALL store.modify_extra_group($1, $2, $3, $4, $5, $6, $7)";
   await adminQuery(query, [
-    extraGroupId,
-    name || null,
-    extrasInfo || null,
-    removeExtraIds || null,
-    categoryId === undefined ? null : categoryId,
-    addMenuItemIds || null,
-    removeMenuItemIds || null,
+    info.extraGroupId,
+    info.name || null,
+    info.extrasInfo ? JSON.stringify(info.extrasInfo) : null,
+    info.removeExtraIds || null,
+    info.categoryId === undefined ? null : info.categoryId,
+    info.addMenuItemIds || null,
+    info.removeMenuItemIds || null,
   ]);
 };
 

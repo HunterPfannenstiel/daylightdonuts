@@ -15,13 +15,13 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
   swapImages,
   images,
 }) => {
-  const onImageDragged = (e: React.DragEvent, index: string) => {
-    e.dataTransfer.setData("index", index);
-  };
-  const onImageDropped = (e: React.DragEvent, index: number) => {
-    const draggedImageIndex = e.dataTransfer.getData("index");
-    swapImages(+draggedImageIndex, index);
-  };
+  // const onImageDragged = (e: React.DragEvent, index: string) => {
+  //   e.dataTransfer.setData("index", index);
+  // };
+  // const onImageDropped = (e: React.DragEvent, index: number) => {
+  //   const draggedImageIndex = e.dataTransfer.getData("index");
+  //   swapImages(+draggedImageIndex, index);
+  // };
   return (
     <div className={classes.container}>
       <ul className={classes.images}>
@@ -31,8 +31,7 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
               <ImageComponent
                 imageUrl={image.imageUrl}
                 index={i}
-                onImageDragged={onImageDragged}
-                onImageDropped={onImageDropped}
+                onSwap={swapImages}
               />
               <p>{i + 1}</p>
             </div>
