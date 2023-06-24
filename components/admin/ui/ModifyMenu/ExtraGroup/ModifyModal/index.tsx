@@ -25,21 +25,18 @@ const ModifyExtraGroupModal: FunctionComponent<ModifyExtraGroupModalProps> = ({
   items,
 }) => {
   const { selections, isLoading } = useExtraGroupSelections(groupId);
-  const onSubmit = async () => {
-    const extraGroup = {} as ModifyExtraGroup;
-    console.log("submit");
-  };
+
   if (isLoading) return <p>Loading...</p>;
   return (
     <ModifyMenuModal modalProps={modalProps}>
       <ModalContents
+        groupId={groupId}
         groupName={groupName}
         extras={extras}
         categories={categories}
         items={items}
         selections={selections!}
       />
-      <button onClick={onSubmit}>Submit</button>
     </ModifyMenuModal>
   );
 };

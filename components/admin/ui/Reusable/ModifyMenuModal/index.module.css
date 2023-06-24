@@ -4,4 +4,5 @@
     height: 80%;
     padding: 2rem;
     border-radius: 8px;
+    overflow-y: scroll;
 }

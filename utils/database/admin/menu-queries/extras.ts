@@ -1,6 +1,8 @@
 import {
   CategoryExtras,
   DBEntity,
+  ExtraCategoryCustomizations,
+  ExtraCategorySelections,
   ExtraCustomizations,
   ExtraGroup,
   ExtraGroupCustomizations,
@@ -58,6 +60,19 @@ export const viewExtraCategories = async () => {
   const query = "SELECT * FROM store.view_extra_categories()";
   const res = await adminQuery(query);
   return res.rows as DBEntity[];
+};
+
+export const fetchExtraCategoryCustomizations = async () => {
+  const query = "SELECT * FROM store.fetch_extra_category_customizations()";
+  const res = await adminQuery(query);
+  return res.rows as ExtraCategoryCustomizations;
+};
+
+export const fetchExtraCategorySelections = async (extraCategoryId: number) => {
+  const query = "SELECT * FROM store.fetch_extra_category_selections($1)";
+  const res = await adminQuery(query, [extraCategoryId]);
+  checkRowLength(res);
+  return res.rows[0] as ExtraCategorySelections;
 };
 
 export type CreateExtra = {
@@ -148,31 +163,35 @@ export const modifyExtraGroup = async (info: ModifyExtraGroup) => {
   ]);
 };
 
-export const createExtraCategory = async (
-  name: string,
-  newExtras?: NewExtraCategoryExtra[],
-  addExtraIds?: number[]
-) => {
+export type CreateExtraCategory = {
+  name: string;
+  newExtras?: NewExtraCategoryExtra[];
+  addExtraIds?: number[];
+};
+
+export const createExtraCategory = async (info: CreateExtraCategory) => {
   const query = "CALL store.create_extra_category($1, $2, $3, NULL)";
   const res = await adminQuery(query, [
-    name,
-    newExtras || null,
-    addExtraIds || null,
+    info.name,
+    info.newExtras || null,
+    info.addExtraIds || null,
   ]);
   return res.rows[0] as { new_id: number };
 };
 
-export const modifyExtraCategory = async (
-  extraCategoryId: number,
-  newExtras?: NewExtraCategoryExtra[],
-  addExtraIds?: number[],
-  changeExtraIds?: { extraId: number; categoryId: number }[]
-) => {
+export type ModifyExtraCategory = {
+  extraCategoryId: number;
+  newExtras?: NewExtraCategoryExtra[];
+  addExtraIds?: number[];
+  changeExtraIds?: { extraId: number; categoryId: number }[];
+};
+
+export const modifyExtraCategory = async (info: ModifyExtraCategory) => {
   const query = "CALL store.modify_extra_category($1, $2, $3, $4)";
   await adminQuery(query, [
-    extraCategoryId,
-    newExtras || null,
-    addExtraIds || null,
-    changeExtraIds || null,
+    info.extraCategoryId,
+    info.newExtras || null,
+    info.addExtraIds || null,
+    info.changeExtraIds || null,
   ]);
 };

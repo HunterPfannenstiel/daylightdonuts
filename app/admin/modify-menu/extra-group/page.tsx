@@ -3,7 +3,7 @@ import {
   ExtraGroupCustomizations,
 } from "@_types/admin/modify-menu";
 import ExtraGroup from "components/admin/ui/ModifyMenu/ExtraGroup";
-import CreateExtraGroupModal from "components/admin/ui/ModifyMenu/ExtraGroup/CreateModal";
+import ModifyMenu from "custom-objects/ModifyMenu";
 
 const ExtraGroupPage = async () => {
   const customizations = await fetchExtraGroupCustomizations();
@@ -21,24 +21,12 @@ const ExtraGroupPage = async () => {
 export default ExtraGroupPage;
 
 const fetchExtraGroupCustomizations = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/extra-group/customizations`
-  );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data as ExtraGroupCustomizations;
+  return (await ModifyMenu.Get.Customizations(
+    "extra-group"
+  )) as ExtraGroupCustomizations;
 };
 
 const fetchExtraGroups = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/extra-group/fetch-groups`,
-    { cache: "no-store" }
-  );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data as ExtraGroupT[];
+  const res = (await ModifyMenu.Get.Existing("extra-group")) as ExtraGroupT[];
+  return res;
 };

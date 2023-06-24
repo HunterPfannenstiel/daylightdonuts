@@ -1,5 +1,6 @@
 import { InitialItemSelections } from "@_types/admin/forms";
 import { useQuery } from "@tanstack/react-query";
+import ModifyMenu from "custom-objects/ModifyMenu";
 
 const useItemSelections = (id: number) => {
   const { data, isLoading, isError } = useQuery({
@@ -12,12 +13,7 @@ const useItemSelections = (id: number) => {
 };
 
 const fetcher = async (id: number) => {
-  const res = await fetch(`/api/admin/modify-menu/selections/${id}`);
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
-  return data as InitialItemSelections;
+  return (await ModifyMenu.Get.Selections("item", id)) as InitialItemSelections;
 };
 
 export default useItemSelections;

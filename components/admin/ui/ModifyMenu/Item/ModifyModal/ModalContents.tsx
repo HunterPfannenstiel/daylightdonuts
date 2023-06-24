@@ -10,7 +10,7 @@ import {
   ModifyItem,
   ModifyItemDetails,
 } from "@_types/admin/forms";
-import useCollectModalInfo from "@_hooks/admin/menu/useCollectModalInfo";
+import useCollectModalInfo from "@_hooks/admin/menu/item/useCollectModalInfo";
 import ItemDetails from "@_admin-reuse/ModifyMenuItem/ItemDetails";
 import ItemGroupings from "@_admin-reuse/ModifyMenuItem/ItemGroupings";
 import ItemExtras from "@_admin-reuse/ModifyMenuItem/ItemExtras";
@@ -18,6 +18,7 @@ import ItemCategories from "@_admin-reuse/ModifyMenuItem/ItemCategories";
 import ItemAvailability from "@_admin-reuse/ModifyMenuItem/ItemAvailability";
 import { formatDateRange } from "@_utils/admin/modify-menu";
 import { createFormData } from "@_utils/index";
+import ModifyMenu from "custom-objects/ModifyMenu";
 
 interface ModalContentsProps {
   id: number;
@@ -141,15 +142,10 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     };
 
     const formData = createFormData(item, { images: newImages });
-
-    const res = await fetch("/api/admin/modify-menu/modify-item", {
-      method: "PATCH",
-      body: formData,
-    });
-
-    if (!res.ok) {
-      const data = await res.json();
-      console.error(data);
+    try {
+      const res = await ModifyMenu.Post.Modify("item", formData, true);
+    } catch (error) {
+      console.error(error);
     }
   };
   return (

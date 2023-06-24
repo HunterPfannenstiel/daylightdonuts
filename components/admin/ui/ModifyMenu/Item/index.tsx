@@ -1,16 +1,16 @@
 "use client";
 
-import { FunctionComponent, useState } from "react";
-import classes from "./ModifyMenu.module.css";
-import CreateItemModal from "./CreateItemModal/CreateItemModal";
+import { FunctionComponent, useRef } from "react";
+import classes from "./index.module.css";
 import {
   AvailableExtraGrouping,
   AvailableGrouping,
   AvailableItemCategory,
 } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
-import ModifyItemModal from "./ModifyItemModal";
+import ModifyItemModal from "./ModifyModal";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
+import CreateItemModal from "./CreateModal";
 
 interface ModifyMenuProps {
   items: Item[];
@@ -25,35 +25,40 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
   extraGroupings,
   itemCategories,
 }) => {
-  const [selectedId, setSelectedId] = useState<number>();
-  const { handleModal, playAnimation, showModal } = useAnimateModal(300);
-  const openModal = (id: number) => {
-    setSelectedId(id);
-    handleModal();
-  };
-  const closeModal = () => {
-    setSelectedId(undefined);
-    handleModal();
+  const selectedId = useRef<number>();
+  const createModal = useAnimateModal(300);
+  const modifyModal = useAnimateModal(300);
+  const openModifyModal = (id: number) => {
+    selectedId.current = id;
+    modifyModal.handleModal();
   };
   return (
     <>
+      {createModal.showModal && (
+        <CreateItemModal
+          modalProps={createModal}
+          groupings={groupings}
+          extraGroupings={extraGroupings}
+          itemCategories={itemCategories}
+        />
+      )}
+
       <ul className={classes.menu_items}>
         {items.map((item) => {
           return (
             <li key={item.name}>
               <h2>{item.name}</h2>
-              <button onClick={openModal.bind(null, item.menu_item_id)}>
+              <button onClick={openModifyModal.bind(null, item.menu_item_id)}>
                 Modify
               </button>
             </li>
           );
         })}
       </ul>
-      {showModal && selectedId && (
+      {modifyModal.showModal && selectedId && (
         <ModifyItemModal
-          playAnimation={playAnimation}
-          closeModal={closeModal}
-          id={selectedId!}
+          modalProps={modifyModal}
+          id={selectedId.current!}
           groupings={groupings}
           extraGroupings={extraGroupings}
           itemCategories={itemCategories}
@@ -61,13 +66,6 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
       )}
     </>
   );
-  // return (
-  //   <CreateItemModal
-  //     groupings={groupings}
-  //     extraGroupings={extraGroupings}
-  //     itemCategories={itemCategories}
-  //   />
-  // );
 };
 
 export default ModifyMenu;

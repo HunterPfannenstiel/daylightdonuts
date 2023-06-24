@@ -18,6 +18,8 @@ export type DBEntity = {
   id: number;
 };
 
+export type DisplayOrderItem = { id: number; displayOrder: number };
+
 export type InitialSelections = { [id: number]: boolean };
 
 export type ExtraGroup = { category: string; groups: DBEntity[] };
@@ -52,6 +54,16 @@ export type ExtraGroupCustomizations = {
   items: (DBEntity & { extra_group_ids: number[] })[];
   extras: CategoryExtra[];
 };
+
+export type ExtraCategoryItem = {
+  [id: number]: { name: string; category: string };
+};
+
+export type ExtraCategorySelections = {
+  initial_items: ExtraCategoryItem;
+};
+
+export type ExtraCategoryCustomizations = (DBEntity & { category: string })[];
 
 export type CategoryExtra = { category_id: number; extras: DBEntity[] };
 
