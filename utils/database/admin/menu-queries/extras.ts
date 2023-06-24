@@ -173,7 +173,7 @@ export const createExtraCategory = async (info: CreateExtraCategory) => {
   const query = "CALL store.create_extra_category($1, $2, $3, NULL)";
   const res = await adminQuery(query, [
     info.name,
-    info.newExtras || null,
+    info.newExtras ? JSON.stringify(info.newExtras) : null,
     info.addExtraIds || null,
   ]);
   return res.rows[0] as { new_id: number };

@@ -9,18 +9,20 @@ type SelectInputListProps =
       selections: DBEntity[];
       initialSelections: InitialSelections;
       initialSelection?: undefined;
-      onSelect: (id: number) => void;
+      onSelect: (id: number, name: string) => void;
       type: "checkbox";
       radioName?: undefined;
+      alwaysChecked?: boolean;
     }
   | {
       title?: string;
       selections: DBEntity[];
       initialSelections?: undefined;
       initialSelection?: number;
-      onSelect: (id: number) => void;
+      onSelect: (id: number, name: string) => void;
       type: "radio";
       radioName: string;
+      alwaysChecked?: undefined;
     };
 
 const SelectInputList: FunctionComponent<SelectInputListProps> = ({
@@ -31,6 +33,7 @@ const SelectInputList: FunctionComponent<SelectInputListProps> = ({
   initialSelection,
   type,
   radioName,
+  alwaysChecked = false,
 }) => {
   return (
     <>
@@ -46,9 +49,9 @@ const SelectInputList: FunctionComponent<SelectInputListProps> = ({
               key={selection.id}
               inputId={selection.name}
               label={selection.name}
-              defaultChecked={isSelected}
+              defaultChecked={isSelected || alwaysChecked}
               handler={() => {
-                onSelect(selection.id);
+                onSelect(selection.id, selection.name);
               }}
               type={type}
               radioName={radioName}

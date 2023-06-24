@@ -55,12 +55,18 @@ export type ExtraGroupCustomizations = {
   extras: CategoryExtra[];
 };
 
-export type ExtraCategoryItem = {
-  [id: number]: { name: string; category: string };
+export type ExtraCategoryExtra = {
+  [id: number]: string;
+};
+
+export type CategoryDetailedItem = {
+  id: number;
+  name: string;
+  category: string;
 };
 
 export type ExtraCategorySelections = {
-  initial_items: ExtraCategoryItem;
+  initial_extras: ExtraCategoryExtra;
 };
 
 export type ExtraCategoryCustomizations = (DBEntity & { category: string })[];
@@ -114,8 +120,8 @@ export type ExtraGroupExtraInfo = {
 
 export type NewExtraCategoryExtra = {
   name: string;
-  price: number | null;
-  abbreviation: number | null;
+  price: string | null;
+  abbreviation: string | null;
 };
 
 export type NewCategorySubcategory = { name: string };

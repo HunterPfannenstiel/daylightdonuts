@@ -2,11 +2,16 @@ import {
   DBEntity,
   ExtraCategoryCustomizations,
 } from "@_types/admin/modify-menu";
+import ExtraCategory from "components/admin/ui/ModifyMenu/ExtraCategory";
 import ModifyMenu from "custom-objects/ModifyMenu";
 
 const ExtraCategoryPage = async () => {
   const customizations = await fetchExtraCategoryCustomizations();
   const categories = await fetchExtraCategories();
+
+  return (
+    <ExtraCategory customizations={customizations} categories={categories} />
+  );
 };
 
 export default ExtraCategoryPage;
