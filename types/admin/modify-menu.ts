@@ -94,7 +94,7 @@ export type CategoryCustomizations = {
 };
 
 export type CategorySelections = {
-  initial_subcategories: InitialSelections;
+  initial_subcategories: DBEntity[];
   initial_items: InitialSelections;
 };
 

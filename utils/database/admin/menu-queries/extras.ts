@@ -181,16 +181,18 @@ export const createExtraCategory = async (info: CreateExtraCategory) => {
 
 export type ModifyExtraCategory = {
   extraCategoryId: number;
+  name?: string;
   newExtras?: NewExtraCategoryExtra[];
   addExtraIds?: number[];
   changeExtraIds?: { extraId: number; categoryId: number }[];
 };
 
 export const modifyExtraCategory = async (info: ModifyExtraCategory) => {
-  const query = "CALL store.modify_extra_category($1, $2, $3, $4)";
+  const query = "CALL store.modify_extra_category($1, $2, $3, $4, $5)";
   await adminQuery(query, [
     info.extraCategoryId,
-    info.newExtras || null,
+    info.name || null,
+    info.newExtras ? JSON.stringify(info.newExtras) : null,
     info.addExtraIds || null,
     info.changeExtraIds || null,
   ]);

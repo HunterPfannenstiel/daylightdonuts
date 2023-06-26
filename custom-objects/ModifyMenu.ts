@@ -84,6 +84,10 @@ export default class ModifyMenu {
     return newVal === origVal ? undefined : newVal;
   }
 
+  static CheckArrayLen(array: any[]) {
+    return array.length === 0 ? undefined : array;
+  }
+
   static SelectionsToArray(selections: InitialSelections) {
     return Object.keys(selections).map((key) => +key);
   }

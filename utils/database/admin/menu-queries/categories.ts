@@ -3,6 +3,7 @@ import {
   CategoryItemInfo,
   CategorySelections,
   DBEntity,
+  DisplayOrderItem,
   NewCategorySubcategory,
   SubcategoryCustomizations,
   SubcategorySelections,
@@ -56,74 +57,86 @@ export const fetchItemCategorySelections = async (categoryId: number) => {
   return res.rows[0] as CategorySelections;
 };
 
-export const createItemSubcategory = async (
-  name: string,
-  itemCategoryId: number,
-  menuItemIds?: number[]
-) => {
+export type CreateItemSubcategory = {
+  name: string;
+  itemCategoryId: number;
+  menuItemIds?: number[];
+};
+
+export const createItemSubcategory = async (info: CreateItemSubcategory) => {
   const query = "CALL store.create_item_subcategory($1, $2, $3, NULL)";
   const res = await adminQuery(query, [
-    name,
-    itemCategoryId,
-    menuItemIds || null,
+    info.name,
+    info.itemCategoryId,
+    info.menuItemIds || null,
   ]);
   return res.rows[0] as { new_id: number };
 };
 
-export const modifyItemSubcategory = async (
-  itemCategoryId: number,
-  name?: string,
-  categoryId?: number,
-  addMenuItemIds?: number[],
-  removeMenuItemIds?: number[]
-) => {
+export type ModifyItemSubcategory = {
+  itemSubcategoryId: number;
+  name?: string;
+  categoryId?: number;
+  addMenuItemIds?: number[];
+  removeMenuItemIds?: number[];
+};
+
+export const modifyItemSubcategory = async (info: ModifyItemSubcategory) => {
   const query = "CALL store.modify_item_subcategory($1, $2, $3, $4, $5)";
   await adminQuery(query, [
-    itemCategoryId,
-    name || null,
-    categoryId === undefined ? null : categoryId,
-    addMenuItemIds || null,
-    removeMenuItemIds || null,
+    info.itemSubcategoryId,
+    info.name || null,
+    info.categoryId === undefined ? null : info.categoryId,
+    info.addMenuItemIds || null,
+    info.removeMenuItemIds || null,
   ]);
 };
 
-export const createItemCategory = async (
-  name: string,
-  displayOrder?: number,
-  newSubcategories?: NewCategorySubcategory[],
-  itemInfos?: CategoryItemInfo[]
-) => {
-  const query = "CALL store.create_item_category($1, $2, $3, $4, NULL)";
+export type CreateItemCategory = {
+  name: string;
+  displayOrder?: number;
+  categoryDisplayOrders: DisplayOrderItem[];
+  newSubcategories?: NewCategorySubcategory[];
+  itemInfos?: CategoryItemInfo[];
+};
+
+export const createItemCategory = async (info: CreateItemCategory) => {
+  const query = "CALL store.create_item_category($1, $2, $3, $4, $5, NULL)";
   const res = await adminQuery(query, [
-    name,
-    displayOrder === undefined ? null : displayOrder,
-    newSubcategories || null,
-    itemInfos || null,
+    info.name,
+    info.displayOrder === undefined ? null : info.displayOrder,
+    JSON.stringify(info.categoryDisplayOrders),
+    info.newSubcategories || null,
+    info.itemInfos || null,
   ]);
 
   return res.rows[0] as { new_id: number };
 };
 
-export const modifyItemCategory = async (
-  itemCategoryId: number,
-  name?: string,
-  displayOrder?: number,
-  isActive?: boolean,
-  newSubcategories?: NewCategorySubcategory[],
-  removeSubcategoryIds?: number[],
-  addItemInfos?: CategoryItemInfo[],
-  removeItemIds?: number[]
-) => {
+export type ModifyItemCategory = {
+  itemCategoryId: number;
+  name?: string;
+  displayOrder?: number;
+  isActive?: boolean;
+  newSubcategories?: NewCategorySubcategory[];
+  removeSubcategoryIds?: number[];
+  categoryDisplayOrders: DisplayOrderItem[];
+  addItemInfos?: CategoryItemInfo[];
+  removeItemIds?: number[];
+};
+
+export const modifyItemCategory = async (info: ModifyItemCategory) => {
   const query =
-    "CALL store.modify_item_category($1, $2, $3, $4, $5, $6, $7, $8)";
+    "CALL store.modify_item_category($1, $2, $3, $4, $5, $6, $7, $8, $9)";
   await adminQuery(query, [
-    itemCategoryId,
-    name || null,
-    displayOrder === undefined ? null : displayOrder,
-    isActive === undefined ? null : isActive,
-    newSubcategories || null,
-    removeSubcategoryIds || null,
-    addItemInfos || null,
-    removeItemIds || null,
+    info.itemCategoryId,
+    info.name || null,
+    info.displayOrder === undefined ? null : info.displayOrder,
+    info.isActive === undefined ? null : info.isActive,
+    JSON.stringify(info.categoryDisplayOrders),
+    info.newSubcategories ? JSON.stringify(info.newSubcategories) : null,
+    info.removeSubcategoryIds || null,
+    info.addItemInfos ? JSON.stringify(info.addItemInfos) : null,
+    info.removeItemIds || null,
   ]);
 };

@@ -8,6 +8,7 @@ import {
   DBEntity,
   ExtraCategoryCustomizations,
 } from "@_types/admin/modify-menu";
+import ModifyModal from "./ModifyModal";
 
 interface ExtraCategoryProps {
   customizations: ExtraCategoryCustomizations;
@@ -19,7 +20,8 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
   categories,
 }) => {
   const createModal = useAnimateModal(300);
-  const selectedCategory = useRef<{ name: string; id: string }>();
+  const modifyModal = useAnimateModal(300);
+  const selectedCategory = useRef<DBEntity>();
   return (
     <>
       <button onClick={createModal.handleModal}>Create Category</button>
@@ -32,10 +34,25 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
       {categories.map((category) => {
         return (
           <div>
-            <p>{category.name}</p>
+            <p
+              onClick={() => {
+                selectedCategory.current = category;
+                modifyModal.handleModal();
+              }}
+            >
+              {category.name}
+            </p>
           </div>
         );
       })}
+      {modifyModal.showModal && (
+        <ModifyModal
+          modalProps={modifyModal}
+          extraCategoryId={selectedCategory.current!.id}
+          categoryName={selectedCategory.current!.name}
+          existingExtras={customizations}
+        />
+      )}
     </>
   );
 };

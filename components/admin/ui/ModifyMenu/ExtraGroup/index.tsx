@@ -6,6 +6,7 @@ import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import CreateExtraGroupModal from "./CreateModal";
 import { CategoryExtra, DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
 import ModifyExtraGroupModal from "./ModifyModal";
+import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 
 interface ExtraGroupProps {
   extras: CategoryExtra[];
@@ -20,9 +21,13 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
   items,
   categoryGroups,
 }) => {
-  const createModal = useAnimateModal(300);
-  const modifyModal = useAnimateModal(300);
-  const selectedGroup = useRef<DBEntity>();
+  const {
+    createModal,
+    modifyModal,
+    getSelectedId,
+    getSelectedName,
+    setSelectedEntity,
+  } = useHandleInput();
   return (
     <>
       {createModal.showModal && (
@@ -40,12 +45,7 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
             <h2>{category.category}</h2>
             {category.groups.map((group) => {
               return (
-                <p
-                  onClick={() => {
-                    selectedGroup.current = group;
-                    modifyModal.handleModal();
-                  }}
-                >
+                <p onClick={setSelectedEntity.bind(null, group)}>
                   {group.name}
                 </p>
               );
@@ -53,14 +53,14 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
           </div>
         );
       })}
-      {modifyModal.showModal && selectedGroup?.current?.id !== undefined && (
+      {modifyModal.showModal && (
         <ModifyExtraGroupModal
           extras={extras}
           items={items}
           categories={categories}
-          groupId={selectedGroup.current.id}
+          groupId={getSelectedId()!}
           modalProps={modifyModal}
-          groupName={selectedGroup.current.name}
+          groupName={getSelectedName()!}
         />
       )}
     </>

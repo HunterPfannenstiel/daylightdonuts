@@ -4,7 +4,11 @@ import { FunctionComponent, useRef } from "react";
 import classes from "./Extra.module.css";
 import CreateExtraModal from "./CreateModal";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { CategoryExtras, ExtraCustomizations } from "@_types/admin/modify-menu";
+import {
+  CategoryExtras,
+  DBEntity,
+  ExtraCustomizations,
+} from "@_types/admin/modify-menu";
 import ModifyExtraModal from "./ModifyModal";
 
 interface ExtraProps {
@@ -15,7 +19,7 @@ interface ExtraProps {
 const Extra: FunctionComponent<ExtraProps> = ({ customizations, extras }) => {
   const createModal = useAnimateModal(300);
   const modifyModal = useAnimateModal(300);
-  const selectedExtra = useRef<{ id: number; name: string }>();
+  const selectedExtra = useRef<DBEntity>();
   return (
     <>
       <button onClick={createModal.handleModal}>Create Extra</button>
