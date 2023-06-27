@@ -94,20 +94,22 @@ export const modifyItemSubcategory = async (info: ModifyItemSubcategory) => {
 
 export type CreateItemCategory = {
   name: string;
-  displayOrder?: number;
+  displayOrder: number;
   categoryDisplayOrders: DisplayOrderItem[];
   newSubcategories?: NewCategorySubcategory[];
   itemInfos?: CategoryItemInfo[];
+  categoryItemIds: number[];
 };
 
 export const createItemCategory = async (info: CreateItemCategory) => {
-  const query = "CALL store.create_item_category($1, $2, $3, $4, $5, NULL)";
+  const query = "CALL store.create_item_category($1, $2, $3, $4, $5, $6, NULL)";
   const res = await adminQuery(query, [
     info.name,
-    info.displayOrder === undefined ? null : info.displayOrder,
+    info.displayOrder,
     JSON.stringify(info.categoryDisplayOrders),
-    info.newSubcategories || null,
-    info.itemInfos || null,
+    info.newSubcategories ? JSON.stringify(info.newSubcategories) : null,
+    info.itemInfos ? JSON.stringify(info.itemInfos) : null,
+    info.categoryItemIds,
   ]);
 
   return res.rows[0] as { new_id: number };
@@ -122,12 +124,14 @@ export type ModifyItemCategory = {
   removeSubcategoryIds?: number[];
   categoryDisplayOrders: DisplayOrderItem[];
   addItemInfos?: CategoryItemInfo[];
+  removeItemInfos?: CategoryItemInfo[];
   removeItemIds?: number[];
+  addItemIds?: number[];
 };
 
 export const modifyItemCategory = async (info: ModifyItemCategory) => {
   const query =
-    "CALL store.modify_item_category($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    "CALL store.modify_item_category($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
   await adminQuery(query, [
     info.itemCategoryId,
     info.name || null,
@@ -137,6 +141,8 @@ export const modifyItemCategory = async (info: ModifyItemCategory) => {
     info.newSubcategories ? JSON.stringify(info.newSubcategories) : null,
     info.removeSubcategoryIds || null,
     info.addItemInfos ? JSON.stringify(info.addItemInfos) : null,
+    info.removeItemInfos ? JSON.stringify(info.removeItemInfos) : null,
+    info.addItemIds || null,
     info.removeItemIds || null,
   ]);
 };

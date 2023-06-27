@@ -93,9 +93,14 @@ export type CategoryCustomizations = {
   subcategories: DBEntity[];
 };
 
+export type CategoryItems = { [id: number]: string };
+export type SubcategoryItems = { [name: string]: number[] };
+
 export type CategorySelections = {
   initial_subcategories: DBEntity[];
-  initial_items: InitialSelections;
+  initial_items: CategoryItems;
+  subcategory_items: SubcategoryItems;
+  is_active: boolean;
 };
 
 export type GroupingItem = DBEntity & { is_in_grouping: boolean };
