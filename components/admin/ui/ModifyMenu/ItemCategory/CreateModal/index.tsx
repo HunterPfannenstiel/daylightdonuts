@@ -16,11 +16,13 @@ import ModifyMenu from "custom-objects/ModifyMenu";
 interface CreateModalProps {
   modalProps: ModalProps;
   categories: DBEntity[];
+  addCategory: (category: DBEntity, index: number) => void;
 }
 
 const CreateModal: FunctionComponent<CreateModalProps> = ({
   modalProps,
   categories,
+  addCategory,
 }) => {
   const info = useCollectCategoryInfo("", categories);
   const onSubmit = async () => {
@@ -32,8 +34,18 @@ const CreateModal: FunctionComponent<CreateModalProps> = ({
       itemInfos: info.getCategoryItemInfo().addInfo,
       categoryItemIds: info.categoryItemIds,
     } as CreateItemCategory;
-    const newId = await ModifyMenu.Post.Create("item-category", details);
-    console.log(newId);
+    const { data, success, errorMessage } =
+      await ModifyMenu.Post.Create<number>("item-category", details);
+    if (!success) {
+      console.error(errorMessage);
+      return;
+    }
+    addCategory(
+      { name: info.name.current, id: data },
+      info.categoryDisplayOrder.current
+    );
+    modalProps.handleModal();
+    console.log("Display Success");
   };
   return (
     <ModifyMenuModal modalProps={modalProps}>

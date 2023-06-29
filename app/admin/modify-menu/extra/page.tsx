@@ -1,19 +1,27 @@
-import { CategoryExtras, ExtraCustomizations } from "@_types/admin/modify-menu";
+import { ExtraCustomizations, NestedDBEntity } from "@_types/admin/modify-menu";
 import Extra from "components/admin/ui/ModifyMenu/Extra";
 import ModifyMenu from "custom-objects/ModifyMenu";
 
 const ExtraPage = async () => {
   const cusomizations = await fetchExtraCustomizations();
   const extras = await fetchExtras();
-  return <Extra customizations={cusomizations} extras={extras} />;
+  return <Extra customizations={cusomizations} initialExtras={extras} />;
 };
 
 export default ExtraPage;
 
 const fetchExtraCustomizations = async () => {
-  return (await ModifyMenu.Get.Customizations("extra")) as ExtraCustomizations;
+  const res = await ModifyMenu.Get.Customizations<ExtraCustomizations>("extra");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 const fetchExtras = async () => {
-  return (await ModifyMenu.Get.Existing("extra")) as CategoryExtras[];
+  const res = await ModifyMenu.Get.Existing<NestedDBEntity[]>("extra");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };

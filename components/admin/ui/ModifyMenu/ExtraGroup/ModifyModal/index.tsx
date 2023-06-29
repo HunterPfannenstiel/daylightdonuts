@@ -2,10 +2,13 @@ import { FunctionComponent } from "react";
 import classes from "./ModifyExtraGroupModal.module.css";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
-import { CategoryExtra, DBEntity } from "@_types/admin/modify-menu";
+import {
+  CategoryExtra,
+  DBEntity,
+  ExtraGroupSelections,
+} from "@_types/admin/modify-menu";
 import ModalContents from "./ModalContents";
-import useExtraGroupSelections from "@_hooks/admin/menu/extra-group/useExtraGroupSelections";
-import { ModifyExtraGroup } from "@_utils/database/admin/menu-queries/extras";
+import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
 
 interface ModifyExtraGroupModalProps {
   modalProps: ModalProps;
@@ -24,7 +27,10 @@ const ModifyExtraGroupModal: FunctionComponent<ModifyExtraGroupModalProps> = ({
   categories,
   items,
 }) => {
-  const { selections, isLoading } = useExtraGroupSelections(groupId);
+  const { selections, isLoading } = useInitialSelections<ExtraGroupSelections>(
+    groupId,
+    "extra-group"
+  );
 
   if (isLoading) return <p>Loading...</p>;
   return (

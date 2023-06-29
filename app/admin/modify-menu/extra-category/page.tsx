@@ -17,12 +17,19 @@ const ExtraCategoryPage = async () => {
 export default ExtraCategoryPage;
 
 const fetchExtraCategoryCustomizations = async () => {
-  return (await ModifyMenu.Get.Customizations(
+  const res = await ModifyMenu.Get.Customizations<ExtraCategoryCustomizations>(
     "extra-category"
-  )) as ExtraCategoryCustomizations;
+  );
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 const fetchExtraCategories = async () => {
-  const res = (await ModifyMenu.Get.Existing("extra-category")) as DBEntity[];
-  return res;
+  const res = await ModifyMenu.Get.Existing<DBEntity[]>("extra-category");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };

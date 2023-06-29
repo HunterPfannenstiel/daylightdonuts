@@ -13,5 +13,9 @@ const useInitialSelections = <T>(id: number, menuSection: string) => {
 export default useInitialSelections;
 
 const fetchSelections = async (id: number, menuSection: string) => {
-  return (await ModifyMenu.Get.Selections(menuSection, id)) as any;
+  const res = await ModifyMenu.Get.Selections<any>(menuSection, id);
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };

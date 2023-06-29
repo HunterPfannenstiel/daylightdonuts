@@ -1,5 +1,4 @@
 import {
-  CategoryExtras,
   DBEntity,
   ExtraCategoryCustomizations,
   ExtraCategorySelections,
@@ -10,6 +9,7 @@ import {
   ExtraGroupInfo,
   ExtraGroupSelections,
   ExtraSelections,
+  NestedDBEntity,
   NewExtraCategoryExtra,
 } from "@_types/admin/modify-menu";
 import { adminQuery } from "@_utils/database/connect";
@@ -18,7 +18,7 @@ import { checkRowLength } from "./modify-item";
 export const viewExtras = async () => {
   const query = "SELECT * FROM store.view_extras()";
   const res = await adminQuery(query);
-  return res.rows as CategoryExtras[];
+  return res.rows as NestedDBEntity[];
 };
 
 export const fetchExtraCustomizations = async () => {

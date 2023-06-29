@@ -21,12 +21,19 @@ const ExtraGroupPage = async () => {
 export default ExtraGroupPage;
 
 const fetchExtraGroupCustomizations = async () => {
-  return (await ModifyMenu.Get.Customizations(
+  const res = await ModifyMenu.Get.Customizations<ExtraGroupCustomizations>(
     "extra-group"
-  )) as ExtraGroupCustomizations;
+  );
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 const fetchExtraGroups = async () => {
-  const res = (await ModifyMenu.Get.Existing("extra-group")) as ExtraGroupT[];
-  return res;
+  const res = await ModifyMenu.Get.Existing<ExtraGroupT[]>("extra-group");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };

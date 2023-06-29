@@ -3,8 +3,8 @@ import classes from "./ModifyModal.module.css";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModalContents from "./ModalContents";
-import useExtraCategorySelections from "@_hooks/admin/menu/extra-category/useExtraCategorySelections";
-import { DBEntity } from "@_types/admin/modify-menu";
+import { DBEntity, ExtraCategorySelections } from "@_types/admin/modify-menu";
+import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
 
 interface ModifyModalProps {
   extraCategoryId: number;
@@ -19,7 +19,10 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   categoryName,
   existingExtras,
 }) => {
-  const selections = useExtraCategorySelections(extraCategoryId);
+  const { selections } = useInitialSelections<ExtraCategorySelections>(
+    extraCategoryId,
+    "extra-category"
+  );
   if (!selections) return <p>Loading...</p>;
   return (
     <ModifyMenuModal modalProps={modalProps}>

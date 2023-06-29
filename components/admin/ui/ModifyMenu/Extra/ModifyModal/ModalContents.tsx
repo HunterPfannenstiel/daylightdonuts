@@ -10,6 +10,8 @@ import {
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { ModifyExtra } from "@_utils/database/admin/menu-queries/extras";
+import { UpdateNestedEntity } from "@_hooks/admin/menu/useUpdateNestedEntities";
+import ModifyMenu from "custom-objects/ModifyMenu";
 
 interface ModalContentsProps {
   extraId: number;
@@ -17,6 +19,7 @@ interface ModalContentsProps {
   name: string;
   categories: DBEntity[];
   groupings: ExtraGroup[];
+  updateExtra: UpdateNestedEntity;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
@@ -25,6 +28,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   name,
   categories,
   groupings,
+  updateExtra,
 }) => {
   const info = useCollectExtraInfo(
     {
@@ -38,12 +42,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   );
   const onModify = async (e: FormEvent) => {
     e.preventDefault();
-    const {
-      name: newName,
-      price,
-      abbreviation,
-      isArchived,
-    } = info.extraDetails;
+    const { price, abbreviation, isArchived } = info.extraDetails;
     const newCategoryId = info.selectedCategoryId.current;
     const selectedGroups = info.getExtraGroupInfo();
     const initialGroups = info.getExtraGroupInfo(selections.initial_groups);
@@ -69,10 +68,10 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       }
       return true;
     });
-
+    const newName = ModifyMenu.CompareVal(name, info.extraDetails.name);
     const modifications = {
       extraId,
-      name: newName === name ? undefined : newName,
+      name: newName,
       price: price === selections.initial_price ? undefined : price,
       abbreviation:
         abbreviation === selections.initial_abbreviation
@@ -89,12 +88,12 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     } as ModifyExtra;
 
     console.log(modifications);
-
-    const res = await fetch("/api/admin/modify-menu/extra/modify", {
-      method: "PATCH",
-      body: JSON.stringify(modifications),
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await ModifyMenu.Post.Modify("extra", modifications);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
+    }
+    newName && updateExtra(newName);
     console.log(res);
   };
   return (

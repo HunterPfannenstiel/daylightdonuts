@@ -9,19 +9,24 @@ import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { CreateExtra } from "@_utils/database/admin/menu-queries/extras";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
+import ModifyMenu from "custom-objects/ModifyMenu";
+import { AddNewNestedEntity } from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface CreateExtraModalProps {
   categories: DBEntity[];
   groupings: ExtraGroup[];
   modalProps: ModalProps;
+  addNewExtra: AddNewNestedEntity;
 }
 
 const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
   categories,
   groupings,
   modalProps,
+  addNewExtra,
 }) => {
   const info = useCollectExtraInfo();
+  console.log(info);
   const canFlipCurrPage = useRef(true);
   const updatePageFlip = (bool: boolean) => {
     canFlipCurrPage.current = bool;
@@ -29,25 +34,22 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
   const onSubmit = async () => {
     const groupInfo = info.getExtraGroupInfo();
     const { name, price, abbreviation } = info.extraDetails;
+    const categoryId = info.selectedCategoryId.current!;
     const extraInfo = {
       name,
       price,
       abbreviation,
       groupInfo,
-      categoryId: info.selectedCategoryId.current,
+      categoryId,
     } as CreateExtra;
 
-    const res = await fetch("/api/admin/modify-menu/extra/modify", {
-      method: "POST",
-      body: JSON.stringify(extraInfo),
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      console.log("An error occured", data);
-    } else {
-      console.log("New Extra Id!", data);
+    const res = await ModifyMenu.Post.Create<number>("extra", extraInfo);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
     }
+    addNewExtra({ name, id: res.data }, categoryId);
+    modalProps.handleModal();
   };
   return (
     <ModifyMenuModal modalProps={modalProps}>

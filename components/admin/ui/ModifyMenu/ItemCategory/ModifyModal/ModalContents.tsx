@@ -15,6 +15,9 @@ interface ModalContentsProps {
   categoryName: string;
   categoryId: number;
   selections: CategorySelections;
+  index: number;
+  updateCategory: (name: string, index: number) => void;
+  toggleModal: () => void;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
@@ -22,6 +25,9 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   categories,
   categoryId,
   selections,
+  index,
+  updateCategory,
+  toggleModal,
 }) => {
   const info = useCollectCategoryInfo(
     categoryName,
@@ -45,9 +51,10 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       initialIds,
       info.categoryItemIds
     );
+    const newName = ModifyMenu.CompareVal(categoryName, info.name.current);
     const details = {
       itemCategoryId: categoryId,
-      name: ModifyMenu.CompareVal(categoryName, info.name.current),
+      name: newName,
       displayOrder: info.categoryDisplayOrder.current,
       newSubcategories: ModifyMenu.CheckArrayLen(info.newSubcategories),
       removeSubcategoryIds: info.getRemovedSubcategoryIds(),
@@ -58,8 +65,9 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       addItemIds: newIds,
     } as ModifyItemCategory;
 
-    console.log(details);
     await ModifyMenu.Post.Modify("item-category", details);
+    toggleModal();
+    newName && updateCategory(newName, index);
   };
   return (
     <form onSubmit={onModify}>

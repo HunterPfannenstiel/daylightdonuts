@@ -1,7 +1,12 @@
 import { DisplayOrderItem, InitialSelections } from "@_types/admin/modify-menu";
+import { handleResponse } from "./Fetch/utils";
 
 class PostMenuInfo {
-  static async Create(menuSection: string, info: any, infoIsFormData = false) {
+  static async Create<T>(
+    menuSection: string,
+    info: any,
+    infoIsFormData = false
+  ) {
     let body = infoIsFormData ? info : JSON.stringify(info);
     let headers = infoIsFormData
       ? undefined
@@ -11,14 +16,14 @@ class PostMenuInfo {
       body,
       headers,
     });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error("Failed to create new " + menuSection, data);
-    }
-    return data;
+    return handleResponse<T>(res);
   }
 
-  static async Modify(menuSection: string, info: any, infoIsFormData = false) {
+  static async Modify<T>(
+    menuSection: string,
+    info: any,
+    infoIsFormData = false
+  ) {
     let body = infoIsFormData ? info : JSON.stringify(info);
     let headers = infoIsFormData
       ? undefined
@@ -28,50 +33,31 @@ class PostMenuInfo {
       body,
       headers,
     });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error("Failed to modify " + menuSection, data);
-    }
-    return data;
+    return handleResponse<T>(res);
   }
 }
 
 class GetMenuInfo {
-  static async Customizations(menuSection: string) {
+  static async Customizations<T>(menuSection: string) {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/customizations`
     );
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(
-        "Failed to fetch customizations for " + menuSection,
-        data
-      );
-    }
-    return data;
+    return handleResponse<T>(res);
   }
-  static async Selections(menuSection: string, id: number) {
+  static async Selections<T>(menuSection: string, id: number) {
     const res = await fetch(
       `/api/admin/modify-menu/${menuSection}/selections/${id}`,
       { cache: "no-store" }
     );
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error("Failed to fetch selections for " + menuSection, data);
-    }
-    return data;
+    return handleResponse<T>(res);
   }
 
-  static async Existing(menuSection: string) {
+  static async Existing<T>(menuSection: string) {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/existing`,
       { cache: "no-store" }
     );
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(`Failed to fetch existing ${menuSection}s`, data);
-    }
-    return data;
+    return handleResponse<T>(res);
   }
 }
 

@@ -169,8 +169,8 @@ const useCollectCategoryInfo = (
       setSubcategoryItems((prevState) => {
         const copy = { ...prevState };
         Object.keys(copy).forEach((key) => {
-          const index = copy[key].findIndex((id) => id === itemId);
-          if (index !== -1) {
+          const index = copy[key]?.findIndex((id) => id === itemId);
+          if (index && index !== -1) {
             const copyIds = [...copy[key]];
             copyIds.splice(index, 1);
             copy[key] = copyIds;

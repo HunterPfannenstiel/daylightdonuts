@@ -11,6 +11,8 @@ interface ModifyModalProps {
   categories: DBEntity[];
   categoryName: string;
   categoryId: number;
+  index: number;
+  updateCategory: (name: string, index: number) => void;
 }
 
 const ModifyModal: FunctionComponent<ModifyModalProps> = ({
@@ -18,6 +20,8 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   categories,
   categoryName,
   categoryId,
+  index,
+  updateCategory,
 }) => {
   const { selections } = useInitialSelections<CategorySelections>(
     categoryId,
@@ -27,10 +31,13 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   return (
     <ModifyMenuModal modalProps={modalProps}>
       <ModalContents
+        toggleModal={modalProps.handleModal}
+        updateCategory={updateCategory}
         categories={categories}
         categoryName={categoryName}
         categoryId={categoryId}
         selections={selections}
+        index={index}
       />
     </ModifyMenuModal>
   );

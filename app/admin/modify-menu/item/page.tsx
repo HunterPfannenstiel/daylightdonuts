@@ -18,11 +18,19 @@ const Menu = async () => {
 };
 
 const fetchItems = async () => {
-  return (await ModifyMenu.Get.Existing("item")) as ItemT[];
+  const res = await ModifyMenu.Get.Existing<ItemT[]>("item");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 const fetchMenuCusomizations = async () => {
-  return (await ModifyMenu.Get.Customizations("item")) as Customizations;
+  const res = await ModifyMenu.Get.Customizations<Customizations>("item");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 export default Menu;

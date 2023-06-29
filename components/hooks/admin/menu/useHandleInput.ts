@@ -5,10 +5,10 @@ import { useRef } from "react";
 const useHandleInput = () => {
   const createModal = useAnimateModal(300);
   const modifyModal = useAnimateModal(300);
-  const selectedEntity = useRef<DBEntity>();
+  const selectedEntity = useRef<DBEntity & { index: number }>();
 
-  const setSelectedEntity = (entity: DBEntity) => {
-    selectedEntity.current = entity;
+  const setSelectedEntity = (entity: DBEntity, index: number) => {
+    selectedEntity.current = { ...entity, index };
     modifyModal.handleModal();
   };
 
@@ -16,11 +16,14 @@ const useHandleInput = () => {
 
   const getSelectedName = () => selectedEntity.current?.name;
 
+  const getSelectedIndex = () => selectedEntity.current?.index;
+
   return {
     createModal,
     modifyModal,
     getSelectedId,
     getSelectedName,
+    getSelectedIndex,
     setSelectedEntity,
   };
 };

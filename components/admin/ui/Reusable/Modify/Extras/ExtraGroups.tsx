@@ -36,6 +36,9 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
   const [selectedCategory, setSelectedCategory] = useState(
     initialCategoryId?.current
   );
+  const selectedCategoryName = selectedCategory
+    ? categories.find((category) => category.id === selectedCategory)?.name
+    : undefined;
   useEffect(() => {
     canFlipPage(selectedCategory !== undefined);
   }, [selectedCategory]);
@@ -44,20 +47,23 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
       <SelectInputList
         selections={categories}
         initialSelections={undefined}
-        initialSelection={selectedCategory}
+        initialSelection={initialCategoryId.current}
         type="radio"
         title="Category"
-        onSelect={(id) => {
+        radioName="extras"
+        onSelect={(id, name) => {
           updateCategory(id);
           setSelectedCategory(id);
         }}
       />
-      {selectedCategory !== undefined && (
+      {selectedCategoryName !== undefined && (
         <>
           <SelectInputList
-            selections={groupSelections.filter(
-              (group) => group.extra_category_id === selectedCategory
-            )}
+            selections={
+              groupSelections.filter(
+                (group) => group.category === selectedCategoryName
+              )[0].groups
+            }
             title="Select Groups"
             initialSelections={initialGroups}
             type="checkbox"

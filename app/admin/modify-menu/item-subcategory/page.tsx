@@ -17,12 +17,19 @@ const ItemSubcategoryPage = async () => {
 export default ItemSubcategoryPage;
 
 const fetchSubcategoryCustomizations = async () => {
-  return (await ModifyMenu.Get.Customizations(
+  const res = await ModifyMenu.Get.Customizations<SubcategoryCustomizations>(
     "item-subcategory"
-  )) as SubcategoryCustomizations;
+  );
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };
 
 const fetchSubcategories = async () => {
-  const res = (await ModifyMenu.Get.Existing("item-subcategory")) as DBEntity[];
-  return res;
+  const res = await ModifyMenu.Get.Existing<DBEntity[]>("item-subcategory");
+  if (!res.success) {
+    throw new Error(res.errorMessage);
+  }
+  return res.data;
 };

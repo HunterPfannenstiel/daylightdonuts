@@ -24,10 +24,7 @@ export type InitialSelections = { [id: number]: boolean };
 
 export type ExtraGroup = { category: string; groups: DBEntity[] };
 
-export type CategoryExtras = {
-  category: string;
-  extras: DBEntity[];
-};
+export type NestedDBEntity = { name: string; id: number; entities: DBEntity[] };
 
 export type ExtraCustomizations = {
   categories: DBEntity[];

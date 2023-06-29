@@ -1,14 +1,15 @@
 import { FunctionComponent } from "react";
 import classes from "./index.module.css";
-import useItemSelections from "@_hooks/admin/menu/item/useItemSelections";
 import ModalContents from "./ModalContents";
 import {
   AvailableExtraGrouping,
   AvailableGrouping,
   AvailableItemCategory,
+  InitialItemSelections,
 } from "@_types/admin/forms";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
 
 interface ModifyItemModalProps {
   id: number;
@@ -25,7 +26,10 @@ const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
   itemCategories,
   modalProps,
 }) => {
-  const { selections } = useItemSelections(id);
+  const { selections } = useInitialSelections<InitialItemSelections>(
+    id,
+    "item"
+  );
   if (!selections) return <p>Loading...</p>;
   return (
     <ModifyMenuModal modalProps={modalProps}>
