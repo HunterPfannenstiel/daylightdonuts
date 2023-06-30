@@ -1,6 +1,7 @@
 import {
   ExtraGroup as ExtraGroupT,
   ExtraGroupCustomizations,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import ExtraGroup from "components/admin/ui/ModifyMenu/ExtraGroup";
 import ModifyMenu from "custom-objects/ModifyMenu";
@@ -10,10 +11,9 @@ const ExtraGroupPage = async () => {
   const categoryGroups = await fetchExtraGroups();
   return (
     <ExtraGroup
-      categories={customizations.categories}
       extras={customizations.extras}
       items={customizations.items}
-      categoryGroups={categoryGroups}
+      initialGroups={categoryGroups}
     />
   );
 };
@@ -31,7 +31,7 @@ const fetchExtraGroupCustomizations = async () => {
 };
 
 const fetchExtraGroups = async () => {
-  const res = await ModifyMenu.Get.Existing<ExtraGroupT[]>("extra-group");
+  const res = await ModifyMenu.Get.Existing<NestedDBEntity[]>("extra-group");
   if (!res.success) {
     throw new Error(res.errorMessage);
   }

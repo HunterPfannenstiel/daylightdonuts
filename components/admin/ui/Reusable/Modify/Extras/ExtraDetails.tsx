@@ -40,7 +40,7 @@ const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
         handler={(inputValue) => {
           updateDetails("price", inputValue);
         }}
-        defaultValue={initialDetails.price}
+        defaultValue={initialDetails.price || ""}
       />
       <TextInput
         inputId="abbreviation"

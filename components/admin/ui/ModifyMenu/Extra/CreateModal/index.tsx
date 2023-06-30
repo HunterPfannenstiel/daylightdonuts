@@ -26,7 +26,6 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
   addNewExtra,
 }) => {
   const info = useCollectExtraInfo();
-  console.log(info);
   const canFlipCurrPage = useRef(true);
   const updatePageFlip = (bool: boolean) => {
     canFlipCurrPage.current = bool;

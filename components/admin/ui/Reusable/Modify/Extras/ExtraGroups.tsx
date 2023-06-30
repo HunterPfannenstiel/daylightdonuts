@@ -15,12 +15,12 @@ import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ExtraGroupsProps {
-  initialGroups: InitialSelections;
+  initialGroups: { [categoryId: number]: InitialSelections | undefined };
   initialCategoryId: MutableRefObject<number | undefined>;
   groupSelections: ExtraGroup[];
   categories: DBEntity[];
   updateCategory: (id: number) => void;
-  updateGroupings: (id: number) => void;
+  updateGroupings: (id: number, categoryId: number) => void;
   canFlipPage: (bool: boolean) => void;
 }
 
@@ -65,10 +65,10 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
               )[0].groups
             }
             title="Select Groups"
-            initialSelections={initialGroups}
+            initialSelections={initialGroups[selectedCategory || -1] || {}}
             type="checkbox"
             onSelect={(id) => {
-              updateGroupings(id);
+              updateGroupings(id, selectedCategory!);
             }}
           />
         </>

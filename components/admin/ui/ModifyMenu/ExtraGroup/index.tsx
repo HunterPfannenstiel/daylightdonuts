@@ -1,51 +1,55 @@
 "use client";
 
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent } from "react";
 import classes from "./ExtraGroup.module.css";
-import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import CreateExtraGroupModal from "./CreateModal";
-import { CategoryExtra, DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
+import {
+  CategoryExtra,
+  DBEntity,
+  NestedDBEntity,
+} from "@_types/admin/modify-menu";
 import ModifyExtraGroupModal from "./ModifyModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
+import useUpdateNestedEntities from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface ExtraGroupProps {
-  extras: CategoryExtra[];
-  categories: DBEntity[];
+  extras: NestedDBEntity[];
   items: (DBEntity & { extra_group_ids: number[] })[];
-  categoryGroups: ExtraGroup[];
+  initialGroups: NestedDBEntity[];
 }
 
 const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
   extras,
-  categories,
   items,
-  categoryGroups,
+  initialGroups,
 }) => {
   const {
     createModal,
     modifyModal,
     getSelectedId,
     getSelectedName,
+    getSelectedIndex,
     setSelectedEntity,
   } = useHandleInput();
+  const extraGroups = useUpdateNestedEntities(initialGroups);
   return (
     <>
       {createModal.showModal && (
         <CreateExtraGroupModal
+          addNewGroup={extraGroups.addNewEntity}
           modalProps={createModal}
           extras={extras}
-          categories={categories}
           items={items}
         />
       )}
       <button onClick={createModal.handleModal}>Create New Group</button>
-      {categoryGroups.map((category) => {
+      {extraGroups.entities.map((category) => {
         return (
           <div>
-            <h2>{category.category}</h2>
-            {category.groups.map((group) => {
+            <h2>{category.name}</h2>
+            {category.entities.map((group, i) => {
               return (
-                <p onClick={setSelectedEntity.bind(null, group)}>
+                <p onClick={setSelectedEntity.bind(null, group, i)}>
                   {group.name}
                 </p>
               );
@@ -55,9 +59,14 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
       })}
       {modifyModal.showModal && (
         <ModifyExtraGroupModal
+          index={getSelectedIndex()!}
+          entityFns={{
+            addNewEntity: extraGroups.addNewEntity,
+            updateEntity: extraGroups.updateEntity,
+            deleteEntity: extraGroups.deleteEntity,
+          }}
           extras={extras}
           items={items}
-          categories={categories}
           groupId={getSelectedId()!}
           modalProps={modifyModal}
           groupName={getSelectedName()!}

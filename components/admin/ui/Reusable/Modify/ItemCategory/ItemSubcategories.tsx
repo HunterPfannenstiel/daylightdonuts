@@ -48,34 +48,6 @@ const ItemSubcategories: FunctionComponent<ItemSubcategoriesProps> = ({
         subcategoryItems={subcategoryItems}
         itemMapping={itemMapping}
       />
-      {/* {currentSubcategories.length !== 0 &&
-        currentSubcategories.map((subcategory) => {
-          return (
-            <DropContainer
-              dropHandler={(dropValue) => {
-                addItemToSubcategory(subcategory.name, +dropValue);
-              }}
-              dataName="item-drop"
-            >
-              <p>{subcategory.name}</p>
-              {subcategoryItems[subcategory.name]?.map((item, i) => {
-                return (
-                  <DropItem dataName="item-drop" dataValue={item.toString()}>
-                    <DeletableItem
-                      onDelete={removeItemFromSubcategory.bind(
-                        null,
-                        subcategory.name,
-                        i
-                      )}
-                    >
-                      {itemMapping[item]}
-                    </DeletableItem>
-                  </DropItem>
-                );
-              })}
-            </DropContainer>
-          );
-        })} */}
       <div>
         {categoryItemIds.map((id) => {
           return (

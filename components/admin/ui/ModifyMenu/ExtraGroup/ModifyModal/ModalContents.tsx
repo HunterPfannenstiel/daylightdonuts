@@ -5,6 +5,7 @@ import {
   CategoryExtra,
   DBEntity,
   ExtraGroupSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import ExtraGroupDetails from "@_admin-reuse/Modify/ExtraGroup/ExtraGroupDetails";
 import ExtraGroupExtras from "@_admin-reuse/Modify/ExtraGroup/ExtraGroupExtras";
@@ -12,23 +13,28 @@ import ExtrasDisplayOrder from "@_admin-reuse/Modify/ExtraGroup/ExtrasDisplayOrd
 import ExtraGroupItems from "@_admin-reuse/Modify/ExtraGroup/ExtraGroupItems";
 import { ModifyExtraGroup } from "@_utils/database/admin/menu-queries/extras";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { NestedEntityFunctions } from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface ModalContentsProps {
   groupId: number;
   groupName: string;
-  extras: CategoryExtra[];
-  categories: DBEntity[];
+  extras: NestedDBEntity[];
   items: DBEntity[];
   selections: ExtraGroupSelections;
+  index: number;
+  handleModal: () => void;
+  entityFns: NestedEntityFunctions;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
   groupId,
   groupName,
   extras,
-  categories,
   items,
   selections,
+  index,
+  handleModal,
+  entityFns,
 }) => {
   const info = useCollectExtraGroupInfo(groupName, extras, selections);
   const onSubmit = async () => {
@@ -47,23 +53,38 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       selections.initial_items,
       info.selectedItemIds
     );
+    const newName = ModifyMenu.CompareVal(groupName, info.name.current);
+    const newCategoryId = ModifyMenu.CompareVal(
+      selections.initial_category_id,
+      info.selectedCategoryId.current
+    );
     const extraGroup = {
       extraGroupId: groupId,
-      name: compareVal(groupName, info.name.current),
-      categoryId: compareVal(
-        selections.initial_category_id,
-        info.selectedCategoryId.current
-      ),
+      name: newName,
+      categoryId: newCategoryId,
       extrasInfo,
       removeExtraIds,
       addMenuItemIds: newIds,
       removeMenuItemIds: removedIds,
     } as ModifyExtraGroup;
-    try {
-      await ModifyMenu.Post.Modify("extra-group", extraGroup);
-    } catch (error) {
-      console.error(error);
+
+    const res = await ModifyMenu.Post.Modify("extra-group", extraGroup);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
     }
+    if (newName) {
+      if (newCategoryId) {
+        entityFns.deleteEntity(selections.initial_category_id, index);
+        entityFns.addNewEntity({ id: groupId, name: newName }, newCategoryId);
+      } else {
+        entityFns.updateEntity(newName, selections.initial_category_id, index);
+      }
+    } else if (newCategoryId) {
+      entityFns.deleteEntity(selections.initial_category_id, index);
+      entityFns.addNewEntity({ id: groupId, name: groupName }, newCategoryId);
+    }
+    handleModal();
   };
   return (
     <>
@@ -73,7 +94,6 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       />
       <ExtraGroupExtras
         title="Choose Extras!"
-        categories={categories}
         extras={extras}
         initialExtras={info.selectedExtraIds}
         initialCategoryId={info.selectedCategoryId}
@@ -93,10 +113,6 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       <button onClick={onSubmit}>Submit</button>
     </>
   );
-};
-
-const compareVal = (origVal: any, newVal: any) => {
-  return newVal === origVal ? undefined : newVal;
 };
 
 export default ModalContents;

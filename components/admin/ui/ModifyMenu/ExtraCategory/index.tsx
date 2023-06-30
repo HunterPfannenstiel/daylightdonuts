@@ -9,35 +9,43 @@ import {
   ExtraCategoryCustomizations,
 } from "@_types/admin/modify-menu";
 import ModifyModal from "./ModifyModal";
+import useHandleInput from "@_hooks/admin/menu/useHandleInput";
+import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ExtraCategoryProps {
   customizations: ExtraCategoryCustomizations;
-  categories: DBEntity[];
+  initialCategories: DBEntity[];
 }
 
 const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
   customizations,
-  categories,
+  initialCategories,
 }) => {
-  const createModal = useAnimateModal(300);
-  const modifyModal = useAnimateModal(300);
-  const selectedCategory = useRef<DBEntity>();
+  const {
+    createModal,
+    modifyModal,
+    setSelectedEntity,
+    getSelectedId,
+    getSelectedIndex,
+    getSelectedName,
+  } = useHandleInput();
+  const categories = useUpdateEntities(initialCategories);
   return (
     <>
       <button onClick={createModal.handleModal}>Create Category</button>
       {createModal.showModal && (
         <CreateExtraCategoryModal
+          addNewCategory={categories.addNewEntity}
           modalProps={createModal}
           existingExtras={customizations}
         />
       )}
-      {categories.map((category) => {
+      {categories.entities.map((category, i) => {
         return (
           <div>
             <p
               onClick={() => {
-                selectedCategory.current = category;
-                modifyModal.handleModal();
+                setSelectedEntity(category, i);
               }}
             >
               {category.name}
@@ -47,9 +55,11 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
       })}
       {modifyModal.showModal && (
         <ModifyModal
+          updateCategory={categories.updateEntity}
           modalProps={modifyModal}
-          extraCategoryId={selectedCategory.current!.id}
-          categoryName={selectedCategory.current!.name}
+          extraCategoryId={getSelectedId()!}
+          categoryName={getSelectedName()!}
+          index={getSelectedIndex()!}
           existingExtras={customizations}
         />
       )}

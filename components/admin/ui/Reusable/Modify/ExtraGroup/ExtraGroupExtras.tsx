@@ -4,14 +4,14 @@ import {
   CategoryExtra,
   DBEntity,
   InitialSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ExtraGroupExtrasProps {
-  categories: DBEntity[];
   initialCategoryId: MutableRefObject<number | undefined>;
-  extras: CategoryExtra[];
+  extras: NestedDBEntity[];
   initialExtras: InitialSelections;
   updateCategory: (id: number) => void;
   updateExtra: (id: number) => void;
@@ -19,7 +19,6 @@ interface ExtraGroupExtrasProps {
 }
 
 const ExtraGroupExtras: FunctionComponent<ExtraGroupExtrasProps> = ({
-  categories,
   initialCategoryId,
   initialExtras,
   extras,
@@ -35,7 +34,7 @@ const ExtraGroupExtras: FunctionComponent<ExtraGroupExtrasProps> = ({
       <SelectInputList
         title="Category"
         radioName="category"
-        selections={categories}
+        selections={extras}
         onSelect={(id) => {
           updateCategory(id);
           setSelectedCategoryId(id);
@@ -58,9 +57,10 @@ const ExtraGroupExtras: FunctionComponent<ExtraGroupExtrasProps> = ({
   );
 };
 
-const getExtras = (id: number, extras: CategoryExtra[]) => {
-  const catExtras = extras.find((extraCat) => extraCat.category_id === id);
-  return catExtras?.extras || [];
+const getExtras = (id: number, categoryExtras: NestedDBEntity[]) => {
+  console.log(categoryExtras);
+  const catExtras = categoryExtras.find((extraCat) => extraCat.id === id);
+  return catExtras?.entities || [];
 };
 
 export default ExtraGroupExtras;

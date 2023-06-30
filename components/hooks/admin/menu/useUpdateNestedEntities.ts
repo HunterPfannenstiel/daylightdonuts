@@ -71,3 +71,9 @@ export type UpdateNestedEntity = (
 ) => void;
 
 export type DeleteNestedEntity = (sectionId: number, index: number) => void;
+
+export type NestedEntityFunctions = {
+  addNewEntity: AddNewNestedEntity;
+  updateEntity: UpdateNestedEntity;
+  deleteEntity: DeleteNestedEntity;
+};

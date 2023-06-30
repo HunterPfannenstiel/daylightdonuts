@@ -1,14 +1,14 @@
 import {
-  CategoryExtra,
   ExtraGroupExtraInfo,
   ExtraGroupSelections,
   InitialSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
 
 const useCollectExtraGroupInfo = (
   groupName: string,
-  extras: CategoryExtra[],
+  extras: NestedDBEntity[],
   selections?: ExtraGroupSelections
 ) => {
   const selectedCategoryId = useRef(selections?.initial_category_id);
@@ -113,7 +113,7 @@ const useCollectExtraGroupInfo = (
 
 const getSelectedExtras = (
   selectedIds: InitialSelections,
-  categoryExtras: CategoryExtra[],
+  categoryExtras: NestedDBEntity[],
   categoryId?: number
 ) => {
   if (!categoryId) return [];
@@ -124,9 +124,9 @@ const getSelectedExtras = (
 
 const getExtrasForCategory = (
   categoryId: number,
-  categoryExtras: CategoryExtra[]
+  categoryExtras: NestedDBEntity[]
 ) => {
-  return categoryExtras.find((cat) => cat.category_id === categoryId)!.extras;
+  return categoryExtras.find((cat) => cat.id === categoryId)!.entities;
 };
 
 export default useCollectExtraGroupInfo;

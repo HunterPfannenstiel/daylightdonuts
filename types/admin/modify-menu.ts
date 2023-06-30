@@ -41,15 +41,14 @@ export type ExtraSelections = {
 
 export type ExtraDetails = {
   name: string;
-  price: string;
+  price: string | undefined;
   abbreviation: string;
   isArchived?: boolean;
 };
 
 export type ExtraGroupCustomizations = {
-  categories: DBEntity[];
   items: (DBEntity & { extra_group_ids: number[] })[];
-  extras: CategoryExtra[];
+  extras: NestedDBEntity[];
 };
 
 export type ExtraCategoryExtra = {

@@ -10,17 +10,19 @@ import ExtraCategoryExistingExtras from "@_admin-reuse/Modify/ExtraCategory/Extr
 import { DBEntity } from "@_types/admin/modify-menu";
 import { CreateExtraCategory } from "@_utils/database/admin/menu-queries/extras";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { AddNewEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface CreateExtraCategoryModalProps {
   modalProps: ModalProps;
   existingExtras: DBEntity[];
+  addNewCategory: AddNewEntity;
 }
 
 const CreateExtraCategoryModal: FunctionComponent<
   CreateExtraCategoryModalProps
-> = ({ modalProps, existingExtras }) => {
+> = ({ modalProps, existingExtras, addNewCategory }) => {
   const info = useCollectExtraCategoryInfo("");
-  const onSumbit = () => {
+  const onSumbit = async () => {
     const details = {
       name: info.name.current,
       newExtras: info.newExtras,
@@ -28,11 +30,13 @@ const CreateExtraCategoryModal: FunctionComponent<
     } as CreateExtraCategory;
 
     console.log(details);
-    try {
-      const id = ModifyMenu.Post.Create("extra-category", details);
-    } catch (error) {
-      console.error(error);
+    const res = await ModifyMenu.Post.Create<number>("extra-category", details);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
     }
+    addNewCategory({ id: res.data, name: info.name.current });
+    modalProps.handleModal();
   };
   return (
     <ModifyMenuModal modalProps={modalProps}>

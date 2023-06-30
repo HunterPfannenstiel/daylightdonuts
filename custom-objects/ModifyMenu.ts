@@ -40,7 +40,8 @@ class PostMenuInfo {
 class GetMenuInfo {
   static async Customizations<T>(menuSection: string) {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/customizations`
+      `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/customizations`,
+      { cache: "no-store" }
     );
     return handleResponse<T>(res);
   }

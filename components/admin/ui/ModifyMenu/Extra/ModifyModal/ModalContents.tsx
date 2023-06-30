@@ -10,8 +10,13 @@ import {
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { ModifyExtra } from "@_utils/database/admin/menu-queries/extras";
-import { UpdateNestedEntity } from "@_hooks/admin/menu/useUpdateNestedEntities";
+import {
+  AddNewNestedEntity,
+  DeleteNestedEntity,
+  UpdateNestedEntity,
+} from "@_hooks/admin/menu/useUpdateNestedEntities";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface ModalContentsProps {
   extraId: number;
@@ -19,7 +24,11 @@ interface ModalContentsProps {
   name: string;
   categories: DBEntity[];
   groupings: ExtraGroup[];
+  index: number;
+  handleModal: () => void;
   updateExtra: UpdateNestedEntity;
+  addExtra: AddNewNestedEntity;
+  deleteExtra: DeleteNestedEntity;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
@@ -28,7 +37,11 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   name,
   categories,
   groupings,
+  index,
+  handleModal,
   updateExtra,
+  addExtra,
+  deleteExtra,
 }) => {
   const info = useCollectExtraInfo(
     {
@@ -43,9 +56,14 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   const onModify = async (e: FormEvent) => {
     e.preventDefault();
     const { price, abbreviation, isArchived } = info.extraDetails;
-    const newCategoryId = info.selectedCategoryId.current;
+    const newCategoryId = ModifyMenu.CompareVal(
+      selections.initial_category_id,
+      info.selectedCategoryId.current
+    );
     const selectedGroups = info.getExtraGroupInfo();
+    console.log(selectedGroups);
     const initialGroups = info.getExtraGroupInfo(selections.initial_groups);
+    console.log(initialGroups);
     const removeGroupIds = initialGroups.filter((group) => {
       for (let i = 0; i < selectedGroups.length; i++) {
         if (selectedGroups[i].extraGroupId === group.extraGroupId) return false;
@@ -72,19 +90,15 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     const modifications = {
       extraId,
       name: newName,
-      price: price === selections.initial_price ? undefined : price,
-      abbreviation:
-        abbreviation === selections.initial_abbreviation
-          ? undefined
-          : abbreviation,
+      price: ModifyMenu.CompareVal(selections.initial_price, price),
+      abbreviation: ModifyMenu.CompareVal(
+        selections.initial_abbreviation,
+        abbreviation
+      ),
       groupInfo: modifyGroups,
       removeGroupIds: removeGroupIds.map((group) => group.extraGroupId),
-      categoryId:
-        newCategoryId === selections.initial_category_id
-          ? undefined
-          : newCategoryId,
-      archived:
-        isArchived === selections.initital_archive ? undefined : isArchived,
+      categoryId: newCategoryId,
+      archived: ModifyMenu.CompareVal(selections.initital_archive, isArchived),
     } as ModifyExtra;
 
     console.log(modifications);
@@ -93,8 +107,18 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       console.error(res.errorMessage);
       return;
     }
-    newName && updateExtra(newName);
-    console.log(res);
+    if (newName) {
+      if (!newCategoryId) {
+        updateExtra(newName, selections.initial_category_id, index);
+      } else {
+        deleteExtra(selections.initial_category_id, index);
+        addExtra({ id: extraId, name: newName }, newCategoryId);
+      }
+    } else if (newCategoryId) {
+      deleteExtra(selections.initial_category_id, index);
+      addExtra({ id: extraId, name: name }, newCategoryId);
+    }
+    handleModal();
   };
   return (
     <form onSubmit={onModify}>

@@ -66,9 +66,12 @@ const useCollectExtraCategoryInfo = (
   const addCurrentNewExtra = () => {
     setNewExtras((prevState) => {
       const copy = prevState.map((extra) => {
-        return { ...extra };
+        return { ...extra, price: extra.price };
       });
-      copy.push(currentNewExtra);
+      copy.push({
+        ...currentNewExtra,
+        price: currentNewExtra.price || undefined,
+      });
       return copy;
     });
     setCurrentNewExtra(getInitialNewExtra());

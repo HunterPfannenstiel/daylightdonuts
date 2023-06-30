@@ -2,26 +2,44 @@ import { ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
 import { ItemImage } from "@_types/admin/forms";
 
-interface ImageInputProps {
-  imageHandler: (images: ItemImage[]) => void;
-  width?: string;
-}
+type ImageInputProps =
+  | {
+      imageHandler: (images: ItemImage[]) => void;
+      singleImageHandler?: undefined;
+      multiple: true;
+      width?: string;
+    }
+  | {
+      imageHandler?: undefined;
+      singleImageHandler: (images: ItemImage) => void;
+      multiple: false;
+      width?: string;
+    };
 
 const ImageInput: FunctionComponent<ImageInputProps> = ({
   imageHandler,
+  singleImageHandler,
+  multiple = true,
   width,
 }) => {
   const onImageInput = async (e: ChangeEvent<HTMLInputElement>) => {
-    const images = await readImages(e);
-    if (images) {
-      imageHandler(images);
+    if (multiple) {
+      const images = await readImages(e);
+      if (images) {
+        imageHandler && imageHandler(images);
+      }
+    } else {
+      const image = await readImage(e);
+      if (image) {
+        singleImageHandler && singleImageHandler(image);
+      }
     }
   };
   return (
     <div className={classes.image_input} style={{ width, paddingTop: width }}>
       <label htmlFor="image">Click</label>
       <input
-        multiple
+        multiple={multiple}
         type="file"
         id="image"
         accept="image/*"

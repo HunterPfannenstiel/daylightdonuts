@@ -30,7 +30,9 @@ const ExtraCategoryNewExtras: FunctionComponent<
           updateHandler={updateExtraDetails}
           canFlipPage={() => {}}
         />
-        <button onClick={addCurrentNewExtra}>Create Extra</button>
+        <button onClick={addCurrentNewExtra} type="button">
+          Create Extra
+        </button>
       </div>
       {extras.length !== 0 && (
         <>

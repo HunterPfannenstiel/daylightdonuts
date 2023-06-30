@@ -23,6 +23,7 @@ const Extra: FunctionComponent<ExtraProps> = ({
     setSelectedEntity,
     getSelectedId,
     getSelectedName,
+    getSelectedIndex,
   } = useHandleInput();
   const extras = useUpdateNestedEntities(initialExtras);
   return (
@@ -56,6 +57,10 @@ const Extra: FunctionComponent<ExtraProps> = ({
       })}
       {modifyModal.showModal && (
         <ModifyExtraModal
+          addExtra={extras.addNewEntity}
+          updateExtra={extras.updateEntity}
+          deleteExtra={extras.deleteEntity}
+          index={getSelectedIndex()!}
           extraId={getSelectedId()!}
           extraName={getSelectedName()!}
           modalProps={modifyModal}

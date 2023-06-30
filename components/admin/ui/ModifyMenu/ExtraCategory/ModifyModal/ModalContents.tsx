@@ -7,12 +7,16 @@ import useCollectExtraCategoryInfo from "@_hooks/admin/menu/extra-category/useCo
 import { DBEntity, ExtraCategorySelections } from "@_types/admin/modify-menu";
 import { ModifyExtraCategory } from "@_utils/database/admin/menu-queries/extras";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ModalContentsProps {
   extraCategoryId: number;
   categoryName: string;
   initialInfo: ExtraCategorySelections;
   existingExtras: DBEntity[];
+  index: number;
+  handleModal: () => void;
+  updateCategory: UpdateEntity;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
@@ -20,6 +24,9 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   categoryName,
   initialInfo,
   existingExtras,
+  index,
+  handleModal,
+  updateCategory,
 }) => {
   const info = useCollectExtraCategoryInfo(categoryName, initialInfo);
   const onModify = async (e: FormEvent) => {
@@ -28,13 +35,19 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     const addExtraIds = selectedIds.filter((id) => {
       return !initialInfo.initial_extras[id];
     });
+    const newName = ModifyMenu.CompareVal(categoryName, info.name.current);
     const details = {
       extraCategoryId,
-      name: ModifyMenu.CompareVal(categoryName, info.name.current),
+      name: newName,
       newExtras: ModifyMenu.CheckArrayLen(info.newExtras),
       addExtraIds: ModifyMenu.CheckArrayLen(addExtraIds),
     } as ModifyExtraCategory;
     await ModifyMenu.Post.Modify("extra-category", details);
+
+    if (newName) {
+      updateCategory(newName, index);
+    }
+    handleModal();
   };
   return (
     <form onSubmit={onModify}>

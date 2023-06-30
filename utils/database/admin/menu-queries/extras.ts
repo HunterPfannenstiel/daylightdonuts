@@ -88,7 +88,7 @@ export const createExtra = async (info: CreateExtra) => {
   const query = "CALL store.create_extra($1, $2, $3, $4, $5, NULL)";
   const res = await adminQuery(query, [
     info.name,
-    info.price,
+    normalizePrice(info.price),
     groupInfo,
     info.categoryId,
     info.abbreviation || null,
@@ -196,4 +196,10 @@ export const modifyExtraCategory = async (info: ModifyExtraCategory) => {
     info.addExtraIds || null,
     info.changeExtraIds || null,
   ]);
+};
+
+export const normalizePrice = (price: string) => {
+  const noZeroes = price.replaceAll("0", "").replaceAll(".", "");
+  if (!noZeroes) return null;
+  return price;
 };

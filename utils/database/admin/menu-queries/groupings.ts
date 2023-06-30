@@ -26,46 +26,69 @@ export const fetchItemGroupingSelections = async (groupingId: number) => {
   return res.rows[0] as GroupingSelections;
 };
 
-export const createItemGrouping = async (
-  name: string,
-  price: string,
-  size: number,
-  image: ImageUpload,
-  menuItemIds?: number[]
-) => {
+export type PostCreateItemGrouping = {
+  name: string;
+  price: string;
+  size: number;
+  menuItemIds: string; //JSON array
+  image: Blob;
+};
+
+export type CreateItemGrouping = {
+  name: string;
+  price: string;
+  size: number;
+  image: ImageUpload;
+  menuItemIds?: number[];
+};
+
+export const createItemGrouping = async (info: CreateItemGrouping) => {
   const query = "CALL store.create_item_grouping($1, $2, $3, $4, $5, NULL)";
   const res = await adminQuery(query, [
-    name,
-    price,
-    size,
-    image,
-    menuItemIds || null,
+    info.name,
+    info.price,
+    info.size,
+    info.image,
+    info.menuItemIds || null,
   ]);
 
   return res.rows[0] as { new_id: number };
 };
 
-export const modifyItemGrouping = async (
-  groupingId: number,
-  name?: string,
-  price?: string,
-  size?: number,
-  image?: ImageUpload,
-  isActive?: boolean,
-  addItemIds?: number[],
-  removeItemIds?: number[]
-) => {
+export type PostModifyItemGrouping = {
+  groupingId: number;
+  name?: string;
+  price?: string;
+  size?: string;
+  image?: Blob;
+  isActive?: boolean | string;
+  addItemIds?: string; //JSON array
+  removeItemIds?: string; //JSON array
+};
+
+export type ModifyItemGrouping = {
+  groupingId: number;
+  name?: string;
+  price?: string;
+  size?: number;
+  image?: ImageUpload;
+  isActive?: boolean;
+  addItemIds?: number[];
+  removeItemIds?: number[];
+};
+
+export const modifyItemGrouping = async (info: ModifyItemGrouping) => {
   const query =
     "CALL store.modify_item_grouping($1, $2, $3, $4, $5, $6, $7, $8, NULL)";
   const res = await adminQuery(query, [
-    groupingId,
-    name || null,
-    price || null,
-    size === undefined ? null : size,
-    image || null,
-    isActive === undefined ? null : isActive,
-    addItemIds || null,
-    removeItemIds || null,
+    info.groupingId,
+    info.name || null,
+    info.price || null,
+    info.size === undefined ? null : info.size,
+    info.image || null,
+    info.isActive === undefined ? null : info.isActive,
+    info.addItemIds || null,
+    info.removeItemIds || null,
   ]);
   return res.rows[0] as { removed_public_id: string | null };
 };

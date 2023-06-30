@@ -2,43 +2,40 @@ import { FunctionComponent } from "react";
 import classes from "./ModifyModal.module.css";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
-import ModalContents from "./ModalContents";
-import { DBEntity, ExtraCategorySelections } from "@_types/admin/modify-menu";
-import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
 import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
+import ModalContents from "./ModalContents";
+import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
+import { GroupingSelections } from "@_types/admin/modify-menu";
 
 interface ModifyModalProps {
-  extraCategoryId: number;
-  categoryName: string;
   modalProps: ModalProps;
-  existingExtras: DBEntity[];
+  groupingId: number;
+  groupingName: string;
   index: number;
-  updateCategory: UpdateEntity;
+  updateGrouping: UpdateEntity;
 }
 
 const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   modalProps,
-  extraCategoryId,
-  categoryName,
-  existingExtras,
+  groupingId,
+  groupingName,
   index,
-  updateCategory,
+  updateGrouping,
 }) => {
-  const { selections } = useInitialSelections<ExtraCategorySelections>(
-    extraCategoryId,
-    "extra-category"
+  const { selections } = useInitialSelections<GroupingSelections>(
+    groupingId,
+    "item-grouping"
   );
   if (!selections) return <p>Loading...</p>;
   return (
     <ModifyMenuModal modalProps={modalProps}>
       <ModalContents
-        index={index}
-        updateCategory={updateCategory}
+        groupingId={groupingId}
+        groupingName={groupingName}
         handleModal={modalProps.handleModal}
-        extraCategoryId={extraCategoryId}
-        categoryName={categoryName}
-        initialInfo={selections}
-        existingExtras={existingExtras}
+        index={index}
+        updateGrouping={updateGrouping}
+        selections={selections}
       />
     </ModifyMenuModal>
   );

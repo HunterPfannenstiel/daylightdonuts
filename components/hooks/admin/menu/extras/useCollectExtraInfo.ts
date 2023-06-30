@@ -10,7 +10,7 @@ const useCollectExtraInfo = (
   initialCategoryId?: number,
   initialGroups?: InitialSelections
 ) => {
-  const extraDetails = useRef(initialDetails || details);
+  const extraDetails = useRef(initialDetails || details());
 
   const updateDetails = (key: keyof ExtraDetails, value: any) => {
     extraDetails.current[key] = value as never;
@@ -22,22 +22,35 @@ const useCollectExtraInfo = (
     selectedCategoryId.current = id;
   };
 
-  const selectedGroupingIds = useRef(initialGroups || {});
+  const selectedGroupingIds = useRef(
+    initialCategoryId ? { [initialCategoryId]: initialGroups } : {}
+  );
 
-  const updateGroup = (id: number, displayOrder?: number) => {
-    if (selectedGroupingIds.current[id]) {
-      delete selectedGroupingIds.current[id];
+  const updateGroup = (
+    id: number,
+    categoryId: number,
+    displayOrder?: number
+  ) => {
+    if (selectedGroupingIds.current[categoryId]) {
+      if (selectedGroupingIds.current[categoryId]![id]) {
+        delete selectedGroupingIds.current[categoryId]![id];
+      } else {
+        selectedGroupingIds.current[categoryId] = { [id]: true };
+      }
     } else {
-      selectedGroupingIds.current[id] = true;
+      selectedGroupingIds.current[categoryId] = { [id]: true };
     }
   };
 
   const getExtraGroupInfo = (
-    selections = selectedGroupingIds.current
+    selections = selectedGroupingIds.current[selectedCategoryId.current || 0]
   ): ExtraGroupInfo[] => {
-    return Object.keys(selections).map((key) => {
-      return { extraGroupId: +key, displayOrder: null };
-    });
+    if (selections) {
+      return Object.keys(selections).map((key) => {
+        return { extraGroupId: +key, displayOrder: null };
+      });
+    }
+    return [];
   };
 
   return {
@@ -53,8 +66,10 @@ const useCollectExtraInfo = (
 
 export default useCollectExtraInfo;
 
-const details: ExtraDetails = {
-  name: "",
-  price: "",
-  abbreviation: "",
+const details = (): ExtraDetails => {
+  return {
+    name: "",
+    price: "",
+    abbreviation: "",
+  };
 };

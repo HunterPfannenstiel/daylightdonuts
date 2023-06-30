@@ -10,7 +10,10 @@ const ExtraCategoryPage = async () => {
   const categories = await fetchExtraCategories();
 
   return (
-    <ExtraCategory customizations={customizations} categories={categories} />
+    <ExtraCategory
+      customizations={customizations}
+      initialCategories={categories}
+    />
   );
 };
 

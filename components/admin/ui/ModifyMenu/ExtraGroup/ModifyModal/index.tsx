@@ -6,17 +6,25 @@ import {
   CategoryExtra,
   DBEntity,
   ExtraGroupSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import ModalContents from "./ModalContents";
 import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
+import {
+  AddNewNestedEntity,
+  DeleteNestedEntity,
+  NestedEntityFunctions,
+  UpdateNestedEntity,
+} from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface ModifyExtraGroupModalProps {
   modalProps: ModalProps;
   groupName: string;
   groupId: number;
-  extras: CategoryExtra[];
-  categories: DBEntity[];
+  extras: NestedDBEntity[];
   items: DBEntity[];
+  index: number;
+  entityFns: NestedEntityFunctions;
 }
 
 const ModifyExtraGroupModal: FunctionComponent<ModifyExtraGroupModalProps> = ({
@@ -24,8 +32,9 @@ const ModifyExtraGroupModal: FunctionComponent<ModifyExtraGroupModalProps> = ({
   groupName,
   groupId,
   extras,
-  categories,
   items,
+  index,
+  entityFns,
 }) => {
   const { selections, isLoading } = useInitialSelections<ExtraGroupSelections>(
     groupId,
@@ -36,10 +45,12 @@ const ModifyExtraGroupModal: FunctionComponent<ModifyExtraGroupModalProps> = ({
   return (
     <ModifyMenuModal modalProps={modalProps}>
       <ModalContents
+        index={index}
+        entityFns={entityFns}
+        handleModal={modalProps.handleModal}
         groupId={groupId}
         groupName={groupName}
         extras={extras}
-        categories={categories}
         items={items}
         selections={selections!}
       />
