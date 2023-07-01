@@ -1,0 +1,7 @@
+.page {
+    max-width: 630px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-inline: auto;
+}

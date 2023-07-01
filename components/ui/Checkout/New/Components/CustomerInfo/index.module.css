@@ -1,0 +1,18 @@
+.inputs > * {
+    padding-bottom: 1rem;
+}
+
+.inputs > *:last-child {
+    padding-bottom: 0;
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name > * {
+    width: 45%;
+}
+
+

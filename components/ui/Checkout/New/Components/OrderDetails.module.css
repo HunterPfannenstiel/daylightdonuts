@@ -1,0 +1,18 @@
+.location {
+    padding-bottom: 1.5rem;
+}
+
+.time_date {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.time_date div {
+    width: 50%;
+}
+
+.date h2 {
+    color: var(--font-black);
+    font-size: 1rem;
+    font-weight: 500;
+}

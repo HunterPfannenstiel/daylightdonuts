@@ -18,7 +18,7 @@
     --regular-font-weight: 400;
     --secondary-font-weight: 300;
     /* --Colors-- */
-    --font-black: #212121;
+    --font-black: #161616;
     --font-white: #FFFFFF;
     --background-color: #FBFBFD;
 
@@ -87,15 +87,20 @@ fieldset label {
     font-weight: var(--bold-font-weight);
 }
 
-select, input {
+.input, select, input {
     font: var(--primary-font);
     font-size: var(--medium-font-size);
     padding: .3em .5em;
     border: 1px solid #DCDCDC;
-    border-radius: 17px;
-
+    border-radius: 1.75rem;
 }
-
+.input {
+    font: var(--primary-font);
+    font-size: var(--medium-font-size);
+    padding: .3em .5em;
+    border: 1px solid #DCDCDC;
+    border-radius: 1.75rem;
+}
 button {
     border: none;
     font: var(--primary-font);

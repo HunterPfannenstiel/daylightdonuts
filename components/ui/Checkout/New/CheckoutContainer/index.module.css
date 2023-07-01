@@ -1,0 +1,18 @@
+.container {
+    padding: 1.25rem;
+    background-color: white;
+}
+
+.header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #EEF0F8;
+}
+
+.header h2 {
+    color: var(--font-black);
+    font-size: 1.5rem;
+}
+
+.content {
+    padding-top: 1.5rem;
+}

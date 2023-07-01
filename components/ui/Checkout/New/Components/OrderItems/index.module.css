@@ -1,0 +1,8 @@
+.items {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.items li {
+    padding-bottom: 1.5rem;
+}
