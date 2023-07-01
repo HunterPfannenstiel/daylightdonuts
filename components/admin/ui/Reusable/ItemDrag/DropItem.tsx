@@ -1,18 +1,23 @@
 import { FunctionComponent, ReactNode } from "react";
 
 interface DropItemProps {
-  handleDragStart: (e: React.DragEvent) => void;
   children: ReactNode;
   className?: string;
+  dataName: string;
+  dataValue: string;
 }
 
 const DropItem: FunctionComponent<DropItemProps> = ({
-  handleDragStart,
   children,
   className,
+  dataName,
+  dataValue,
 }) => {
+  const onDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData(dataName, dataValue);
+  };
   return (
-    <div draggable onDragStart={handleDragStart} className={className}>
+    <div draggable onDragStart={onDragStart} className={className}>
       {children}
     </div>
   );

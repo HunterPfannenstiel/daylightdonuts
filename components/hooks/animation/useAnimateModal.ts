@@ -62,4 +62,10 @@ const useAnimateModal = (
   };
 };
 
+export type ModalProps = {
+  handleModal: () => void;
+  playAnimation: boolean;
+  showModal: boolean;
+};
+
 export default useAnimateModal;

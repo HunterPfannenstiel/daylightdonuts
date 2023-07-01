@@ -16,7 +16,6 @@ export const parseImage = async (
       resolve();
     });
   });
-  console.log(req.files);
   if (singleImage) return req.file as MulterImage;
   return req.files as MulterImage[];
 };
@@ -37,4 +36,21 @@ export const parseManyImages = async (
     },
   }).array(imageKey, maxImageCount);
   return (await parseImage(req, res, imageParser, false)) as MulterImage[];
+};
+
+export const parseSingleImage = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  imageKey: string
+) => {
+  const imageParser = multer({
+    fileFilter: (req, file, cb) => {
+      if (file.mimetype.startsWith("image/")) {
+        cb(null, true);
+      } else {
+        cb(null, false);
+      }
+    },
+  }).single(imageKey);
+  return (await parseImage(req, res, imageParser, true)) as MulterImage;
 };

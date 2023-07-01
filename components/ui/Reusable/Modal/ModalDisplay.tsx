@@ -2,19 +2,18 @@ import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./ModalDisplay.module.css";
 import Modal from "./Modal";
 import Background from "./Background";
+import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface ModalDisplayProps {
   children: ReactNode;
-  handleModal: () => void;
-  playAnimation: boolean;
   className?: string;
   animationTime?: number;
+  modalProps: ModalProps;
 }
 
 const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
   children,
-  handleModal,
-  playAnimation,
+  modalProps,
   className,
   animationTime = 300,
 }) => {
@@ -22,21 +21,21 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
     ? `${classes.modal_content} ${className}`
     : classes.modal_content;
 
-  if (playAnimation) classN += " " + classes.animate_out;
+  if (modalProps.playAnimation) classN += " " + classes.animate_out;
   return (
     <Modal selector="modal">
       <div
         className={classN}
         style={{ "--animation-time": animationTime + "ms" } as CSSProperties}
       >
-        <p className={classes.close} onClick={handleModal}>
+        <p className={classes.close} onClick={modalProps.handleModal}>
           X
         </p>
         {children}
       </div>
       <Background
-        handleModal={handleModal}
-        playAnimation={playAnimation}
+        handleModal={modalProps.handleModal}
+        playAnimation={modalProps.playAnimation}
         animationTime={animationTime}
       />
     </Modal>

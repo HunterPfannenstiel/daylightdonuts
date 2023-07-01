@@ -3,6 +3,7 @@ import classes from "./DymoDisplay.module.css";
 import Modal from "components/ui/Reusable/Modal/Modal";
 import LabelPreview from "../../Orders/OrderDetails/LabelPreview";
 import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
+import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface DymoDisplayProps {
   orderId: number;
@@ -11,8 +12,7 @@ interface DymoDisplayProps {
     style: "Full Name" | "Abbreviation",
     showCategoryNames: boolean
   ) => void;
-  handle: () => void;
-  playAnimation: boolean;
+  modalProps: ModalProps;
   labelImage: string;
   abbreviate: boolean;
   showCategoryNames: boolean;
@@ -21,8 +21,7 @@ interface DymoDisplayProps {
 const DymoDisplay: FunctionComponent<DymoDisplayProps> = ({
   orderId,
   onTextStyleChange,
-  handle,
-  playAnimation,
+  modalProps,
   labelImage,
   abbreviate,
   showCategoryNames,
@@ -37,11 +36,7 @@ const DymoDisplay: FunctionComponent<DymoDisplayProps> = ({
     onTextStyleChange(orderId, style, includeCategoryRef.current!.checked);
   };
   return (
-    <ModalDisplay
-      handleModal={handle}
-      playAnimation={playAnimation}
-      className={classes.modal}
-    >
+    <ModalDisplay modalProps={modalProps} className={classes.modal}>
       <form className={classes.form}>
         <div>
           <input

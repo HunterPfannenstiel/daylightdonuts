@@ -8,27 +8,25 @@ import MenuItemImage from "components/ui/Reusable/Image/MenuItemImage";
 interface ImageComponentProps {
   imageUrl: string;
   index: number;
-  onImageDropped: (e: React.DragEvent, index: number) => void;
-  onImageDragged: (e: React.DragEvent, index: string) => void;
+  onSwap: (indexOne: number, indexTwo: number) => void;
 }
 
 const ImageComponent: FunctionComponent<ImageComponentProps> = ({
   imageUrl,
   index,
-  onImageDropped,
-  onImageDragged,
+  onSwap,
 }) => {
   return (
     <DropContainer
-      dropHandler={(e) => {
-        onImageDropped(e, index);
+      dataName="index"
+      dropHandler={(indexOne) => {
+        onSwap(+indexOne, index);
       }}
       className={classes.drop_container}
     >
       <DropItem
-        handleDragStart={(e) => {
-          onImageDragged(e, index.toString());
-        }}
+        dataName="index"
+        dataValue={index.toString()}
         className={classes.image_container}
       >
         <MenuItemImage imageUrl={imageUrl} className={classes.image} />

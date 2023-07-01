@@ -1,6 +1,7 @@
 import { Customizations } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
-import ModifyMenu from "components/admin/ui/ModifyMenu/ModifyMenu";
+import CreateExtraModal from "components/admin/ui/ModifyMenu/Extra/CreateModal";
+import ModifyMenu from "components/admin/ui/ModifyMenu";
 
 const Menu = async () => {
   const items = await fetchItems();

@@ -1,10 +1,9 @@
 import { FunctionComponent } from "react";
 import classes from "./ItemDetails.module.css";
-import ImageInput from "../Form/ImageInput";
 import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import ImageModifications from "./ImageComponent/ImageModifications";
-import TextInput from "@_admin-reuse/Form/TextInput";
+import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
 
 //TEXT INPUTS
 

@@ -1,0 +1,15 @@
+.extra_list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.extra_list li {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.extra_item {
+    display: flex;
+    gap: 0.25rem;
+}
