@@ -1,5 +1,5 @@
-import { useCart } from "@_providers/cart/optimistic";
-import { NO_GROUP } from "@_providers/cart/utils";
+import { useCart } from "@_providers/old-cart/optimistic";
+import { NO_GROUP } from "@_providers/old-cart/utils";
 import { Item } from "@_types/database/menu";
 import { getCartId, getExtraInfo } from "@_utils/database/cart/cart";
 import { addItemToCart } from "@_utils/database/cart/modifiers/utils";

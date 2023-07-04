@@ -1,160 +1,119 @@
 import {
-  CartDictionary,
-  CartModifier,
-  CartState,
-  DBCartItem,
-  MutateCart,
-  UpdateCartItem,
-} from "@_types/database/cart";
-import {
-  createCartEntry,
-  getCartId,
-  isGroupCreated,
-} from "@_utils/database/cart/cart";
-import {
-  addCartGroup,
-  addNewItem,
-  initializeCart,
-} from "@_utils/database/cart/modifiers/cartModifiers";
-import { Dispatch, SetStateAction } from "react";
+  Cart,
+  CartItem,
+  CartItemExtra,
+  CartSectionDetails,
+} from "@_types/cart";
 
-export const getInitialState = async (
-  savedCart: DBCartItem[]
-): Promise<[CartModifier, number]> => {
-  let cart = getDefaultCart();
-  let nextItemId = 0;
-
-  if (savedCart.length !== 0) {
-    nextItemId = getNextItemId(savedCart);
-    addItems(cart, savedCart);
-  }
-
-  return [initializeCart(cart), nextItemId];
-};
-
-const addItems = (cart: CartDictionary, cartItems: DBCartItem[]) => {
-  cartItems.forEach((item) => {
-    let extraPrice = 0;
-    if (item.extra_info !== null) {
-      extraPrice = +item.extra_info.price;
-    }
-    const groupId =
-      extraPrice !== 0 || !item.group_name ? NO_GROUP : item.group_name;
-    const price = +item.unit_price + extraPrice;
-
-    const cartEntry = createCartEntry(
-      item.name,
-      item.amount,
-      item.cart_item_id,
-      price,
-      item.image,
-      item.extra_info === null ? [] : item.extra_info.info,
-      item.availability
-    );
-    const extraIds = item.extra_info === null ? [] : item.extra_info.ids;
-    if (!isGroupCreated(cart, groupId)) {
-      if (groupId === NO_GROUP) {
-        addCartGroup(
-          groupId,
-          0,
-          0,
-          getCartId(item.menu_item_id, extraIds),
-          cartEntry
-        )(cart);
-      } else {
-        addCartGroup(
-          groupId,
-          item.group_size!,
-          +item.group_price!,
-          getCartId(item.menu_item_id, extraIds),
-          cartEntry
-        )(cart);
-      }
-    } else {
-      addNewItem(
-        groupId,
-        getCartId(item.menu_item_id, extraIds),
-        cartEntry
-      )(cart);
-    }
+export const initializeCart = (cart: Cart) => {
+  let totalItems = 0;
+  let totalPrice = 0;
+  let nextId = 0;
+  const itemIds = Object.keys(cart.items);
+  itemIds.forEach((itemId) => {
+    const itemSection = cart.items[+itemId];
+    const cartItemIds = Object.keys(itemSection);
+    cartItemIds.forEach((cartItemId) => {
+      const item = cart.items[+itemId].items[+cartItemId];
+      const extraPrice = calculateExtraPrice(item);
+      if (extraPrice) item.extraPrice = extraPrice;
+      totalItems += item.amount;
+      totalPrice += +itemSection.details.price + extraPrice;
+      nextId = Math.max(nextId, +cartItemId);
+    });
   });
+  cart.price = totalPrice.toFixed(2);
+  cart.totalItems = totalItems;
+  cart.nextId = nextId;
 };
 
-export const getDefaultCart = () => {
-  return {
-    totalItems: 0,
-    totalPrice: 0,
-    groups: {},
-  } as CartDictionary;
-};
-
-const getNextItemId = (cartItems: DBCartItem[]) => {
-  let lastId = cartItems[cartItems.length - 1].cart_item_id;
-  return lastId + 1;
-};
-
-export const getInitialContext = () => {
-  return {
-    cart: getDefaultCart(),
-    nextItemId: 0,
-    isLoading: true,
-  } as CartState;
-};
-
-export const NO_GROUP = "NULL";
-
-export const fetchCart = async (
-  setNextId: Dispatch<SetStateAction<number>>
-) => {
-  const response = await fetch("/api/cart/fetch-cart");
-  let savedCart: DBCartItem[] = [];
-  if (!response.ok) console.error("Invalid response when fetching cart");
-  else {
-    const data = (await response.json()) as {
-      cart: DBCartItem[];
-      isPending: boolean;
+export const addNewItemAndSection =
+  (itemId: number, item: CartItem, details: CartSectionDetails) =>
+  (cart: Cart) => {
+    cart.items[itemId] = {
+      items: { [cart.nextId]: item },
+      details,
     };
-    savedCart = data.cart;
-  }
-  const cart = getDefaultCart();
-  const [initialCart, cartId] = await getInitialState(savedCart);
-  initialCart(cart);
-  setNextId(cartId);
-  return cart;
+    const extraPrice = calculateExtraPrice(item);
+    if (extraPrice) item.extraPrice = extraPrice;
+    cart.price = (
+      +cart.price +
+      (+details.price + extraPrice) * item.amount
+    ).toFixed(2);
+    cart.totalItems += item.amount;
+  };
+
+export const addNewItem = (itemId: number, item: CartItem) => (cart: Cart) => {
+  const { details, items } = cart.items[itemId];
+  items[cart.nextId] = item;
+  const extraPrice = calculateExtraPrice(item);
+  if (extraPrice) item.extraPrice = extraPrice;
+  cart.price = (
+    +cart.price +
+    (+details.price + extraPrice) * item.amount
+  ).toFixed(2);
+  cart.totalItems += item.amount;
 };
 
-export const updateCart = async ({
-  updates,
-  timer,
-  timeoutTime,
-}: MutateCart) => {
-  if (updates.length === 0) {
-    return new Promise<string>((resolve) => resolve("Update succesful"));
+export const updateExistingItem =
+  (itemId: number, cartItemId: number, amount: number) => (cart: Cart) => {
+    const { details, items } = cart.items[itemId];
+    const item = items[cartItemId];
+    const itemPrice = +details.price + item?.extraPrice! || 0;
+    if (item.amount < 1) {
+      delete cart.items[itemId].items[cartItemId];
+    }
+    cart.totalItems += amount;
+    cart.price = (+cart.price + itemPrice * amount).toFixed(2);
+  };
+
+export const removeItem =
+  (itemId: number, cartItemId: number) => (cart: Cart) => {
+    const { details, items } = cart.items[itemId];
+    const item = items[cartItemId];
+    cart.price = (
+      +cart.price -
+      (+details.price + item?.extraPrice! || 0) * item.amount
+    ).toString(2);
+    cart.totalItems -= item.amount;
+    delete cart.items[itemId].items[cartItemId];
+  };
+
+const calculateExtraPrice = (item: CartItem) => {
+  let itemPrice = 0;
+  if (item.extras) {
+    item.extras.forEach((extra) => {
+      itemPrice += extra.price || 0;
+    });
   }
-  clearTimeout(timer.current);
-  return new Promise<string>(async (resolve, reject) => {
-    timer.current = setTimeout(async () => {
-      try {
-        const response = await postCart(updates);
-        if (!response.ok) {
-          const message = await response.json();
-          reject(message.message);
-        } else {
-          resolve("Update Successful");
-        }
-      } catch (e) {
-        reject("Could not update cart");
+  return itemPrice;
+};
+
+const checkIfExists = (
+  itemId: number,
+  cart: Cart,
+  extras?: CartItemExtra[]
+) => {
+  const section = cart.items[itemId];
+  if (!section) return -1;
+  const sectionKeys = Object.keys(section);
+  for (let i = 0; i < sectionKeys.length; i++) {
+    const cartItemId = +sectionKeys[i];
+    const item = section.items[cartItemId];
+    if (item.extras) {
+      if (!extras) continue;
+      if (item.extras.length !== extras.length) continue;
+      for (let i = 0; i < item.extras.length; i++) {
+        const extra = item.extras[i];
+        const newItemExtra = extras[i];
+        if (
+          newItemExtra.category !== extra.category ||
+          newItemExtra.name !== extra.name
+        )
+          break;
       }
-    }, timeoutTime);
-  });
-};
-
-export const postCart = (updates: UpdateCartItem[]) => {
-  return fetch("/api/cart/modify", {
-    method: "POST",
-    body: JSON.stringify({ updates }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+      return cartItemId;
+    } else if (!extras) return cartItemId;
+  }
+  return -1;
 };

@@ -1,6 +1,6 @@
 "use client";
 import { FunctionComponent, ReactNode, useState } from "react";
-import { CartProvider } from "@_providers/cart/optimistic";
+import { CartProvider } from "@_providers/old-cart/optimistic";
 import { NotificationProvider } from "@_providers/Notification/Notification";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
