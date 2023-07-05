@@ -31,7 +31,7 @@ export type Item = {
   group_price: string | null;
   group_name: string | null;
   group_size: number | null;
-  extras: { group: ItemExtras }[] | null;
+  extras: ItemExtras[] | null;
   availability: Availability;
 };
 /*Specific Item*/

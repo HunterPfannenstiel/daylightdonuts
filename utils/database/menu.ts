@@ -1,5 +1,6 @@
 import { MenuItem, Item } from "@_types/database/menu";
 import { customerQuery } from "./connect";
+import { checkRowLength } from "./admin/menu-queries/modify-item";
 
 export const getFilterItems = async (
   category: string | undefined | null,
@@ -17,8 +18,8 @@ export const getItemDetails = async (
 ): Promise<Item | undefined> => {
   const query = "SELECT * FROM store.fetch_item_details($1)";
   const res = await customerQuery(query, [itemName]);
-  if (res.rows.length > 0) return res.rows[0];
-  return undefined;
+  checkRowLength(res);
+  return res.rows[0];
 };
 
 export const getDozenableGroups = async (): Promise<MenuItem[]> => {

@@ -3,31 +3,30 @@
 import { Item } from "@_types/database/menu";
 import { useRouter } from "next/navigation";
 import { FunctionComponent, useState } from "react";
-import IItemPage from "../Reusable/Item/IItemPage";
+import Page from "../Reusable/Item/ItemPage";
 import MenuItemForm from "./Form/MenuItemForm";
+import useMenuItem from "@_hooks/menu/useMenuItem";
 
 interface ItemPageProps {
   item: Item;
 }
 
 const ItemPage: FunctionComponent<ItemPageProps> = ({ item }) => {
-  const [extraPrice, setExtraPrice] = useState(0);
-  const [showPrice, setShowPrice] = useState(+item.price);
+  const { extraPrice, showPrice, updateExtras, addItemToCart } =
+    useMenuItem(item);
   const router = useRouter();
-  const getShowPrice = (newPrice: number, addedAmount: number) => {
-    setShowPrice(newPrice);
-    setExtraPrice(addedAmount);
-  };
+
   const backButtonHandler = () => {
     router.back();
   };
   return (
-    <IItemPage
+    <Page
       item={item}
       extraPrice={extraPrice}
       price={showPrice}
-      itemForm={<MenuItemForm item={item} getShowPrice={getShowPrice} />}
       backButtonHandler={backButtonHandler}
+      updateExtras={updateExtras}
+      addItemToCart={addItemToCart}
     />
   );
 };

@@ -1,9 +1,23 @@
 import {
   Cart,
+  CartDatabaseUpdate,
+  CartDatabaseUpdates,
   CartItem,
   CartItemExtra,
   CartSectionDetails,
+  NewCartItem,
 } from "@_types/cart";
+import APIRequest from "custom-objects/Fetch";
+import { MutableRefObject } from "react";
+
+type ClientCartDelegate = (cart: Cart, dbUpdates: CartDatabaseUpdates) => void;
+
+export type MutateCart = {
+  clientDelegate: ClientCartDelegate;
+  dbUpdates: () => CartDatabaseUpdate[];
+  timer: MutableRefObject<NodeJS.Timeout>;
+  delay: number;
+};
 
 export const initializeCart = (cart: Cart) => {
   let totalItems = 0;
@@ -28,12 +42,14 @@ export const initializeCart = (cart: Cart) => {
 };
 
 export const addNewItemAndSection =
-  (itemId: number, item: CartItem, details: CartSectionDetails) =>
-  (cart: Cart) => {
-    cart.items[itemId] = {
-      items: { [cart.nextId]: item },
+  (item: NewCartItem, details: CartSectionDetails): ClientCartDelegate =>
+  (cart, dbUpdates) => {
+    const cartItemId = cart.nextId;
+    cart.items[item.id] = {
+      items: { [cartItemId]: item },
       details,
     };
+    cart.nextId++;
     const extraPrice = calculateExtraPrice(item);
     if (extraPrice) item.extraPrice = extraPrice;
     cart.price = (
@@ -41,22 +57,31 @@ export const addNewItemAndSection =
       (+details.price + extraPrice) * item.amount
     ).toFixed(2);
     cart.totalItems += item.amount;
+    const extraIds = item.extras?.map((extra) => extra.id);
+    dbUpdates[cartItemId] = { itemId: item.id, amount: item.amount, extraIds };
   };
 
-export const addNewItem = (itemId: number, item: CartItem) => (cart: Cart) => {
-  const { details, items } = cart.items[itemId];
-  items[cart.nextId] = item;
-  const extraPrice = calculateExtraPrice(item);
-  if (extraPrice) item.extraPrice = extraPrice;
-  cart.price = (
-    +cart.price +
-    (+details.price + extraPrice) * item.amount
-  ).toFixed(2);
-  cart.totalItems += item.amount;
-};
+export const addNewItem =
+  (item: NewCartItem): ClientCartDelegate =>
+  (cart, dbUpdates) => {
+    const { details, items } = cart.items[item.id];
+    const cartItemId = cart.nextId;
+    items[cartItemId] = item;
+    cart.nextId++;
+    const extraPrice = calculateExtraPrice(item);
+    if (extraPrice) item.extraPrice = extraPrice;
+    cart.price = (
+      +cart.price +
+      (+details.price + extraPrice) * item.amount
+    ).toFixed(2);
+    cart.totalItems += item.amount;
+    const extraIds = item.extras?.map((extra) => extra.id);
+    dbUpdates[cartItemId] = { itemId: item.id, amount: item.amount, extraIds };
+  };
 
 export const updateExistingItem =
-  (itemId: number, cartItemId: number, amount: number) => (cart: Cart) => {
+  (itemId: number, cartItemId: number, amount: number): ClientCartDelegate =>
+  (cart, dbUpdates) => {
     const { details, items } = cart.items[itemId];
     const item = items[cartItemId];
     const itemPrice = +details.price + item?.extraPrice! || 0;
@@ -65,18 +90,21 @@ export const updateExistingItem =
     }
     cart.totalItems += amount;
     cart.price = (+cart.price + itemPrice * amount).toFixed(2);
+    dbUpdates[cartItemId].amount += amount;
   };
 
 export const removeItem =
-  (itemId: number, cartItemId: number) => (cart: Cart) => {
+  (itemId: number, cartItemId: number): ClientCartDelegate =>
+  (cart, dbUpdates) => {
     const { details, items } = cart.items[itemId];
-    const item = items[cartItemId];
+    const { extraPrice, amount } = items[cartItemId];
     cart.price = (
       +cart.price -
-      (+details.price + item?.extraPrice! || 0) * item.amount
+      (+details.price + extraPrice! || 0) * amount
     ).toString(2);
-    cart.totalItems -= item.amount;
+    cart.totalItems -= amount;
     delete cart.items[itemId].items[cartItemId];
+    dbUpdates[cartItemId] = { amount: -amount };
   };
 
 const calculateExtraPrice = (item: CartItem) => {
@@ -89,13 +117,13 @@ const calculateExtraPrice = (item: CartItem) => {
   return itemPrice;
 };
 
-const checkIfExists = (
+export const checkItemExists = (
   itemId: number,
   cart: Cart,
   extras?: CartItemExtra[]
 ) => {
   const section = cart.items[itemId];
-  if (!section) return -1;
+  if (!section) return -2;
   const sectionKeys = Object.keys(section);
   for (let i = 0; i < sectionKeys.length; i++) {
     const cartItemId = +sectionKeys[i];
@@ -116,4 +144,35 @@ const checkIfExists = (
     } else if (!extras) return cartItemId;
   }
   return -1;
+};
+
+export const postCartUpdates = async ({
+  dbUpdates,
+  timer,
+  delay,
+}: MutateCart) => {
+  clearTimeout(timer.current);
+  return new Promise<string>(async (resolve, reject) => {
+    timer.current = setTimeout(async () => {
+      try {
+        const { success, errorMessage } = await APIRequest.request(
+          "/api/cart/modify",
+          {
+            method: "POST",
+            body: JSON.stringify({ updates: dbUpdates() }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!success) {
+          reject(errorMessage);
+        } else {
+          resolve("Update Successful");
+        }
+      } catch (e) {
+        reject("Could not update cart");
+      }
+    }, delay);
+  });
 };

@@ -1,5 +1,5 @@
 import { Item } from "@_types/database/menu";
-import IItemPage from "components/ui/Reusable/Item/IItemPage";
+import IItemPage from "components/ui/Reusable/Item/ItemPage";
 import Modal from "components/ui/Reusable/Modal/Modal";
 import { FunctionComponent } from "react";
 import DozenableItemForm from "../DozenableItems/DozenableItemForm";

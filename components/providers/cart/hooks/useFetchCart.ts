@@ -9,8 +9,7 @@ const useFetchCart = () => {
     queryFn: getCartItems,
   });
   return {
-    items: data?.items,
-    status: data?.status,
+    cart: data,
     queryKey,
     isLoading,
     isError,
