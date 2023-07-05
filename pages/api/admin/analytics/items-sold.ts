@@ -19,7 +19,7 @@ const handler: NextApiHandler = async (req, res) => {
 				donutType as string | null,
 				timeUnit as string
 			);
-			return res.status(200).json({ amounts });
+			return res.status(200).json(amounts);
 		} else {
 			return res.status(400).json({ message: 'Invalid method' });
 		}

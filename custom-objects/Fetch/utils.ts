@@ -1,11 +1,11 @@
-type APIResponse<T> = APIErrorResponse | APISuccessResponse<T>;
+export type APIResponse<T> = APIErrorResponse | APISuccessResponse<T>;
 
-type APIErrorResponse = {
+export type APIErrorResponse = {
   errorMessage: string;
   success: false;
   data: undefined;
 };
-type APISuccessResponse<T> = {
+export type APISuccessResponse<T> = {
   errorMessage: undefined;
   success: true;
   data: T;
