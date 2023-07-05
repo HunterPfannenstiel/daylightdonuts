@@ -6,9 +6,9 @@ export type DonutAnalytics = {
     amount: string
 }
 
-export enum TimeUnits {
-    "day",
-    "week",
-    "month",
-    "year"
+export enum TimeUnit {
+    "day" = "day",
+    "week" = "week",
+    "month" = "month",
+    "year" = "year"
 }
