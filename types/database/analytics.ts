@@ -1,7 +1,6 @@
 export type DonutAnalytics = {
     year: number,
-    month: string,
-    week?: number,
+    month: number,
     day?: number,
     amount: string
 }

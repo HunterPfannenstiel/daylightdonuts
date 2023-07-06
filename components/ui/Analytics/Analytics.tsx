@@ -1,10 +1,7 @@
-import { FunctionComponent, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import classes from './Analytics.module.css';
-import { useQuery } from '@tanstack/react-query';
-import { DonutAnalytics } from '@_types/database/analytics';
 import LineChart from './Charts/LineChart';
 import { ChartData } from 'chart.js';
-import APIRequest from 'custom-objects/Fetch';
 import useAnalytics from './useAnalytics';
 import { transformAnalytics } from './Charts/ChartHelper';
 import AnalyticsRangeSelector from './AnalyticsRangeSelecter';
