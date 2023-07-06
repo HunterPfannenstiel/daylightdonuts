@@ -7,6 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     let cartId = getCartCookieId(req.cookies);
     const updates = req.body?.updates as CartDatabaseUpdate[] | undefined;
+    console.log({ updates });
     if (!cartId) {
       console.log("No cartId, creating new");
       console.log({ updates });

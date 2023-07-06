@@ -1,7 +1,7 @@
 import { Cart, CartDBResponse } from "@_types/cart";
 import { useQuery } from "@tanstack/react-query";
 import APIRequest from "custom-objects/Fetch";
-import { initializeCart } from "../utils";
+import { initializeCart } from "./utils";
 
 const useFetchCart = () => {
   const queryKey = ["cart"];

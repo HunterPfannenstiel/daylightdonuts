@@ -1,13 +1,16 @@
-export type Availability = {
-  availableRange: string[] | [null];
-  availableDays: string[] | [null];
-};
+// export type Availability = {
+//   availableRange: string[] | [null];
+//   availableDays: string[] | [null];
+// };
+
+import { ItemDateRange } from "@_types/admin/forms";
 
 export type MenuItem = {
   name: string;
   image_url: string;
   price: string;
-  availability: Availability;
+  availableDays: string[];
+  availableRange: ItemDateRange;
 };
 
 /*Specific Item*/
@@ -32,6 +35,7 @@ export type Item = {
   group_name: string | null;
   group_size: number | null;
   extras: ItemExtras[] | null;
-  availability: Availability;
+  available_days?: string[];
+  available_range?: ItemDateRange;
 };
 /*Specific Item*/

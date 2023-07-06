@@ -7,7 +7,7 @@ import {
   postCartUpdates,
   removeItem,
   updateExistingItem,
-} from "../utils";
+} from "./utils";
 import clone from "lodash.clonedeep";
 import { Cart, CartSectionDetails, NewCartItem } from "@_types/cart";
 import useDatabaseUpdates from "./useDatabaseUpdates";
@@ -22,7 +22,7 @@ const useHandleCart = () => {
   const rollbackCart = useRef<Cart>();
   const queryClient = useQueryClient();
   const { mutate } = useMutation(postCartUpdates, {
-    onMutate: async (variables) => {
+    onMutate: async ({ clientDelegate }) => {
       await queryClient.cancelQueries(queryKey);
       const previousCart = queryClient.getQueryData(queryKey) as
         | Cart
@@ -30,7 +30,7 @@ const useHandleCart = () => {
       queryClient.setQueryData<Cart | undefined>(queryKey, (prevCart) => {
         if (prevCart) {
           const copyCart = clone(prevCart);
-          variables.clientDelegate(copyCart, dbUpdates);
+          clientDelegate(copyCart, dbUpdates);
           return copyCart;
         }
       });
@@ -65,10 +65,11 @@ const useHandleCart = () => {
           nextId: 0,
         });
       }
+      getAndResetUpdates();
     },
     onSuccess: () => {
       rollbackCart.current = undefined;
-      console.log("Success");
+      console.log("SUCCESS");
     },
   });
 
@@ -94,7 +95,7 @@ const useHandleCart = () => {
     mutate({
       clientDelegate,
       dbUpdates: getAndResetUpdates,
-      timer: updateTimer.current,
+      timer: updateTimer,
       delay: 1000,
     });
   };
@@ -107,7 +108,7 @@ const useHandleCart = () => {
     mutate({
       clientDelegate: updateExistingItem(itemId, cartItemId, amount),
       dbUpdates: getAndResetUpdates,
-      timer: updateTimer.current,
+      timer: updateTimer,
       delay: 1000,
     });
   };
@@ -116,7 +117,7 @@ const useHandleCart = () => {
     mutate({
       clientDelegate: removeItem(itemId, cartItemId),
       dbUpdates: getAndResetUpdates,
-      timer: updateTimer.current,
+      timer: updateTimer,
       delay: 1000,
     });
   };

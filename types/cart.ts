@@ -1,5 +1,4 @@
 import { ItemDateRange } from "./admin/forms";
-import { Availability } from "./database/menu";
 
 export type NewCartItemExtra = {
   id: number;
@@ -19,8 +18,7 @@ export type CartItem = {
 };
 
 export type CartItemExtra = {
-  name: string;
-  category: string;
+  text: string;
   price?: number | null;
 };
 
@@ -28,8 +26,8 @@ export type CartSectionDetails = {
   name: string;
   price: string;
   imageUrl: string;
-  availableDays: string[];
-  availableRange: ItemDateRange;
+  availableDays?: string[];
+  availableRange?: ItemDateRange;
 };
 
 export type CartSection = {
@@ -55,19 +53,24 @@ export type CartDBResponse = {
 };
 
 export type NewDBCartItem = {
-  itemId: number;
+  menu_item_id: number;
   amount: number;
-  extraIds: number[];
+  extra_ids: number[];
 };
 
 export type ExistingCartItem = {
-  itemId?: number;
+  menu_item_id?: number;
   amount: number;
-  extraIds?: number[];
+  extra_ids?: number[];
 };
 
 export type CartDatabaseUpdate = NewDBCartItem | ExistingCartItem;
 
 export type CartDatabaseUpdates = {
   [cartItemId: number]: CartDatabaseUpdate;
+};
+
+export type CheckoutSection = {
+  details: CartSectionDetails & { itemId: number };
+  items: (CartItem & { cartItemId: number })[];
 };

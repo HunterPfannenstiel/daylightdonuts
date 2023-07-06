@@ -4,8 +4,8 @@
 }
 
 .image {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
 }
 
 .details {
@@ -24,17 +24,17 @@
 
 .name {
     font-weight: bold;
-    max-width: 25%;
-}
-
-.description {
-    text-align: left;
-    font-size: 0.75rem;
-    font-style: italic;
 }
 
 .price {
     display: flex;
     width: 50%;
     justify-content: space-between;
+}
+
+@media (min-width: 40em) {
+    .image {
+        width: 80px;
+        height: 80px;
+    }
 }

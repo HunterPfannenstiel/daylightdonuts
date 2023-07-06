@@ -1,4 +1,4 @@
-import { useCart } from "@_providers/old-cart/optimistic";
+import { useCart } from "@_providers/Cart";
 import CartIcon from "components/ui/svg/NavIcons/CartIcon";
 import { FunctionComponent } from "react";
 import classes from "./Cart.module.css";
