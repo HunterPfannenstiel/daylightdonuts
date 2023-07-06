@@ -3,6 +3,7 @@ import {
   FetchedUserInfo,
   UserInfo,
 } from "@_types/database/userInfo";
+import APIRequest from "custom-objects/Fetch";
 
 export type UserInfoContext = {
   addInfo: (info: AddUserInfo, favIdx?: number | null) => Promise<boolean>;
@@ -32,12 +33,13 @@ export const getInitialInfo = (): UserInfoContext => {
 };
 
 export const fetchUserInfos = async () => {
-  const res = await fetch("/api/account/fetch-info");
-  if (!res.ok) {
-    throw new Error("Couldn't fetch user infos");
+  const { data, success, errorMessage } = await APIRequest.request<{
+    info: FetchedUserInfo;
+  }>("/api/account/fetch-info");
+  if (!success) {
+    console.error(errorMessage);
   }
-  const info = await res.json();
-  return info.info;
+  return data?.info;
 };
 
 export const addUserInfo = async (info: AddUserInfo) => {

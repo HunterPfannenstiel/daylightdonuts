@@ -5,15 +5,17 @@ import classes from "./index.module.css";
 import OrderDetails from "./Components/OrderDetails";
 import OrderItems from "./Components/OrderItems";
 import CustomerInfo from "./Components/CustomerInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 interface CheckoutPageProps {}
 
 const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
+  const { currentStoreTimes, updateCustomerInfo } = useCheckoutInfo();
   return (
     <div className={classes.page}>
       <OrderDetails locations={locations} times={times} />
       <OrderItems />
-      <CustomerInfo />
+      <CustomerInfo updateInfo={updateCustomerInfo} />
       <div>
         <button>I'm Still Hungry</button>
         <button>Place Order</button>

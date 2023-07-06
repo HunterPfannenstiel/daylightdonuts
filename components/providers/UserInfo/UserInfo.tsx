@@ -7,12 +7,12 @@ import {
   deleteUserInfo,
   editUserInfo,
 } from "./util";
-import { useQuery } from "@tanstack/react-query";
 import {
   AddUserInfo,
   FetchedUserInfo,
   UserInfo,
 } from "@_types/database/userInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 const Context = createContext(getInitialInfo());
 
@@ -23,12 +23,14 @@ export const AuthContextProvider: FunctionComponent<
 > = ({ children }) => {
   const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>([]);
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
+  const { initializeUserInfo } = useCheckoutInfo();
 
   useEffect(() => {
     const fetchInfo = async () => {
       const infos = (await fetchUserInfos()) as FetchedUserInfo;
       setInfoArray(infos?.infos);
       setFavoriteId(infos?.favorite_id);
+      initializeUserInfo(infos.infos || [], infos?.favorite_id || 0, "");
     };
     fetchInfo();
   }, []);

@@ -5,7 +5,7 @@ import {
 import useStripeClient from "@_hooks/stripe/useStripeClient";
 import { useNotification } from "@_providers/Notification/Notification";
 import { FormEvent, FunctionComponent } from "react";
-import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 interface StripeFormProps {
   setLoading: (loading: boolean) => void;

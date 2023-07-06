@@ -2,7 +2,7 @@ import { OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FunctionComponent } from "react";
 import classes from "./PayPal.module.css";
-import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 import useSuccess from "@_hooks/checkout/useSuccess";
 
 interface PayPalProps {

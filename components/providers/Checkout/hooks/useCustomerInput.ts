@@ -2,22 +2,23 @@ import {
   CustomerFormInfo,
   CustomerInfo,
   OrderTimeDetails,
-  UserInfo,
 } from "@_types/database/checkout";
 import { useEffect, useRef, useState } from "react";
 import { getInitialCustomerInfo, getInitialTimeDetails } from "../utils";
 import { postOptimisticOrder } from "@_utils/payment/stripe";
+import { UserInfo } from "@_types/database/userInfo";
 
 //A hook used to group/manage all of the customer's input which is forwarded by the Customer Info context
 const useCustomerInput = () => {
   const customerInfo = useRef<CustomerFormInfo>(getInitialCustomerInfo());
   const orderTimeDetails = useRef<OrderTimeDetails>(getInitialTimeDetails());
   const userInfos = useRef<UserInfo[]>();
+  const userEmail = useRef<string>();
   const [selectedInfoId, setSelectedInfoId] = useState(-1);
 
-  const postOrder = () => {
+  const postOrder = (selectedUserInfo?: UserInfo) => {
     let info: CustomerInfo;
-    if (selectedInfoId === -1) {
+    if (!selectedInfoId) {
       info = {
         customerInfo: true,
         customerOrderInfo: customerInfo.current,
@@ -25,10 +26,13 @@ const useCustomerInput = () => {
         ...orderTimeDetails.current,
       };
     } else {
-      const selectedUserInfo = userInfos.current?.find(
-        (info) => info.user_info_id === selectedInfoId
-      );
-      if (isInfoModified(selectedUserInfo, customerInfo.current)) {
+      if (
+        isInfoModified(
+          selectedUserInfo,
+          customerInfo.current,
+          userEmail.current
+        )
+      ) {
         info = {
           customerInfo: true,
           customerOrderInfo: customerInfo.current,
@@ -49,17 +53,29 @@ const useCustomerInput = () => {
     return postOptimisticOrder(info);
   };
 
-  const initializeUserInfo = (info: UserInfo[], selectedId: number) => {
+  const updateCustomerInfo = (key: keyof CustomerFormInfo, value: string) => {
+    customerInfo.current[key] = value;
+    console.log(customerInfo.current);
+  };
+
+  const initializeUserInfo = (
+    info: UserInfo[],
+    selectedId: number,
+    email: string
+  ) => {
     userInfos.current = info;
+    userEmail.current = email;
     setSelectedInfoId(selectedId);
   };
+
+  const setInfoId = (id: number) => {};
 
   useEffect(() => {
     if (userInfos.current) {
       const selectedInfo = userInfos.current.find(
-        (info) => info.user_info_id === selectedInfoId
+        (info) => info.id === selectedInfoId
       )!;
-      customerInfo.current = { ...selectedInfo };
+      customerInfo.current = { ...selectedInfo, email: userEmail.current! };
     }
   }, [selectedInfoId]);
 
@@ -69,6 +85,7 @@ const useCustomerInput = () => {
     setSelectedInfoId,
     initializeUserInfo,
     postOrder,
+    updateCustomerInfo,
   };
 };
 
@@ -76,7 +93,8 @@ export default useCustomerInput;
 
 const isInfoModified = (
   selectedUserInfo: UserInfo | undefined,
-  currentCustomerInfo: CustomerFormInfo
+  currentCustomerInfo: CustomerFormInfo,
+  email?: string
 ) => {
   if (!selectedUserInfo) return true;
   if (selectedUserInfo["first_name"] !== currentCustomerInfo["first_name"])
@@ -85,5 +103,5 @@ const isInfoModified = (
     return true;
   if (selectedUserInfo["phone_number"] !== currentCustomerInfo["phone_number"])
     return true;
-  if (selectedUserInfo["email"] !== currentCustomerInfo["email"]) return true;
+  if (email !== currentCustomerInfo["email"]) return true;
 };

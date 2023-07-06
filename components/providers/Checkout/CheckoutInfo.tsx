@@ -48,6 +48,7 @@ const CheckoutInfoProvider: FunctionComponent<{
         currentStoreTimes: currentStoreTimes,
         locations: data,
         postOrder: customerInput.postOrder,
+        updateCustomerInfo: customerInput.updateCustomerInfo,
       }}
     >
       {children}
