@@ -4,6 +4,8 @@ import { FeaturedItem as FeaturedItemT } from "@_types/home";
 import FeaturedItem from "./FeaturedItem";
 import Arrow from "components/ui/Reusable/Arrow";
 import Link from "next/link";
+import MenuItem from "components/ui/Reusable/Menu/MenuItem";
+import ArrowIcon from "components/ui/svg/ArrowIcon";
 
 interface FeaturedItemsProps {
   items: FeaturedItemT[];
@@ -15,10 +17,12 @@ const FeaturedItems: FunctionComponent<FeaturedItemsProps> = ({ items }) => {
       {items.map((item) => {
         return <FeaturedItem name={item.name} image={item.image} />;
       })}
-      <div className={classes.container}>
-        <Link href={"/menu"}>{">"}</Link>
-        <p>View our full selection</p>
-      </div>
+      <MenuItem
+        name="View Full Menu!"
+        href="/menu"
+        icon={<ArrowIcon />}
+        linkText="View Menu"
+      />
     </ul>
   );
 };
