@@ -4,18 +4,19 @@ import { customerQuery } from './connect';
 export const getAnalytics = async (
 	beginDate: string,
 	endDate: string,
-	donutType: string | null,
-	timeUnit: string
+	timeUnit: string,
+	preserveNullDates = false,
+	itemCategory: string | null = null,
+	itemName: string | null = null
 ) => {
-	let query = '';
-	if (timeUnit === 'day')
-		query = 'SELECT * FROM store.get_daily_donuts_sold($1, $2, $3)';
-	else if (timeUnit === 'week')
-		query = 'SELECT * FROM store.get_weekly_donuts_sold($1, $2, $3)';
-	else if (timeUnit === 'month')
-		query = 'SELECT * FROM store.get_monthly_donuts_sold($1, $2, $3)';
-
-	if (query === '') return null;
-	const res = await customerQuery(query, [beginDate, endDate, donutType]);
+	const query = 'SELECT * FROM store.get_item_analytics($1, $2, $3, $4, $5, $6)';
+	const res = await customerQuery(query, [
+		beginDate,
+		endDate,
+		timeUnit,
+		preserveNullDates,
+		itemCategory,
+		itemName,
+	]);
 	return res.rows as DonutAnalytics[];
 };

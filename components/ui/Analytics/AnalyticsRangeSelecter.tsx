@@ -2,35 +2,69 @@ import {
 	Dispatch,
 	FunctionComponent,
 	SetStateAction,
+	useEffect,
+	useRef,
 	useState,
 } from 'react';
 import classes from './AnalyticsRangeSelector.module.css';
-import { DateRange } from '@_types/admin/orders';
-import { TimeUnit } from '@_types/database/analytics';
+import { AnalyticParams, TimeUnit } from '@_types/database/analytics';
 import { DayPicker, DateRange as PickerDateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import { convertDateToString } from './Charts/ChartHelper';
+import APIRequest from 'custom-objects/Fetch';
 
 interface AnalyticsRangeSelectorProps {
-	setDateRange: Dispatch<SetStateAction<DateRange | null | undefined>>;
-	setTimeUnit: Dispatch<SetStateAction<TimeUnit>>;
+	setAnalyticParams: Dispatch<SetStateAction<AnalyticParams | null>>;
 }
 
 let selectedTimeUnit: TimeUnit = TimeUnit.day;
+
 const AnalyticsRangeSelector: FunctionComponent<
 	AnalyticsRangeSelectorProps
-> = ({ setDateRange, setTimeUnit }) => {
+> = ({ setAnalyticParams }) => {
 	const [range, setRange] = useState<PickerDateRange | undefined>();
+	const [itemNames, setItemNames] = useState<{ name: string }[]>();
+	const [categoryNames, setCategoryNames] = useState<{ name: string }[]>();
+
+	const itemCategoryRef = useRef<HTMLSelectElement>(null);
+	const itemNameRef = useRef<HTMLSelectElement>(null);
+	const preserveNullsRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		const getItemNames = async () => {
+			setItemNames(
+				(await APIRequest.request<{ name: string }[]>('/api/menu/names/item'))
+					.data
+			);
+			setCategoryNames(
+				(await APIRequest.request<{ name: string }[]>('/api/menu/names/category'))
+					.data
+			);
+		};
+		getItemNames();
+	}, []);
 
 	const confirmSelections = () => {
 		if (!range) return;
 		const { from, to } = range;
 		if (!from || !to) return;
-		console.log(range);
-		const fromString = `${from.getFullYear()}-${from.getMonth() + 1}-${from.getDate()}`;
-		const toString = `${to.getFullYear()}-${to.getMonth() + 1}-${to.getDate()}`;
+
+		const fromString = convertDateToString(from);
+		const toString = convertDateToString(to);
+		const analyticParams = {
+			startDate: fromString,
+			endDate: toString,
+			timeUnit: selectedTimeUnit,
+			preserveNullDates: preserveNullsRef.current!.checked,
+			itemCategory:
+				itemCategoryRef.current!.value === ''
+					? null
+					: itemCategoryRef.current!.value,
+			itemName:
+				itemNameRef.current!.value === '' ? null : itemNameRef.current!.value,
+		};
+		setAnalyticParams(analyticParams);
 		console.log({ fromString, toString });
-		setDateRange({ startDate: fromString, endDate: toString });
-		setTimeUnit(selectedTimeUnit);
 	};
 
 	return (
@@ -46,6 +80,22 @@ const AnalyticsRangeSelector: FunctionComponent<
 				selected={range}
 				onSelect={setRange}
 			/>
+			<form>
+				<label htmlFor="itemCategory">Item Category</label>
+				<select name="itemCategory" id="itemCategory" ref={itemCategoryRef}>
+					{categoryNames?.map(({ name }) => {
+						return <option value={name}>{name}</option>;
+					})}
+				</select>
+				<label htmlFor="itemName">Item Name</label>
+				<select name="itemName" id="itemName" ref={itemNameRef}>
+					{itemNames?.map(({ name }) => {
+						return <option value={name}>{name}</option>;
+					})}
+				</select>
+				<label htmlFor="preserveNulls">Preserve Null Dates</label>
+				<input type="checkbox" id="preserveNulls" ref={preserveNullsRef} />
+			</form>
 			<button onClick={confirmSelections}>Confirm Selections</button>
 		</>
 	);

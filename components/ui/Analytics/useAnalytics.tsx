@@ -1,39 +1,47 @@
 import { DateRange } from '@_types/admin/orders';
-import { DonutAnalytics, TimeUnit } from '@_types/database/analytics';
+import {
+	AnalyticParams,
+	DonutAnalytics,
+	TimeUnit,
+} from '@_types/database/analytics';
 import { useQuery } from '@tanstack/react-query';
 import APIRequest from 'custom-objects/Fetch';
 import { useState } from 'react';
 
-const useAnalytics = (
-	initialDateRange?: DateRange,
-	initialTimeUnit?: TimeUnit
-) => {
-	const [dateRange, setDateRange] = useState<DateRange | undefined | null>(
-		initialDateRange
+const useAnalytics = () => {
+	const [analyticParams, setAnalyticParams] = useState<AnalyticParams | null>(
+		null
 	);
-	const [timeUnit, setTimeUnit] = useState<TimeUnit>(
-		initialTimeUnit || TimeUnit.day
-	);
+
 	const fetchAnalytics = async () => {
-		if (!dateRange) return [];
+		if (!analyticParams) return [];
+		const {
+			startDate,
+			endDate,
+			timeUnit,
+			preserveNullDates,
+			itemCategory,
+			itemName,
+		} = analyticParams;
+
+		let url = `/api/admin/analytics/items-sold?beginDate=${startDate}&endDate=${endDate}&timeUnit=${timeUnit}`;
+		if (preserveNullDates) url += '&preserveNullDates';
+		if (itemCategory) url += `&itemCategory=${itemCategory}`;
+		if (itemName) url += `&itemName=${itemName}`;
+		
 		const { data, success, errorMessage } = await APIRequest.request<
 			DonutAnalytics[]
-		>(
-			`/api/admin/analytics/items-sold?beginDate=${
-				dateRange.startDate
-			}&endDate=${dateRange.endDate}&timeUnit=${timeUnit}`
-		);
+		>(url);
 		if (!success) throw new Error(errorMessage);
 		return data;
 	};
 
 	const { data, isLoading, isError } = useQuery({
-		queryKey: ['analytics', dateRange, timeUnit],
+		queryKey: ['analytics', analyticParams],
 		queryFn: fetchAnalytics,
 	});
 	return {
-		setDateRange,
-		setTimeUnit,
+		setAnalyticParams,
 		analytics: data,
 		isLoading,
 		isError,

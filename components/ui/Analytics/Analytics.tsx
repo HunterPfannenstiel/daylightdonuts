@@ -9,8 +9,7 @@ import AnalyticsRangeSelector from './AnalyticsRangeSelecter';
 interface AnalyticsProps {}
 
 const Analytics: FunctionComponent<AnalyticsProps> = () => {
-	const { setDateRange, setTimeUnit, analytics, isLoading, isError } =
-		useAnalytics({ startDate: '2023-06-01', endDate: '2023-08-01' });
+	const { setAnalyticParams, analytics, isLoading, isError } = useAnalytics();
 	const [chartData, setChartData] = useState<ChartData>({
 		labels: ['day 1', 'day 2', 'day 3'],
 		datasets: [{ label: 'donut sales', data: [1, 20, 30] }],
@@ -28,7 +27,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 				<div className={classes.chart}>
 					<LineChart chartData={chartData as ChartData<'line'>} />
 				</div>
-				<AnalyticsRangeSelector setDateRange={setDateRange} setTimeUnit={setTimeUnit}/>
+				<AnalyticsRangeSelector setAnalyticParams={setAnalyticParams} />
 			</>
 		);
 	}

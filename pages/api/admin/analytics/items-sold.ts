@@ -5,19 +5,28 @@ import { getAnalytics } from '@_utils/database/analytics';
 const handler: NextApiHandler = async (req, res) => {
 	try {
 		if (req.method === 'GET') {
-			const { beginDate, endDate, timeUnit, donutType } = req.query;
+			const {
+				beginDate,
+				endDate,
+				timeUnit,
+				preserveNullDates,
+				itemCategory,
+				itemName,
+			} = req.query;
 			typeCheck(
 				'string',
 				{ name: 'beginDate', value: beginDate },
 				{ name: 'endDate', value: endDate },
 				{ name: 'timeUnit', value: timeUnit }
 			);
-			optionalStringCheck(donutType);
+			optionalStringCheck(itemCategory, itemName);
 			const amounts = await getAnalytics(
 				beginDate as string,
 				endDate as string,
-				donutType as string | null,
-				timeUnit as string
+				timeUnit as string,
+				preserveNullDates !== undefined,
+				itemCategory !== undefined ? (itemCategory as string) : null,
+				itemName !== undefined ? (itemName as string) : null
 			);
 			return res.status(200).json(amounts);
 		} else {
