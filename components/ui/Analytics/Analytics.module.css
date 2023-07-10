@@ -1,0 +1,8 @@
+.chart {
+    display: flex;
+    margin-inline: auto;
+    height: 500px;
+    max-width: 1200px;
+    justify-content: center;
+    flex-direction: column;
+}
