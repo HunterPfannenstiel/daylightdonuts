@@ -5,19 +5,16 @@ import { ChartData } from 'chart.js';
 import useAnalytics from './useAnalytics';
 import { transformAnalytics } from './Charts/ChartHelper';
 import AnalyticsRangeSelector from './AnalyticsRangeSelecter';
+import { useChart } from './Charts/useChart';
+import ToggleSelections from '../Reusable/ToggleSelections';
+import { AnalyticDisplayValue } from '@_types/database/analytics';
 
 interface AnalyticsProps {}
 
 const Analytics: FunctionComponent<AnalyticsProps> = () => {
 	const { setAnalyticParams, analytics, isLoading, isError } = useAnalytics();
-	const [chartData, setChartData] = useState<ChartData>({
-		labels: ['day 1', 'day 2', 'day 3'],
-		datasets: [{ label: 'donut sales', data: [1, 20, 30] }],
-	});
+	const {changeDisplayValue, chartData, displayValue} = useChart(analytics);
 
-	useEffect(() => {
-		if (analytics) setChartData(transformAnalytics(analytics));
-	}, [analytics]);
 
 	if (isLoading) return <p>Loading...</p>;
 
@@ -25,6 +22,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		return (
 			<>
 				<div className={classes.chart}>
+					<ToggleSelections selections={Object.values(AnalyticDisplayValue)} onChange={changeDisplayValue}/>
 					<LineChart chartData={chartData as ChartData<'line'>} />
 				</div>
 				<AnalyticsRangeSelector setAnalyticParams={setAnalyticParams} />

@@ -1,6 +1,12 @@
-import { DonutAnalytics } from '@_types/database/analytics';
+import {
+	AnalyticDisplayValue,
+	DonutAnalytics,
+} from '@_types/database/analytics';
 
-export const transformAnalytics = (analytics: DonutAnalytics[]) => {
+export const transformAnalytics = (
+	analytics: DonutAnalytics[],
+	displayValue: AnalyticDisplayValue
+) => {
 	const labels: string[] = [];
 	const dataPoints: number[] = [];
 	const date = new Date();
@@ -15,7 +21,11 @@ export const transformAnalytics = (analytics: DonutAnalytics[]) => {
 				year: 'numeric',
 			})
 		);
-		dataPoints.push(+point.amount);
+		dataPoints.push(
+			displayValue === AnalyticDisplayValue["Amount Sold"]
+				? +point.amount
+				: +point.total
+		);
 	});
 	return {
 		labels,
@@ -25,6 +35,19 @@ export const transformAnalytics = (analytics: DonutAnalytics[]) => {
 
 export const convertDateToString = (date: Date) => {
 	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+};
+
+export const setDataset = (
+	analytics: DonutAnalytics[],
+	amountSold: boolean
+) => {
+	const res: number[] = [];
+	if (amountSold) {
+		analytics?.forEach((point) => res.push(+point.amount));
+	} else {
+		analytics?.forEach((point) => res.push(+point.total));
+	}
+	return res;
 };
 
 /*new Date(`${point.year}-${point.month}-${point?.day}`)*/

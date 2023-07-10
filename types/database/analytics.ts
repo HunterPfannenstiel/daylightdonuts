@@ -21,3 +21,8 @@ export enum TimeUnit {
     "month" = "month",
     "year" = "year"
 }
+
+export enum AnalyticDisplayValue {
+    "Amount Sold" = "Amount Sold",
+    "Total Value" = "Total Value"
+}

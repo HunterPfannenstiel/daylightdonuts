@@ -1,5 +1,6 @@
 import { DateRange } from '@_types/admin/orders';
 import {
+	AnalyticDisplayValue,
 	AnalyticParams,
 	DonutAnalytics,
 	TimeUnit,

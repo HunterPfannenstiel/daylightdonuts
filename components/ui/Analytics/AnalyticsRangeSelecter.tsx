@@ -17,12 +17,11 @@ interface AnalyticsRangeSelectorProps {
 	setAnalyticParams: Dispatch<SetStateAction<AnalyticParams | null>>;
 }
 
-let selectedTimeUnit: TimeUnit = TimeUnit.day;
-
 const AnalyticsRangeSelector: FunctionComponent<
 	AnalyticsRangeSelectorProps
 > = ({ setAnalyticParams }) => {
 	const [range, setRange] = useState<PickerDateRange | undefined>();
+	const [timeUnit, setTimeUnit] = useState(TimeUnit.day);
 	const [itemNames, setItemNames] = useState<{ name: string }[]>();
 	const [categoryNames, setCategoryNames] = useState<{ name: string }[]>();
 
@@ -32,14 +31,12 @@ const AnalyticsRangeSelector: FunctionComponent<
 
 	useEffect(() => {
 		const getItemNames = async () => {
-			setItemNames(
-				(await APIRequest.request<{ name: string }[]>('/api/menu/names/item'))
-					.data
-			);
-			setCategoryNames(
-				(await APIRequest.request<{ name: string }[]>('/api/menu/names/category'))
-					.data
-			);
+			const res = await Promise.all([
+				APIRequest.request<{ name: string }[]>('/api/menu/names?item=true'),
+				APIRequest.request<{ name: string }[]>('/api/menu/names?category=true'),
+			]);
+			setItemNames(res[0].data);
+			setCategoryNames(res[1].data);
 		};
 		getItemNames();
 	}, []);
@@ -54,7 +51,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 		const analyticParams = {
 			startDate: fromString,
 			endDate: toString,
-			timeUnit: selectedTimeUnit,
+			timeUnit,
 			preserveNullDates: preserveNullsRef.current!.checked,
 			itemCategory:
 				itemCategoryRef.current!.value === ''
@@ -69,9 +66,12 @@ const AnalyticsRangeSelector: FunctionComponent<
 
 	return (
 		<>
-			{Object.values(TimeUnit).map((timeUnit) => (
-				<button onClick={() => (selectedTimeUnit = timeUnit)}>
-					{timeUnit}
+			{Object.values(TimeUnit).map((curTimeUnit) => (
+				<button
+					onClick={setTimeUnit.bind(this, curTimeUnit)}
+					className={curTimeUnit === timeUnit ? classes.time_unit_selected : ''}
+				>
+					{curTimeUnit}
 				</button>
 			))}
 			<DayPicker
