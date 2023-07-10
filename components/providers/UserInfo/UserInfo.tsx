@@ -30,7 +30,7 @@ export const AuthContextProvider: FunctionComponent<
       const infos = (await fetchUserInfos()) as FetchedUserInfo;
       setInfoArray(infos?.infos);
       setFavoriteId(infos?.favorite_id);
-      initializeUserInfo(infos.infos || [], infos?.favorite_id || 0, "");
+      initializeUserInfo(infos.infos || [], infos?.favorite_id || -1, "");
     };
     fetchInfo();
   }, []);

@@ -10,12 +10,13 @@ import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 interface CheckoutPageProps {}
 
 const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
-  const { currentStoreTimes, updateCustomerInfo } = useCheckoutInfo();
+  const { currentStoreTimes, updateCustomerInfo, customerFormInfo } =
+    useCheckoutInfo();
   return (
     <div className={classes.page}>
       <OrderDetails locations={locations} times={times} />
       <OrderItems />
-      <CustomerInfo updateInfo={updateCustomerInfo} />
+      <CustomerInfo updateInfo={updateCustomerInfo} {...customerFormInfo} />
       <div>
         <button>I'm Still Hungry</button>
         <button>Place Order</button>

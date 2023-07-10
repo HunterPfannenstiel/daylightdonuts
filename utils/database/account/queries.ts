@@ -10,6 +10,7 @@ import {
   UserOrder,
 } from "@_types/database/userInfo";
 import { authOptions } from "pages/api/auth/[...nextauth]";
+import { checkRowLength } from "../admin/menu-queries/modify-item";
 
 export const getAccountId = async (userEmail: string) => {
   const query = "SELECT * FROM store.get_user_id($1)";
@@ -20,6 +21,7 @@ export const getAccountId = async (userEmail: string) => {
 export const getUserInfo = async (accountId: number) => {
   const query = "SELECT * FROM store.get_user_infos($1)";
   const res = await customerQuery(query, [accountId]);
+  checkRowLength(res);
   return { ...res.rows[0], isSignedIn: true } as FetchedUserInfo;
 };
 
