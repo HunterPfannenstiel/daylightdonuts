@@ -1,9 +1,22 @@
 .info {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: 1rem 0;
-    border: 2px solid black;
-    border-radius: 1rem;
-    padding: 1rem;
+    align-items: center;
+}
+
+.info p:first-child {
+    margin-right: 1rem;
+}
+
+.info button {
+    margin-left: auto;
+    width: 150px;
+    background-color: #003472;
+    border-radius: 2rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.default_text {
+    margin-left: .5rem;
+    font-size: 1rem;
 }

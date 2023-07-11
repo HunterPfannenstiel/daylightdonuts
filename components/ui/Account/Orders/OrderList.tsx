@@ -25,8 +25,9 @@ const OrderList: FunctionComponent<OrderListProps> = () => {
 			{status === 'loading' && <p>Loading...</p>}
 			{data && data.length === 0 && <p>You have no orders!</p>}
 			<ul className={classes.orders}>
-				{data &&
-					data.map((order) => <Order order={order} key={order.cart_id}/>)}
+				{data?.map((order) => (
+					<Order order={order} key={order.cart_id} />
+				))}
 			</ul>
 		</>
 	);

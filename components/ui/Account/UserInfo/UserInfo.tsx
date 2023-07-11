@@ -19,12 +19,14 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 		<li className={classes.info} >
 			<p>{info.first_name}</p>
 			<p>{info.last_name}</p>
-			<p>{info.phone_number}</p>
-			<p>{info.favorite ? 'Favorite' : 'Not favorite'}</p>
-			<button onClick={() => onSelectHandler(info, idx)}>Select</button>
-			<button onClick={() => deleteHandler(idx)}>Del</button>
+			{info.favorite && <p className={classes.default_text}>(default)</p>}
+			<button onClick={() => onSelectHandler(info, idx)}>Edit Info</button>
 		</li>
 	);
 };
 
 export default UserInfo;
+
+{/* <p>{info.favorite ? 'Favorite' : 'Not favorite'}</p>
+<button onClick={() => onSelectHandler(info, idx)}>Select</button>
+<button onClick={() => deleteHandler(idx)}>Del</button> */}
