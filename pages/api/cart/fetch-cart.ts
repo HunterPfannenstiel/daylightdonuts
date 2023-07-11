@@ -1,5 +1,5 @@
 import { DBCartItem } from "@_types/database/cart";
-import { getUserCart } from "@_utils/database/cart/queries";
+import { viewCart } from "@_utils/database/cart/queries";
 import { NextApiHandler } from "next";
 import {
   clearCartCookie,
@@ -17,7 +17,7 @@ const handler: NextApiHandler = async (req, res) => {
         const status = await isValidCartId(cartId);
         if (status !== "Complete") {
           status === "Pending" ? (isPending = true) : (isPending = false);
-          savedCart = await getUserCart(cartId);
+          savedCart = await viewCart(cartId);
         } else {
           console.log("Invalid cartId");
           clearCartCookie(res);

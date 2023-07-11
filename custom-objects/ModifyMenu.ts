@@ -1,5 +1,5 @@
 import { DisplayOrderItem, InitialSelections } from "@_types/admin/modify-menu";
-import { handleResponse } from "./Fetch/utils";
+import APIRequest from "./Fetch";
 
 class PostMenuInfo {
   static async Create<T>(
@@ -11,12 +11,14 @@ class PostMenuInfo {
     let headers = infoIsFormData
       ? undefined
       : { "Content-Type": "application/json" };
-    const res = await fetch(`/api/admin/modify-menu/${menuSection}/modify`, {
-      method: "POST",
-      body,
-      headers,
-    });
-    return handleResponse<T>(res);
+    return APIRequest.request<T>(
+      `/api/admin/modify-menu/${menuSection}/modify`,
+      {
+        method: "POST",
+        body,
+        headers,
+      }
+    );
   }
 
   static async Modify<T>(
@@ -28,37 +30,37 @@ class PostMenuInfo {
     let headers = infoIsFormData
       ? undefined
       : { "Content-Type": "application/json" };
-    const res = await fetch(`/api/admin/modify-menu/${menuSection}/modify`, {
-      method: "PATCH",
-      body,
-      headers,
-    });
-    return handleResponse<T>(res);
+    return APIRequest.request<T>(
+      `/api/admin/modify-menu/${menuSection}/modify`,
+      {
+        method: "PATCH",
+        body,
+        headers,
+      }
+    );
   }
 }
 
 class GetMenuInfo {
   static async Customizations<T>(menuSection: string) {
-    const res = await fetch(
+    return APIRequest.request<T>(
       `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/customizations`,
       { cache: "no-store" }
     );
-    return handleResponse<T>(res);
   }
+
   static async Selections<T>(menuSection: string, id: number) {
-    const res = await fetch(
+    return APIRequest.request<T>(
       `/api/admin/modify-menu/${menuSection}/selections/${id}`,
       { cache: "no-store" }
     );
-    return handleResponse<T>(res);
   }
 
   static async Existing<T>(menuSection: string) {
-    const res = await fetch(
+    return APIRequest.request<T>(
       `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/existing`,
       { cache: "no-store" }
     );
-    return handleResponse<T>(res);
   }
 }
 

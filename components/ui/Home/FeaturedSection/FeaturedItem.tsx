@@ -2,6 +2,9 @@ import { FunctionComponent } from "react";
 import classes from "./FeaturedItem.module.css";
 import ItemImage from "./ItemImage";
 import Link from "next/link";
+import ItemCard from "components/ui/Reusable/Menu/ItemCard";
+import ImageComponent from "components/ui/Reusable/Image/ImageComponent";
+import MenuItem from "components/ui/Reusable/Menu/MenuItem";
 
 interface FeaturedItemProps {
   name: string;
@@ -13,13 +16,12 @@ const FeaturedItem: FunctionComponent<FeaturedItemProps> = ({
   image,
 }) => {
   return (
-    <div className={classes.item_container}>
-      <ItemImage src={image} />
-      <h3>{name}</h3>
-      <Link href={`/menu/${name}`} className={classes.link}>
-        Customize
-      </Link>
-    </div>
+    <MenuItem
+      image={image}
+      name={name}
+      href={`/menu/${name}`}
+      linkText="Customize"
+    />
   );
 };
 

@@ -1,3 +1,6 @@
+import { DBEntity } from "@_types/admin/modify-menu";
+import { InputValue } from "@_types/form";
+
 //Checkout
 export type CheckoutInfo = {
   locations: Location[];
@@ -41,41 +44,48 @@ export type TotalCart = {
 };
 
 export type CustomerFormInfo = {
+  first_name: InputValue;
+  last_name: InputValue;
+  email: InputValue;
+  phone_number: InputValue;
+};
+
+export type OrderLocationDetails = {
+  locationId: InputValue;
+  pickupDate: InputValue;
+  pickupTimeId: InputValue;
+};
+
+export type CustomerOrderInfo = {
   first_name: string;
   last_name: string;
   email: string;
   phone_number: string;
 };
 
-export type OrderTimeDetails = {
-  locationId: string;
-  pickupDate: string;
-  pickupTimeId: string;
-};
-
 export type CustomerInfo =
   | ({
       customerInfo: true;
-      customerOrderInfo: CustomerFormInfo;
+      customerOrderInfo: CustomerOrderInfo;
       userInfoId: null;
-    } & OrderTimeDetails)
+    } & OrderLocationDetails)
   | ({
       customerInfo: false;
       customerOrderInfo: null;
       userInfoId: number;
-    } & OrderTimeDetails);
+    } & OrderLocationDetails);
 
 export const initialCustomerInfo: CustomerFormInfo = {
-  first_name: "",
-  last_name: "",
-  email: "",
-  phone_number: "",
+  first_name: { value: "", isValid: true },
+  last_name: { value: "", isValid: true },
+  email: { value: "", isValid: true },
+  phone_number: { value: "", isValid: true },
 };
 
-export const initialOrderTimeDetails: OrderTimeDetails = {
-  locationId: "",
-  pickupDate: "",
-  pickupTimeId: "",
+export const initialOrderTimeDetails: OrderLocationDetails = {
+  locationId: { value: "", isValid: true },
+  pickupDate: { value: "", isValid: true },
+  pickupTimeId: { value: "", isValid: true },
 };
 
 export type LocationDetails = {
@@ -86,19 +96,9 @@ export type LocationDetails = {
   address: string;
   phone_number: string;
   location_id: number;
-  times: LocationTimes;
+  times: DBEntity[];
 };
-
-export type LocationTimes = { time: string; id: number }[];
 
 export type CreateOrder = {
   cartId: number;
 } & CustomerInfo;
-
-export type UserInfo = {
-  first_name: string;
-  last_name: string;
-  phone_number: string;
-  user_info_id: number;
-  email: string;
-};

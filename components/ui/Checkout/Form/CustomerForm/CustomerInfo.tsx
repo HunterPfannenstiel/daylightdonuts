@@ -4,7 +4,7 @@ import Fieldset from "../Fieldset";
 import classes from "./CustomerInfo.module.css";
 import Input from "./Input";
 import PickupInfo from "./PickupInfo/PickupInfo";
-import { useCheckoutInfo } from "@_providers/Checkout/CustomerInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 interface CustomerInfoProps {}
 

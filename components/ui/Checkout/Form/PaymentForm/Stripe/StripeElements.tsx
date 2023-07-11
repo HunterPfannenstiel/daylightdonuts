@@ -8,6 +8,7 @@ import { fetchStripeClientSecret } from "@_utils/payment/stripe";
 interface StripeElementsProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
+  postOrder: () => void;
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
@@ -15,6 +16,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 const StripeElements: FunctionComponent<StripeElementsProps> = ({
   setLoading,
   checkCustomerForm,
+  postOrder,
 }) => {
   const { data: clientSecret } = useQuery(["stripe"], fetchStripeClientSecret);
   const appearance = {};
@@ -29,6 +31,7 @@ const StripeElements: FunctionComponent<StripeElementsProps> = ({
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
           <StripeForm
+            postOrder={postOrder}
             setLoading={setLoading}
             checkCustomerForm={checkCustomerForm}
           />

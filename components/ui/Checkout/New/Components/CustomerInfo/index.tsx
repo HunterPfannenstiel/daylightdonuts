@@ -2,42 +2,69 @@ import { FunctionComponent } from "react";
 import classes from "./index.module.css";
 import CheckoutContainer from "../../CheckoutContainer";
 import CheckoutTextInput from "components/ui/Reusable/Form/CheckoutTextInput";
+import { CustomerFormInfo } from "@_types/database/checkout";
+import Button from "components/ui/Reusable/Button";
+import { InputValue } from "@_types/form";
 
-interface CustomerInfoProps {}
+interface CustomerInfoProps {
+  updateInfo: (key: keyof CustomerFormInfo, value: string) => void;
+  first_name?: InputValue;
+  last_name?: InputValue;
+  phone_number?: InputValue;
+  email?: InputValue;
+}
 
-const CustomerInfo: FunctionComponent<CustomerInfoProps> = () => {
-  const onNameChange = (value: string) => {
-    console.log(value);
-  };
+const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
+  updateInfo,
+  first_name,
+  last_name,
+  phone_number,
+  email,
+}) => {
   return (
     <CheckoutContainer header="Contact Information">
+      <Button className={classes.info_button}>Select Info</Button>
       <div className={classes.inputs}>
         <div className={classes.name}>
           <CheckoutTextInput
             label="First Name"
-            required
-            onInputChange={onNameChange}
-            placeholder="Daylight"
+            inputSettings={{
+              placeholder: "Daylight",
+              value: first_name?.value,
+            }}
+            onInputChange={(name) => {
+              updateInfo("first_name", name);
+            }}
           />
           <CheckoutTextInput
             label="Last Name"
-            required
-            onInputChange={onNameChange}
-            placeholder="Donuts"
+            inputSettings={{ placeholder: "Donuts", value: last_name?.value }}
+            onInputChange={(name) => {
+              updateInfo("last_name", name);
+            }}
           />
         </div>
         <CheckoutTextInput
           label="Phone Number"
-          required
-          onInputChange={onNameChange}
-          placeholder="#"
-          type="tel"
+          inputSettings={{
+            placeholder: "#",
+            type: "tel",
+            value: phone_number?.value,
+          }}
+          onInputChange={(phone) => {
+            updateInfo("phone_number", phone);
+          }}
         />
         <CheckoutTextInput
           label="Email"
-          required
-          onInputChange={onNameChange}
-          placeholder="daylightdonuts@gmail.com"
+          inputSettings={{
+            placeholder: "daylightdonuts@gmail.com",
+            type: "email",
+            value: email?.value,
+          }}
+          onInputChange={(email) => {
+            updateInfo("email", email);
+          }}
         />
       </div>
     </CheckoutContainer>

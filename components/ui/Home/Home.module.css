@@ -1,0 +1,13 @@
+.content {
+    max-width: 1280px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10rem;
+}
+
+@media (min-width: 40em) {
+    .content {
+        gap: 14rem;
+    }
+}

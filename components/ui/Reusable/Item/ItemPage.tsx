@@ -1,26 +1,33 @@
 import { Item } from "@_types/database/menu";
 import Back from "components/ui/svg/Back";
 import Image from "next/image";
-import { FunctionComponent, ReactNode } from "react";
-import Stripes from "../Stripes";
-import classes from "./IItemPage.module.css";
+import { FunctionComponent } from "react";
+import classes from "./ItemPage.module.css";
+import ItemForm from "./Form/ItemForm";
+import { ExtraInfo } from "@_types/database/cart";
 
-interface IItemPageProps {
+interface ItemPageProps {
   item: Item;
-  itemForm: ReactNode;
   extraPrice: number;
   price: number;
   className?: string;
   backButtonHandler: () => void;
+  updateExtras: (category: string, extraInfo: ExtraInfo) => void;
+  buttonName?: string;
+  maxAmount?: number;
+  addItemToCart: (amount: number) => void;
 }
 
-const IItemPage: FunctionComponent<IItemPageProps> = ({
+const ItemPage: FunctionComponent<ItemPageProps> = ({
   item,
-  itemForm,
   extraPrice,
   price,
   className,
   backButtonHandler,
+  updateExtras,
+  addItemToCart,
+  buttonName,
+  maxAmount,
 }) => {
   const image =
     item.image_urls[0] === "imageURL"
@@ -50,11 +57,16 @@ const IItemPage: FunctionComponent<IItemPageProps> = ({
           <Image src={image} alt={item.name} width={500} height={500} />
         </div>
         <p className={classes.description}>{item.description}</p>
-        {itemForm}
+        <ItemForm
+          extras={item.extras}
+          updateExtras={updateExtras}
+          addItemToCart={addItemToCart}
+          buttonName={buttonName}
+          maxAmount={maxAmount}
+        />
       </div>
-      <Stripes />
     </div>
   );
 };
 
-export default IItemPage;
+export default ItemPage;

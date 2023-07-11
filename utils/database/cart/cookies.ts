@@ -36,7 +36,7 @@ export const getCartCookieId = (
 
 export const isValidCartId = async (cartId: number) => {
   try {
-    const query = "SELECT * FROM store.check_cart_process($1)";
+    const query = "SELECT * FROM store.check_cart_status($1)";
     const res = await customerQuery(query, [cartId]);
     if (res.rows.length === 0) throw new Error("Unexpected Response");
     return res.rows[0].status as "Complete" | "Pending" | "Open";

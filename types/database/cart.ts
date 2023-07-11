@@ -154,9 +154,8 @@ type PendingDBUpdate = {
   updateAmount: number;
 };
 
-// 'p' will be the cart_item_id
 export type PendingDBUpdates = {
-  [p: string]: PendingDBUpdate;
+  [cartItemId: string]: PendingDBUpdate;
 };
 
 export type ExistingItemUpdates = {

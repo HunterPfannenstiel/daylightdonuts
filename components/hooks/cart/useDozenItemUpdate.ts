@@ -1,4 +1,4 @@
-import { useCartUpdates } from "@_providers/cart/CartUpdates/CartUpdates";
+import { useCartUpdates } from "@_providers/old-cart/CartUpdates/CartUpdates";
 import { useEffect } from "react";
 import useItemUpdate from "./useItemUpdate";
 
