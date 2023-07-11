@@ -4,11 +4,14 @@ import CheckoutContainer from "../../CheckoutContainer";
 import OrderItem from "./OrderItem";
 import Footer from "./Footer";
 import { useCart } from "@_providers/Cart";
+import { CartContext } from "@_providers/Cart/utils";
 
-interface OrderItemsProps {}
+interface OrderItemsProps {
+  cartContext: CartContext;
+}
 
-const OrderItems: FunctionComponent<OrderItemsProps> = () => {
-  const { getIterableItems, cartModifiers, cart } = useCart();
+const OrderItems: FunctionComponent<OrderItemsProps> = ({ cartContext }) => {
+  const { cart, cartModifiers, getIterableItems } = cartContext;
   const sections = getIterableItems();
   return (
     <CheckoutContainer

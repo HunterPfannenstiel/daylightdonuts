@@ -23,7 +23,7 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
 }) => {
   return (
     <CheckoutContainer header="Contact Information">
-      <Button color="var(--primary-blue)">Select Info</Button>
+      <Button className={classes.info_button}>Select Info</Button>
       <div className={classes.inputs}>
         <div className={classes.name}>
           <CheckoutTextInput

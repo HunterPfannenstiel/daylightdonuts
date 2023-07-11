@@ -19,6 +19,7 @@ export type CartContext = {
   cart: Cart | undefined;
   cartModifiers: CartModifiers;
   getIterableItems: () => CheckoutSection[];
+  isLoading: boolean;
 };
 
 export const getInitialContext = (): CartContext => {
@@ -31,6 +32,7 @@ export const getInitialContext = (): CartContext => {
       removeItemFromCart: fn,
     },
     getIterableItems: () => [],
+    isLoading: true,
   };
 };
 

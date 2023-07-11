@@ -13,6 +13,7 @@ export type UserInfoContext = {
     favIdx?: number | null
   ) => Promise<boolean>;
   deleteInfo: (infoIdx: number) => Promise<boolean>;
+  isLoading: boolean;
 } & FetchedUserInfo;
 
 export const getInitialInfo = (): UserInfoContext => {
@@ -29,6 +30,7 @@ export const getInitialInfo = (): UserInfoContext => {
     async deleteInfo(id: number) {
       return false;
     },
+    isLoading: true,
   };
 };
 

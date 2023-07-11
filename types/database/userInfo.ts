@@ -4,6 +4,7 @@ export type FetchedUserInfo = {
   infos: UserInfo[] | null;
   favorite_id: number | null;
   isSignedIn: boolean;
+  email?: string;
 };
 
 export type UserInfo = {

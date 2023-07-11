@@ -6,7 +6,7 @@ import React, {
 import classes from "./Button.module.css";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: string;
+  color?: string;
   fontWeight?: string;
   width?: string;
   children: React.ReactNode;

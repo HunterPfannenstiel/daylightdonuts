@@ -5,18 +5,18 @@ import {
 import useStripeClient from "@_hooks/stripe/useStripeClient";
 import { useNotification } from "@_providers/Notification/Notification";
 import { FormEvent, FunctionComponent } from "react";
-import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 interface StripeFormProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
+  postOrder: () => void;
 }
 
 const StripeForm: FunctionComponent<StripeFormProps> = ({
   setLoading,
   checkCustomerForm,
+  postOrder,
 }) => {
-  const { postOrder } = useCheckoutInfo();
   const { stripe, elements } = useStripeClient();
   const { displayNotification } = useNotification();
   //Create state to keep track of payment, errors, etc...

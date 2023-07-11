@@ -15,7 +15,7 @@ import { useRef } from "react";
 import { useNotification } from "@_providers/Notification/Notification";
 
 const useHandleCart = () => {
-  const { cart, queryKey } = useFetchCart();
+  const { cart, queryKey, isLoading } = useFetchCart();
   const { dbUpdates, getAndResetUpdates } = useDatabaseUpdates();
   const { displayNotification } = useNotification();
   const updateTimer = useRef(setTimeout(() => {}));
@@ -123,6 +123,7 @@ const useHandleCart = () => {
   };
   return {
     cart,
+    isLoading,
     cartModifiers: {
       addItemFromItemPage,
       updateItemFromCart,

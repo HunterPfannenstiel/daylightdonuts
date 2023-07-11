@@ -46,6 +46,7 @@ const Payment: FunctionComponent<PaymentProps> = ({
         <StripeElements
           setLoading={setLoading}
           checkCustomerForm={checkCustomerForm}
+          postOrder={postOrder}
         />
       )}
     </CheckoutContainer>

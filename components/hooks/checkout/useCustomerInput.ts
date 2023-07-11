@@ -17,15 +17,15 @@ const useCustomerInput = () => {
   const [locationDetails, setLocationDetails] = useState<OrderLocationDetails>(
     getInitialTimeDetails()
   );
-  const { infos, favorite_id } = useAuth();
-  const userEmail = useRef<string>("");
+  const { infos, favorite_id, email, isLoading } = useAuth();
   const [selectedInfoId, setSelectedInfoId] = useState(-1);
 
   useEffect(() => {
     if (infos && infos.length && selectedInfoId === -1) {
+      console.log(email);
       const id = favorite_id || infos[0].id;
       setSelectedInfoId(id);
-      setCustomerInfo(getSelectedInfo(infos, "", id)!);
+      setCustomerInfo(getSelectedInfo(infos, email!, id)!);
     }
   }, [infos]);
 
@@ -41,7 +41,7 @@ const useCustomerInput = () => {
       };
     } else {
       const userInfo = getCustomerOrderInfo(
-        getSelectedInfo(infos!, "", selectedInfoId)!
+        getSelectedInfo(infos!, email!, selectedInfoId)!
       );
       if (isInfoModified(userInfo, currInfo)) {
         info = {
@@ -81,7 +81,7 @@ const useCustomerInput = () => {
 
   const setInfoId = (id: number) => {
     setSelectedInfoId(id);
-    setCustomerInfo(getSelectedInfo(infos!, userEmail.current, id)!);
+    setCustomerInfo(getSelectedInfo(infos!, email!, id)!);
   };
 
   return {
@@ -92,6 +92,7 @@ const useCustomerInput = () => {
     postOrder,
     updateCustomerInfo,
     setInfoId,
+    isLoading,
   };
 };
 

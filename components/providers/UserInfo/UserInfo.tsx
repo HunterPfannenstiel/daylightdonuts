@@ -22,13 +22,16 @@ export const AuthContextProvider: FunctionComponent<
 > = ({ children }) => {
   const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>([]);
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
+  const [email, setEmail] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchInfo = async () => {
       const infos = (await fetchUserInfos()) as FetchedUserInfo;
       setInfoArray(infos?.infos);
       setFavoriteId(infos?.favorite_id);
-      // initializeUserInfo(infos.infos || [], infos?.favorite_id || -1, "");
+      setEmail(infos.email);
+      setIsLoading(false);
     };
     fetchInfo();
   }, []);
@@ -81,11 +84,6 @@ export const AuthContextProvider: FunctionComponent<
     return isDeleted;
   };
 
-  /* const { data } = useQuery<FetchedUserInfo>({
-		queryKey: ['userInfos'],
-		queryFn: fetchUserInfos,
-	}); */
-
   return (
     <Context.Provider
       value={{
@@ -95,6 +93,8 @@ export const AuthContextProvider: FunctionComponent<
         addInfo: addInfoHandler,
         editInfo: editInfoHandler,
         deleteInfo: deleteInfoHandler,
+        email,
+        isLoading,
       }}
     >
       {children}
