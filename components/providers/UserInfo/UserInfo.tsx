@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import {
   getInitialInfo,
@@ -12,7 +12,6 @@ import {
   FetchedUserInfo,
   UserInfo,
 } from "@_types/database/userInfo";
-import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
 const Context = createContext(getInitialInfo());
 
@@ -23,14 +22,13 @@ export const AuthContextProvider: FunctionComponent<
 > = ({ children }) => {
   const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>([]);
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
-  const { initializeUserInfo } = useCheckoutInfo();
 
   useEffect(() => {
     const fetchInfo = async () => {
       const infos = (await fetchUserInfos()) as FetchedUserInfo;
       setInfoArray(infos?.infos);
       setFavoriteId(infos?.favorite_id);
-      initializeUserInfo(infos.infos || [], infos?.favorite_id || -1, "");
+      // initializeUserInfo(infos.infos || [], infos?.favorite_id || -1, "");
     };
     fetchInfo();
   }, []);
@@ -103,3 +101,5 @@ export const AuthContextProvider: FunctionComponent<
     </Context.Provider>
   );
 };
+
+export const useAuth = () => useContext(Context);

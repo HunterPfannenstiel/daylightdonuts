@@ -2,16 +2,18 @@ import { OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FunctionComponent } from "react";
 import classes from "./PayPal.module.css";
-import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 import useSuccess from "@_hooks/checkout/useSuccess";
 
 interface PayPalProps {
+  postOrder: () => void;
   checkCustomerForm: () => boolean;
 }
 
-const PayPal: FunctionComponent<PayPalProps> = ({ checkCustomerForm }) => {
+const PayPal: FunctionComponent<PayPalProps> = ({
+  postOrder,
+  checkCustomerForm,
+}) => {
   const completeOrder = useSuccess();
-  const { postOrder } = useCheckoutInfo();
   const orderHandler = async () => {
     if (checkCustomerForm()) {
       const response = await fetch("/api/cart/payment/create-paypal-request");

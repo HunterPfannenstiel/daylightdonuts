@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { AuthContextProvider } from "./UserInfo/UserInfo";
 import { Session } from "next-auth";
-import CheckoutInfoProvider from "./Checkout/CheckoutInfo";
 
 interface ProvidersProps {
   children: ReactNode;
@@ -23,13 +22,9 @@ const Providers: FunctionComponent<ProvidersProps> = ({ children }) => {
     <NotificationProvider>
       <SessionProvider>
         <QueryClientProvider client={client}>
-          <CheckoutInfoProvider>
-            <CheckoutInfoProvider>
-              <AuthContextProvider>
-                <CartProvider>{children}</CartProvider>
-              </AuthContextProvider>
-            </CheckoutInfoProvider>
-          </CheckoutInfoProvider>
+          <AuthContextProvider>
+            <CartProvider>{children}</CartProvider>
+          </AuthContextProvider>
         </QueryClientProvider>
       </SessionProvider>
     </NotificationProvider>
