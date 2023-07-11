@@ -21,15 +21,15 @@ const Back: FunctionComponent<BackProps> = ({ backButtonHandler }) => {
         d="M11 20L2 11L11 2"
         stroke="#003472"
         strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
       <path
         d="M3.25 11H21.5"
         stroke="#003472"
         strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </svg>
   );

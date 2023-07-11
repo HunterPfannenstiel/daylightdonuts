@@ -1,4 +1,4 @@
-import { useCart } from "@_providers/cart/optimistic";
+import { useCart } from "@_providers/old-cart/optimistic";
 import { BoxPayload, DozenBox } from "@_types/dozenable";
 import { getModifiers } from "@_utils/database/dozenable/helpers";
 import { createContext, FunctionComponent, ReactNode, useContext } from "react";

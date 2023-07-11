@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import classes from "./ImageComponent.module.css";
 import Image from "next/image";
+import { concatClassNames } from "@_utils/client";
 
 interface ImageComponentProps {
   src: string;
@@ -19,11 +20,8 @@ const ImageComponent: FunctionComponent<ImageComponentProps> = ({
   width,
   height,
 }) => {
-  const classN = className
-    ? `${classes.image_container} ${className}`
-    : classes.image_container;
   return (
-    <div className={classN}>
+    <div className={concatClassNames(classes.image_container, className)}>
       <Image
         src={src}
         alt={alt || ""}

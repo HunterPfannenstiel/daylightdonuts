@@ -1,5 +1,5 @@
 import { useNotification } from "@_providers/Notification/Notification";
-import { useCart } from "@_providers/cart/optimistic";
+import { useCart } from "@_providers/old-cart/optimistic";
 import { initializeCart } from "@_utils/database/cart/modifiers/cartModifiers";
 
 const useSuccess = () => {

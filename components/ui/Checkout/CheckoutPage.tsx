@@ -2,8 +2,8 @@
 
 import usePage from "@_hooks/checkout/usePage";
 import useSuccess from "@_hooks/checkout/useSuccess";
-import { CartUpdatesProvider } from "@_providers/cart/CartUpdates/CartUpdates";
-import { useCart } from "@_providers/cart/optimistic";
+import { CartUpdatesProvider } from "@_providers/old-cart/CartUpdates/CartUpdates";
+import { useCart } from "@_providers/old-cart/optimistic";
 import { FunctionComponent } from "react";
 import CheckoutForm from "./Form/CheckoutForm";
 import OrderPage from "./Order/OrderPage";

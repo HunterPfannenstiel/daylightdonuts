@@ -1,5 +1,6 @@
 import { LocationDetails } from "@_types/database/checkout";
 import { useQuery } from "@tanstack/react-query";
+import APIRequest from "custom-objects/Fetch";
 
 const usePickupInfo = () => {
   const { data, isLoading, isError } = useQuery({
@@ -13,10 +14,12 @@ const usePickupInfo = () => {
 export default usePickupInfo;
 
 const fetchPickupInfo = async () => {
-  const res = await fetch("/api/checkout/pickup", { cache: "force-cache" });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
+  const { data, errorMessage, success } = await APIRequest.request<
+    LocationDetails[]
+  >("/api/checkout/pickup");
+  if (!success) {
+    throw new Error(errorMessage);
   }
-  return data as LocationDetails[];
+
+  return data;
 };

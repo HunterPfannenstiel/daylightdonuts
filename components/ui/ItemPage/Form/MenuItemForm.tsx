@@ -1,7 +1,7 @@
 import useCartUpdates from "@_hooks/item/useCartUpdates";
 import { useNotification } from "@_providers/Notification/Notification";
 import { Item } from "@_types/database/menu";
-import IItemForm from "components/ui/Reusable/Item/Form/IItemForm";
+import ItemForm from "components/ui/Reusable/Item/Form/ItemForm";
 import { FormEvent, FunctionComponent, useEffect, useRef } from "react";
 
 interface MenuItemFormProps {
@@ -15,7 +15,6 @@ const MenuItemForm: FunctionComponent<MenuItemFormProps> = ({
 }) => {
   const { updateCart, extraInfo, updateExtras } = useCartUpdates(item);
   const { displayNotification } = useNotification();
-  const amountRef = useRef<HTMLSelectElement>(null);
   let extraPrice = 0;
   Object.keys(extraInfo).forEach((key) => {
     if (extraInfo[key].price) {
@@ -23,9 +22,7 @@ const MenuItemForm: FunctionComponent<MenuItemFormProps> = ({
     }
   });
   const showPrice = +item.price + extraPrice;
-  const addItemToCart = (e: FormEvent) => {
-    e.preventDefault();
-    const amount = +amountRef!.current!.value;
+  const addItemToCart = (amount: number) => {
     updateCart(amount, showPrice, !!extraPrice);
     displayNotification(`Added ${item.name} to cart`, "success", 2500);
   };
@@ -35,11 +32,10 @@ const MenuItemForm: FunctionComponent<MenuItemFormProps> = ({
   }, [extraInfo]);
 
   return (
-    <IItemForm
+    <ItemForm
       extras={item.extras}
       addItemToCart={addItemToCart}
       updateExtras={updateExtras}
-      ref={amountRef}
     />
   );
 };

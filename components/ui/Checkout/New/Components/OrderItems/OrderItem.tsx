@@ -1,25 +1,27 @@
 import { FunctionComponent } from "react";
 import classes from "./OrderItem.module.css";
 import ImageComponent from "components/ui/Reusable/Image/ImageComponent";
-
-export type OrderItem = {
-  imageUrl: string;
-  name: string;
-  price: number;
-  amount: number;
-  description: string;
-};
+import { CartItem, CartSectionDetails } from "@_types/cart";
+import OrderItemExtras from "./OrderItemExtras";
 
 interface OrderItemProps {
-  item: OrderItem;
+  item: CartItem;
+  details: CartSectionDetails;
+  removeFromCart: () => void;
 }
 
-const OrderItem: FunctionComponent<OrderItemProps> = ({ item }) => {
+const OrderItem: FunctionComponent<OrderItemProps> = ({
+  item,
+  details,
+  removeFromCart,
+}) => {
+  const extraPrice = item.extraPrice || 0;
+  const price = (+details.price + extraPrice) * item.amount;
   return (
     <li className={classes.order_item}>
       <div>
         <ImageComponent
-          src={item.imageUrl}
+          src={details.imageUrl}
           width={100}
           height={100}
           className={classes.image}
@@ -27,12 +29,14 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({ item }) => {
       </div>
       <div className={classes.details}>
         <div className={classes.item_info}>
-          <p className={classes.name}>{item.name}</p>
-          <p className={classes.description}>{item.description}</p>
+          <p className={classes.name}>{details.name}</p>
+          <div>
+            <OrderItemExtras extras={item.extras} />
+          </div>
         </div>
         <div className={classes.price}>
-          <p>${item.price}</p>
-          <p>X</p>
+          <p>${price.toFixed(2)}</p>
+          <p onClick={removeFromCart}>X</p>
         </div>
       </div>
     </li>

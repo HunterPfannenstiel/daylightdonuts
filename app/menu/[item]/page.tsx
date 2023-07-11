@@ -1,6 +1,7 @@
 import { Item as ItemT } from "@_types/database/menu";
 import { getAllItemNames, getItemDetails } from "@_utils/database/menu";
 import ItemPage from "components/ui/ItemPage/ItemPage";
+import APIRequest from "custom-objects/Fetch";
 import { Metadata } from "next";
 
 export const dynamicParams = false;
@@ -29,10 +30,12 @@ const Item = async ({ params }: { params: { item: string } }) => {
 };
 
 const getItem = async (params: { item: string }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/item?item=${params.item}`
-  );
-  const data = (await res.json()) as ItemT | undefined;
+  const { data, success, errorMessage } = await APIRequest.request<
+    ItemT | undefined
+  >(`${process.env.NEXT_PUBLIC_DOMAIN}/api/item?item=${params.item}`);
+  if (!success) {
+    console.error(errorMessage);
+  }
   // const itemDetails = await getItemDetails(params.item);
   return data;
 };

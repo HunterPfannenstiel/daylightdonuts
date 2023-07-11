@@ -1,18 +1,21 @@
 .item_container {
     padding: 0.5rem 1rem;
-    border: 1px solid rgba(0, 52, 114, 0.5);
     border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    width: fit-content;
     text-align: center;
-    width: 45%;
+    /* width: 45%; */
+}
+
+.image {
+    width: 150px;
+    height: 150px;
 }
 
 .item_container h3 {
-    color: #093B81;
+    color: var(--font-black);
     font-size: 1rem;
 }
 
@@ -20,7 +23,6 @@
     font-size: 1rem;
     background-color: #093B81;
     color: white;
-    border: 2px solid #FFFFFF;
     border-radius: 23px;
     width: 100%;
     padding: 0.1em 1.25em

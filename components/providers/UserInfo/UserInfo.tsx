@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import {
   getInitialInfo,
@@ -7,7 +7,6 @@ import {
   deleteUserInfo,
   editUserInfo,
 } from "./util";
-import { useQuery } from "@tanstack/react-query";
 import {
   AddUserInfo,
   FetchedUserInfo,
@@ -23,12 +22,16 @@ export const AuthContextProvider: FunctionComponent<
 > = ({ children }) => {
   const [infoArray, setInfoArray] = useState<UserInfo[] | null | undefined>([]);
   const [favoriteId, setFavoriteId] = useState<number | null>(null);
+  const [email, setEmail] = useState<string>();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchInfo = async () => {
       const infos = (await fetchUserInfos()) as FetchedUserInfo;
       setInfoArray(infos?.infos);
       setFavoriteId(infos?.favorite_id);
+      setEmail(infos.email);
+      setIsLoading(false);
     };
     fetchInfo();
   }, []);
@@ -81,11 +84,6 @@ export const AuthContextProvider: FunctionComponent<
     return isDeleted;
   };
 
-  /* const { data } = useQuery<FetchedUserInfo>({
-		queryKey: ['userInfos'],
-		queryFn: fetchUserInfos,
-	}); */
-
   return (
     <Context.Provider
       value={{
@@ -95,9 +93,13 @@ export const AuthContextProvider: FunctionComponent<
         addInfo: addInfoHandler,
         editInfo: editInfoHandler,
         deleteInfo: deleteInfoHandler,
+        email,
+        isLoading,
       }}
     >
       {children}
     </Context.Provider>
   );
 };
+
+export const useAuth = () => useContext(Context);

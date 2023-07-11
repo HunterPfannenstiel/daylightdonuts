@@ -21,14 +21,14 @@ const AdminBack: FunctionComponent<AdminBackProps> = ({
         <path
           d="M8.41621 15.8324L1 8.41621L8.41621 1"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
           stroke-linecap="round"
           stroke-linejoin="round"
         />
         <path
           d="M2.03003 8.41602L23.4468 8.41602"
           stroke="white"
-          stroke-width="2"
+          strokeWidth="2"
           stroke-linecap="round"
           stroke-linejoin="round"
         />

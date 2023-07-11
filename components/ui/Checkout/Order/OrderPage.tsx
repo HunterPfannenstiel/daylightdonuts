@@ -6,7 +6,7 @@ import classes from "./OrderPage.module.css";
 import Titles from "./Titles";
 
 import Stripes from "components/ui/Reusable/Stripes";
-import { useCartUpdates } from "@_providers/cart/CartUpdates/CartUpdates";
+import { useCartUpdates } from "@_providers/old-cart/CartUpdates/CartUpdates";
 import Buttons from "components/ui/Reusable/Checkout/Buttons/Buttons";
 
 interface OrderPageProps {

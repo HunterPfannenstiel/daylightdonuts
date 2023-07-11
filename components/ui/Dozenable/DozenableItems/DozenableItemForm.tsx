@@ -1,7 +1,7 @@
 import useDozenableBoxUpdate from "@_hooks/item/useDozenableBoxUpdate";
 import { useNotification } from "@_providers/Notification/Notification";
 import { Item } from "@_types/database/menu";
-import IItemForm from "components/ui/Reusable/Item/Form/IItemForm";
+import IItemForm from "components/ui/Reusable/Item/Form/ItemForm";
 import { FormEvent, FunctionComponent, useRef } from "react";
 
 interface DozenableItemFormProps {
