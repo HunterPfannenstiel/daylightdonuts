@@ -3,6 +3,7 @@ import { getCartCookieId } from "@_utils/database/cart/cookies";
 import { createOrder } from "@_utils/payment/create-order/queries";
 import { CustomerInfo } from "@_types/database/checkout";
 import { validateCustomerInfo } from "@_utils/payment";
+import { getAccountSession } from "@_utils/database/account/queries";
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === "POST") {
     try {
@@ -14,8 +15,8 @@ const handler: NextApiHandler = async (req, res) => {
         cartId,
         ...customerInfo,
       };
-      console.log("/api/order/create-order, get actual account_id");
-      await createOrder(info, null);
+      const session = await getAccountSession(req, res);
+      await createOrder(info, session?.accountId || null);
       console.log("Created Order!");
       res.status(200).json({ message: "Complete" });
     } catch (e: any) {

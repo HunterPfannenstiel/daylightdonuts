@@ -10,7 +10,7 @@ interface PaymentProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
   setIsPayPalSelected: (selected: boolean) => void;
-  postOrder: () => void;
+  postOrder: () => Promise<void>;
 }
 
 const Payment: FunctionComponent<PaymentProps> = ({

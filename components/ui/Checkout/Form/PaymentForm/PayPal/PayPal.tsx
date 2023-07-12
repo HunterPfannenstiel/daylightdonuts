@@ -5,7 +5,7 @@ import classes from "./PayPal.module.css";
 import useSuccess from "@_hooks/checkout/useSuccess";
 
 interface PayPalProps {
-  postOrder: () => void;
+  postOrder: () => Promise<void>;
   checkCustomerForm: () => boolean;
 }
 

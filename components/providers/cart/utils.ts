@@ -13,6 +13,7 @@ type CartModifiers = {
     amount: number
   ) => void;
   removeItemFromCart: (itemId: number, cartItemId: number) => void;
+  clearCart: () => void;
 };
 
 export type CartContext = {
@@ -30,6 +31,7 @@ export const getInitialContext = (): CartContext => {
       addItemFromItemPage: fn,
       updateItemFromCart: fn,
       removeItemFromCart: fn,
+      clearCart: fn,
     },
     getIterableItems: () => [],
     isLoading: true,

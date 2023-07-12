@@ -2,6 +2,7 @@ import {
   CustomerFormInfo,
   CustomerInfo,
   CustomerOrderInfo,
+  FormLocationDetails,
   OrderLocationDetails,
 } from "@_types/database/checkout";
 import { useEffect, useRef, useState } from "react";
@@ -14,7 +15,7 @@ const useCustomerInput = () => {
   const [customerInfo, setCustomerInfo] = useState<CustomerFormInfo>(
     getInitialCustomerInfo()
   );
-  const [locationDetails, setLocationDetails] = useState<OrderLocationDetails>(
+  const [locationDetails, setLocationDetails] = useState<FormLocationDetails>(
     getInitialTimeDetails()
   );
   const { infos, favorite_id, email, isLoading } = useAuth();
@@ -28,16 +29,17 @@ const useCustomerInput = () => {
       setCustomerInfo(getSelectedInfo(infos, email!, id)!);
     }
   }, [infos]);
-
   const postOrder = () => {
     let info: CustomerInfo;
     const currInfo = getCustomerOrderInfo(customerInfo);
+    const locationInfo = getLocationInfo(locationDetails);
+    console.log(locationInfo);
     if (selectedInfoId === -1) {
       info = {
         customerInfo: true,
         customerOrderInfo: currInfo,
         userInfoId: null,
-        ...locationDetails,
+        ...locationInfo,
       };
     } else {
       const userInfo = getCustomerOrderInfo(
@@ -48,20 +50,20 @@ const useCustomerInput = () => {
           customerInfo: true,
           customerOrderInfo: currInfo,
           userInfoId: null,
-          ...locationDetails,
+          ...locationInfo,
         };
       } else {
         info = {
           customerInfo: false,
           userInfoId: selectedInfoId,
           customerOrderInfo: null,
-          ...locationDetails,
+          ...locationInfo,
         };
       }
     }
     console.log(info);
     // return new Promise<void>((resolve, reject) => reject("Testing"));
-    // return postOptimisticOrder(info);
+    return postOptimisticOrder(info);
   };
 
   const updateCustomerInfo = (key: keyof CustomerFormInfo, value: string) => {
@@ -73,6 +75,7 @@ const useCustomerInput = () => {
     key: keyof OrderLocationDetails,
     value: string
   ) => {
+    console.log(key, value);
     setLocationDetails((prevInfo) => ({
       ...prevInfo,
       [key]: { value, isValid: true },
@@ -143,10 +146,19 @@ const getInitialCustomerInfo = (): CustomerFormInfo => {
   };
 };
 
-const getInitialTimeDetails = (): OrderLocationDetails => {
+const getInitialTimeDetails = (): FormLocationDetails => {
   return {
     locationId: { value: "", isValid: true },
     pickupDate: { value: "", isValid: true },
     pickupTimeId: { value: "", isValid: true },
   };
+};
+
+const getLocationInfo = (
+  locationDetails: FormLocationDetails
+): OrderLocationDetails => {
+  const locationId = locationDetails.locationId.value;
+  const pickupTimeId = locationDetails.pickupTimeId.value;
+  const pickupDate = locationDetails.pickupDate.value;
+  return { locationId, pickupTimeId, pickupDate };
 };

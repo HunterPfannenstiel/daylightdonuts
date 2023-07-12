@@ -4,6 +4,7 @@ import {
   addNewItem,
   addNewItemAndSection,
   checkItemExists,
+  clearCart,
   postCartUpdates,
   removeItem,
   updateExistingItem,
@@ -121,6 +122,15 @@ const useHandleCart = () => {
       delay: 1000,
     });
   };
+
+  const deleteCart = () => {
+    mutate({
+      clientDelegate: clearCart(),
+      dbUpdates: () => [],
+      timer: updateTimer,
+      delay: 0,
+    });
+  };
   return {
     cart,
     isLoading,
@@ -128,6 +138,7 @@ const useHandleCart = () => {
       addItemFromItemPage,
       updateItemFromCart,
       removeItemFromCart,
+      clearCart: deleteCart,
     },
   };
 };

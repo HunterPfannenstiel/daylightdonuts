@@ -4,14 +4,15 @@ import CheckoutContainer from "../CheckoutContainer";
 import OptionSelectInput from "components/ui/Reusable/Form/OptionSelectInput";
 import InputLayout from "components/ui/Reusable/Form/InputLayout";
 import usePickupInfo from "@_hooks/checkout/usePickupInfo";
-import { OrderLocationDetails } from "@_types/database/checkout";
+import { FormLocationDetails } from "@_types/database/checkout";
+import Spinner from "components/ui/Reusable/Spinner";
 
 interface OrderDetailsProps {
   updateLocationDetails: (
-    key: keyof OrderLocationDetails,
+    key: keyof FormLocationDetails,
     value: string
   ) => void;
-  values: OrderLocationDetails;
+  values: FormLocationDetails;
 }
 
 const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
@@ -23,43 +24,51 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
     if (data) {
       updateLocationDetails("locationId", data[0].location_id.toString());
       updateLocationDetails("pickupTimeId", data[0].times[0].id.toString());
+      updateLocationDetails("pickupDate", "2023-07-11");
     }
   }, [data]);
-  if (!data || isLoading) return <p>Loading...</p>;
+
   const times =
-    data.find((location) => location.location_id === +values.locationId.value)
+    data?.find((location) => location.location_id === +values.locationId.value)
       ?.times || [];
 
   return (
-    <CheckoutContainer header="My Order">
-      <OptionSelectInput
-        label="Location"
-        required
-        options={data.map((location) => ({
-          id: location.location_id,
-          name: location.common_name,
-        }))}
-        onOptionSelected={(id) => {
-          updateLocationDetails("locationId", id.toString());
-        }}
-        className={classes.location}
-      />
-      <div className={classes.time_date}>
-        <OptionSelectInput
-          label="Time"
-          required
-          options={times}
-          onOptionSelected={(id) => {
-            updateLocationDetails("pickupTimeId", id.toString());
-          }}
-        />
-        <div className={classes.date}>
-          <InputLayout
-            labelComponent={<p>Date*</p>}
-            inputComponent={<button>Click</button>}
+    <CheckoutContainer header="My Order" contentClass={classes.content}>
+      {isLoading && <Spinner center />}
+      {!isLoading && (
+        <div className={classes.content}>
+          <OptionSelectInput
+            label="Location"
+            required
+            options={
+              data?.map((location) => ({
+                id: location.location_id,
+                name: location.common_name,
+              })) || []
+            }
+            onOptionSelected={(id) => {
+              updateLocationDetails("locationId", id.toString());
+            }}
+            className={classes.location}
           />
+          <div className={classes.time_date}>
+            <OptionSelectInput
+              label="Time"
+              required
+              options={times}
+              onOptionSelected={(id) => {
+                updateLocationDetails("pickupTimeId", id.toString());
+              }}
+            />
+            <div className={classes.date}>
+              <InputLayout
+                labelComponent={<p>Date*</p>}
+                inputComponent={<button>Click</button>}
+              />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </CheckoutContainer>
   );
 };

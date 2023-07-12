@@ -1,3 +1,8 @@
+.content {
+    position: relative;
+    animation: fade_in 300ms ease-out;
+}
+
 .location {
     padding-bottom: 1.5rem;
 }
@@ -15,4 +20,13 @@
     color: var(--font-black);
     font-size: 1rem;
     font-weight: 500;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }

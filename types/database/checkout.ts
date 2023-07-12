@@ -50,7 +50,7 @@ export type CustomerFormInfo = {
   phone_number: InputValue;
 };
 
-export type OrderLocationDetails = {
+export type FormLocationDetails = {
   locationId: InputValue;
   pickupDate: InputValue;
   pickupTimeId: InputValue;
@@ -61,6 +61,12 @@ export type CustomerOrderInfo = {
   last_name: string;
   email: string;
   phone_number: string;
+};
+
+export type OrderLocationDetails = {
+  locationId: string;
+  pickupDate: string;
+  pickupTimeId: string;
 };
 
 export type CustomerInfo =
@@ -82,7 +88,7 @@ export const initialCustomerInfo: CustomerFormInfo = {
   phone_number: { value: "", isValid: true },
 };
 
-export const initialOrderTimeDetails: OrderLocationDetails = {
+export const initialOrderTimeDetails: FormLocationDetails = {
   locationId: { value: "", isValid: true },
   pickupDate: { value: "", isValid: true },
   pickupTimeId: { value: "", isValid: true },
