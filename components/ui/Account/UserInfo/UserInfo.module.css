@@ -10,10 +10,11 @@
 .info button {
     margin-left: auto;
     width: 150px;
+    height: 36px;
     background-color: #003472;
-    border-radius: 2rem;
+    border-radius: 1rem;
     color: white;
-    font-size: 1rem;
+    font-size: 14px;
 }
 
 .default_text {

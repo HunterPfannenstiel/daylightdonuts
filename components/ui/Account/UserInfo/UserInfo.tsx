@@ -6,14 +6,12 @@ interface UserInfoProps {
 	info: UserInfo;
 	idx: number;
 	onSelectHandler: (info: UserInfo, infoIdx: number) => void;
-	deleteHandler: (infoId: number) => void;
 }
 
 const UserInfo: FunctionComponent<UserInfoProps> = ({
 	info,
 	idx,
 	onSelectHandler,
-	deleteHandler,
 }) => {
 	return (
 		<li className={classes.info} >

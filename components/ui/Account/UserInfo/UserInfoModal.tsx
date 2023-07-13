@@ -5,6 +5,7 @@ import { AddUserInfo, UserInfo } from '@_types/database/userInfo';
 interface UserInfoModalProps {
 	onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
 	exitHandler: () => void;
+	deleteHandler: (id: number) => Promise<boolean>;
 	info: UserInfo | null;
 	infoIdx: number | null;
 }
@@ -12,8 +13,9 @@ interface UserInfoModalProps {
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 	onSubmitHandler,
 	exitHandler,
+	deleteHandler,
 	info,
-	infoIdx
+	infoIdx,
 }) => {
 	const firstNameRef = useRef<HTMLInputElement>(null);
 	const lastNameRef = useRef<HTMLInputElement>(null);
@@ -44,12 +46,13 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 	return (
 		<>
 			<button className={classes.exit} onClick={exitHandler}>
-				Exit
+				x
 			</button>
 			<div className={classes.form_container}>
+				<h1>{info ? "Edit User" : "Add User"}</h1>
 				<form className={classes.form} onSubmit={submitHandler}>
-					<div className={classes.field}>
-						<label htmlFor="first">First Name:</label>
+					<div className={classes.text_field}>
+						<label htmlFor="first">First Name</label>
 						<input
 							type="text"
 							id="first"
@@ -59,8 +62,8 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 							required
 						/>
 					</div>
-					<div className={classes.field}>
-						<label htmlFor="last">Last Name:</label>
+					<div className={classes.text_field}>
+						<label htmlFor="last">Last Name</label>
 						<input
 							type="text"
 							id="last"
@@ -70,8 +73,8 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 							required
 						/>
 					</div>
-					<div className={classes.field}>
-						<label htmlFor="phone">Phone:</label>
+					<div className={classes.text_field}>
+						<label htmlFor="phone">Phone</label>
 						<input
 							type="tel"
 							id="phone"
@@ -82,7 +85,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						/>
 					</div>
 					<div className={classes.field}>
-						<label htmlFor="favorite">Favorite: </label>
+						<label htmlFor="favorite">Favorite</label>
 						<input
 							type="checkbox"
 							id="favorite"
@@ -91,7 +94,8 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 							defaultChecked={info ? info.favorite : false}
 						/>
 					</div>
-					<button>Submit</button>
+					<button className={classes.submit_btn}>Submit</button>
+					{infoIdx && <button onClick={deleteHandler.bind(this, infoIdx)} className={classes.del_btn}>Delete</button>}
 				</form>
 			</div>
 		</>

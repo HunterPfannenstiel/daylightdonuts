@@ -57,11 +57,12 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 						info={selectedUserInfo}
 						infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
 						exitHandler={() => setShowModal(false)}
+						deleteHandler={ctx.deleteInfo}
 					/>
 				</div>
 			)}
 			<div className={classes.container}>
-				<p className={classes.title}>User Information</p>
+				<p className={classes.title}>Saved Users</p>
 				<ul className={classes.info_list}>
 					{ctx.infos?.map((info, idx) => {
 						if (info.favorite) favIdx = idx;
@@ -71,7 +72,6 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 								key={info.id}
 								idx={idx}
 								onSelectHandler={onSelectHandler}
-								deleteHandler={ctx.deleteInfo}
 							/>
 						);
 					})}
