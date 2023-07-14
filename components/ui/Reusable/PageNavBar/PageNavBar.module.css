@@ -1,6 +1,8 @@
 .nav_bar {
     display: flex;
     overflow-x: scroll;
+    background-color: white;
+    padding: .5rem;
 }
 
 .nav_bar::-webkit-scrollbar {

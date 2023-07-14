@@ -10,17 +10,20 @@ interface PageNavBarProps {
 }
 
 const PageNavBar: FunctionComponent<PageNavBarProps> = ({ categories, baseRoute, queryParameter }) => {
-	const [selectedIndex, setSelectedIndex] = useState<number | null>(0);
-    queryParameter = queryParameter ? queryParameter : '';
+    const adjustedQueryParam = queryParameter ? queryParameter + '=' : '';
 	const params = useSearchParams();
+	
+	const isOnCategory = (category: string) => {
+		if (!queryParameter) return params?.has(category);
+		else return params?.get(queryParameter!) === category;
+	}
 
 	return (
 		<ul className={classes.nav_bar}>
-			{categories.map((category, index) => (
+			{categories.map((category) => (
 				<Link
-					href={`${baseRoute}?${queryParameter}${category}`}
-					className={params?.has(category) ? classes.selected : ''}
-					onClick={setSelectedIndex.bind(this, index)}
+					href={`${baseRoute}?${adjustedQueryParam}${category}`}
+					className={isOnCategory(category) ? classes.selected : ''}
 				>
 					{category}
 				</Link>

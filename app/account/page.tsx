@@ -8,6 +8,7 @@ import { getSession, signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Account from 'components/ui/Account/Account';
 import PageNavBar from 'components/ui/Reusable/PageNavBar/PageNavBar';
+import PageHeader from 'components/ui/Reusable/PageHeader';
 
 interface AccountPageProps {}
 
@@ -22,6 +23,7 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 	if (status === 'authenticated') {
 		return (
 			<>
+			<PageHeader title="My Account"/>
 				<PageNavBar
 					categories={['Profile', 'UserInfo', 'Orders']}
 					baseRoute="account"

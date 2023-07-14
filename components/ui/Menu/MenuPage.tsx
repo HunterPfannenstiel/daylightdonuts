@@ -12,15 +12,15 @@ const MenuPage: FunctionComponent<MenuPageProps> = () => {
 	const [menuItems, isLoading, query] = useMenu();
 	return (
 		<>
-			<div className={classes.header_box}>
-				<div className={classes.text_container}>
-					<h1 className={classes.header}>Our Menu</h1>
-				</div>
-			</div>
-			<MenuNavBar />
 			<MenuItemList items={menuItems} category={query.category} />;
 		</>
 	);
 };
 
 export default MenuPage;
+
+{/* <div className={classes.header_box}>
+				<div className={classes.text_container}>
+					<h1 className={classes.header}>Our Menu</h1>
+				</div>
+			</div> */}

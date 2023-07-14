@@ -1,0 +1,5 @@
+.container {
+    text-align: center;
+    padding: 45px 0;
+    background-color: var(--primary-blue);
+}
