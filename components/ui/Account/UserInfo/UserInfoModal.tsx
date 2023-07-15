@@ -95,7 +95,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						/>
 					</div>
 					<button className={classes.submit_btn}>Submit</button>
-					{infoIdx && <button onClick={deleteHandler.bind(this, infoIdx)} className={classes.del_btn}>Delete</button>}
+					{infoIdx !== null && <button onClick={deleteHandler.bind(this, infoIdx)} className={classes.del_btn}>Delete</button>}
 				</form>
 			</div>
 		</>

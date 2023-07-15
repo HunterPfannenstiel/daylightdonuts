@@ -29,10 +29,10 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 		info: UserInfoType,
 		infoIdx: number | null
 	) => {
-		if (infoIdx) {
+		if (infoIdx !== null) {
 			const res = info.favorite
 				? await ctx.editInfo(info, infoIdx, favIdx)
-				: await ctx.editInfo(info, infoIdx);
+				: await ctx.editInfo(info, infoIdx, null);
 			if (info.favorite && res) favIdx = infoIdx;
 			setSelectedUserInfo(null);
 			setShowModal(false);
@@ -40,7 +40,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 		} else {
 			const res = info.favorite
 				? await ctx.addInfo(info, favIdx)
-				: await ctx.addInfo(info);
+				: await ctx.addInfo(info, null);
 			if (info.favorite && res) favIdx = ctx.infos!.length - 1;
 			setSelectedUserInfo(null);
 			setShowModal(false);
