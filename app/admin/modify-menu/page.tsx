@@ -2,11 +2,12 @@ import { Customizations } from "@_types/admin/forms";
 import { Item } from "@_types/admin/modify-menu";
 import CreateExtraModal from "components/admin/ui/ModifyMenu/Extra/CreateModal";
 import ModifyMenu from "components/admin/ui/ModifyMenu";
+import APIRequest from "custom-objects/Fetch";
 
 const Menu = async () => {
   const items = await fetchItems();
   const { groupings, extra_groupings, item_categories } =
-    await fetchMenuCusomizations();
+    await fetchMenuCustomizations();
   return (
     <>
       <ModifyMenu
@@ -20,27 +21,25 @@ const Menu = async () => {
 };
 
 const fetchItems = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/fetch-items`
+  const res = await APIRequest.pageRequest<Item[]>(
+    "/api/admin/modify-menu/fetch-items"
   );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
+
+  if (!res.success) {
+    throw new Error(res.errorMessage);
   }
 
-  return data as Item[];
+  return res.data;
 };
 
-const fetchMenuCusomizations = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/customizations`
+const fetchMenuCustomizations = async () => {
+  const res = await APIRequest.pageRequest<Customizations>(
+    "/api/admin/modify-menu/customizations"
   );
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error(data.message);
+  if (!res.success) {
+    throw new Error(res.errorMessage);
   }
-
-  return data as Customizations;
+  return res.data;
 };
 
 export default Menu;

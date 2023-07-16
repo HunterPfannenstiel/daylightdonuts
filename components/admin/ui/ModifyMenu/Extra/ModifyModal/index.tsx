@@ -8,11 +8,7 @@ import {
 } from "@_types/admin/modify-menu";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
-import {
-  AddNewNestedEntity,
-  DeleteNestedEntity,
-  UpdateNestedEntity,
-} from "@_hooks/admin/menu/useUpdateNestedEntities";
+import { NestedEntityFunctions } from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface ModifyExtraModalProps {
   extraId: number;
@@ -21,9 +17,7 @@ interface ModifyExtraModalProps {
   categories: DBEntity[];
   groupings: NestedDBEntity[];
   index: number;
-  updateExtra: UpdateNestedEntity;
-  addExtra: AddNewNestedEntity;
-  deleteExtra: DeleteNestedEntity;
+  modifyEntity: NestedEntityFunctions;
 }
 
 const ModifyExtraModal: FunctionComponent<ModifyExtraModalProps> = ({
@@ -33,21 +27,16 @@ const ModifyExtraModal: FunctionComponent<ModifyExtraModalProps> = ({
   categories,
   groupings,
   index,
-  updateExtra,
-  addExtra,
-  deleteExtra,
+  modifyEntity,
 }) => {
   const { selections, isLoading, isError } =
     useInitialSelections<ExtraSelections>(extraId, "extra");
-  if (isLoading) return <p>Loading...</p>;
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         handleModal={modalProps.handleModal}
         index={index}
-        updateExtra={updateExtra}
-        addExtra={addExtra}
-        deleteExtra={deleteExtra}
+        modifyEntity={modifyEntity}
         extraId={extraId}
         selections={selections!}
         name={extraName}

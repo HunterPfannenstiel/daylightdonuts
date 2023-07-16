@@ -29,14 +29,12 @@ const Extra: FunctionComponent<ExtraProps> = ({
   return (
     <>
       <button onClick={createModal.handleModal}>Create Extra</button>
-      {createModal.showModal && (
-        <CreateExtraModal
-          addNewExtra={extras.addNewEntity}
-          modalProps={createModal}
-          groupings={customizations.groups}
-          categories={customizations.categories}
-        />
-      )}
+      <CreateExtraModal
+        modalProps={createModal.getModalProps()}
+        addNewExtra={extras.getUpdateEntityProps().addNewEntity}
+        groupings={customizations.groups}
+        categories={customizations.categories}
+      />
       {extras.entities.map((category) => {
         return (
           <div>
@@ -55,19 +53,15 @@ const Extra: FunctionComponent<ExtraProps> = ({
           </div>
         );
       })}
-      {modifyModal.showModal && (
-        <ModifyExtraModal
-          addExtra={extras.addNewEntity}
-          updateExtra={extras.updateEntity}
-          deleteExtra={extras.deleteEntity}
-          index={getSelectedIndex()!}
-          extraId={getSelectedId()!}
-          extraName={getSelectedName()!}
-          modalProps={modifyModal}
-          groupings={customizations.groups}
-          categories={customizations.categories}
-        />
-      )}
+      <ModifyExtraModal
+        modifyEntity={extras.getUpdateEntityProps()}
+        index={getSelectedIndex()!}
+        extraId={getSelectedId()!}
+        extraName={getSelectedName()!}
+        modalProps={modifyModal.getModalProps()}
+        groupings={customizations.groups}
+        categories={customizations.categories}
+      />
     </>
   );
 };

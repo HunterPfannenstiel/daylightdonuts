@@ -3,13 +3,17 @@ import { useRef } from "react";
 
 export type UpdateDetails<T> = <K extends keyof T>(key: K, value: T[K]) => void;
 
+const copyDetails = <T extends Record<string, any>>(initialDetails: T) => {
+  return { ...initialDetails };
+};
+
 /**
  * Hook for managing details of a specific entity.
  * @param initialDetails - The initial details object.
  * @returns An object contaning functions to update and retrieve details.
  */
 const useDetails = <T extends Record<string, any>>(initialDetails: T) => {
-  const details = useRef(initialDetails);
+  const details = useRef(copyDetails(initialDetails));
 
   /**
    *

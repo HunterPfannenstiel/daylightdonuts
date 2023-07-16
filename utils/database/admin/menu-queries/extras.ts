@@ -1,5 +1,6 @@
 import {
   DBEntity,
+  DisplayOrderItem,
   ExtraCategoryCustomizations,
   ExtraCategorySelections,
   ExtraCustomizations,
@@ -101,7 +102,7 @@ export type ModifyExtra = {
   extraId: number;
   name?: string;
   price?: string;
-  groupInfo?: ExtraGroupInfo[];
+  groupInfo?: DisplayOrderItem[];
   removeGroupIds?: number[];
   categoryId?: number;
   abbreviation?: string;

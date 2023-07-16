@@ -8,7 +8,7 @@ import {
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ExtraGroupsProps {
-  initialGroups: InitialSelections;
+  initialGroups: MutableRefObject<InitialSelections>;
   initialCategoryId: MutableRefObject<number | undefined>;
   groupSelections: NestedDBEntity[];
   categories: DBEntity[];
@@ -24,7 +24,6 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
   updateCategory,
   updateGroupings,
 }) => {
-  console.log(initialGroups);
   const [selectedCategory, setSelectedCategory] = useState(
     initialCategoryId?.current
   );
@@ -54,7 +53,7 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
               )[0].entities
             }
             title="Select Groups"
-            initialSelections={initialGroups || {}}
+            initialSelections={initialGroups.current || {}}
             type="checkbox"
             onSelect={(id, __, selected) => {
               updateGroupings(id, selected);

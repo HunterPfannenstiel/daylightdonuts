@@ -6,14 +6,20 @@ import { ModalProps } from "@_hooks/animation/useAnimateModal";
 interface ModifyMenuModalProps {
   children: ReactNode;
   modalProps: ModalProps;
+  isLoading?: boolean;
 }
 
 const ModifyMenuModal: FunctionComponent<ModifyMenuModalProps> = ({
   children,
   modalProps,
+  isLoading,
 }) => {
   return (
-    <ModalDisplay modalProps={modalProps} className={classes.modal}>
+    <ModalDisplay
+      {...modalProps}
+      isLoading={isLoading}
+      className={classes.modal}
+    >
       {children}
     </ModalDisplay>
   );

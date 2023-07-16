@@ -4,7 +4,7 @@ import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import PriceInput from "@_admin-reuse/Form/Inputs/PriceInput";
 import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
-import { UpdateDetails } from "@_hooks/admin/menu/useDetails";
+import { UpdateDetails } from "@_hooks/admin/menu/modification/useDetails";
 
 interface ExtraDetailsProps {
   initialDetails: ExtraDetailsT;

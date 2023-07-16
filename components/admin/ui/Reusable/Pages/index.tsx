@@ -26,7 +26,6 @@ const Pages: FunctionComponent<PagesProps> = ({
       } else setMessage(msg);
     }
   };
-  console.log(message);
   return (
     <Page
       onSubmit={submitHandler}

@@ -1,6 +1,13 @@
 import { InitialSelections } from "@_types/admin/modify-menu";
 import { useRef } from "react";
 
+const copyInitialSelections = <T extends unknown = boolean>(
+  initialSelections?: InitialSelections<T>
+) => {
+  if (!initialSelections) return {};
+  return { ...initialSelections };
+};
+
 /**
  * Hook for managing selections of a collection.
  * @param intitalSelections The initial selections of the collection.
@@ -9,7 +16,7 @@ import { useRef } from "react";
 const useSelections = <T extends unknown = boolean>(
   intitalSelections?: InitialSelections<T>
 ) => {
-  const selections = useRef(intitalSelections || {});
+  const selections = useRef(copyInitialSelections(intitalSelections));
 
   /**
    * Updates a selection with the specified ID and value.
@@ -18,7 +25,6 @@ const useSelections = <T extends unknown = boolean>(
    * @param value The new value for the selection.
    */
   const updateSelection = (id: number, value?: T) => {
-    console.log(id, value);
     if (selections.current[id] && !value) {
       delete selections.current[id];
     } else if (value) {
@@ -32,7 +38,26 @@ const useSelections = <T extends unknown = boolean>(
   const clearSelections = () => {
     selections.current = {};
   };
-  return { selections, updateSelection, clearSelections };
+
+  /**
+   * Composes an array of values by applying the provided callback function to each selection.
+   * @param cb The callback function to apply to each selection.
+   * @param _selections The selections object to compose from. Defaults to the current selections object.
+   * @returns An array of values obtained by applying the callback function to each selection.
+   */
+  const composeSelections = <U>(
+    cb: (key: number, val: T) => U,
+    _selections = selections.current
+  ) => {
+    if (_selections) {
+      return Object.keys(_selections).map((key) => {
+        return cb(+key, _selections[+key]);
+      });
+    }
+    return [];
+  };
+
+  return { selections, updateSelection, clearSelections, composeSelections };
 };
 
 export default useSelections;

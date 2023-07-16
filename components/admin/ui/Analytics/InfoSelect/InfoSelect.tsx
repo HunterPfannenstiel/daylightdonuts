@@ -3,16 +3,16 @@ import { useAnalyticsInfo } from "@_providers/Analytics/AnalyticsInfo";
 import { IntervalButton, Interval } from "@_types/admin/orders";
 import Button from "components/ui/Reusable/Button";
 import { FunctionComponent } from "react";
-import DateModal from "../../Reusable/DateSelect/DateModal";
 import DateSelect from "../../Reusable/DateSelect/DateSelect";
 import GraphDataSelect from "./GraphDataSelect";
 import classes from "./InfoSelect.module.css";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 
 interface InfoSelectProps {}
 
 const InfoSelect: FunctionComponent<InfoSelectProps> = () => {
   const { setPickerRange, setInterval } = useAnalyticsInfo();
-  const { showModal, playAnimation, handleModal } = useAnimateModal(300);
+  const { handleModal, getModalProps } = useAnimateModal(300);
   return (
     <>
       <div className={classes.selectors}>
@@ -23,17 +23,13 @@ const InfoSelect: FunctionComponent<InfoSelectProps> = () => {
           </Button>
         </div>
       </div>
-      <DateModal
-        showModal={showModal}
-        playAnimation={playAnimation}
-        handleModal={handleModal}
-      >
+      <ModalDisplay {...getModalProps()}>
         <DateSelect
           relativeButtons={relativeButtons}
           relativeIntervalChange={setInterval}
           absoluteIntervalChange={setPickerRange}
         />
-      </DateModal>
+      </ModalDisplay>
     </>
   );
 };

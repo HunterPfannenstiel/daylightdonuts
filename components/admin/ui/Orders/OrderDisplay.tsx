@@ -8,8 +8,8 @@ import useOrders from "@_hooks/admin/orders/useOrders";
 import { Interval, IntervalButton } from "@_types/admin/orders";
 import DateSelect from "../Reusable/DateSelect/DateSelect";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import DateModal from "../Reusable/DateSelect/DateModal";
 import Button from "components/ui/Reusable/Button";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 
 interface OrderDisplayProps {}
 
@@ -19,7 +19,7 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
   const intervalChange = (interval: Interval) => {
     setInterval(interval);
   };
-  const { playAnimation, showModal, handleModal } = useAnimateModal(300);
+  const { handleModal, getModalProps } = useAnimateModal(300);
   return (
     <>
       <IPageDisplay
@@ -46,18 +46,13 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
             }}
           />
         </div>
-
-        <DateModal
-          showModal={showModal}
-          playAnimation={playAnimation}
-          handleModal={handleModal}
-        >
+        <ModalDisplay {...getModalProps()}>
           <DateSelect
             relativeButtons={relativeButtons}
             relativeIntervalChange={intervalChange}
             absoluteIntervalChange={setPickerRange}
           />
-        </DateModal>
+        </ModalDisplay>
       </IPageDisplay>
     </>
   );

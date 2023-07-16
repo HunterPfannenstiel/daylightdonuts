@@ -43,8 +43,8 @@ class PostMenuInfo {
 
 class GetMenuInfo {
   static async Customizations<T>(menuSection: string) {
-    return APIRequest.request<T>(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/customizations`,
+    return APIRequest.pageRequest<T>(
+      `/api/admin/modify-menu/${menuSection}/customizations`,
       { cache: "no-store" }
     );
   }
@@ -57,8 +57,8 @@ class GetMenuInfo {
   }
 
   static async Existing<T>(menuSection: string) {
-    return APIRequest.request<T>(
-      `${process.env.NEXT_PUBLIC_DOMAIN}/api/admin/modify-menu/${menuSection}/existing`,
+    return APIRequest.pageRequest<T>(
+      `/api/admin/modify-menu/${menuSection}/existing`,
       { cache: "no-store" }
     );
   }
@@ -114,11 +114,11 @@ export default class ModifyMenu {
     return removedIds;
   }
 
-  static GetNewDisplayOrders(
+  static GetNewAndRemovedDisplayOrders(
     initialDisplayOrders: DisplayOrderItem[],
     currentDisplayOrders: DisplayOrderItem[]
   ) {
-    const displayOrders = currentDisplayOrders.filter((item) => {
+    let modifiedDisplayOrders = currentDisplayOrders.filter((item) => {
       for (let i = 0; i < initialDisplayOrders.length; i++) {
         const initialItem = initialDisplayOrders[i];
         if (initialItem.id === item.id) {
@@ -128,7 +128,33 @@ export default class ModifyMenu {
       }
       return true;
     });
-    if (displayOrders.length === 0) return undefined;
-    return displayOrders;
+    const removedIds = this.GetRemovedDisplayOrderIds(
+      initialDisplayOrders,
+      currentDisplayOrders
+    );
+    return {
+      modifiedDisplayOrders:
+        modifiedDisplayOrders.length === 0 ? undefined : modifiedDisplayOrders,
+      removedIds,
+    };
+  }
+
+  static GetRemovedDisplayOrderIds(
+    initialIds: DisplayOrderItem[],
+    currentIds: DisplayOrderItem[]
+  ) {
+    const removedIds: number[] = [];
+    initialIds.forEach(({ id }) => {
+      let contains = false;
+      for (let i = 0; i < currentIds.length; i++) {
+        if (currentIds[i].id === id) {
+          contains = true;
+          break;
+        }
+      }
+      if (!contains) removedIds.push(id);
+    });
+    if (removedIds.length === 0) return undefined;
+    return removedIds;
   }
 }

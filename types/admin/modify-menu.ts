@@ -18,7 +18,7 @@ export type DBEntity = {
   id: number;
 };
 
-export type DisplayOrderItem = { id: number; displayOrder: number };
+export type DisplayOrderItem = { id: number; displayOrder?: number };
 
 export type InitialSelections<T extends unknown = boolean> = {
   [id: number]: T;

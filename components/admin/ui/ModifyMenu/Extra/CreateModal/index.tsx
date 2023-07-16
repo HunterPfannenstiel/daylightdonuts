@@ -62,15 +62,9 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
       <Pages
         beforePageTurn={canFlipPage}
         pages={[
-          <ExtraDetails
-            initialDetails={info.extraDetails}
-            updateHandler={info.updateDetails}
-          />,
+          <ExtraDetails {...info.getExtraDetailsProps()} />,
           <ExtraGroups
-            initialGroups={info.selectedGroupingIds}
-            initialCategoryId={info.selectedCategoryId}
-            updateCategory={info.updateCategoryId}
-            updateGroupings={info.updateGroup}
+            {...info.getExtraGroupProps()}
             categories={categories}
             groupSelections={groupings}
           />,

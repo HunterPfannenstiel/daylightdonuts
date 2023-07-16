@@ -8,11 +8,7 @@ import {
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { ModifyExtra } from "@_utils/database/admin/menu-queries/extras";
-import {
-  AddNewNestedEntity,
-  DeleteNestedEntity,
-  UpdateNestedEntity,
-} from "@_hooks/admin/menu/useUpdateNestedEntities";
+import { NestedEntityFunctions } from "@_hooks/admin/menu/useUpdateNestedEntities";
 import ModifyMenu from "custom-objects/ModifyMenu";
 
 interface ModalContentsProps {
@@ -23,9 +19,7 @@ interface ModalContentsProps {
   groupings: NestedDBEntity[];
   index: number;
   handleModal: () => void;
-  updateExtra: UpdateNestedEntity;
-  addExtra: AddNewNestedEntity;
-  deleteExtra: DeleteNestedEntity;
+  modifyEntity: NestedEntityFunctions;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
@@ -36,9 +30,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   groupings,
   index,
   handleModal,
-  updateExtra,
-  addExtra,
-  deleteExtra,
+  modifyEntity,
 }) => {
   const info = useCollectExtraInfo(
     {
@@ -48,42 +40,22 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       isArchived: selections.initital_archive,
     },
     selections.initial_category_id,
-    { ...selections.initial_groups }
+    selections.initial_groups
   );
   const onModify = async (e: FormEvent) => {
     e.preventDefault();
-    const { price, abbreviation, isArchived } = info.extraDetails;
-    const newCategoryId = ModifyMenu.CompareVal(
-      selections.initial_category_id,
-      info.selectedCategoryId.current
-    );
+    const {
+      name: newName,
+      price,
+      abbreviation,
+      isArchived,
+    } = info.getUpdatedDetails();
+    const newCategoryId = info.getUpdatedId();
     const selectedGroups = info.getExtraGroupInfo();
-    console.log(selectedGroups);
     const initialGroups = info.getExtraGroupInfo(selections.initial_groups);
-    console.log(initialGroups);
-    const removeGroupIds = initialGroups.filter((group) => {
-      for (let i = 0; i < selectedGroups.length; i++) {
-        if (selectedGroups[i].extraGroupId === group.extraGroupId) return false;
-      }
-      return true;
-    });
-    const modifyGroups = selectedGroups.filter((group) => {
-      for (let i = 0; i < initialGroups.length; i++) {
-        const initGroup = initialGroups[i];
-        if (initGroup.extraGroupId === group.extraGroupId) {
-          if (
-            initGroup.displayOrder !== group.displayOrder &&
-            initGroup.displayOrder !== undefined &&
-            group.displayOrder !== null
-          ) {
-            return true;
-          }
-          return false;
-        }
-      }
-      return true;
-    });
-    const newName = ModifyMenu.CompareVal(name, info.extraDetails.name);
+    const { modifiedDisplayOrders, removedIds } =
+      ModifyMenu.GetNewAndRemovedDisplayOrders(initialGroups, selectedGroups);
+
     const modifications = {
       extraId,
       name: newName,
@@ -92,13 +64,12 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
         selections.initial_abbreviation,
         abbreviation
       ),
-      groupInfo: modifyGroups,
-      removeGroupIds: removeGroupIds.map((group) => group.extraGroupId),
+      groupInfo: modifiedDisplayOrders,
+      removeGroupIds: removedIds,
       categoryId: newCategoryId,
       archived: ModifyMenu.CompareVal(selections.initital_archive, isArchived),
     } as ModifyExtra;
 
-    console.log(modifications);
     const res = await ModifyMenu.Post.Modify("extra", modifications);
     if (!res.success) {
       console.error(res.errorMessage);
@@ -106,30 +77,31 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     }
     if (newName) {
       if (!newCategoryId) {
-        updateExtra(newName, selections.initial_category_id, index);
+        modifyEntity.updateEntity(
+          newName,
+          selections.initial_category_id,
+          index
+        );
       } else {
-        deleteExtra(selections.initial_category_id, index);
-        addExtra({ id: extraId, name: newName }, newCategoryId);
+        modifyEntity.deleteEntity(selections.initial_category_id, index);
+        modifyEntity.addNewEntity(
+          { id: extraId, name: newName },
+          newCategoryId
+        );
       }
     } else if (newCategoryId) {
-      deleteExtra(selections.initial_category_id, index);
-      addExtra({ id: extraId, name: name }, newCategoryId);
+      modifyEntity.deleteEntity(selections.initial_category_id, index);
+      modifyEntity.addNewEntity({ id: extraId, name: name }, newCategoryId);
     }
     handleModal();
   };
   return (
     <form onSubmit={onModify}>
-      <ExtraDetails
-        initialDetails={info.extraDetails}
-        updateHandler={info.updateDetails}
-      />
+      <ExtraDetails {...info.getExtraDetailsProps()} />
       <ExtraGroups
-        initialGroups={info.selectedGroupingIds}
-        initialCategoryId={info.selectedCategoryId}
+        {...info.getExtraGroupProps()}
         groupSelections={groupings}
         categories={categories}
-        updateCategory={info.updateCategoryId}
-        updateGroupings={info.updateGroup}
       />
       <button>Submit Modifications</button>
     </form>
