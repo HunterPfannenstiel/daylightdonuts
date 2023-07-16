@@ -1,10 +1,10 @@
 "use client";
 
-import { FunctionComponent, useRef } from "react";
+import { FunctionComponent } from "react";
 import Pages from "@_admin-reuse/Pages";
 import ExtraDetails from "@_admin-reuse/Modify/Extras/ExtraDetails";
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
-import { DBEntity, ExtraGroup } from "@_types/admin/modify-menu";
+import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
 import { CreateExtra } from "@_utils/database/admin/menu-queries/extras";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
@@ -14,7 +14,7 @@ import { AddNewNestedEntity } from "@_hooks/admin/menu/useUpdateNestedEntities";
 
 interface CreateExtraModalProps {
   categories: DBEntity[];
-  groupings: ExtraGroup[];
+  groupings: NestedDBEntity[];
   modalProps: ModalProps;
   addNewExtra: AddNewNestedEntity;
 }
@@ -26,10 +26,6 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
   addNewExtra,
 }) => {
   const info = useCollectExtraInfo();
-  const canFlipCurrPage = useRef(true);
-  const updatePageFlip = (bool: boolean) => {
-    canFlipCurrPage.current = bool;
-  };
   const onSubmit = async () => {
     const groupInfo = info.getExtraGroupInfo();
     const { name, price, abbreviation } = info.extraDetails;
@@ -50,15 +46,25 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
     addNewExtra({ name, id: res.data }, categoryId);
     modalProps.handleModal();
   };
+  const canFlipPage = (currPage: number) => {
+    switch (currPage) {
+      case 0:
+        if (!info.extraDetails.name) return "Please enter a name";
+        break;
+      case 1:
+        if (info.selectedCategoryId.current === undefined)
+          return "Please select a category";
+        break;
+    }
+  };
   return (
     <ModifyMenuModal modalProps={modalProps}>
       <Pages
-        beforePageTurn={() => canFlipCurrPage.current}
+        beforePageTurn={canFlipPage}
         pages={[
           <ExtraDetails
             initialDetails={info.extraDetails}
             updateHandler={info.updateDetails}
-            canFlipPage={updatePageFlip}
           />,
           <ExtraGroups
             initialGroups={info.selectedGroupingIds}
@@ -67,7 +73,6 @@ const CreateExtraModal: FunctionComponent<CreateExtraModalProps> = ({
             updateGroupings={info.updateGroup}
             categories={categories}
             groupSelections={groupings}
-            canFlipPage={updatePageFlip}
           />,
         ]}
         submitHandler={onSubmit}

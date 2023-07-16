@@ -75,7 +75,7 @@ const CreateExtraGroupModal: FunctionComponent<CreateExtraGroupModalProps> = ({
             updateItemSelection={info.updateSelectedItemId}
           />,
         ]}
-      ></Pages>
+      />
     </ModifyMenuModal>
   );
 };

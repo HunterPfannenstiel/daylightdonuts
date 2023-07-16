@@ -4,49 +4,54 @@ import {
   InitialSelections,
 } from "@_types/admin/modify-menu";
 import { useRef } from "react";
+import useDetails from "../useDetails";
+import useSelectedId from "../useSelectedId";
+import useSelections from "../useSelections";
 
 const useCollectExtraInfo = (
   initialDetails?: ExtraDetails,
   initialCategoryId?: number,
   initialGroups?: InitialSelections
 ) => {
-  const extraDetails = useRef(initialDetails || details());
-
-  const updateDetails = (key: keyof ExtraDetails, value: any) => {
-    extraDetails.current[key] = value as never;
-  };
-
-  const selectedCategoryId = useRef(initialCategoryId);
-
-  const updateCategoryId = (id: number) => {
-    selectedCategoryId.current = id;
-  };
-
-  const selectedGroupingIds = useRef(
-    initialCategoryId ? { [initialCategoryId]: initialGroups } : {}
+  const { details, updateDetails, getUpdatedDetails } = useDetails(
+    initialDetails || getInitialDetails()
   );
 
-  const updateGroup = (
-    id: number,
-    categoryId: number,
-    displayOrder?: number
-  ) => {
-    if (selectedGroupingIds.current[categoryId]) {
-      if (selectedGroupingIds.current[categoryId]![id]) {
-        delete selectedGroupingIds.current[categoryId]![id];
-      } else {
-        selectedGroupingIds.current[categoryId] = { [id]: true };
-      }
-    } else {
-      selectedGroupingIds.current[categoryId] = { [id]: true };
-    }
+  const { selectedId, updateId, getUpdatedId } =
+    useSelectedId(initialCategoryId);
+
+  const updateCategoryId = (id: number) => {
+    console.log("cat id", id);
+    clearSelections();
+    updateId(id);
   };
+  const { selections, updateSelection, clearSelections } =
+    useSelections(initialGroups);
+  // const selectedGroupingIds = useRef(
+  //   initialCategoryId ? { [initialCategoryId]: initialGroups } : {}
+  // );
+
+  // const updateGroup = (
+  //   id: number,
+  //   categoryId: number,
+  //   displayOrder?: number
+  // ) => {
+  //   if (selectedGroupingIds.current[categoryId]) {
+  //     if (selectedGroupingIds.current[categoryId]![id]) {
+  //       delete selectedGroupingIds.current[categoryId]![id];
+  //     } else {
+  //       selectedGroupingIds.current[categoryId] = { [id]: true };
+  //     }
+  //   } else {
+  //     selectedGroupingIds.current[categoryId] = { [id]: true };
+  //   }
+  // };
 
   const getExtraGroupInfo = (
-    selections = selectedGroupingIds.current[selectedCategoryId.current || 0]
+    extraSelections = selections.current
   ): ExtraGroupInfo[] => {
     if (selections) {
-      return Object.keys(selections).map((key) => {
+      return Object.keys(extraSelections).map((key) => {
         return { extraGroupId: +key, displayOrder: null };
       });
     }
@@ -54,19 +59,20 @@ const useCollectExtraInfo = (
   };
 
   return {
-    extraDetails: extraDetails.current,
+    extraDetails: details.current,
     updateDetails,
-    selectedCategoryId,
+    getUpdatedDetails,
+    selectedCategoryId: selectedId,
     updateCategoryId,
-    selectedGroupingIds: selectedGroupingIds.current,
-    updateGroup,
+    selectedGroupingIds: selections.current,
+    updateGroup: updateSelection,
     getExtraGroupInfo,
   };
 };
 
 export default useCollectExtraInfo;
 
-const details = (): ExtraDetails => {
+const getInitialDetails = (): ExtraDetails => {
   return {
     name: "",
     price: "",

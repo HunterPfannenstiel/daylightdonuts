@@ -3,8 +3,8 @@ import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModalContents from "./ModalContents";
 import {
   DBEntity,
-  ExtraGroup,
   ExtraSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
@@ -19,7 +19,7 @@ interface ModifyExtraModalProps {
   extraName: string;
   modalProps: ModalProps;
   categories: DBEntity[];
-  groupings: ExtraGroup[];
+  groupings: NestedDBEntity[];
   index: number;
   updateExtra: UpdateNestedEntity;
   addExtra: AddNewNestedEntity;

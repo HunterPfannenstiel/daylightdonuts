@@ -1,27 +1,19 @@
-import {
-  FunctionComponent,
-  MutableRefObject,
-  useEffect,
-  useState,
-} from "react";
-import classes from "./ExtraGroups.module.css";
+import { FunctionComponent, MutableRefObject, useState } from "react";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import {
   DBEntity,
-  ExtraGroup,
   InitialSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
-import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ExtraGroupsProps {
-  initialGroups: { [categoryId: number]: InitialSelections | undefined };
+  initialGroups: InitialSelections;
   initialCategoryId: MutableRefObject<number | undefined>;
-  groupSelections: ExtraGroup[];
+  groupSelections: NestedDBEntity[];
   categories: DBEntity[];
   updateCategory: (id: number) => void;
-  updateGroupings: (id: number, categoryId: number) => void;
-  canFlipPage: (bool: boolean) => void;
+  updateGroupings: (id: number, selected?: boolean) => void;
 }
 
 const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
@@ -31,17 +23,14 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
   categories,
   updateCategory,
   updateGroupings,
-  canFlipPage,
 }) => {
+  console.log(initialGroups);
   const [selectedCategory, setSelectedCategory] = useState(
     initialCategoryId?.current
   );
   const selectedCategoryName = selectedCategory
     ? categories.find((category) => category.id === selectedCategory)?.name
     : undefined;
-  useEffect(() => {
-    canFlipPage(selectedCategory !== undefined);
-  }, [selectedCategory]);
   return (
     <Fieldset legend="Choose Groups!">
       <SelectInputList
@@ -61,14 +50,14 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
           <SelectInputList
             selections={
               groupSelections.filter(
-                (group) => group.category === selectedCategoryName
-              )[0].groups
+                (group) => group.name === selectedCategoryName
+              )[0].entities
             }
             title="Select Groups"
-            initialSelections={initialGroups[selectedCategory || -1] || {}}
+            initialSelections={initialGroups || {}}
             type="checkbox"
-            onSelect={(id) => {
-              updateGroupings(id, selectedCategory!);
+            onSelect={(id, __, selected) => {
+              updateGroupings(id, selected);
             }}
           />
         </>

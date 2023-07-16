@@ -1,11 +1,9 @@
 import { FormEvent, FunctionComponent } from "react";
-import classes from "./ModalContents.module.css";
 import ExtraDetails from "@_admin-reuse/Modify/Extras/ExtraDetails";
 import {
   DBEntity,
-  ExtraDetails as ExtraDetailsT,
-  ExtraGroup,
   ExtraSelections,
+  NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import ExtraGroups from "@_admin-reuse/Modify/Extras/ExtraGroups";
 import useCollectExtraInfo from "@_hooks/admin/menu/extras/useCollectExtraInfo";
@@ -16,14 +14,13 @@ import {
   UpdateNestedEntity,
 } from "@_hooks/admin/menu/useUpdateNestedEntities";
 import ModifyMenu from "custom-objects/ModifyMenu";
-import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface ModalContentsProps {
   extraId: number;
   selections: ExtraSelections;
   name: string;
   categories: DBEntity[];
-  groupings: ExtraGroup[];
+  groupings: NestedDBEntity[];
   index: number;
   handleModal: () => void;
   updateExtra: UpdateNestedEntity;
@@ -125,7 +122,6 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       <ExtraDetails
         initialDetails={info.extraDetails}
         updateHandler={info.updateDetails}
-        canFlipPage={() => {}}
       />
       <ExtraGroups
         initialGroups={info.selectedGroupingIds}
@@ -134,7 +130,6 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
         categories={categories}
         updateCategory={info.updateCategoryId}
         updateGroupings={info.updateGroup}
-        canFlipPage={() => {}}
       />
       <button>Submit Modifications</button>
     </form>

@@ -20,7 +20,9 @@ export type DBEntity = {
 
 export type DisplayOrderItem = { id: number; displayOrder: number };
 
-export type InitialSelections = { [id: number]: boolean };
+export type InitialSelections<T extends unknown = boolean> = {
+  [id: number]: T;
+};
 
 export type ExtraGroup = { category: string; groups: DBEntity[] };
 
@@ -28,7 +30,7 @@ export type NestedDBEntity = { name: string; id: number; entities: DBEntity[] };
 
 export type ExtraCustomizations = {
   categories: DBEntity[];
-  groups: ExtraGroup[];
+  groups: NestedDBEntity[];
 };
 
 export type ExtraSelections = {
