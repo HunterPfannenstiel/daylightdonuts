@@ -1,15 +1,10 @@
-.container {
-    position: absolute;
-    height: 100%;
-}
-
 .back_bar {
     position: sticky;
     margin-left: 4rem;
     margin-top: 1rem;
+    margin-bottom: 1rem;
     font-size: 1rem;
     top: 1rem;
-    z-index: 1;
 }
 
 .last_piece {

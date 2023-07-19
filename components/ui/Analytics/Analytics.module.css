@@ -1,8 +1,20 @@
 .chart {
     display: flex;
     margin-inline: auto;
-    height: 500px;
     max-width: 1200px;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
+}
+
+.selected_analytic {
+    border: 2px solid black;
+    border-radius: 1rem;
+}
+
+.analytic_selections {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    align-self: flex-start;
 }

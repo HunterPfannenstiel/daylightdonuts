@@ -23,7 +23,23 @@
 }
 
 .info h2 {
-    color: var(--font-black);
+    background-color: var(--primary-blue);
+    color: var(--font-white);
+    transform: translateY(-10px) translateX(10px);
+}
+
+.info h2 p {
+    transform: rotateZ(1.13deg);
+    font-size: var(--normal-font-size);
+    padding: .5rem;
+}
+
+.name_bg {
+    max-width: 300px;
+    margin-inline: auto;
+    border: 4px solid var(--primary-yellow);
+    transform: rotateZ(-1.13deg);
+    margin-bottom: 1rem;
 }
 
 .bold {
@@ -67,11 +83,11 @@
         display: flex;
         flex-direction: column;
         min-width: 640px;
-        max-width: 815px;
-        width: 50%;
+        max-width: 1000px;
+        width: 70%;
         padding-top: 2rem;
         --content-width: 45%;
-        --image-position: 27.5%;
+        --image-position: 20%; /*was 27.5*/
         justify-content: center;
     }
 

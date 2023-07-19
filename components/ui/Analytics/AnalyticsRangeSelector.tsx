@@ -12,6 +12,7 @@ import { DayPicker, DateRange as PickerDateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { convertDateToString } from './Charts/ChartHelper';
 import APIRequest from 'custom-objects/Fetch';
+import ToggleSelections from '../Reusable/ToggleSelections';
 
 interface AnalyticsRangeSelectorProps {
 	setAnalyticParams: Dispatch<SetStateAction<AnalyticParams | null>>;
@@ -65,15 +66,15 @@ const AnalyticsRangeSelector: FunctionComponent<
 	};
 
 	return (
-		<>
-			{Object.values(TimeUnit).map((curTimeUnit) => (
-				<button
-					onClick={setTimeUnit.bind(this, curTimeUnit)}
-					className={curTimeUnit === timeUnit ? classes.time_unit_selected : ''}
-				>
-					{curTimeUnit}
-				</button>
-			))}
+		<div className={classes.container}>
+			<ToggleSelections
+				selections={Object.values(TimeUnit)}
+				selected={timeUnit}
+				onChange={setTimeUnit}
+				prefixTitle="Time Unit:"
+				className={classes.time_selections}
+				selectedClassName={classes.time_unit_selected}
+			/>
 			<DayPicker
 				id="analytics-date-range"
 				mode="range"
@@ -81,23 +82,29 @@ const AnalyticsRangeSelector: FunctionComponent<
 				onSelect={setRange}
 			/>
 			<form>
-				<label htmlFor="itemCategory">Item Category</label>
-				<select name="itemCategory" id="itemCategory" ref={itemCategoryRef}>
-					{categoryNames?.map(({ name }) => {
-						return <option value={name}>{name}</option>;
-					})}
-				</select>
-				<label htmlFor="itemName">Item Name</label>
-				<select name="itemName" id="itemName" ref={itemNameRef}>
-					{itemNames?.map(({ name }) => {
-						return <option value={name}>{name}</option>;
-					})}
-				</select>
-				<label htmlFor="preserveNulls">Preserve Null Dates</label>
-				<input type="checkbox" id="preserveNulls" ref={preserveNullsRef} />
+				<div className={classes.selection}>
+					<label htmlFor="itemCategory">Item Category</label>
+					<select name="itemCategory" id="itemCategory" ref={itemCategoryRef}>
+						{categoryNames?.map(({ name }) => {
+							return <option value={name}>{name}</option>;
+						})}
+					</select>
+				</div>
+				<div className={classes.selection}>
+					<label htmlFor="itemName">Item Name</label>
+					<select name="itemName" id="itemName" ref={itemNameRef}>
+						{itemNames?.map(({ name }) => {
+							return <option value={name}>{name}</option>;
+						})}
+					</select>
+				</div>
+				<div className={classes.selection}>
+					<label htmlFor="preserveNulls">Preserve Null Dates</label>
+					<input type="checkbox" id="preserveNulls" ref={preserveNullsRef} />
+				</div>
 			</form>
 			<button onClick={confirmSelections}>Confirm Selections</button>
-		</>
+		</div>
 	);
 };
 

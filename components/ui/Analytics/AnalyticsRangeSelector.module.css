@@ -1,4 +1,23 @@
+/* .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+} */
+
+.time_selections button {
+    margin: 0 1rem;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+}
+
 .time_unit_selected {
     border: 2px solid black;
     border-radius: 1rem;
+}
+
+.selection label {
+    margin-right: 1rem;
 }
