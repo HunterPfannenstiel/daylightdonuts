@@ -1,23 +1,54 @@
-/* .container {
+.container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 4px;
+}
+
+.date_range {
     display: flex;
     flex-direction: column;
+    margin: 1rem 0;
     align-items: center;
-} */
+}
+
+.rdp {
+    margin: 0;
+}
+
+.container h1 {
+    color: black;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.time_selections {
+    margin: 1rem 0;
+}
 
 .time_selections button {
     margin: 0 1rem;
+    background-color: white;
 }
 
 .container form {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    margin: 1rem 0;
 }
 
 .time_unit_selected {
     border: 2px solid black;
-    border-radius: 1rem;
+    border-radius: 4px;
 }
 
 .selection label {
     margin-right: 1rem;
+}
+
+.selection_button {
+    background-color: var(--primary-blue);
+    color: white;
+    border-radius: 1rem;
+    padding: .25rem 1rem;
 }

@@ -1,46 +1,43 @@
-import {
-	Dispatch,
-	FunctionComponent,
-	SetStateAction,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import { FunctionComponent, useRef, useState } from 'react';
 import classes from './AnalyticsRangeSelector.module.css';
 import { AnalyticParams, TimeUnit } from '@_types/database/analytics';
 import { DayPicker, DateRange as PickerDateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { convertDateToString } from './Charts/ChartHelper';
-import APIRequest from 'custom-objects/Fetch';
 import ToggleSelections from '../Reusable/ToggleSelections';
 
 interface AnalyticsRangeSelectorProps {
-	setAnalyticParams: Dispatch<SetStateAction<AnalyticParams | null>>;
+	setAnalyticParams: (analyticParams: AnalyticParams) => void;
+	defaultValues?: AnalyticParams;
+	itemNames?: { name: string }[];
+	categoryNames?: { name: string }[];
 }
 
 const AnalyticsRangeSelector: FunctionComponent<
 	AnalyticsRangeSelectorProps
-> = ({ setAnalyticParams }) => {
-	const [range, setRange] = useState<PickerDateRange | undefined>();
-	const [timeUnit, setTimeUnit] = useState(TimeUnit.day);
-	const [itemNames, setItemNames] = useState<{ name: string }[]>();
-	const [categoryNames, setCategoryNames] = useState<{ name: string }[]>();
+> = ({ setAnalyticParams, defaultValues: dV, itemNames, categoryNames }) => {
+	const [range, setRange] = useState<PickerDateRange | undefined>(
+		dV
+			? {
+					from: new Date(dV.startDate),
+					to: new Date(dV.endDate),
+			  }
+			: undefined
+	);
+	const [timeUnit, setTimeUnit] = useState(dV?.timeUnit || TimeUnit.day);
+
+	let filter: 'All' | 'Name' | 'Category' = 'All';
+	if (dV) {
+		if (dV.itemCategory) filter = 'Category';
+		else if (dV.itemName) filter = 'Name';
+	}
+	const [itemTypeFilter, setItemTypeFilter] = useState<
+		'All' | 'Name' | 'Category'
+	>(filter);
 
 	const itemCategoryRef = useRef<HTMLSelectElement>(null);
 	const itemNameRef = useRef<HTMLSelectElement>(null);
 	const preserveNullsRef = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		const getItemNames = async () => {
-			const res = await Promise.all([
-				APIRequest.request<{ name: string }[]>('/api/menu/names?item=true'),
-				APIRequest.request<{ name: string }[]>('/api/menu/names?category=true'),
-			]);
-			setItemNames(res[0].data);
-			setCategoryNames(res[1].data);
-		};
-		getItemNames();
-	}, []);
 
 	const confirmSelections = () => {
 		if (!range) return;
@@ -54,12 +51,10 @@ const AnalyticsRangeSelector: FunctionComponent<
 			endDate: toString,
 			timeUnit,
 			preserveNullDates: preserveNullsRef.current!.checked,
-			itemCategory:
-				itemCategoryRef.current!.value === ''
-					? null
-					: itemCategoryRef.current!.value,
-			itemName:
-				itemNameRef.current!.value === '' ? null : itemNameRef.current!.value,
+			itemCategory: itemCategoryRef.current
+				? itemCategoryRef.current.value
+				: null,
+			itemName: itemNameRef.current ? itemNameRef.current.value : null,
 		};
 		setAnalyticParams(analyticParams);
 		console.log({ fromString, toString });
@@ -67,6 +62,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 
 	return (
 		<div className={classes.container}>
+			<h1>Filters</h1>
 			<ToggleSelections
 				selections={Object.values(TimeUnit)}
 				selected={timeUnit}
@@ -75,35 +71,68 @@ const AnalyticsRangeSelector: FunctionComponent<
 				className={classes.time_selections}
 				selectedClassName={classes.time_unit_selected}
 			/>
-			<DayPicker
-				id="analytics-date-range"
-				mode="range"
-				selected={range}
-				onSelect={setRange}
+			<div className={classes.date_range}>
+				<p>Date Range:</p>
+				<DayPicker
+					id="analytics-date-range"
+					mode="range"
+					selected={range}
+					onSelect={setRange}
+					className={classes.rdp}
+				/>
+			</div>
+			<ToggleSelections
+				selections={['All', 'Category', 'Name']}
+				selected={itemTypeFilter}
+				onChange={setItemTypeFilter}
+				prefixTitle="Type Filter:"
+				className={classes.time_selections}
+				selectedClassName={classes.time_unit_selected}
 			/>
 			<form>
+				{itemTypeFilter === 'Category' && (
+					<div className={classes.selection}>
+						<label htmlFor="itemCategory">Item Category:</label>
+						<select
+							name="itemCategory"
+							id="itemCategory"
+							ref={itemCategoryRef}
+							defaultValue={dV?.itemCategory || ''}
+						>
+							{categoryNames?.map(({ name }) => {
+								return <option value={name}>{name}</option>;
+							})}
+						</select>
+					</div>
+				)}
+				{itemTypeFilter === 'Name' && (
+					<div className={classes.selection}>
+						<label htmlFor="itemName">Item Name:</label>
+						<select
+							name="itemName"
+							id="itemName"
+							ref={itemNameRef}
+							defaultValue={dV?.itemName || ''}
+						>
+							{itemNames?.map(({ name }) => {
+								return <option value={name}>{name}</option>;
+							})}
+						</select>
+					</div>
+				)}
 				<div className={classes.selection}>
-					<label htmlFor="itemCategory">Item Category</label>
-					<select name="itemCategory" id="itemCategory" ref={itemCategoryRef}>
-						{categoryNames?.map(({ name }) => {
-							return <option value={name}>{name}</option>;
-						})}
-					</select>
-				</div>
-				<div className={classes.selection}>
-					<label htmlFor="itemName">Item Name</label>
-					<select name="itemName" id="itemName" ref={itemNameRef}>
-						{itemNames?.map(({ name }) => {
-							return <option value={name}>{name}</option>;
-						})}
-					</select>
-				</div>
-				<div className={classes.selection}>
-					<label htmlFor="preserveNulls">Preserve Null Dates</label>
-					<input type="checkbox" id="preserveNulls" ref={preserveNullsRef} />
+					<label htmlFor="preserveNulls">Preserve Null Dates:</label>
+					<input
+						type="checkbox"
+						id="preserveNulls"
+						ref={preserveNullsRef}
+						defaultChecked={dV ? dV.preserveNullDates : true}
+					/>
 				</div>
 			</form>
-			<button onClick={confirmSelections}>Confirm Selections</button>
+			<button onClick={confirmSelections} className={classes.selection_button}>
+				Confirm Selections
+			</button>
 		</div>
 	);
 };

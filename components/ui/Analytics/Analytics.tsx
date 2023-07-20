@@ -7,46 +7,59 @@ import { transformAnalytics } from './Charts/ChartHelper';
 import AnalyticsRangeSelector from './AnalyticsRangeSelector';
 import { useChart } from './Charts/useChart';
 import ToggleSelections from '../Reusable/ToggleSelections';
-import { AnalyticDisplayValue } from '@_types/database/analytics';
+import {
+	AnalyticDisplayValue,
+	AnalyticParams,
+} from '@_types/database/analytics';
+import useAnimateModal from '@_hooks/animation/useAnimateModal';
+import ModalDisplay from '../Reusable/Modal/ModalDisplay';
 
 interface AnalyticsProps {}
 
 const Analytics: FunctionComponent<AnalyticsProps> = () => {
-	const { setAnalyticParams, analytics, isLoading, isError } = useAnalytics();
+	const {
+		setAnalyticParams,
+		analytics,
+		analyticParams,
+		isError,
+		itemNames,
+		categoryNames,
+	} = useAnalytics();
 	const { changeDisplayValue, chartData, displayValue } = useChart(analytics);
+	const modalProps = useAnimateModal(1);
 
-	const [showRangeSelector, setShowRangeSelector] = useState(false);
+	const onSetAnalyticParams = (analyticParams: AnalyticParams) => {
+		modalProps.handleModal();
+		setAnalyticParams(analyticParams);
+	};
 
-	if (isLoading) return <p>Loading...</p>;
-
-	if (!isError && !isLoading) {
-		return (
-			<>
-				<div className={classes.chart}>
-					<ToggleSelections
-						selections={Object.values(AnalyticDisplayValue)}
-						prefixTitle='Analytic:'
-						selected={displayValue}
-						className={classes.analytic_selections}
-						selectedClassName={classes.selected_analytic}
-						onChange={changeDisplayValue}
-					/>
-					<LineChart chartData={chartData as ChartData<'line'>} />
-				</div>
-				<button onClick={() => setShowRangeSelector(!showRangeSelector)}>
-					Edit Filters
-				</button>
-				{showRangeSelector && (
-					<AnalyticsRangeSelector setAnalyticParams={setAnalyticParams} />
-				)}
-			</>
-		);
-	}
+	if (isError) return <p>An error occurred...</p>;
 
 	return (
-		<div>
-			<p>Analytics</p>
-		</div>
+		<>
+			<div className={classes.chart}>
+				<LineChart chartData={chartData as ChartData<'line'>} />
+				<ToggleSelections
+					selections={Object.values(AnalyticDisplayValue)}
+					prefixTitle="Analytic:"
+					selected={displayValue}
+					className={classes.analytic_selections}
+					selectedClassName={classes.selected_analytic}
+					onChange={changeDisplayValue}
+				/>
+			</div>
+			<button onClick={modalProps.handleModal}>Edit Filters</button>
+			{modalProps.showModal && (
+				<ModalDisplay modalProps={modalProps}>
+					<AnalyticsRangeSelector
+						setAnalyticParams={onSetAnalyticParams}
+						defaultValues={analyticParams}
+						itemNames={itemNames}
+						categoryNames={categoryNames}
+					/>
+				</ModalDisplay>
+			)}
+		</>
 	);
 };
 
