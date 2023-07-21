@@ -21,6 +21,7 @@
 .add_cart {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
 }
 
 .add_cart select {

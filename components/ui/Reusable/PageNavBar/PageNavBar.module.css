@@ -2,7 +2,7 @@
     display: flex;
     overflow-x: scroll;
     background-color: white;
-    padding: .5rem;
+    gap: 2rem;
 }
 
 .nav_bar::-webkit-scrollbar {
@@ -18,15 +18,28 @@
 }
 
 .nav_bar a {
-    margin: .5rem;
-    padding: 0 .5rem;
+    font-size: var(--normal-font-size);
+    color: #9195A8;
+    padding: .5rem;
+    border-bottom: 2px solid transparent;
 }
 
 .nav_bar a:hover {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+.nav_bar .selected {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+/* .nav_bar a:hover {
+    font-weight: bold;
     background: linear-gradient(#ffffff00 50%, #FFD503 50%);
 }
 
 .selected {
     font-weight: bold;
     background: linear-gradient(#ffffff00 50%, #FFD503 50%);
-}
+} */

@@ -5,6 +5,7 @@ import { FunctionComponent } from 'react';
 import classes from './ItemPage.module.css';
 import ItemForm from './Form/ItemForm';
 import { ExtraInfo } from '@_types/database/cart';
+import Heading from '../Heading';
 
 interface ItemPageProps {
 	item: Item;
@@ -37,18 +38,15 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({
 	return (
 		<div className={classes.item + ' ' + className}>
 			<div className={classes.item_content}>
-				{/* <div className={classes.back}>
-					<Back backButtonHandler={backButtonHandler} />
-				</div> */}
 				<div className={classes.info}>
 					<div className={classes.name_bg}>
-						<h2>
+						<div>
 							<p>{item.name}</p>
-						</h2>
+						</div>
 					</div>
 					<p className={extraPrice ? classes.bold : ''}>{`$${(+price).toFixed(
 						2
-					)} / ea`}</p>
+					)}`}</p>
 					{extraPrice ? (
 						<p className={classes.extra_price}>{`+ $${extraPrice.toFixed(
 							2

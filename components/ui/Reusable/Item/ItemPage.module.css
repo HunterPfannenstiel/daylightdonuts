@@ -2,7 +2,6 @@
     width: 90%;
     margin-inline: auto;
     text-align: center;
-    background-color: white;
     letter-spacing: 0;
     position: relative;
     margin-top: 1rem;
@@ -22,13 +21,13 @@
     cursor: pointer;
 }
 
-.info h2 {
+.name_bg div {
     background-color: var(--primary-blue);
     color: var(--font-white);
     transform: translateY(-10px) translateX(10px);
 }
 
-.info h2 p {
+.name_bg div p {
     transform: rotateZ(1.13deg);
     font-size: var(--normal-font-size);
     padding: .5rem;

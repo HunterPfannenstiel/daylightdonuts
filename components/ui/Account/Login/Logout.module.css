@@ -1,0 +1,13 @@
+.container {
+    padding: 2rem;
+
+}
+
+.container button {
+    display: block;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: .5rem .75rem;
+    border-radius: 1rem;
+    margin: auto;
+}
