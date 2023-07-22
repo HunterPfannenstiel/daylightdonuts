@@ -1,15 +1,16 @@
 import { FunctionComponent, useState } from 'react';
 import classes from './PageNavBar.module.css';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface PageNavBarProps {
     categories: string[];
     baseRoute: string;
     queryParameter?: string;
+	fallbackCategoryIdx?: number;
 }
 
-const PageNavBar: FunctionComponent<PageNavBarProps> = ({ categories, baseRoute, queryParameter }) => {
+const PageNavBar: FunctionComponent<PageNavBarProps> = ({ categories, baseRoute, queryParameter, fallbackCategoryIdx = 0 }) => {
     const adjustedQueryParam = queryParameter ? queryParameter + '=' : '';
 	const params = useSearchParams();
 	

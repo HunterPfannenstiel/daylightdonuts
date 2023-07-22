@@ -1,12 +1,16 @@
 import {
 	AnalyticDisplayValue,
+	AnalyticParams,
 	DonutAnalytics,
 } from '@_types/database/analytics';
 import { ChartData } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { setDataset, transformAnalytics } from './ChartHelper';
 
-export const useChart = (analytics?: DonutAnalytics[]) => {
+export const useChart = (
+	analytics?: DonutAnalytics[],
+	analyticFilter?: AnalyticParams
+) => {
 	const [chartData, setChartData] = useState<ChartData>({
 		labels: ['day 1', 'day 2', 'day 3'],
 		datasets: [{ label: 'donut sales', data: [1, 20, 30] }],
@@ -19,29 +23,26 @@ export const useChart = (analytics?: DonutAnalytics[]) => {
 		analytics: DonutAnalytics[],
 		display: AnalyticDisplayValue = displayValue
 	) => {
-		setChartData(transformAnalytics(analytics, display));
+		setChartData(transformAnalytics(analytics, display, analyticFilter));
 	};
 
 	const changeDisplayValue = (value: AnalyticDisplayValue) => {
 		if (value !== displayValue && analytics) {
-			const newDataset = setDataset(
-				analytics,
-				value === AnalyticDisplayValue['Amount Sold']
-			);
+			const newDataset = setDataset(analytics, value, analyticFilter);
 			setChartData((chartData) => {
-				chartData.datasets[0].data = newDataset;
+				chartData.datasets = newDataset;
 				return chartData;
 			});
-            setDisplayValue(value);
+			setDisplayValue(value);
 		}
 	};
 
 	useEffect(() => {
-		if (analytics) setChartData(transformAnalytics(analytics, displayValue));
+		if (analytics)
+			setChartData(transformAnalytics(analytics, displayValue, analyticFilter));
 	}, [analytics]);
 
 	return {
-		setDisplayValue,
 		updateChartData,
 		changeDisplayValue,
 		chartData,

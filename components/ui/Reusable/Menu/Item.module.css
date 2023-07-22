@@ -4,8 +4,8 @@
     width: 90%;
     text-align: center;
     border-radius: 6px;
-    border: 1px solid #F3D68A;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+    background-color: white;
     margin-inline: auto;
     transition: background-color 500ms ease;
 }

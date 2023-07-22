@@ -25,7 +25,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		itemNames,
 		categoryNames,
 	} = useAnalytics();
-	const { changeDisplayValue, chartData, displayValue } = useChart(analytics);
+	const { changeDisplayValue, chartData, displayValue } = useChart(analytics, analyticParams);
 	const modalProps = useAnimateModal(1);
 
 	const onSetAnalyticParams = (analyticParams: AnalyticParams) => {

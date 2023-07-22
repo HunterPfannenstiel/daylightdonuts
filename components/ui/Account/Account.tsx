@@ -4,11 +4,9 @@ import UserInfoList from './UserInfo/UserInfoList';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Logout from './Login/Logout';
 
-interface AccountProps {
-	name: string;
-}
+interface AccountProps {}
 
-const Account: FunctionComponent<AccountProps> = ({ name }) => {
+const Account: FunctionComponent<AccountProps> = () => {
 	const router = useRouter();
 	const params = useSearchParams();
 

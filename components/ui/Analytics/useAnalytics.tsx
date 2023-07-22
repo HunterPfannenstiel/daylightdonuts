@@ -1,16 +1,10 @@
-import { DateRange } from '@_types/admin/orders';
-import {
-	AnalyticDisplayValue,
-	AnalyticParams,
-	DonutAnalytics,
-	TimeUnit,
-} from '@_types/database/analytics';
+import { AnalyticParams, DonutAnalytics } from '@_types/database/analytics';
 import { useQuery } from '@tanstack/react-query';
 import APIRequest from 'custom-objects/Fetch';
 import { useEffect, useState } from 'react';
 
-let itemNames: {name: string}[] = [];
-let categoryNames: {name: string}[] = [];
+let itemNames: { name: string }[] = [];
+let categoryNames: { name: string }[] = [];
 
 const useAnalytics = () => {
 	const [analyticParams, setAnalyticParams] = useState<
@@ -63,7 +57,7 @@ const useAnalytics = () => {
 		isLoading,
 		isError,
 		itemNames,
-		categoryNames
+		categoryNames,
 	};
 };
 

@@ -14,7 +14,7 @@ interface AccountPageProps {}
 
 const AccountPage: FunctionComponent<AccountPageProps> = () => {
 	const router = useRouter();
-	const { data, status } = useSession();
+	const { status } = useSession();
 
 	useEffect(() => {
 		if (status === 'unauthenticated') router.push('/login');
@@ -23,12 +23,12 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 	if (status === 'authenticated') {
 		return (
 			<>
-			<PageHeader title="My Account"/>
+				<PageHeader title="My Account" />
 				<PageNavBar
 					categories={['Profile', 'UserInfo', 'Orders']}
 					baseRoute="account"
 				/>
-				<Account name={data.user!.name!} />
+				<Account />
 			</>
 		);
 	}

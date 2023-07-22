@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { FunctionComponent } from 'react';
 import { Metadata } from 'next';
 import MenuPage from 'components/ui/Menu/MenuPage';
@@ -16,7 +16,7 @@ interface MenuProps {}
 const Menu: FunctionComponent<MenuProps> = () => {
 	return (
 		<>
-    <PageHeader title="Menu"/>
+			<PageHeader title="Menu" />
 			<PageNavBar
 				categories={[
 					'All',
@@ -25,7 +25,9 @@ const Menu: FunctionComponent<MenuProps> = () => {
 					'Savory',
 					'Drinks',
 					'Dozenable',
-				]} baseRoute="/menu" queryParameter='category'
+				]}
+				baseRoute="/menu"
+				queryParameter="category"
 			/>
 			<MenuPage />
 		</>
