@@ -6,18 +6,18 @@ import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface UserInfoModalProps {
   onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
-  exitHandler: () => void;
   deleteHandler: (id: number) => Promise<boolean>;
   info: UserInfo | null;
   infoIdx: number | null;
+  modalProps: ModalProps;
 }
 
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   onSubmitHandler,
-  exitHandler,
   deleteHandler,
   info,
   infoIdx,
+  modalProps,
 }) => {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -46,7 +46,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   };
 
   return (
-    <>
+    <ModalDisplay {...modalProps}>
       <div className={classes.form_container}>
         <h1>{info ? "Edit User" : "Add User"}</h1>
         <form className={classes.form} onSubmit={submitHandler}>
@@ -104,7 +104,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
           )}
         </form>
       </div>
-    </>
+    </ModalDisplay>
   );
 };
 
