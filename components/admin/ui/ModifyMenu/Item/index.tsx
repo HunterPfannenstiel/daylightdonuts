@@ -34,15 +34,12 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
   };
   return (
     <>
-      {createModal.showModal && (
-        <CreateItemModal
-          modalProps={createModal}
-          groupings={groupings}
-          extraGroupings={extraGroupings}
-          itemCategories={itemCategories}
-        />
-      )}
-
+      <CreateItemModal
+        modalProps={createModal.getModalProps()}
+        groupings={groupings}
+        extraGroupings={extraGroupings}
+        itemCategories={itemCategories}
+      />
       <ul className={classes.menu_items}>
         {items.map((item) => {
           return (
@@ -55,15 +52,13 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
           );
         })}
       </ul>
-      {modifyModal.showModal && selectedId && (
-        <ModifyItemModal
-          modalProps={modifyModal}
-          id={selectedId.current!}
-          groupings={groupings}
-          extraGroupings={extraGroupings}
-          itemCategories={itemCategories}
-        />
-      )}
+      <ModifyItemModal
+        modalProps={modifyModal.getModalProps()}
+        id={selectedId.current!}
+        groupings={groupings}
+        extraGroupings={extraGroupings}
+        itemCategories={itemCategories}
+      />
     </>
   );
 };

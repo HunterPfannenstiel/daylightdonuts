@@ -4,11 +4,12 @@ import UserInfoContext from "../../../providers/UserInfo/UserInfo";
 import UserInfo from "./UserInfo";
 import UserInfoModal from "./UserInfoModal";
 import { UserInfo as UserInfoType } from "@_types/database/userInfo";
+import useAnimateModal from "@_hooks/animation/useAnimateModal";
 
 interface UserInfoListProps {}
 
 const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
-  const [showModal, setShowModal] = useState(false);
+  const modal = useAnimateModal(300);
   const [selectedUserInfo, setSelectedUserInfo] = useState<
     ({ infoIdx: number } & UserInfoType) | null
   >(null);
@@ -22,7 +23,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
   ) => {
     if (!info) setSelectedUserInfo(null);
     else setSelectedUserInfo({ ...info, infoIdx });
-    setShowModal(true);
+    modal.handleModal();
   };
 
   const onSubmitHandler = async (
@@ -35,7 +36,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
         : await ctx.editInfo(info, infoIdx);
       if (info.favorite && res) favIdx = infoIdx;
       setSelectedUserInfo(null);
-      setShowModal(false);
+      modal.handleModal();
       return res;
     } else {
       const res = info.favorite
@@ -43,23 +44,20 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
         : await ctx.addInfo(info);
       if (info.favorite && res) favIdx = ctx.infos!.length - 1;
       setSelectedUserInfo(null);
-      setShowModal(false);
+      modal.handleModal();
       return res;
     }
   };
 
   return (
     <>
-      {showModal && (
-        <div className={classes.modal}>
-          <UserInfoModal
-            onSubmitHandler={onSubmitHandler}
-            info={selectedUserInfo}
-            infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
-            exitHandler={() => setShowModal(false)}
-          />
-        </div>
-      )}
+      <UserInfoModal
+        modalProps={modal.getModalProps()}
+        onSubmitHandler={onSubmitHandler}
+        info={selectedUserInfo}
+        infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
+      />
+
       <div className={classes.container}>
         <h1>Stored Information</h1>
         <button onClick={() => onSelectHandler(null, -1)}>

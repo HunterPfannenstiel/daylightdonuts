@@ -22,13 +22,12 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   index,
   updateGrouping,
 }) => {
-  const { selections } = useInitialSelections<GroupingSelections>(
+  const { selections, isLoading } = useInitialSelections<GroupingSelections>(
     groupingId,
     "item-grouping"
   );
-  if (!selections) return <p>Loading...</p>;
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         groupingId={groupingId}
         groupingName={groupingName}

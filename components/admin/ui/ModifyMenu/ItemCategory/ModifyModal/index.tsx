@@ -23,13 +23,12 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   index,
   updateCategory,
 }) => {
-  const { selections } = useInitialSelections<CategorySelections>(
+  const { selections, isLoading } = useInitialSelections<CategorySelections>(
     categoryId,
     "item-category"
   );
-  if (!selections) return <p>Loading...</p>;
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         toggleModal={modalProps.handleModal}
         updateCategory={updateCategory}

@@ -5,7 +5,6 @@ import classes from "./Orders.module.css";
 import OrderItemList from "../Orders/OrderItem/OrderItemList";
 import { DBOrder } from "@_types/admin/orders";
 import useSelectedOrders from "@_hooks/admin/orders/useSelectedOrders";
-import Modal from "components/ui/Reusable/Modal/Modal";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import LabelPreview from "../Orders/OrderDetails/LabelPreview";
 import DymoDisplay from "./DymoDisplay/DymoDisplay";
@@ -47,45 +46,42 @@ const Orders: FunctionComponent<OrdersProps> = ({ orders }) => {
         >{`View Orders (${selectedCount})`}</button>
       )}
       <OrderItemList orders={orders} onSelectedForPrint={updateSelectedOrder} />
-      {showModal && (
-        <ModalDisplay modalProps={dymoModal} className={classes.orders}>
-          {Object.keys(selectedOrders).map((key) => {
-            const label = selectedOrders[+key];
-            let image = `data:image/png;base64,${label.render()}`;
-            return (
-              <li key={Math.random()}>
-                <LabelPreview
-                  imageSrc={image}
-                  onClick={onLabelSelected.bind(null, +key)}
-                />
-                <button
-                  onClick={() => {
-                    updateSelectedOrder(+key);
-                  }}
-                >
-                  Remove Label
-                </button>
-              </li>
-            );
-          })}
-        </ModalDisplay>
-      )}
-      {dymoModal.showModal && (
-        <DymoDisplay
-          orderId={selectedOrderId.current}
-          abbreviate={
-            selectedOrderInfo.current[selectedOrderId.current].abbreviate
-          }
-          showCategoryNames={
-            selectedOrderInfo.current[selectedOrderId.current].showCategoryNames
-          }
-          labelImage={`data:image/png;base64,${selectedOrders[
-            selectedOrderId.current
-          ].render()}`}
-          onTextStyleChange={onTextChange}
-          modalProps={dymoModal}
-        />
-      )}
+      <ModalDisplay {...dymoModal.getModalProps()} className={classes.orders}>
+        {Object.keys(selectedOrders).map((key) => {
+          const label = selectedOrders[+key];
+          let image = `data:image/png;base64,${label.render()}`;
+          return (
+            <li key={Math.random()}>
+              <LabelPreview
+                imageSrc={image}
+                onClick={onLabelSelected.bind(null, +key)}
+              />
+              <button
+                onClick={() => {
+                  updateSelectedOrder(+key);
+                }}
+              >
+                Remove Label
+              </button>
+            </li>
+          );
+        })}
+      </ModalDisplay>
+
+      <DymoDisplay
+        orderId={selectedOrderId.current}
+        abbreviate={
+          selectedOrderInfo.current[selectedOrderId.current].abbreviate
+        }
+        showCategoryNames={
+          selectedOrderInfo.current[selectedOrderId.current].showCategoryNames
+        }
+        labelImage={`data:image/png;base64,${selectedOrders[
+          selectedOrderId.current
+        ].render()}`}
+        onTextStyleChange={onTextChange}
+        modalProps={dymoModal.getModalProps()}
+      />
     </>
   );
 };

@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Stripes from "./Stripes";
 import { HeroContent } from "@_types/home";
+import Button from "../Button";
 
 interface HeroProps {
   content: HeroContent[];
@@ -19,9 +20,9 @@ const Hero: FunctionComponent<HeroProps> = ({ content }) => {
           <h2>{headerText}</h2>
           {descriptionText && <p>{descriptionText}</p>}
           {button && (
-            <Link href={button.link} className={classes.link}>
+            <Button as={Link} href={button.link} className={classes.link}>
               {button.text}
-            </Link>
+            </Button>
           )}
         </div>
         <div className={classes.image_content}>
@@ -35,7 +36,6 @@ const Hero: FunctionComponent<HeroProps> = ({ content }) => {
           </div>
         </div>
       </div>
-
       <Stripes className={classes.stripe_left} />
       <Stripes className={classes.stripe_right} />
     </div>

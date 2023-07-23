@@ -4,6 +4,8 @@
     height: 100%;
     letter-spacing: 1px;
     --container-width: 20%;
+    padding-inline: 5%;
+    border-bottom: 1px solid #0D2C58;
 }
 
 .nav_content {

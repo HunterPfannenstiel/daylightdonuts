@@ -1,8 +1,6 @@
 "use client";
 
-import { FunctionComponent, useRef } from "react";
-import classes from "./ExtraCategory.module.css";
-import useAnimateModal from "@_hooks/animation/useAnimateModal";
+import { FunctionComponent } from "react";
 import CreateExtraCategoryModal from "./CreateModal";
 import {
   DBEntity,
@@ -33,13 +31,13 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
   return (
     <>
       <button onClick={createModal.handleModal}>Create Category</button>
-      {createModal.showModal && (
-        <CreateExtraCategoryModal
-          addNewCategory={categories.addNewEntity}
-          modalProps={createModal}
-          existingExtras={customizations}
-        />
-      )}
+
+      <CreateExtraCategoryModal
+        addNewCategory={categories.addNewEntity}
+        modalProps={createModal.getModalProps()}
+        existingExtras={customizations}
+      />
+
       {categories.entities.map((category, i) => {
         return (
           <div>
@@ -53,16 +51,14 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
           </div>
         );
       })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          updateCategory={categories.updateEntity}
-          modalProps={modifyModal}
-          extraCategoryId={getSelectedId()!}
-          categoryName={getSelectedName()!}
-          index={getSelectedIndex()!}
-          existingExtras={customizations}
-        />
-      )}
+      <ModifyModal
+        updateCategory={categories.updateEntity}
+        modalProps={modifyModal.getModalProps()}
+        extraCategoryId={getSelectedId()!}
+        categoryName={getSelectedName()!}
+        index={getSelectedIndex()!}
+        existingExtras={customizations}
+      />
     </>
   );
 };

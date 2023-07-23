@@ -1,9 +1,5 @@
 .button {
-    color: white;
-    padding-block: 0.5em;
-    border-radius: 17px;
-    width: 100%;
-    background-color: var(--primary-blue);
+    border-radius: 50px;
 }
 
 .button:disabled {

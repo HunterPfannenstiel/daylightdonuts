@@ -19,13 +19,12 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   name,
   categories,
 }) => {
-  const { selections } = useInitialSelections<SubcategorySelections>(
+  const { selections, isLoading } = useInitialSelections<SubcategorySelections>(
     subcategoryId,
     "item-subcategory"
   );
-  if (!selections) return <p>Loading...</p>;
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         name={name}
         itemSubcategoryId={subcategoryId}

@@ -6,6 +6,7 @@ import Arrow from "components/ui/Reusable/Arrow";
 import Link from "next/link";
 import MenuItem from "components/ui/Reusable/Menu/MenuItem";
 import ArrowIcon from "components/ui/svg/ArrowIcon";
+import ScrollList from "components/ui/Reusable/ScrollList";
 
 interface FeaturedItemsProps {
   items: FeaturedItemT[];
@@ -13,7 +14,7 @@ interface FeaturedItemsProps {
 
 const FeaturedItems: FunctionComponent<FeaturedItemsProps> = ({ items }) => {
   return (
-    <ul className={classes.items}>
+    <ScrollList className={classes.items}>
       {items.map((item) => {
         return <FeaturedItem name={item.name} image={item.image} />;
       })}
@@ -23,7 +24,7 @@ const FeaturedItems: FunctionComponent<FeaturedItemsProps> = ({ items }) => {
         icon={<ArrowIcon />}
         linkText="View Menu"
       />
-    </ul>
+    </ScrollList>
   );
 };
 

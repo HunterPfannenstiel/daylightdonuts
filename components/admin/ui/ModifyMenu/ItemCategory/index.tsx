@@ -23,21 +23,16 @@ const ItemCategory: FunctionComponent<ItemCategoryProps> = ({
     getSelectedIndex,
     setSelectedEntity,
   } = useHandleInput();
-  const {
-    entities: categories,
-    addNewEntity,
-    updateEntity,
-    deleteEntity,
-  } = useUpdateEntities(initialCategories);
+  const { entities: categories, getUpdateEntityProps } =
+    useUpdateEntities(initialCategories);
   return (
     <>
-      {createModal.showModal && (
-        <CreateModal
-          modalProps={createModal}
-          categories={categories}
-          addCategory={addNewEntity}
-        />
-      )}
+      <CreateModal
+        modalProps={createModal.getModalProps()}
+        categories={categories}
+        addCategory={getUpdateEntityProps().addNewEntity}
+      />
+
       <button onClick={createModal.handleModal}>Create Item Category</button>
       {categories.map((category, i) => {
         return (
@@ -46,16 +41,14 @@ const ItemCategory: FunctionComponent<ItemCategoryProps> = ({
           </p>
         );
       })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          updateCategory={updateEntity}
-          index={getSelectedIndex()!}
-          categories={categories}
-          modalProps={modifyModal}
-          categoryName={getSelectedName()!}
-          categoryId={getSelectedId()!}
-        />
-      )}
+      <ModifyModal
+        updateCategory={getUpdateEntityProps().updateEntity}
+        index={getSelectedIndex()!}
+        categories={categories}
+        modalProps={modifyModal.getModalProps()}
+        categoryName={getSelectedName()!}
+        categoryId={getSelectedId()!}
+      />
     </>
   );
 };
