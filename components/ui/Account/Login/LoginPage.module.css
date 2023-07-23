@@ -1,8 +1,36 @@
-.sign_in_button {
-    position: absolute;
-    border: 2px solid black;
-    border-radius: 2rem;
-    right: 50%;
-    transform: translateX(50%);
+.container {
+    width: fit-content;
+    margin: auto;
+}
+
+.header {
+    text-align: center;
+    color: var(--primary-blue);
     margin-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #DBE2EC;
+}
+
+.button_section {
+    padding-top: 2rem;
+}
+
+.button_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 415px;
+}
+
+.icon {
+    position: absolute;
+    left: 0;
+}
+
+.button_section button {
+    display: block;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 1rem;
 }
