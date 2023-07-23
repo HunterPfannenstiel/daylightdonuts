@@ -6,11 +6,11 @@ import {
 import APIRequest from "custom-objects/Fetch";
 
 export type UserInfoContext = {
-  addInfo: (info: AddUserInfo, favIdx?: number | null) => Promise<boolean>;
+  addInfo: (info: AddUserInfo, favIdx: number | null) => Promise<boolean>;
   editInfo: (
     info: UserInfo,
     infoIdx: number,
-    favIdx?: number | null
+    favIdx: number | null
   ) => Promise<boolean>;
   deleteInfo: (infoIdx: number) => Promise<boolean>;
   isLoading: boolean;
@@ -41,7 +41,7 @@ export const fetchUserInfos = async () => {
   if (!success) {
     console.error(errorMessage);
   }
-  return data?.info;
+  return data ? data.info : data;
 };
 
 export const addUserInfo = async (info: AddUserInfo) => {

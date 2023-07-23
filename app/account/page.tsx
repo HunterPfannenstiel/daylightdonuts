@@ -5,15 +5,16 @@ import InfoContext from '../../components/providers/UserInfo/UserInfo';
 import classes from './AccountPage.module.css';
 import { Session } from 'next-auth';
 import { getSession, signIn, signOut, useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Account from 'components/ui/Account/Account';
+import PageNavBar from 'components/ui/Reusable/PageNavBar/PageNavBar';
+import PageHeader from 'components/ui/Reusable/PageHeader';
 
 interface AccountPageProps {}
 
 const AccountPage: FunctionComponent<AccountPageProps> = () => {
 	const router = useRouter();
-	const { data, status } = useSession();
-	const infoCtx = useContext(InfoContext);
+	const { status } = useSession();
 
 	useEffect(() => {
 		if (status === 'unauthenticated') router.push('/login');
@@ -21,7 +22,14 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 
 	if (status === 'authenticated') {
 		return (
-			<Account name={data.user!.name!}/>
+			<>
+				<PageHeader title="My Account" />
+				<PageNavBar
+					categories={['Profile', 'UserInfo', 'Orders']}
+					baseRoute="account"
+				/>
+				<Account />
+			</>
 		);
 	}
 	return <p>Loading...</p>;

@@ -30,10 +30,10 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
     info: UserInfoType,
     infoIdx: number | null
   ) => {
-    if (infoIdx) {
+    if (infoIdx !== null) {
       const res = info.favorite
         ? await ctx.editInfo(info, infoIdx, favIdx)
-        : await ctx.editInfo(info, infoIdx);
+        : await ctx.editInfo(info, infoIdx, null);
       if (info.favorite && res) favIdx = infoIdx;
       setSelectedUserInfo(null);
       modal.handleModal();
@@ -41,7 +41,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
     } else {
       const res = info.favorite
         ? await ctx.addInfo(info, favIdx)
-        : await ctx.addInfo(info);
+        : await ctx.addInfo(info, null);
       if (info.favorite && res) favIdx = ctx.infos!.length - 1;
       setSelectedUserInfo(null);
       modal.handleModal();
@@ -56,6 +56,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
         onSubmitHandler={onSubmitHandler}
         info={selectedUserInfo}
         infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
+        deleteHandler={ctx.deleteInfo}
       />
 
       <div className={classes.container}>
@@ -72,11 +73,16 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
                 key={info.id}
                 idx={idx}
                 onSelectHandler={onSelectHandler}
-                deleteHandler={ctx.deleteInfo}
               />
             );
           })}
         </ul>
+        <button
+          className={classes.btn}
+          onClick={() => onSelectHandler(null, -1)}
+        >
+          + Add User
+        </button>
       </div>
     </>
   );

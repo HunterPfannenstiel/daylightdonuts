@@ -6,16 +6,18 @@ import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
 interface UserInfoModalProps {
   onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
+  exitHandler: () => void;
+  deleteHandler: (id: number) => Promise<boolean>;
   info: UserInfo | null;
   infoIdx: number | null;
-  modalProps: ModalProps;
 }
 
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   onSubmitHandler,
+  exitHandler,
+  deleteHandler,
   info,
   infoIdx,
-  modalProps,
 }) => {
   const firstNameRef = useRef<HTMLInputElement>(null);
   const lastNameRef = useRef<HTMLInputElement>(null);
@@ -44,10 +46,11 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   };
 
   return (
-    <ModalDisplay {...modalProps}>
+    <>
       <div className={classes.form_container}>
+        <h1>{info ? "Edit User" : "Add User"}</h1>
         <form className={classes.form} onSubmit={submitHandler}>
-          <div className={classes.field}>
+          <div className={classes.text_field}>
             <label htmlFor="first">First Name:</label>
             <input
               type="text"
@@ -58,7 +61,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
               required
             />
           </div>
-          <div className={classes.field}>
+          <div className={classes.text_field}>
             <label htmlFor="last">Last Name:</label>
             <input
               type="text"
@@ -69,7 +72,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
               required
             />
           </div>
-          <div className={classes.field}>
+          <div className={classes.text_field}>
             <label htmlFor="phone">Phone:</label>
             <input
               type="tel"
@@ -91,9 +94,17 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
             />
           </div>
           <button>Submit</button>
+          {infoIdx !== null && (
+            <button
+              onClick={deleteHandler.bind(this, infoIdx)}
+              className={classes.del_btn}
+            >
+              Delete
+            </button>
+          )}
         </form>
       </div>
-    </ModalDisplay>
+    </>
   );
 };
 

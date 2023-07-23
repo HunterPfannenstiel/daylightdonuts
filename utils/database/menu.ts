@@ -33,3 +33,9 @@ export const getAllItemNames = async (): Promise<{ name: string }[]> => {
   const res = await customerQuery(query);
   return res.rows;
 };
+
+export const getAllCategoryNames = async (): Promise<{ name: string}[]> => {
+  const query = "SELECT * FROM store.fetch_category_names()";
+  const res = await customerQuery(query);
+  return res.rows;
+}
