@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    color: white;
+}
+
+.container h3 {
+    color: var(--primary-yellow);
+    font-size: 1rem;
+    font-weight: 400;
+}

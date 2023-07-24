@@ -18,9 +18,9 @@ const Social: FunctionComponent<SocialProps> = () => {
       </p>
       <SocialIcons />
       <div className={classes.images}>
-        <ImageComponent src="/Images/Social.png" fill />
-        <ImageComponent src="/Images/Social.png" fill />
-        <ImageComponent src="/Images/Social.png" fill />
+        <ImageComponent src="/Images/Social.png" fill aspectRatio="1/1" />
+        <ImageComponent src="/Images/Social.png" fill aspectRatio="1/1" />
+        <ImageComponent src="/Images/Social.png" fill aspectRatio="1/1" />
       </div>
     </div>
   );

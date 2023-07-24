@@ -1,0 +1,23 @@
+.footer {
+    background-color: var(--primary-blue);
+    padding: 3rem 0.5rem;
+}
+
+.content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+@media (min-width: 40em) {
+    .content {
+        flex-direction: row;
+        justify-content: space-around;
+        max-width: 1280px;
+        text-align: left;
+        align-items: flex-start;
+    }
+}

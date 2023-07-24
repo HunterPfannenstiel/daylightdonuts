@@ -2,6 +2,7 @@ import Providers from "@_providers/Providers";
 import Header from "components/ui/Header/Header";
 import "../public/css/global.css";
 import { Metadata } from "next";
+import Footer from "components/ui/Footer";
 
 export const metadata: Metadata = {
   title: "Daylight Donuts - Order Today!",
@@ -28,6 +29,7 @@ export default function RootLayout({
           <div id="modal"></div>
           {children}
         </Providers>
+        <Footer />
       </body>
     </html>
   );
