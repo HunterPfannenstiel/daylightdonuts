@@ -1,7 +1,11 @@
+.infos_container {
+    padding: 0 1rem;
+}
+
 .container {
     max-width: 700px;
+    min-width: 375px;
     margin: 1rem auto;
-    margin-bottom: 2rem;
     padding: 1rem;
     background-color: white;
     border-radius: 1px;

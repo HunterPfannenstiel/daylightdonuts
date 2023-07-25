@@ -15,9 +15,9 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 }) => {
 	return (
 		<li className={classes.info} >
-			<p>{info.first_name}</p>
-			<p>{info.last_name}</p>
-			{info.favorite && <p className={classes.default_text}>(default)</p>}
+			<p className={classes.text}>{info.first_name}</p>
+			<p className={classes.text}>{info.last_name}</p>
+			{info.favorite && <p className={classes.favorite}>*</p>}
 			<button onClick={() => onSelectHandler(info, idx)}>Edit Info</button>
 		</li>
 	);

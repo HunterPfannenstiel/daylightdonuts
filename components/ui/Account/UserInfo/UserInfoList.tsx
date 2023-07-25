@@ -60,27 +60,29 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 					deleteHandler={ctx.deleteInfo}
 				/>
 			)}
-			<div className={classes.container}>
-				<h1 className={classes.title}>User Information</h1>
-				<ul className={classes.info_list}>
-					{ctx.infos?.map((info, idx) => {
-						if (info.favorite) favIdx = idx;
-						return (
-							<UserInfo
-								info={info}
-								key={info.id}
-								idx={idx}
-								onSelectHandler={onSelectHandler}
-							/>
-						);
-					})}
-				</ul>
-				<button
-					className={classes.btn}
-					onClick={() => onSelectHandler(null, -1)}
-				>
-					+ Add User
-				</button>
+			<div className={classes.infos_container}>
+				<div className={classes.container}>
+					<h1 className={classes.title}>User Information</h1>
+					<ul className={classes.info_list}>
+						{ctx.infos?.map((info, idx) => {
+							if (info.favorite) favIdx = idx;
+							return (
+								<UserInfo
+									info={info}
+									key={info.id}
+									idx={idx}
+									onSelectHandler={onSelectHandler}
+								/>
+							);
+						})}
+					</ul>
+					<button
+						className={classes.btn}
+						onClick={() => onSelectHandler(null, -1)}
+					>
+						+ Add User
+					</button>
+				</div>
 			</div>
 		</>
 	);
