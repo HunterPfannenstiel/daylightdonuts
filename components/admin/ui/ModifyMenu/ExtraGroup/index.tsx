@@ -7,6 +7,7 @@ import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 import ModifyExtraGroupModal from "./ModifyModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import useUpdateNestedEntities from "@_hooks/admin/menu/useUpdateNestedEntities";
+import NestedEntityDisplay from "@_admin-reuse/Modify/EntityDisplay/NestedEntityDisplay";
 
 interface ExtraGroupProps {
   extras: NestedDBEntity[];
@@ -31,27 +32,16 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
   return (
     <>
       <CreateExtraGroupModal
-        addNewGroup={extraGroups.getUpdateEntityProps().addNewEntity}
+        addNewGroup={extraGroups.addNewEntity}
         modalProps={createModal.getModalProps()}
         extras={extras}
         items={items}
       />
-
       <button onClick={createModal.handleModal}>Create New Group</button>
-      {extraGroups.entities.map((category) => {
-        return (
-          <div>
-            <h2>{category.name}</h2>
-            {category.entities.map((group, i) => {
-              return (
-                <p onClick={setSelectedEntity.bind(null, group, i)}>
-                  {group.name}
-                </p>
-              );
-            })}
-          </div>
-        );
-      })}
+      <NestedEntityDisplay
+        entities={extraGroups.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
       <ModifyExtraGroupModal
         index={getSelectedIndex()!}
         entityFns={extraGroups.getUpdateEntityProps()}

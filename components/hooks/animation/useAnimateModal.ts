@@ -43,7 +43,6 @@ const useAnimateModal = (
 
   const getModalProps = ({ ...otherProps } = {}): ModalProps => {
     return {
-      showModal,
       playAnimation,
       animationTime: animationDuration,
       handleModal,
@@ -60,7 +59,6 @@ const useAnimateModal = (
 };
 
 export type ModalProps = {
-  showModal: boolean;
   playAnimation: boolean;
   animationTime: number;
   handleModal: () => void;

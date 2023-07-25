@@ -28,6 +28,7 @@
       "@_providers/*": [
         "components/providers/*"
       ],
+      "@ui/*": ["components/ui/*"],
       "@_utils/*": [
         "utils/*"
       ],

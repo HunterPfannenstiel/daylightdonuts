@@ -3,7 +3,7 @@ import { ItemExtra, ItemExtras } from "@_types/database/menu";
 import { FormEvent, FunctionComponent, useRef } from "react";
 import Button from "../../Button";
 import classes from "./ItemForm.module.css";
-import SelectInput, { SelectData } from "../../Form/SelectInput";
+import SelectInput from "../../Form/OptionSelectInput";
 
 interface ItemFormProps {
   extras: ItemExtras[] | null;

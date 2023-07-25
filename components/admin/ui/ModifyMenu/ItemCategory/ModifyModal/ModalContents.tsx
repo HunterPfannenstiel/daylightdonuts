@@ -9,6 +9,7 @@ import CategoryItems from "@_admin-reuse/Modify/ItemCategory/CategoryItems";
 import ItemSubcategories from "@_admin-reuse/Modify/ItemCategory/ItemSubcategories";
 import { ModifyItemCategory } from "@_utils/database/admin/menu-queries/categories";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ModalContentsProps {
   categories: DBEntity[];
@@ -16,7 +17,7 @@ interface ModalContentsProps {
   categoryId: number;
   selections: CategorySelections;
   index: number;
-  updateCategory: (name: string, index: number) => void;
+  updateCategory: UpdateEntity;
   toggleModal: () => void;
 }
 

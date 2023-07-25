@@ -3,7 +3,7 @@ import classes from "./ItemDetails.module.css";
 import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import ImageModifications from "./ImageComponent/ImageModifications";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 
 //TEXT INPUTS
 
@@ -34,7 +34,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         swapImages={swapImages}
       />
       <TextInput
-        inputId="item-name"
+        id="item-name"
         label="Name"
         inputType="text"
         handler={(inputValue) => {
@@ -44,7 +44,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         defaultValue={initialDetails.name}
       />
       <TextInput
-        inputId="item-price"
+        id="item-price"
         label="Price"
         inputType="number"
         handler={(inputValue) => {
@@ -54,7 +54,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         defaultValue={initialDetails.price}
       />
       <TextInput
-        inputId="item-description"
+        id="item-description"
         label="Description"
         handler={(inputValue) => {
           updateHandler("description", inputValue);

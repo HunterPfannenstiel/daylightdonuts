@@ -1,7 +1,7 @@
 import { FunctionComponent, MutableRefObject } from "react";
 import classes from "./ExtraCategoryName.module.css";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 
 interface ExtraCategoryNameProps {
   title?: string;
@@ -17,7 +17,7 @@ const ExtraCategoryName: FunctionComponent<ExtraCategoryNameProps> = ({
   return (
     <Fieldset legend={title}>
       <TextInput
-        inputId="cat-name"
+        id="cat-name"
         label="Name"
         handler={updateName}
         defaultValue={initialName.current}

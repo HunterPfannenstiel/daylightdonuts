@@ -1,9 +1,9 @@
 import { FunctionComponent, useEffect } from "react";
 import { ExtraDetails as ExtraDetailsT } from "@_types/admin/modify-menu";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import PriceInput from "@_admin-reuse/Form/Inputs/PriceInput";
-import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
+import SelectInput from "components/ui/Reusable/Form/SelectInput";
 import { UpdateDetails } from "@_hooks/admin/menu/modification/useDetails";
 
 interface ExtraDetailsProps {
@@ -18,7 +18,7 @@ const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
   return (
     <Fieldset legend="Create Extra!">
       <TextInput
-        inputId="name"
+        id="name"
         label="Name"
         handler={(inputValue) => {
           updateHandler("name", inputValue);
@@ -35,7 +35,7 @@ const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
         defaultValue={initialDetails.price || ""}
       />
       <TextInput
-        inputId="abbreviation"
+        id="abbreviation"
         label="Abbreviation"
         handler={(inputValue) => {
           updateHandler("abbreviation", inputValue);
@@ -44,7 +44,7 @@ const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
       />
       {initialDetails.isArchived !== undefined && (
         <SelectInput
-          inputId="archived"
+          id="archived"
           label="Archive"
           defaultChecked={initialDetails.isArchived}
           handler={(isSelected) => {

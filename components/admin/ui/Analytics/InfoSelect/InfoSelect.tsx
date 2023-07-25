@@ -12,24 +12,26 @@ interface InfoSelectProps {}
 
 const InfoSelect: FunctionComponent<InfoSelectProps> = () => {
   const { setPickerRange, setInterval } = useAnalyticsInfo();
-  const { handleModal, getModalProps } = useAnimateModal(300);
+  const modal = useAnimateModal(300);
   return (
     <>
       <div className={classes.selectors}>
         <GraphDataSelect />
         <div className={classes.button}>
-          <Button color={"var(--primary-blue)"} onClick={handleModal}>
+          <Button color={"var(--primary-blue)"} onClick={modal.handleModal}>
             Set Interval
           </Button>
         </div>
       </div>
-      <ModalDisplay {...getModalProps()}>
-        <DateSelect
-          relativeButtons={relativeButtons}
-          relativeIntervalChange={setInterval}
-          absoluteIntervalChange={setPickerRange}
-        />
-      </ModalDisplay>
+      {modal.showModal && (
+        <ModalDisplay {...modal.getModalProps()}>
+          <DateSelect
+            relativeButtons={relativeButtons}
+            relativeIntervalChange={setInterval}
+            absoluteIntervalChange={setPickerRange}
+          />
+        </ModalDisplay>
+      )}
     </>
   );
 };

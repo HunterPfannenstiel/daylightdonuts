@@ -5,6 +5,7 @@ import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import ModalContents from "./ModalContents";
 import { CategorySelections, DBEntity } from "@_types/admin/modify-menu";
 import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
+import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ModifyModalProps {
   modalProps: ModalProps;
@@ -12,7 +13,7 @@ interface ModifyModalProps {
   categoryName: string;
   categoryId: number;
   index: number;
-  updateCategory: (name: string, index: number) => void;
+  updateCategory: UpdateEntity;
 }
 
 const ModifyModal: FunctionComponent<ModifyModalProps> = ({

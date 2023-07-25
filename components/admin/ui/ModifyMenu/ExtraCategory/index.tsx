@@ -9,6 +9,7 @@ import {
 import ModifyModal from "./ModifyModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ExtraCategoryProps {
   customizations: ExtraCategoryCustomizations;
@@ -37,20 +38,10 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
         modalProps={createModal.getModalProps()}
         existingExtras={customizations}
       />
-
-      {categories.entities.map((category, i) => {
-        return (
-          <div>
-            <p
-              onClick={() => {
-                setSelectedEntity(category, i);
-              }}
-            >
-              {category.name}
-            </p>
-          </div>
-        );
-      })}
+      <EntityDisplay
+        entities={categories.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
       <ModifyModal
         updateCategory={categories.updateEntity}
         modalProps={modifyModal.getModalProps()}

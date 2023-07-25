@@ -9,7 +9,7 @@ const Menu = async () => {
     await fetchMenuCusomizations();
   return (
     <Item
-      items={items}
+      initialItems={items}
       groupings={groupings}
       extraGroupings={extra_groupings}
       itemCategories={item_categories}

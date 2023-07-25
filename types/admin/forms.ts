@@ -128,12 +128,12 @@ export type ModifyItem = {
 };
 
 export type ModifyItemDetails = {
-  name: string | null;
-  price: string | null;
-  description: string | null;
-  groupingId: number | null;
-  displayImage: ItemImage | null;
-  isActive: boolean | null;
-  isArchived: boolean | null;
-  availabilityRange: string | null;
+  name?: string | null;
+  price?: string | null;
+  description?: string | null;
+  groupingId?: number | null;
+  displayImage?: ItemImage | null;
+  isActive?: boolean | null;
+  isArchived?: boolean | null;
+  availabilityRange?: string | null;
 };

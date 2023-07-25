@@ -32,21 +32,22 @@ const DateSelect: FunctionComponent<CalendarProps> = ({ updateDate }) => {
         className={classes.date_input}
       />
 
-      <ModalDisplay {...modal.getModalProps()}>
-        <Calendar
-          mode="single"
-          handleDateSelected={handleDateSelect}
-          disabled={{ before: new Date() }}
-        />
-        <Button
-          color="var(--primary-blue)"
-          width="100%"
-          type="button"
-          onClick={modal.handleModal}
-        >
-          Confirm Date
-        </Button>
-      </ModalDisplay>
+      {modal.showModal && (
+        <ModalDisplay {...modal.getModalProps()}>
+          <Calendar
+            mode="single"
+            handleDateSelected={handleDateSelect}
+            disabled={{ before: new Date() }}
+          />
+          <Button
+            color="var(--primary-blue)"
+            type="button"
+            onClick={modal.handleModal}
+          >
+            Confirm Date
+          </Button>
+        </ModalDisplay>
+      )}
     </>
   );
 };

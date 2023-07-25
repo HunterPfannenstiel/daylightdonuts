@@ -4,6 +4,7 @@ import Modal from "components/ui/Reusable/Modal/Modal";
 import { FunctionComponent } from "react";
 import DozenableItemForm from "../DozenableItems/DozenableItemForm";
 import classes from "./ItemModal.module.css";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 
 interface ItemModalProps {
   item: Item;
@@ -21,7 +22,11 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
   if (displayModal) {
     const animate = playAnimation ? classes.animate_out : "";
     return (
-      <Modal selector="#modal">
+      <ModalDisplay
+        handleModal={handleModal}
+        playAnimation={playAnimation}
+        animationTime={300}
+      >
         <div className={classes.modal + " " + animate}>
           <IItemPage
             item={item}
@@ -33,7 +38,7 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
           />
           <div className={classes.background} onClick={handleModal} />
         </div>
-      </Modal>
+      </ModalDisplay>
     );
   } else {
     return <></>;

@@ -42,7 +42,7 @@ const useUpdateEntities = (initialData: DBEntity[]) => {
     };
   };
 
-  return { entities, getUpdateEntityProps };
+  return { entities, addNewEntity, updateEntity, getUpdateEntityProps };
 };
 
 export type AddNewEntity = (newEntity: DBEntity, index?: number) => void;
