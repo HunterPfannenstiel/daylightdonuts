@@ -31,12 +31,10 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 
   const formInputHandler = (key: keyof UserInfo, value: any) => {
     formInputs.current[key] = value as never;
-    console.log(formInputs.current[key]);
   }
 
 	const submitHandler = async (event: FormEvent) => {
 		event.preventDefault();
-    console.log(formInputs.current);
 		const success = await onSubmitHandler(formInputs.current, infoIdx);
 		/* if (success) {
 			firstNameRef.current!.value = '';
@@ -59,7 +57,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						label="First Name:"
 						handler={(value) => formInputHandler("first_name", value)}
 						className={classes.text_field}
-						defaultValue={info ? info.first_name : ''}
+						defaultValue={formInputs.current.first_name}
 						required
 					/>
 					<TextInput
@@ -67,7 +65,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						label="Last Name:"
 						handler={(value) => formInputHandler("last_name", value)}
 						className={classes.text_field}
-						defaultValue={info ? info.last_name : ''}
+						defaultValue={formInputs.current.last_name}
 						required
 					/>
 					<TextInput
@@ -76,7 +74,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						inputType="tel"
 						handler={(value) => formInputHandler("phone_number", value)}
 						className={classes.text_field}
-						defaultValue={info ? info.phone_number : ''}
+						defaultValue={formInputs.current.phone_number}
 						required
 					/>
 					<SelectInput
@@ -85,7 +83,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 						handler={(value) => formInputHandler("favorite", value)}
 						className={classes.field}
 						type="checkbox"
-						defaultChecked={info ? info.favorite : false}
+						defaultChecked={formInputs.current.favorite}
 					/>
 					<div className={classes.buttons}>
 						<button className={classes.submit_btn}>Submit</button>
