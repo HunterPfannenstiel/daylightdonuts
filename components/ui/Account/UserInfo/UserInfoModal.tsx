@@ -26,12 +26,12 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 		last_name: info ? info.last_name : '',
 		phone_number: info ? info.phone_number : '',
 		favorite: info ? info.favorite : false,
-    id: info ? info.id : -1
+		id: info ? info.id : -1,
 	});
 
-  const formInputHandler = (key: keyof UserInfo, value: any) => {
-    formInputs.current[key] = value as never;
-  }
+	const formInputHandler = (key: keyof UserInfo, value: any) => {
+		formInputs.current[key] = value as never;
+	};
 
 	const submitHandler = async (event: FormEvent) => {
 		event.preventDefault();
@@ -48,43 +48,47 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 	};
 
 	return (
-		<ModalDisplay {...modalProps}>
+		<ModalDisplay {...modalProps} className={classes.modal}>
 			<div className={classes.form_container}>
 				<h1>{info ? 'Edit User' : 'Add User'}</h1>
 				<form className={classes.form} onSubmit={submitHandler}>
-					<TextInput
-						id="first"
-						label="First Name:"
-						handler={(value) => formInputHandler("first_name", value)}
-						className={classes.text_field}
-						defaultValue={formInputs.current.first_name}
-						required
-					/>
-					<TextInput
-						id="last"
-						label="Last Name:"
-						handler={(value) => formInputHandler("last_name", value)}
-						className={classes.text_field}
-						defaultValue={formInputs.current.last_name}
-						required
-					/>
-					<TextInput
-						id="phone"
-						label="Phone:"
-						inputType="tel"
-						handler={(value) => formInputHandler("phone_number", value)}
-						className={classes.text_field}
-						defaultValue={formInputs.current.phone_number}
-						required
-					/>
-					<SelectInput
-						id="favorite"
-						label="Favorite:"
-						handler={(value) => formInputHandler("favorite", value)}
-						className={classes.field}
-						type="checkbox"
-						defaultChecked={formInputs.current.favorite}
-					/>
+					<div className={classes.input_section}>
+						<TextInput
+							id="first"
+							label="First Name:"
+							handler={(value) => formInputHandler('first_name', value)}
+							className={classes.text_field}
+							defaultValue={formInputs.current.first_name}
+							required
+						/>
+						<TextInput
+							id="last"
+							label="Last Name:"
+							handler={(value) => formInputHandler('last_name', value)}
+							className={classes.text_field}
+							defaultValue={formInputs.current.last_name}
+							required
+						/>
+					</div>
+					<div className={classes.input_section}>
+						<TextInput
+							id="phone"
+							label="Phone:"
+							inputType="tel"
+							handler={(value) => formInputHandler('phone_number', value)}
+							className={classes.text_field}
+							defaultValue={formInputs.current.phone_number}
+							required
+						/>
+						<SelectInput
+							id="favorite"
+							label="Favorite:"
+							handler={(value) => formInputHandler('favorite', value)}
+							className={classes.field}
+							type="checkbox"
+							defaultChecked={formInputs.current.favorite}
+						/>
+					</div>
 					<div className={classes.buttons}>
 						<button className={classes.submit_btn}>Submit</button>
 						{infoIdx !== null && (

@@ -4,6 +4,15 @@ import { useQuery } from '@tanstack/react-query';
 import { UserOrder } from '@_types/database/userInfo';
 import Order from './Order';
 
+const formatOrderDate = (orderDate: string) => {
+	return new Intl.DateTimeFormat('en-US', {
+		weekday: 'long',
+		month: 'long',
+		day: 'numeric',
+		year: 'numeric',
+	}).format(new Date(orderDate));
+};
+
 interface OrderListProps {}
 
 const OrderList: FunctionComponent<OrderListProps> = () => {
@@ -26,7 +35,12 @@ const OrderList: FunctionComponent<OrderListProps> = () => {
 			{data && data.length === 0 && <p>You have no orders!</p>}
 			<ul className={classes.orders}>
 				{data?.map((order) => (
-					<Order order={order} key={order.cart_id} />
+					<Order
+						order={order}
+						key={order.cart_id}
+						title={formatOrderDate(order.order_date)}
+						canOrderAgain
+					/>
 				))}
 			</ul>
 		</>

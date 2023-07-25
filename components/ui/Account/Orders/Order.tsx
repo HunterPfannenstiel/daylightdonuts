@@ -3,25 +3,24 @@ import classes from './Order.module.css';
 import { UserOrder } from '@_types/database/userInfo';
 import Image from 'next/image';
 import OrderItem from './OrderItem';
-import CartBlock from './CartBlock';
 
 interface OrderProps {
 	order: UserOrder;
+	title: string;
+	canOrderAgain?: boolean;
 }
 
-const Order: FunctionComponent<OrderProps> = ({ order }) => {
+const Order: FunctionComponent<OrderProps> = ({
+	order,
+	title,
+	canOrderAgain,
+}) => {
 	const [showOrderDetails, setShowOrderDetails] = useState(false);
 
-	const formattedDate = new Intl.DateTimeFormat('en-US', {
-		weekday: 'long',
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	}).format(new Date(order.order_date));
 	return (
 		<li className={classes.order}>
 			<div className={classes.order_header}>
-				<p>{formattedDate}</p>
+				<p>{title}</p>
 				<button
 					onClick={() => {
 						setShowOrderDetails((oldState) => !oldState);
@@ -33,7 +32,12 @@ const Order: FunctionComponent<OrderProps> = ({ order }) => {
 			<ul>
 				{showOrderDetails &&
 					order.cart.map((cartItem) => {
-						return <OrderItem item={cartItem} />;
+						return (
+							<OrderItem
+								item={cartItem}
+								onDelete={(id) => console.log(id)}
+							/>
+						);
 					})}
 				<div className={classes.order_total}>
 					<p>Order Total</p>
@@ -46,7 +50,7 @@ const Order: FunctionComponent<OrderProps> = ({ order }) => {
 						)}
 					</p>
 				</div>
-				{showOrderDetails && (
+				{canOrderAgain && showOrderDetails && (
 					<button
 						className={classes.order_button}
 						onClick={() => {
