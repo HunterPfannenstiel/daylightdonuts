@@ -1,40 +1,44 @@
-import { FormEvent, FunctionComponent, useRef } from "react";
-import classes from "./UserInfoModal.module.css";
-import { AddUserInfo, UserInfo } from "@_types/database/userInfo";
-import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
-import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import { FormEvent, FunctionComponent, useRef } from 'react';
+import classes from './UserInfoModal.module.css';
+import { AddUserInfo, UserInfo } from '@_types/database/userInfo';
+import ModalDisplay from 'components/ui/Reusable/Modal/ModalDisplay';
+import { ModalProps } from '@_hooks/animation/useAnimateModal';
+import TextInput from '@_admin-reuse/Form/Inputs/TextInput';
+import SelectInput from '@_admin-reuse/Form/Inputs/SelectInput';
 
 interface UserInfoModalProps {
-  onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
-  deleteHandler: (id: number) => Promise<boolean>;
-  info: UserInfo | null;
-  infoIdx: number | null;
-  modalProps: ModalProps;
+	onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
+	deleteHandler: (id: number) => Promise<boolean>;
+	info: UserInfo | null;
+	infoIdx: number | null;
+	modalProps: ModalProps;
 }
 
 const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
-  onSubmitHandler,
-  deleteHandler,
-  info,
-  infoIdx,
-  modalProps,
+	onSubmitHandler,
+	deleteHandler,
+	info,
+	infoIdx,
+	modalProps,
 }) => {
-  const firstNameRef = useRef<HTMLInputElement>(null);
-  const lastNameRef = useRef<HTMLInputElement>(null);
-  const phoneNumberRef = useRef<HTMLInputElement>(null);
-  const favoriteRef = useRef<HTMLInputElement>(null);
+	const formInputs = useRef({
+		first_name: info ? info.first_name : '',
+		last_name: info ? info.last_name : '',
+		phone_number: info ? info.phone_number : '',
+		favorite: info ? info.favorite : false,
+    id: info ? info.id : -1
+	});
 
-  const submitHandler = async (event: FormEvent) => {
-    event.preventDefault();
-    const enteredInfo = {
-      first_name: firstNameRef.current!.value,
-      last_name: lastNameRef.current!.value,
-      phone_number: phoneNumberRef.current!.value,
-      favorite: favoriteRef.current!.checked,
-      id: info ? info.id : -1,
-    };
-    const success = await onSubmitHandler(enteredInfo, infoIdx);
-    /* if (success) {
+  const formInputHandler = (key: keyof UserInfo, value: any) => {
+    formInputs.current[key] = value as never;
+    console.log(formInputs.current[key]);
+  }
+
+	const submitHandler = async (event: FormEvent) => {
+		event.preventDefault();
+    console.log(formInputs.current);
+		const success = await onSubmitHandler(formInputs.current, infoIdx);
+		/* if (success) {
 			firstNameRef.current!.value = '';
 			lastNameRef.current!.value = '';
 			phoneNumberRef.current!.value = '';
@@ -43,69 +47,61 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 		} else {
 			console.log('There was an error!');
 		} */
-  };
+	};
 
-  return (
-    <ModalDisplay {...modalProps}>
-      <div className={classes.form_container}>
-        <h1>{info ? "Edit User" : "Add User"}</h1>
-        <form className={classes.form} onSubmit={submitHandler}>
-          <div className={classes.text_field}>
-            <label htmlFor="first">First Name:</label>
-            <input
-              type="text"
-              id="first"
-              name="first"
-              ref={firstNameRef}
-              defaultValue={info ? info.first_name : ""}
-              required
-            />
-          </div>
-          <div className={classes.text_field}>
-            <label htmlFor="last">Last Name:</label>
-            <input
-              type="text"
-              id="last"
-              name="last"
-              ref={lastNameRef}
-              defaultValue={info ? info.last_name : ""}
-              required
-            />
-          </div>
-          <div className={classes.text_field}>
-            <label htmlFor="phone">Phone:</label>
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              ref={phoneNumberRef}
-              defaultValue={info ? info.phone_number : ""}
-              required
-            />
-          </div>
-          <div className={classes.field}>
-            <label htmlFor="favorite">Favorite: </label>
-            <input
-              type="checkbox"
-              id="favorite"
-              name="favorite"
-              ref={favoriteRef}
-              defaultChecked={info ? info.favorite : false}
-            />
-          </div>
-          <button>Submit</button>
-          {infoIdx !== null && (
-            <button
-              onClick={deleteHandler.bind(this, infoIdx)}
-              className={classes.del_btn}
-            >
-              Delete
-            </button>
-          )}
-        </form>
-      </div>
-    </ModalDisplay>
-  );
+	return (
+		<ModalDisplay {...modalProps}>
+			<div className={classes.form_container}>
+				<h1>{info ? 'Edit User' : 'Add User'}</h1>
+				<form className={classes.form} onSubmit={submitHandler}>
+					<TextInput
+						id="first"
+						label="First Name:"
+						handler={(value) => formInputHandler("first_name", value)}
+						className={classes.text_field}
+						defaultValue={info ? info.first_name : ''}
+						required
+					/>
+					<TextInput
+						id="last"
+						label="Last Name:"
+						handler={(value) => formInputHandler("last_name", value)}
+						className={classes.text_field}
+						defaultValue={info ? info.last_name : ''}
+						required
+					/>
+					<TextInput
+						id="phone"
+						label="Phone:"
+						inputType="tel"
+						handler={(value) => formInputHandler("phone_number", value)}
+						className={classes.text_field}
+						defaultValue={info ? info.phone_number : ''}
+						required
+					/>
+					<SelectInput
+						id="favorite"
+						label="Favorite:"
+						handler={(value) => formInputHandler("favorite", value)}
+						className={classes.field}
+						type="checkbox"
+						defaultChecked={info ? info.favorite : false}
+					/>
+					<div className={classes.buttons}>
+						<button className={classes.submit_btn}>Submit</button>
+						{infoIdx !== null && (
+							<button
+								onClick={deleteHandler.bind(this, infoIdx)}
+								className={classes.del_btn}
+							>
+								Delete
+							</button>
+						)}
+					</div>
+				</form>
+			</div>
+		</ModalDisplay>
+	);
 };
 
 export default UserInfoModal;

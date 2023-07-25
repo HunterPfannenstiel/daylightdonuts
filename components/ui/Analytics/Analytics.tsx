@@ -1,9 +1,8 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 import classes from './Analytics.module.css';
 import LineChart from './Charts/LineChart';
 import { ChartData } from 'chart.js';
 import useAnalytics from './useAnalytics';
-import { transformAnalytics } from './Charts/ChartHelper';
 import AnalyticsRangeSelector from './AnalyticsRangeSelector';
 import { useChart } from './Charts/useChart';
 import ToggleSelections from '../Reusable/ToggleSelections';
@@ -26,7 +25,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		categoryNames,
 	} = useAnalytics();
 	const { changeDisplayValue, chartData, displayValue } = useChart(analytics, analyticParams);
-	const modalProps = useAnimateModal(1);
+	const modalProps = useAnimateModal(300);
 
 	const onSetAnalyticParams = (analyticParams: AnalyticParams) => {
 		modalProps.handleModal();
@@ -50,7 +49,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 			</div>
 			<button onClick={modalProps.handleModal}>Edit Filters</button>
 			{modalProps.showModal && (
-				<ModalDisplay modalProps={modalProps}>
+				<ModalDisplay {...modalProps.getModalProps()}>
 					<AnalyticsRangeSelector
 						setAnalyticParams={onSetAnalyticParams}
 						defaultValues={analyticParams}

@@ -1,9 +1,8 @@
 .form_container {
-    width: 500px;
     margin: auto;
-    border: 2px solid black;
     padding: 1rem;
     background-color: white;
+    border-radius: 2px;
 }
 
 .form_container h1 {
@@ -17,14 +16,15 @@
 .form {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
     align-items: center;
+    justify-content: space-around;
 }
 
 .text_field label {
     display: block;
     font-size: 1rem;
-    font-weight: bold;
+    margin-bottom: .5rem;
 }
 
 .text_field input {
@@ -32,7 +32,6 @@
     border: 0;
     padding: 0;
     border-bottom: 1px solid #B4BECC;
-    width: 200px;
 }
 
 .form button {
@@ -41,23 +40,10 @@
     border-radius: 1rem;
 }
 
-.submit_btn {
+.buttons {
+
+}
+
+.buttons button {
     width: 150px;
-}
-
-.exit {
-    position: absolute;
-    background-color: white;
-    border-right: 2px solid black;
-    border-top: 2px solid black;
-    right: 0;
-}
-
-.del_btn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin: 1rem;
-    font-size: .75rem;
-    width: 100px;
 }

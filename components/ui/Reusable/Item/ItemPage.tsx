@@ -39,11 +39,9 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({
 		<div className={classes.item + ' ' + className}>
 			<div className={classes.item_content}>
 				<div className={classes.info}>
-					<div className={classes.name_bg}>
-						<div>
-							<p>{item.name}</p>
-						</div>
-					</div>
+					<Heading position="center">
+						<h2>{item.name}</h2>
+					</Heading>
 					<p className={extraPrice ? classes.bold : ''}>{`$${(+price).toFixed(
 						2
 					)}`}</p>
@@ -72,3 +70,12 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({
 };
 
 export default ItemPage;
+
+{
+	//Old item name header setup
+	/* <div className={classes.name_bg}>
+						<div>
+							<p>{item.name}</p>
+						</div>
+					</div> */
+}
