@@ -1,0 +1,24 @@
+.review_item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: var(--font-black);
+    font-size: 1rem;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.review {
+    font-size: 1rem;
+}
+
+@media (min-width: 40em) {
+    .review_item {
+        width: 33%
+    }
+    .review {
+        font-size: 1.25rem;
+    }
+}

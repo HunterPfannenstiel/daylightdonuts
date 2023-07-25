@@ -1,4 +1,4 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import classes from "./index.module.css";
 import useCollectModalInfo from "@_hooks/admin/menu/item/useCollectModalInfo";
 import ItemDetails from "../../../Reusable/ModifyMenuItem/ItemDetails";
@@ -18,12 +18,14 @@ import ModifyMenu from "custom-objects/ModifyMenu";
 import Pages from "@_admin-reuse/Pages";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import { AddNewEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface CreateItemModalProps {
   groupings: AvailableGrouping[];
   extraGroupings: AvailableExtraGrouping[];
   itemCategories: AvailableItemCategory[];
   modalProps: ModalProps;
+  addNewItem: AddNewEntity;
 }
 
 const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
@@ -31,6 +33,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
   extraGroupings,
   itemCategories,
   modalProps,
+  addNewItem,
 }) => {
   const itemInfo = useCollectModalInfo();
 
@@ -58,11 +61,12 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
     };
     //Implement multi-image select and imageDisplayOrders
     const formData = createFormData(dataValues, { images: newImages });
-    try {
-      const res = await ModifyMenu.Post.Create("item", formData, true);
-    } catch (error) {
-      console.error(error);
+    const res = await ModifyMenu.Post.Create<number>("item", formData, true);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
     }
+    addNewItem({ name, id: res.data });
   };
 
   return (

@@ -11,57 +11,61 @@ import { Item } from "@_types/admin/modify-menu";
 import ModifyItemModal from "./ModifyModal";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import CreateItemModal from "./CreateModal";
+import useHandleInput from "@_hooks/admin/menu/useHandleInput";
+import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ModifyMenuProps {
-  items: Item[];
+  initialItems: Item[];
   groupings: AvailableGrouping[];
   extraGroupings: AvailableExtraGrouping[];
   itemCategories: AvailableItemCategory[];
 }
 
 const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
-  items,
+  initialItems,
   groupings,
   extraGroupings,
   itemCategories,
 }) => {
   const selectedId = useRef<number>();
-  const createModal = useAnimateModal(300);
-  const modifyModal = useAnimateModal(300);
   const openModifyModal = (id: number) => {
     selectedId.current = id;
     modifyModal.handleModal();
   };
+  const {
+    createModal,
+    modifyModal,
+    getSelectedId,
+    getSelectedName,
+    getSelectedIndex,
+    setSelectedEntity,
+  } = useHandleInput();
+  const items = useUpdateEntities(initialItems);
   return (
     <>
       {createModal.showModal && (
         <CreateItemModal
-          modalProps={createModal}
+          addNewItem={items.addNewEntity}
+          modalProps={createModal.getModalProps()}
           groupings={groupings}
           extraGroupings={extraGroupings}
           itemCategories={itemCategories}
         />
       )}
-
-      <ul className={classes.menu_items}>
-        {items.map((item) => {
-          return (
-            <li key={item.name}>
-              <h2>{item.name}</h2>
-              <button onClick={openModifyModal.bind(null, item.menu_item_id)}>
-                Modify
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {modifyModal.showModal && selectedId && (
+      <EntityDisplay
+        entities={items.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
+      {modifyModal.showModal && (
         <ModifyItemModal
-          modalProps={modifyModal}
-          id={selectedId.current!}
+          modalProps={modifyModal.getModalProps()}
           groupings={groupings}
           extraGroupings={extraGroupings}
           itemCategories={itemCategories}
+          updateItem={items.updateEntity}
+          id={getSelectedId()!}
+          index={getSelectedIndex()!}
         />
       )}
     </>

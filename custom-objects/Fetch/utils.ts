@@ -5,7 +5,7 @@ export type APIErrorResponse = {
   success: false;
   data: undefined;
 };
-type APISuccessResponse<T> = {
+export type APISuccessResponse<T> = {
   errorMessage: undefined;
   success: true;
   data: T;

@@ -21,11 +21,18 @@
 .add_cart {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
 }
 
 .add_cart select {
     width: fit-content;
     padding-right: 10%;
+}
+
+.blue_button {
+    background-color: var(--primary-blue);
+    color: white;
+    width: 90%;
 }
 
 @media (min-width: 40em){

@@ -19,7 +19,7 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
   const intervalChange = (interval: Interval) => {
     setInterval(interval);
   };
-  const { handleModal, getModalProps } = useAnimateModal(300);
+  const modal = useAnimateModal(300);
   return (
     <>
       <IPageDisplay
@@ -31,7 +31,7 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
         <div className={classes.display_info}>
           <Button
             color={"var(--primary-blue)"}
-            onClick={handleModal}
+            onClick={modal.handleModal}
             className={classes.button}
           >
             Set Interval
@@ -46,13 +46,15 @@ const OrderDisplay: FunctionComponent<OrderDisplayProps> = () => {
             }}
           />
         </div>
-        <ModalDisplay {...getModalProps()}>
-          <DateSelect
-            relativeButtons={relativeButtons}
-            relativeIntervalChange={intervalChange}
-            absoluteIntervalChange={setPickerRange}
-          />
-        </ModalDisplay>
+        {modal.showModal && (
+          <ModalDisplay {...modal.getModalProps()}>
+            <DateSelect
+              relativeButtons={relativeButtons}
+              relativeIntervalChange={intervalChange}
+              absoluteIntervalChange={setPickerRange}
+            />
+          </ModalDisplay>
+        )}
       </IPageDisplay>
     </>
   );

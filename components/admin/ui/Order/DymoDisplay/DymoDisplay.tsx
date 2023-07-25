@@ -36,7 +36,7 @@ const DymoDisplay: FunctionComponent<DymoDisplayProps> = ({
     onTextStyleChange(orderId, style, includeCategoryRef.current!.checked);
   };
   return (
-    <ModalDisplay modalProps={modalProps} className={classes.modal}>
+    <ModalDisplay {...modalProps} className={classes.modal}>
       <form className={classes.form}>
         <div>
           <input

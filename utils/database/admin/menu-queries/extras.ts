@@ -80,7 +80,7 @@ export type CreateExtra = {
   name: string;
   price: string;
   categoryId: number;
-  groupInfo?: ExtraGroupInfo[];
+  groupInfo?: DisplayOrderItem[];
   abbreviation?: string;
 };
 

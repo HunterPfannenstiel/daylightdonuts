@@ -7,7 +7,6 @@ import Spinner from "../Spinner";
 
 interface ModalDisplayProps {
   children: ReactNode;
-  showModal: boolean;
   handleModal: () => void;
   playAnimation: boolean;
   animationTime: number;
@@ -16,7 +15,6 @@ interface ModalDisplayProps {
 }
 
 const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
-  showModal,
   handleModal,
   playAnimation,
   animationTime,
@@ -24,7 +22,6 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
   isLoading,
   className: userClassName,
 }) => {
-  if (!showModal) return <></>;
   const className = concatClassNames(
     classes.modal_content,
     userClassName,

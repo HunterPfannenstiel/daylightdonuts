@@ -25,28 +25,24 @@ const ItemSubcategory: FunctionComponent<ItemSubcategoryProps> = ({
   } = useHandleInput();
   return (
     <>
-      {createModal.showModal && (
-        <CreateSubcategoryModal
-          modalProps={createModal}
-          categories={customizations.categories}
-        />
-      )}
+      <CreateSubcategoryModal
+        modalProps={createModal.getModalProps()}
+        categories={customizations.categories}
+      />
       <button onClick={createModal.handleModal}>Create Subcategory</button>
-      {subcategories.map((subcategory) => {
+      {subcategories.map((subcategory, i) => {
         return (
-          <p onClick={setSelectedEntity.bind(null, subcategory)}>
+          <p onClick={setSelectedEntity.bind(null, subcategory, i)}>
             {subcategory.name}
           </p>
         );
       })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          modalProps={modifyModal}
-          subcategoryId={getSelectedId()!}
-          name={getSelectedName()!}
-          categories={customizations.categories}
-        />
-      )}
+      <ModifyModal
+        modalProps={modifyModal.getModalProps()}
+        subcategoryId={getSelectedId()!}
+        name={getSelectedName()!}
+        categories={customizations.categories}
+      />
     </>
   );
 };

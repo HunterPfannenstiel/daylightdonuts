@@ -1,5 +1,7 @@
 import { DisplayOrderItem, InitialSelections } from "@_types/admin/modify-menu";
 import APIRequest from "./Fetch";
+import { ItemDateRange } from "@_types/admin/forms";
+import { formatDateRange } from "@_utils/admin/modify-menu";
 
 class PostMenuInfo {
   static async Create<T>(
@@ -73,32 +75,41 @@ export default class ModifyMenu {
     return newVal === origVal ? undefined : newVal;
   }
 
+  static CompareDateRange(origRange: ItemDateRange, newRange: ItemDateRange) {
+    const newDRange = formatDateRange(newRange);
+    const oldDRange = formatDateRange(origRange);
+    return newDRange === oldDRange ? undefined : newDRange;
+  }
+
   static CheckArrayLen(array: any[]) {
     return array.length === 0 ? undefined : array;
   }
 
-  static SelectionsToArray(selections: InitialSelections) {
-    return Object.keys(selections).map((key) => +key);
+  static SelectionsToArray<T>(selections: InitialSelections) {
+    return Object.keys(selections).map((key) => key) as T[];
   }
 
-  static SelectionsToNewAndRemoved(
+  static SelectionsToNewAndRemoved<T extends any[] = number[]>(
     initialSelections: InitialSelections,
     currentSelections: InitialSelections
   ) {
-    return this.GetNewAndRemovedIds(
+    return this.GetNewAndRemovedIds<T>(
       this.SelectionsToArray(initialSelections),
       this.SelectionsToArray(currentSelections)
     );
   }
 
-  static GetNewAndRemovedIds(initialIds: number[], currentIds: number[]) {
+  static GetNewAndRemovedIds<T extends any = number>(
+    initialIds: T[],
+    currentIds: T[]
+  ) {
     return {
       newIds: this.GetNewIds(initialIds, currentIds),
       removedIds: this.GetRemovedIds(initialIds, currentIds),
     };
   }
 
-  static GetNewIds(initialIds: number[], currentIds: number[]) {
+  static GetNewIds<T extends any = number>(initialIds: T[], currentIds: T[]) {
     const newIds = currentIds.filter((id) => {
       return !initialIds.includes(id);
     });
@@ -106,7 +117,10 @@ export default class ModifyMenu {
     return newIds;
   }
 
-  static GetRemovedIds(initialIds: number[], currentIds: number[]) {
+  static GetRemovedIds<T extends any = number>(
+    initialIds: T[],
+    currentIds: T[]
+  ) {
     const removedIds = initialIds.filter((id) => {
       return !currentIds.includes(id);
     });

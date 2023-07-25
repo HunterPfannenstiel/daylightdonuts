@@ -1,22 +1,20 @@
-import { FunctionComponent } from "react";
+import { ComponentPropsWithoutRef, FunctionComponent } from "react";
 import classes from "./SelectInput.module.css";
 
-interface SelectInputProps {
-  inputId: string;
+interface SelectInputProps extends ComponentPropsWithoutRef<"input"> {
   label: string;
   handler: (isSelected: boolean) => void;
-  defaultChecked: boolean;
   type: "radio" | "checkbox";
   radioName?: string;
 }
 
 const SelectInput: FunctionComponent<SelectInputProps> = ({
-  inputId,
   label,
   handler,
-  defaultChecked,
   type,
   radioName,
+  id,
+  ...restProps
 }) => {
   const className =
     type === "radio"
@@ -26,14 +24,14 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
     <div className={className}>
       <input
         type={type}
-        defaultChecked={defaultChecked}
-        id={inputId}
+        id={id}
         onChange={(e) => {
           handler(e.target.checked);
         }}
         name={radioName}
+        {...restProps}
       />
-      <label htmlFor={inputId}>{label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 };

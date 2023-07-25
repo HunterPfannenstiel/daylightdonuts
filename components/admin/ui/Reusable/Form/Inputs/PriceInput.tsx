@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import classes from "./PriceInput.module.css";
-import TextInput from "./TextInput";
+import TextInput from "@ui/Reusable/Form/TextInput";
 import { formatPrice } from "@_utils/admin/modify-menu";
 
 interface PriceInputProps {
@@ -28,7 +28,7 @@ const PriceInput: FunctionComponent<PriceInputProps> = ({
   };
   return (
     <TextInput
-      inputId={inputId}
+      id={inputId}
       label={label}
       handler={onChangeHandler}
       value={value}

@@ -1,4 +1,6 @@
 .orders {
-    width: 500px;
+    max-width: 670px;
+    min-width: 450px;
     margin: auto;
+    padding: 1rem;
 }

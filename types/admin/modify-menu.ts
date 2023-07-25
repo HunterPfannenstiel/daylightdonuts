@@ -1,8 +1,6 @@
 export type Item = {
-  name: string;
   image_url: string;
-  menu_item_id: number;
-};
+} & DBEntity;
 
 export type MulterImage = {
   buffer: Buffer;
@@ -20,7 +18,10 @@ export type DBEntity = {
 
 export type DisplayOrderItem = { id: number; displayOrder?: number };
 
-export type InitialSelections<T extends unknown = boolean> = {
+export type InitialSelections<
+  T extends unknown = boolean,
+  U extends any = number
+> = {
   [id: number]: T;
 };
 

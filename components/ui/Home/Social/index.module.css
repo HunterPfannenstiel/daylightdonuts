@@ -9,10 +9,10 @@
 .images {
     display: flex;
     gap: 0.25rem;
+    justify-content: center;
 }
 
-.images > * {
-    flex: 1;
-    width: 15%;
-    padding-top: 20%;
+.images div {
+    width: 33%;
+    max-width: 200px;
 }

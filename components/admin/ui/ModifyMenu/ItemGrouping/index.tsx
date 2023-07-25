@@ -28,12 +28,11 @@ const ItemGrouping: FunctionComponent<ItemGroupingProps> = ({
   const itemGroupings = useUpdateEntities(groupings);
   return (
     <>
-      {createModal.showModal && (
-        <CreateModal
-          modalProps={createModal}
-          addNewGrouping={itemGroupings.addNewEntity}
-        />
-      )}
+      <CreateModal
+        modalProps={createModal.getModalProps()}
+        addNewGrouping={itemGroupings.getUpdateEntityProps().addNewEntity}
+      />
+
       <button onClick={createModal.handleModal}>Create Grouping</button>
       {itemGroupings.entities.map((grouping, i) => {
         return (
@@ -44,15 +43,14 @@ const ItemGrouping: FunctionComponent<ItemGroupingProps> = ({
           </div>
         );
       })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          modalProps={modifyModal}
-          groupingId={getSelectedId()!}
-          groupingName={getSelectedName()!}
-          index={getSelectedIndex()!}
-          updateGrouping={itemGroupings.updateEntity}
-        />
-      )}
+
+      <ModifyModal
+        modalProps={modifyModal.getModalProps()}
+        groupingId={getSelectedId()!}
+        groupingName={getSelectedName()!}
+        index={getSelectedIndex()!}
+        updateGrouping={itemGroupings.getUpdateEntityProps().updateEntity}
+      />
     </>
   );
 };

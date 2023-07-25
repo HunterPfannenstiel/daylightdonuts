@@ -52,9 +52,10 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
                         type="checkbox"
                         id={subcategory.name}
                         defaultChecked={
-                          !!selectedCategories[category.item_category_id]![
-                            subcategory.item_subcategory_id
-                          ]
+                          !!(
+                            selectedCategories &&
+                            selectedCategories[subcategory.item_subcategory_id]
+                          )
                         }
                         onChange={updateHandler.bind(null, {
                           categoryId: category.item_category_id,

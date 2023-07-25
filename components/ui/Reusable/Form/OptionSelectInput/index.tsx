@@ -2,9 +2,9 @@ import { FunctionComponent } from "react";
 import classes from "./index.module.css";
 import { concatClassNames } from "@_utils/client";
 
-type SelectInputProps = (
+type OptionSelectInputProps = (
   | {
-      data: SelectData[];
+      data: OptionSelectInputData[];
       labelExtractor?: (category: any) => string;
       optionsExtractor?: (category: any) => any[];
       optionExtractor?: (option: any) => string;
@@ -21,9 +21,9 @@ type SelectInputProps = (
   selectContainerClassName?: string;
 };
 
-export type SelectData = { category: string; options: string[] };
+export type OptionSelectInputData = { category: string; options: string[] };
 
-const SelectInput: FunctionComponent<SelectInputProps> = ({
+const OptionSelectInput = ({
   data,
   labelExtractor,
   optionsExtractor,
@@ -31,7 +31,7 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
   onSelect,
   containerClassName,
   selectContainerClassName,
-}) => {
+}: OptionSelectInputProps) => {
   return (
     <ul className={concatClassNames(classes.container, containerClassName)}>
       {data.map((category) => {
@@ -44,13 +44,14 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
         return (
           <li
             key={label}
-            className={[
+            className={concatClassNames(
               classes.select_container,
-              selectContainerClassName,
-            ].join(" ")}
+              selectContainerClassName
+            )}
           >
-            <label>{label}</label>
+            <label htmlFor={label}>{label}</label>
             <select
+              id={label}
               onChange={(e) => {
                 const optionIndex = +e.target.value;
                 onSelect(label, options[optionIndex]);
@@ -75,4 +76,4 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
   );
 };
 
-export default SelectInput;
+export default OptionSelectInput;

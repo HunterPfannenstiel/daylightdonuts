@@ -1,0 +1,39 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem 0;
+    gap: 1rem;
+}
+
+.item_details {
+    flex: 1;
+}
+
+.price {
+    flex: 1;
+    text-align: center;
+}
+
+.amount {
+    flex: 1;
+    text-align: center;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.extras {
+    font-size: 1rem;
+    text-overflow: clip;
+}
+
+.deleteable {
+    background-color: white;
+}
+
+.last {
+    text-align: right;
+}

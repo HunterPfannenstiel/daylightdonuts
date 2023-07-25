@@ -23,6 +23,7 @@ export type AddUserInfo = {
 };
 
 export type UserOrder = {
-  cart_id: number;
-  cart: DBCartItem[];
+	order_date: string;
+	cart_id: number;
+	cart: DBCartItem[];
 };

@@ -1,11 +1,11 @@
 import { FunctionComponent, useEffect } from "react";
 import classes from "./OrderDetails.module.css";
 import CheckoutContainer from "../CheckoutContainer";
-import OptionSelectInput from "components/ui/Reusable/Form/OptionSelectInput";
 import InputLayout from "components/ui/Reusable/Form/InputLayout";
 import usePickupInfo from "@_hooks/checkout/usePickupInfo";
 import { FormLocationDetails } from "@_types/database/checkout";
 import Spinner from "components/ui/Reusable/Spinner";
+import SelectOptionInput from "components/ui/Reusable/Form/OptionSelectInput";
 
 interface OrderDetailsProps {
   updateLocationDetails: (
@@ -37,32 +37,44 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
       {isLoading && <Spinner center />}
       {!isLoading && (
         <div className={classes.content}>
-          <OptionSelectInput
-            label="Location"
-            required
-            options={
-              data?.map((location) => ({
-                id: location.location_id,
-                name: location.common_name,
-              })) || []
-            }
-            onOptionSelected={(id) => {
-              updateLocationDetails("locationId", id.toString());
+          <SelectOptionInput
+            data={[
+              {
+                category: "Location",
+                options:
+                  data?.map((location) => ({
+                    id: location.location_id,
+                    name: location.common_name,
+                  })) || [],
+              },
+            ]}
+            labelExtractor={({ category }) => category}
+            optionsExtractor={({ options }) => options}
+            optionExtractor={({ name }) => name}
+            onSelect={(_, { id }) => {
+              updateLocationDetails("locationId", id);
             }}
-            className={classes.location}
+            containerClassName={classes.location}
           />
           <div className={classes.time_date}>
-            <OptionSelectInput
-              label="Time"
-              required
-              options={times}
-              onOptionSelected={(id) => {
-                updateLocationDetails("pickupTimeId", id.toString());
+            <SelectOptionInput
+              data={[
+                {
+                  category: "Time",
+                  options: times,
+                },
+              ]}
+              labelExtractor={({ category }) => category}
+              optionsExtractor={({ options }) => options}
+              optionExtractor={({ name }) => name}
+              onSelect={(_, { id }) => {
+                updateLocationDetails("locationId", id);
               }}
             />
             <div className={classes.date}>
               <InputLayout
-                labelComponent={<p>Date*</p>}
+                label="Date*"
+                htmlFor=""
                 inputComponent={<button>Click</button>}
               />
             </div>
