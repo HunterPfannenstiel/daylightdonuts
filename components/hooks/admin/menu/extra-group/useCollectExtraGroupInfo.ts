@@ -1,10 +1,10 @@
 import {
   ExtraGroupExtraInfo,
   ExtraGroupSelections,
-  InitialSelections,
   NestedDBEntity,
 } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectExtraGroupInfo = (
   groupName: string,

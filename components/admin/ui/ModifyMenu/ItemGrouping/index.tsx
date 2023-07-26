@@ -7,6 +7,7 @@ import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import CreateModal from "./CreateModal";
 import ModifyModal from "./ModifyModal";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ItemGroupingProps {
   customizations: GroupingItem[];
@@ -34,16 +35,10 @@ const ItemGrouping: FunctionComponent<ItemGroupingProps> = ({
       />
 
       <button onClick={createModal.handleModal}>Create Grouping</button>
-      {itemGroupings.entities.map((grouping, i) => {
-        return (
-          <div>
-            <h2 onClick={setSelectedEntity.bind(null, grouping, i)}>
-              {grouping.name}
-            </h2>
-          </div>
-        );
-      })}
-
+      <EntityDisplay
+        entities={itemGroupings.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
       <ModifyModal
         modalProps={modifyModal.getModalProps()}
         groupingId={getSelectedId()!}

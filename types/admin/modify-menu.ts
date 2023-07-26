@@ -1,3 +1,5 @@
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
+
 export type Item = {
   image_url: string;
 } & DBEntity;
@@ -17,13 +19,6 @@ export type DBEntity = {
 };
 
 export type DisplayOrderItem = { id: number; displayOrder?: number };
-
-export type InitialSelections<
-  T extends unknown = boolean,
-  U extends any = number
-> = {
-  [id: number]: T;
-};
 
 export type ExtraGroup = { category: string; groups: DBEntity[] };
 

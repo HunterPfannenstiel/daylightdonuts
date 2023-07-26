@@ -1,12 +1,9 @@
-import {
-  DisplayOrderItem,
-  ExtraDetails,
-  ExtraGroupInfo,
-  InitialSelections,
-} from "@_types/admin/modify-menu";
+import { DisplayOrderItem, ExtraDetails } from "@_types/admin/modify-menu";
 import useDetails from "../modification/useDetails";
 import useSelectedId from "../modification/useSelectedId";
-import useSelections from "../modification/useSelections";
+import useSelections, {
+  InitialSelections,
+} from "../modification/useSelections";
 
 const useCollectExtraInfo = (
   initialDetails?: ExtraDetails,

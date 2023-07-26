@@ -1,8 +1,9 @@
-import {
-  InitialSelections,
-  SubcategorySelections,
-} from "@_types/admin/modify-menu";
+import { SubcategorySelections } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
+import useNestedSelections, {
+  NestedSelections,
+} from "../modification/useNestedSelections";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectSubcategoryInfo = (
   initialName: string,
@@ -22,28 +23,20 @@ const useCollectSubcategoryInfo = (
     setSelectedCategoryId(id);
   };
 
-  const selectedItemIds = useRef<{ [category: number]: InitialSelections }>(
+  const [selectedItemIds, updateSelection] = useNestedSelections(
     getInitialIds(selections?.initial_items, selections?.initial_category)
   );
 
-  const updateSelectedItem = (id: number) => {
+  const updateSelectedItem = (id: number, value?: boolean) => {
     const categoryId = selectedCategoryId;
     if (categoryId) {
-      if (selectedItemIds.current[categoryId]) {
-        if (selectedItemIds.current[categoryId][id]) {
-          delete selectedItemIds.current[categoryId][id];
-        } else {
-          selectedItemIds.current[categoryId][id] = true;
-        }
-      } else {
-        selectedItemIds.current[categoryId] = { [id]: true };
-      }
+      updateSelection(categoryId, id, value);
     }
   };
 
   const getSelectedItemIds = () => {
-    if (selectedCategoryId && selectedItemIds.current) {
-      return selectedItemIds.current[selectedCategoryId] || {};
+    if (selectedCategoryId !== undefined) {
+      return selectedItemIds[selectedCategoryId] || {};
     }
     return {};
   };
@@ -63,7 +56,7 @@ export default useCollectSubcategoryInfo;
 const getInitialIds = (
   ids?: InitialSelections,
   categoryId?: number
-): { [category: number]: InitialSelections } => {
+): NestedSelections => {
   if (categoryId && ids) {
     return { [categoryId]: ids };
   }

@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import classes from "./ItemGroupingItems.module.css";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import SearchItems from "../SearchItems";
-import { InitialSelections } from "@_types/admin/modify-menu";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 interface ItemGroupingItemsProps {
   initialItems: InitialSelections;

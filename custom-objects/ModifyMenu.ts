@@ -1,7 +1,8 @@
-import { DisplayOrderItem, InitialSelections } from "@_types/admin/modify-menu";
+import { DisplayOrderItem } from "@_types/admin/modify-menu";
 import APIRequest from "./Fetch";
 import { ItemDateRange } from "@_types/admin/forms";
 import { formatDateRange } from "@_utils/admin/modify-menu";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 class PostMenuInfo {
   static async Create<T>(
@@ -89,7 +90,7 @@ export default class ModifyMenu {
     return Object.keys(selections).map((key) => key) as T[];
   }
 
-  static SelectionsToNewAndRemoved<T extends any[] = number[]>(
+  static SelectionsToNewAndRemoved<T extends any = number>(
     initialSelections: InitialSelections,
     currentSelections: InitialSelections
   ) {

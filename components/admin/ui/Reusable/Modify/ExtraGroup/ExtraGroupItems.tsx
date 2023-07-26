@@ -1,8 +1,9 @@
 import { FunctionComponent } from "react";
 import classes from "./ExtraGroupItems.module.css";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
-import { DBEntity, InitialSelections } from "@_types/admin/modify-menu";
+import { DBEntity } from "@_types/admin/modify-menu";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 interface ExtraGroupItemsProps {
   title?: string;

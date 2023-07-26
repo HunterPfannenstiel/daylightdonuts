@@ -1,9 +1,7 @@
 import { ItemImage } from "@_types/admin/forms";
-import {
-  GroupingSelections,
-  InitialSelections,
-} from "@_types/admin/modify-menu";
+import { GroupingSelections } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectItemGroupingInfo = (
   name: string,

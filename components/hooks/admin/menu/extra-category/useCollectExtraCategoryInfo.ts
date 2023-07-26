@@ -3,9 +3,9 @@ import {
   ExtraCategoryExtra,
   ExtraCategorySelections,
   ExtraDetails,
-  InitialSelections,
 } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectExtraCategoryInfo = (
   categoryName: string,

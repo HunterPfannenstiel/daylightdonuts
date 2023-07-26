@@ -1,13 +1,9 @@
 import { FunctionComponent, MutableRefObject, useState } from "react";
 import classes from "./ExtraGroupExtras.module.css";
-import {
-  CategoryExtra,
-  DBEntity,
-  InitialSelections,
-  NestedDBEntity,
-} from "@_types/admin/modify-menu";
+import { NestedDBEntity } from "@_types/admin/modify-menu";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 interface ExtraGroupExtrasProps {
   initialCategoryId: MutableRefObject<number | undefined>;

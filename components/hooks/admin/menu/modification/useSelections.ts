@@ -1,5 +1,8 @@
-import { InitialSelections } from "@_types/admin/modify-menu";
 import { useRef } from "react";
+
+export type InitialSelections<T extends unknown = boolean> = {
+  [id: number]: T;
+};
 
 const copyInitialSelections = <T extends unknown = boolean>(
   initialSelections?: InitialSelections<T>

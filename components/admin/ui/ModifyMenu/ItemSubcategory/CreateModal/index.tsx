@@ -9,15 +9,17 @@ import SubcategoryItems from "@_admin-reuse/Modify/ItemSubcategory/SubcategoryIt
 import { DBEntity } from "@_types/admin/modify-menu";
 import { CreateItemSubcategory } from "@_utils/database/admin/menu-queries/categories";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { AddNewEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface CreateSubcategoryModalProps {
   modalProps: ModalProps;
   categories: DBEntity[];
+  addNewSubcategory: AddNewEntity;
 }
 
 const CreateSubcategoryModal: FunctionComponent<
   CreateSubcategoryModalProps
-> = ({ modalProps, categories }) => {
+> = ({ modalProps, categories, addNewSubcategory }) => {
   const info = useCollectSubcategoryInfo("");
   const onCreate = async () => {
     const details = {
@@ -28,9 +30,16 @@ const CreateSubcategoryModal: FunctionComponent<
       ),
     } as CreateItemSubcategory;
 
-    const id = await ModifyMenu.Post.Create("item-subcategory", details);
-
-    console.log(id);
+    const res = await ModifyMenu.Post.Create<number>(
+      "item-subcategory",
+      details
+    );
+    if (!res.success) {
+      console.log(res.errorMessage);
+      return;
+    }
+    addNewSubcategory({ id: res.data, name: details.name });
+    modalProps.handleModal();
   };
   return (
     <ModifyMenuModal modalProps={modalProps}>

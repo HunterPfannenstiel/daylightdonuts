@@ -6,43 +6,51 @@ import { DBEntity, SubcategoryCustomizations } from "@_types/admin/modify-menu";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import CreateSubcategoryModal from "./CreateModal";
 import ModifyModal from "./ModifyModal";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
+import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ItemSubcategoryProps {
   customizations: SubcategoryCustomizations;
-  subcategories: DBEntity[];
+  initialSubcategories: DBEntity[];
 }
 
 const ItemSubcategory: FunctionComponent<ItemSubcategoryProps> = ({
   customizations,
-  subcategories,
+  initialSubcategories,
 }) => {
   const {
     createModal,
     modifyModal,
     getSelectedId,
     getSelectedName,
+    getSelectedIndex,
     setSelectedEntity,
   } = useHandleInput();
+  const subcategories = useUpdateEntities(initialSubcategories);
   return (
     <>
-      <CreateSubcategoryModal
-        modalProps={createModal.getModalProps()}
-        categories={customizations.categories}
-      />
+      {createModal.showModal && (
+        <CreateSubcategoryModal
+          modalProps={createModal.getModalProps()}
+          categories={customizations.categories}
+          addNewSubcategory={subcategories.addNewEntity}
+        />
+      )}
       <button onClick={createModal.handleModal}>Create Subcategory</button>
-      {subcategories.map((subcategory, i) => {
-        return (
-          <p onClick={setSelectedEntity.bind(null, subcategory, i)}>
-            {subcategory.name}
-          </p>
-        );
-      })}
-      <ModifyModal
-        modalProps={modifyModal.getModalProps()}
-        subcategoryId={getSelectedId()!}
-        name={getSelectedName()!}
-        categories={customizations.categories}
+      <EntityDisplay
+        entities={subcategories.entities}
+        setSelectedEntity={setSelectedEntity}
       />
+      {modifyModal.showModal && (
+        <ModifyModal
+          modalProps={modifyModal.getModalProps()}
+          subcategoryId={getSelectedId()!}
+          name={getSelectedName()!}
+          categories={customizations.categories}
+          index={getSelectedIndex()!}
+          updateSubcategory={subcategories.updateEntity}
+        />
+      )}
     </>
   );
 };
