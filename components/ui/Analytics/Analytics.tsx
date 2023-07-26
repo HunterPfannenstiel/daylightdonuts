@@ -43,7 +43,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 					prefixTitle="Analytic:"
 					selected={displayValue}
 					className={classes.analytic_selections}
-					selectedClassName={classes.selected_analytic}
+					selectedId={classes.selected}
 					onChange={changeDisplayValue}
 				/>
 			</div>

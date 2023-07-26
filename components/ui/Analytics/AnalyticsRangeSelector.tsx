@@ -24,7 +24,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 			  }
 			: undefined
 	);
-	const [timeUnit, setTimeUnit] = useState(dV?.timeUnit || TimeUnit.day);
+	const [timeUnit, setTimeUnit] = useState(dV?.timeUnit || TimeUnit.Day);
 
 	let filter: 'All' | 'Name' | 'Category' = 'All';
 	if (dV) {
@@ -64,12 +64,13 @@ const AnalyticsRangeSelector: FunctionComponent<
 		<div className={classes.container}>
 			<h1>Filters</h1>
 			<ToggleSelections
-				selections={Object.values(TimeUnit)}
+				selections={Object.keys(TimeUnit)}
 				selected={timeUnit}
-				onChange={setTimeUnit}
+				onChange={(selection) => setTimeUnit(TimeUnit[selection])}
+				comparator={(selection, selected) => TimeUnit[selection] === selected}
 				prefixTitle="Time Unit:"
-				className={classes.time_selections}
-				selectedClassName={classes.time_unit_selected}
+				className={classes.selections}
+				selectedId={classes.selected}
 			/>
 			<div className={classes.date_range}>
 				<p>Date Range:</p>
@@ -86,8 +87,8 @@ const AnalyticsRangeSelector: FunctionComponent<
 				selected={itemTypeFilter}
 				onChange={setItemTypeFilter}
 				prefixTitle="Type Filter:"
-				className={classes.time_selections}
-				selectedClassName={classes.time_unit_selected}
+				className={classes.selections}
+				selectedId={classes.selected}
 			/>
 			<form>
 				{itemTypeFilter === 'Category' && (
