@@ -9,17 +9,20 @@
 
 .time_date {
     display: flex;
-    gap: 1.5rem;
+    gap: 1rem;
+}
+
+.time_date > * {
+    flex: 1;
+}
+
+.content label {
+    font-weight: normal;
+    color: var(--primary-blue);
 }
 
 .time_date div {
-    width: 50%;
-}
-
-.date h2 {
-    color: var(--font-black);
-    font-size: 1rem;
-    font-weight: 500;
+    width: 100%;
 }
 
 @keyframes fade_in {

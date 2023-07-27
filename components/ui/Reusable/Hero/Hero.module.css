@@ -18,6 +18,7 @@
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
+    z-index: 1;
 }
 
 .text_content h2 {
@@ -41,6 +42,7 @@
 
 .image_container {
     display: none;
+    z-index: 1;
 }
 
 .circles {
@@ -122,7 +124,7 @@
         width: 300px;
         height: 300px;
         top: 0;
-        translate: -50% -50%
+        translate: -50% -50%;
     }
     
     .stripe_right {

@@ -51,6 +51,26 @@ const reviews = [
     date: "June 22, 2019",
     review:
       "Store was very clean and they were constantly re-stocking donuts while we were there",
+  },{
+    name: "Jessica Louise Garwood",
+    date: "June 22, 2019",
+    review:
+      "Store was very clean and they were constantly re-stocking donuts while we were there",
+  },{
+    name: "Jessica Louise Garwood",
+    date: "June 22, 2019",
+    review:
+      "Store was very clean and they were constantly re-stocking donuts while we were there",
+  },{
+    name: "Jessica Louise Garwood",
+    date: "June 22, 2019",
+    review:
+      "Store was very clean and they were constantly re-stocking donuts while we were there",
+  },{
+    name: "Jessica Louise Garwood",
+    date: "June 22, 2019",
+    review:
+      "Store was very clean and they were constantly re-stocking donuts while we were there",
   },
 ];
 
@@ -82,5 +102,23 @@ const locations: Location[] = [
     common_name: "30th Street Daylight Donuts",
     phone_number: "(620) 500-5550",
   },
+  {
+    location_id: 1,
+    city: "Hutchinson",
+    state: "KS",
+    zip: "67501",
+    address: "1453 East 30th Avenue",
+    common_name: "30th Street Daylight Donuts",
+    phone_number: "(620) 500-5550",
+  },
+  {
+    location_id: 1,
+    city: "Hutchinson",
+    state: "KS",
+    zip: "67501",
+    address: "1453 East 30th Avenue",
+    common_name: "30th Street Daylight Donuts",
+    phone_number: "(620) 500-5550",
+  }
 ];
 export default Home;
