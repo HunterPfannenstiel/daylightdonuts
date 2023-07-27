@@ -1,14 +1,14 @@
 import { FunctionComponent, useContext, useState } from 'react';
-import classes from './UserInfoList.module.css';
-import UserInfoContext from '../../../providers/UserInfo/UserInfo';
-import UserInfo from './UserInfo';
+import classes from './UserInfoContainer.module.css';
 import UserInfoModal from './UserInfoModal';
-import { UserInfo as UserInfoType } from '@_types/database/userInfo';
 import useAnimateModal from '@_hooks/animation/useAnimateModal';
+import UserInfoContext from '../../../providers/UserInfo/UserInfo';
+import { UserInfo as UserInfoType } from '@_types/database/userInfo';
+import UserInfoList from '@ui/Reusable/UserInfo/UserInfoList';
 
-interface UserInfoListProps {}
+interface UserInfoContainerProps {}
 
-const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
+const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 	const modal = useAnimateModal(300);
 	const [selectedUserInfo, setSelectedUserInfo] = useState<
 		({ infoIdx: number } & UserInfoType) | null
@@ -63,19 +63,14 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 			<div className={classes.infos_container}>
 				<div className={classes.container}>
 					<h1 className={classes.title}>User Information</h1>
-					<ul className={classes.info_list}>
-						{ctx.infos?.map((info, idx) => {
-							if (info.favorite) favIdx = idx;
-							return (
-								<UserInfo
-									info={info}
-									key={info.id}
-									idx={idx}
-									onSelectHandler={onSelectHandler}
-								/>
-							);
-						})}
-					</ul>
+					<UserInfoList
+						selectHandler={onSelectHandler}
+						editable
+						setFavIdx={(idx) => {
+							if (idx === undefined) favIdx = null;
+							else favIdx = idx;
+						}}
+					/>
 					<button
 						className={classes.btn}
 						onClick={() => onSelectHandler(null, -1)}
@@ -88,4 +83,4 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = () => {
 	);
 };
 
-export default UserInfoList;
+export default UserInfoContainer;

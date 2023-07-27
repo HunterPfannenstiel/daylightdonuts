@@ -19,13 +19,6 @@
     color: black;
 }
 
-.info_list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 1rem 0;
-}
-
 .modal {
     position: absolute;
     right: 50%;

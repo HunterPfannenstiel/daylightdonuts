@@ -1,6 +1,9 @@
 .info_button {
     margin-bottom: var(--content-padding); /*Defined in 'CheckoutContainer'*/
-    width: 50%
+    width: 50%;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: .5rem;
 }
 
 .inputs > * {

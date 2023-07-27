@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    width: 600px;
+    background-color: white;
+    padding: 1rem;
+    justify-content: flex-start;
+    flex-direction: column;
+    border-radius: 6px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.7rem;
+    border-bottom: 1px solid #F2F4FF;
+    padding-bottom: 1rem;
+    color: black;
+}
