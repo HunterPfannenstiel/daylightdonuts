@@ -7,18 +7,23 @@
 .order_header {
     display: flex;
     font-weight: bold;
-    border-bottom: 2px solid grey;
+    border-bottom: 1px solid #F2F4FF;
     padding-bottom: 1rem;
     justify-content: space-between;
 }
 
 .order_header button {
     background-color: white;
+    color: var(--primary-blue);
+    padding: 0;
+    width: 50px;
+    height: 100%;
 }
 
 .order_total {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #F2F4FF;
     padding-top: 1rem;
     font-size: 1rem;
 }

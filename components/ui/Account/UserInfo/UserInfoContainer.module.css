@@ -26,6 +26,11 @@
     background-color: white;
 }
 
+.btn_container {
+    border-top: 1px solid #F2F4FF;
+    padding-top: 1rem;
+}
+
 .btn {
     font-weight: bold;
     color: #003472;

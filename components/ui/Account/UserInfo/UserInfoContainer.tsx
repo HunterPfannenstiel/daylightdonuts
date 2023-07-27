@@ -71,12 +71,14 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 							else favIdx = idx;
 						}}
 					/>
-					<button
-						className={classes.btn}
-						onClick={() => onSelectHandler(null, -1)}
-					>
-						+ Add User
-					</button>
+					<div className={classes.btn_container}>
+						<button
+							className={classes.btn}
+							onClick={() => onSelectHandler(null, -1)}
+						>
+							+ Add User
+						</button>
+					</div>
 				</div>
 			</div>
 		</>

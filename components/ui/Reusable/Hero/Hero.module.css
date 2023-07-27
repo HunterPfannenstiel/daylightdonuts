@@ -104,6 +104,7 @@
         border-radius: 50%;
         background-color: #0072BC;
         cursor: pointer;
+        z-index: 1;
     }
     
     .circles > *:hover {

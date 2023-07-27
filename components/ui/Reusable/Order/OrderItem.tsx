@@ -10,7 +10,7 @@ interface OrderItemProps {
 	cartId: number;
 	amount: number;
 	extra_info?: ExtraDetails | null;
-	unitPrice?: number;
+	unit_price?: number;
 	price?: number;
 	deleteable?: boolean;
 	onDelete?: (cart_item_id: number) => void;
@@ -22,7 +22,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 	cartId,
 	amount,
 	extra_info,
-	unitPrice,
+	unit_price,
 	price,
 	deleteable,
 	onDelete,
@@ -48,7 +48,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 					</div>
 				</div>
 				<p className={classes.price}>
-					${/* (unitPrice ? +unitPrice * amount : price!).toFixed(2) */}
+					${(unit_price ? +unit_price * amount : price!).toFixed(2)}
 				</p>
 				<p
 					className={concatClassNames(
