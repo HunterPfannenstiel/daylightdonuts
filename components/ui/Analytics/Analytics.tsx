@@ -12,6 +12,7 @@ import {
 } from '@_types/database/analytics';
 import useAnimateModal from '@_hooks/animation/useAnimateModal';
 import ModalDisplay from '../Reusable/Modal/ModalDisplay';
+import FilterDisplay from './FilterDisplay';
 
 interface AnalyticsProps {}
 
@@ -24,7 +25,10 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		itemNames,
 		categoryNames,
 	} = useAnalytics();
-	const { changeDisplayValue, chartData, displayValue } = useChart(analytics, analyticParams);
+	const { changeDisplayValue, chartData, displayValue } = useChart(
+		analytics,
+		analyticParams
+	);
 	const modalProps = useAnimateModal(300);
 
 	const onSetAnalyticParams = (analyticParams: AnalyticParams) => {
@@ -35,7 +39,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 	if (isError) return <p>An error occurred...</p>;
 
 	return (
-		<>
+		<div className={classes.container}>
 			<div className={classes.chart}>
 				<LineChart chartData={chartData as ChartData<'line'>} />
 				<ToggleSelections
@@ -47,7 +51,10 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 					onChange={changeDisplayValue}
 				/>
 			</div>
-			<button onClick={modalProps.handleModal}>Edit Filters</button>
+			<div className={classes.filter}>
+				<FilterDisplay filter={analyticParams}/>
+				<button onClick={modalProps.handleModal}>Edit Filters</button>
+			</div>
 			{modalProps.showModal && (
 				<ModalDisplay {...modalProps.getModalProps()}>
 					<AnalyticsRangeSelector
@@ -58,7 +65,7 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 					/>
 				</ModalDisplay>
 			)}
-		</>
+		</div>
 	);
 };
 

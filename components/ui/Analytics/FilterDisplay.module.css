@@ -1,0 +1,15 @@
+.container {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: auto;
+}
+
+.filter_info > p {
+    margin: 1rem 0;
+}
+
+.title {
+    text-align: center;
+}

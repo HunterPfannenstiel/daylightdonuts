@@ -35,6 +35,10 @@
     width: 90%;
 }
 
+.container select {
+    background-color: transparent;
+}
+
 @media (min-width: 40em){
     .form label {
         font-size: 1.125rem;

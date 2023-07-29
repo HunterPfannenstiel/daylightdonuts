@@ -41,6 +41,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           labelExtractor={({ category }: ItemExtras) => category}
           optionsExtractor={({ extras }: ItemExtras) => extras}
           optionExtractor={({ name }: ItemExtra) => name}
+          containerClassName={classes.container}
         />
       )}
       <div className={classes.add_cart}>
