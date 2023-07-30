@@ -10,7 +10,7 @@ const Social: FunctionComponent<SocialProps> = () => {
 	return (
 		<div className={classes.container}>
 			<div className={classes.heading_container}>
-				<Heading position="center">
+				<Heading position="center" tilt="none">
 					<h2>Follow the Deliciousness!</h2>
 				</Heading>
 				<p>

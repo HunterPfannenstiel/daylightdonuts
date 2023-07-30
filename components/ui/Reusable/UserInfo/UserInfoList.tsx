@@ -4,7 +4,7 @@ import UserInfoContext from '../../../providers/UserInfo/UserInfo';
 import UserInfo from './UserInfo';
 
 interface UserInfoListProps {
-	selectHandler: (info: UserInfo, idx: number) => void;
+	onSelectHandler: (info: UserInfo, idx: number) => void;
 	setFavIdx?: (favIdx?: number) => void;
 	showPhoneNumber?: boolean;
 	editable?: boolean;
@@ -12,7 +12,7 @@ interface UserInfoListProps {
 }
 
 const UserInfoList: FunctionComponent<UserInfoListProps> = ({
-	selectHandler,
+	onSelectHandler,
 	setFavIdx,
 	showPhoneNumber,
 	editable = false,
@@ -30,7 +30,7 @@ const UserInfoList: FunctionComponent<UserInfoListProps> = ({
 							info={info}
 							key={info.id}
 							idx={idx}
-							onSelectHandler={selectHandler}
+							onSelectHandler={onSelectHandler}
 							editable={editable}
 							selectedInfo={selectedInfo}
 							showPhoneNumber={showPhoneNumber}

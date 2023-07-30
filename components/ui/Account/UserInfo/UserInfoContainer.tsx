@@ -64,7 +64,7 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 				<div className={classes.container}>
 					<h1 className={classes.title}>User Information</h1>
 					<UserInfoList
-						selectHandler={onSelectHandler}
+						onSelectHandler={onSelectHandler}
 						editable
 						setFavIdx={(idx) => {
 							if (idx === undefined) favIdx = null;

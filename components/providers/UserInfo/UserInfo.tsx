@@ -78,9 +78,8 @@ export const AuthContextProvider: FunctionComponent<
 		const isDeleted = await deleteUserInfo(infoArray[infoIdx].id);
 		if (isDeleted) {
 			setInfoArray((prev) => {
-				const copy = [...prev!];
-				copy.splice(infoIdx, 1);
-				return copy;
+				prev!.splice(infoIdx, 1);
+				return prev;
 			});
 		}
 		return isDeleted;

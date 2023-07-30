@@ -13,7 +13,7 @@ interface ReviewsProps {
 const Reviews: FunctionComponent<ReviewsProps> = ({ reviews }) => {
   return (
     <div>
-      <Heading position="center">
+      <Heading position="left" tilt="left">
         <h2 className={classes.h2}>Hear from our Customers!</h2>
       </Heading>
       <ScrollList className={classes.reviews}>

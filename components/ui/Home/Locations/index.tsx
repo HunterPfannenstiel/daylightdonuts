@@ -12,7 +12,7 @@ interface LocationsProps {
 const Locations: FunctionComponent<LocationsProps> = ({ locations }) => {
   return (
     <div>
-      <Heading position="center">
+      <Heading position="right" tilt="right">
         <h2>Locations</h2>
       </Heading>
       <ScrollList className={classes.locations}>

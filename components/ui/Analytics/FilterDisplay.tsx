@@ -14,6 +14,7 @@ const FilterDisplay: FunctionComponent<FilterDisplayProps> = ({ filter }) => {
 				<div className={classes.filter_info}>
 					{filter.itemCategory && <p>Item Category: {filter.itemCategory}</p>}
 					{filter.itemName && <p>Item Name: {filter.itemName}</p>}
+					{!filter.itemCategory && !filter.itemName && <p>All Items</p>}
 					<p>
 						Date Range: {filter.startDate} to {filter.endDate}
 					</p>
