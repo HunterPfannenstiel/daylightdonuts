@@ -8,7 +8,7 @@ import SelectInput from "components/ui/Reusable/Form/SelectInput";
 
 interface UserInfoModalProps {
   onSubmitHandler: (info: UserInfo) => Promise<boolean>;
-  deleteHandler: (infoId: number) => Promise<boolean>;
+  deleteHandler: (infoId: number) => void;
   info: UserInfo | null;
   modalProps: ModalProps;
 }
@@ -85,6 +85,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
               <button
                 onClick={deleteHandler.bind(this, info.id)}
                 className={classes.del_btn}
+                type='button'
               >
                 Delete
               </button>

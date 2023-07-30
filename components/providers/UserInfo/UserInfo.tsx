@@ -17,12 +17,13 @@ const Context = createContext(getInitialInfo());
 
 export default Context;
 
-const idxMap: { [key: number]: number } = {};
+const idMap: { [key: number]: number } = {};
+let favId = -1;
 
 export const AuthContextProvider: FunctionComponent<
 	React.PropsWithChildren
 > = ({ children }) => {
-	const [infoArray, setInfoArray] = useState<UserInfo[] | null>([]);
+	const [infoArray, setInfoArray] = useState<UserInfo[]>([]);
 	const [favoriteId, setFavoriteId] = useState<number | null>(null);
 	const [email, setEmail] = useState<string>();
 	const [isLoading, setIsLoading] = useState(true);
@@ -31,9 +32,15 @@ export const AuthContextProvider: FunctionComponent<
 		const fetchInfo = async () => {
 			const infos = (await fetchUserInfos()) as FetchedUserInfo;
 			if (infos) {
-				setInfoArray(infos.infos);
+				const array = infos.infos ? infos.infos : [];
+				setInfoArray(array);
 				setFavoriteId(infos.favorite_id);
 				setEmail(infos.email);
+				for (let i = 0; i < array.length; i++) {
+					const info = array[i];
+					idMap[info.id] = i;
+					if (info.favorite) favId = info.id;
+				}
 			}
 			setIsLoading(false);
 		};
@@ -43,12 +50,15 @@ export const AuthContextProvider: FunctionComponent<
 	const addInfoHandler = async (info: AddUserInfo) => {
 		const addedId = await addUserInfo(info);
 		if (addedId !== -1) {
+			idMap[addedId] = infoArray.length;
 			setInfoArray((prev) => {
-				if (prev) {
-					const res = [...prev];
-					res.push({ ...info, id: addedId });
-					return res;
-				} else return [{ ...info, id: addedId }];
+				const res = [...prev];
+				res.push({ ...info, id: addedId });
+				if (info.favorite) {
+					res[idMap[favId]].favorite = false;
+					favId = addedId;
+				}
+				return res;
 			});
 		}
 		return addedId !== -1;
@@ -58,20 +68,32 @@ export const AuthContextProvider: FunctionComponent<
 		const isEdited = await editUserInfo(info);
 		if (isEdited) {
 			setInfoArray((prev) => {
-				if (prev) {
-					prev[idxMap[info.id]] = info;
-					return prev;
-				} else return [info];
+				prev[idMap[info.id]] = info;
+				if (info.favorite && favId !== -1 && favId !== info.id) {
+					prev[idMap[favId]].favorite = false;
+					favId = info.id;
+				}
+				return prev;
 			});
 		}
 		return isEdited;
 	};
 
 	const deleteInfoHandler = async (infoId: number) => {
-		if (!infoArray) return false;
+		if (!infoArray.length) return false;
+
 		const isDeleted = await deleteUserInfo(infoId);
 		if (isDeleted) {
-			const newArr = infoArray.filter((info) => info.id !== infoId);
+			if (infoId === favId) favId = -1;
+			let idFound = false;
+			const newArr = infoArray.filter((info, i) => {
+				if (info.id === infoId) idFound = true;
+				else {
+					if (info.favorite) favId = info.id;
+					if (idFound) idMap[info.id] = i - 1;
+				}
+				return info.id !== infoId;
+			});
 			setInfoArray(newArr);
 		}
 		return isDeleted;
@@ -88,7 +110,6 @@ export const AuthContextProvider: FunctionComponent<
 				deleteInfo: deleteInfoHandler,
 				email,
 				isLoading,
-				idxMap,
 			}}
 		>
 			{children}

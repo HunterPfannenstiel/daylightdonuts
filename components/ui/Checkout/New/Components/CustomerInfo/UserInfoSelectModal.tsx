@@ -21,7 +21,7 @@ const UserInfoSelectModal: FunctionComponent<UserInfoSelectModalProps> = ({
 			<div className={classes.container}>
 				<h1 className={classes.title}>Select Information</h1>
 				<UserInfoList
-					selectHandler={infoSelected}
+					onSelectHandler={infoSelected}
 					showPhoneNumber
 					selectedInfo={selectedInfo}
 				/>

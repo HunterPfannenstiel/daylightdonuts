@@ -10,7 +10,6 @@ export type UserInfoContext = {
 	editInfo: (info: UserInfo) => Promise<boolean>;
 	deleteInfo: (infoId: number) => Promise<boolean>;
 	isLoading: boolean;
-	idxMap: { [key: number]: number };
 } & FetchedUserInfo;
 
 export const getInitialInfo = (): UserInfoContext => {
@@ -28,7 +27,6 @@ export const getInitialInfo = (): UserInfoContext => {
 			return false;
 		},
 		isLoading: true,
-		idxMap: {},
 	};
 };
 
@@ -79,7 +77,7 @@ export const deleteUserInfo = async (id: number) => {
 			'Content-Type': 'application/json',
 		},
 	});
-  console.log(res.status);
+	console.log(res.status);
 	if (!res.ok) {
 		const error = await res.json();
 		console.log(error.message);

@@ -21,6 +21,12 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 		modal.handleModal();
 	};
 
+	const onDeleteHandler = async (infoId: number) => {
+		const del = await ctx.deleteInfo(infoId);
+		console.log(del);
+		modal.handleModal();
+	}
+
 	const onSubmitHandler = async (info: UserInfoType) => {
 		const res =
 			info.id === -1 ? await ctx.addInfo(info) : await ctx.editInfo(info);
@@ -39,7 +45,7 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 					modalProps={modal.getModalProps()}
 					onSubmitHandler={onSubmitHandler}
 					info={selectedUserInfo}
-					deleteHandler={ctx.deleteInfo}
+					deleteHandler={onDeleteHandler}
 				/>
 			)}
 			<div className={classes.infos_container}>
@@ -48,7 +54,6 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 					<UserInfoList
 						onSelectHandler={onSelectHandler}
 						editable
-						updateIdxMap={(infoId, i) => (ctx.idxMap[infoId] = i)}
 					/>
 					<div className={classes.btn_container}>
 						<button className={classes.btn} onClick={() => onSelectHandler()}>

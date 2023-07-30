@@ -8,23 +8,20 @@ interface UserInfoListProps {
 	showPhoneNumber?: boolean;
 	editable?: boolean;
 	selectedInfo?: UserInfo;
-	updateIdxMap?: (infoId: number, idx: number) => void;
 }
 
 const UserInfoList: FunctionComponent<UserInfoListProps> = ({
 	onSelectHandler,
 	showPhoneNumber,
 	editable = false,
-	selectedInfo,
-	updateIdxMap
+	selectedInfo
 }) => {
 	const ctx = useContext(UserInfoContext);
 
 	return (
 		<>
 			<ul className={classes.info_list}>
-				{ctx.infos?.map((info, i) => {
-					if (updateIdxMap) updateIdxMap(info.id, i);
+				{ctx.infos?.map((info) => {
 					return (
 						<UserInfo
 							info={info}
