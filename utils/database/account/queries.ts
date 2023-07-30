@@ -40,16 +40,22 @@ export const addUserInfo = async (accountId: number, info: AddUserInfo) => {
 
 export const deleteUserInfo = async (accountId: number, info_id: number) => {
   const query = "CALL store.edit_user_info($1, $2, $3, $4, $5, $6, $7, $8)";
-  await customerQuery(query, [
-    null,
-    accountId,
-    null,
-    null,
-    null,
-    null,
-    info_id,
-    false,
-  ]);
+  try {
+    await customerQuery(query, [
+      null,
+      accountId,
+      null,
+      null,
+      null,
+      null,
+      info_id,
+      false,
+    ]);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 };
 
 export const editUserInfo = async (accountId: number, info: UserInfo) => {

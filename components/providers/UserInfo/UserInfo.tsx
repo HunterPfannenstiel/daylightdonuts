@@ -17,6 +17,8 @@ const Context = createContext(getInitialInfo());
 
 export default Context;
 
+const idxMap: { [key: number]: number } = {};
+
 export const AuthContextProvider: FunctionComponent<
 	React.PropsWithChildren
 > = ({ children }) => {
@@ -38,16 +40,13 @@ export const AuthContextProvider: FunctionComponent<
 		fetchInfo();
 	}, []);
 
-	const addInfoHandler = async (info: AddUserInfo, favIdx: number | null) => {
+	const addInfoHandler = async (info: AddUserInfo) => {
 		const addedId = await addUserInfo(info);
 		if (addedId !== -1) {
 			setInfoArray((prev) => {
 				if (prev) {
 					const res = [...prev];
-					if (favIdx !== null && favIdx < infoArray!.length)
-						res[favIdx].favorite = false;
 					res.push({ ...info, id: addedId });
-					setFavoriteId(addedId);
 					return res;
 				} else return [{ ...info, id: addedId }];
 			});
@@ -55,32 +54,25 @@ export const AuthContextProvider: FunctionComponent<
 		return addedId !== -1;
 	};
 
-	const editInfoHandler = async (
-		info: UserInfo,
-		infoIdx: number,
-		favIdx: number | null
-	) => {
+	const editInfoHandler = async (info: UserInfo) => {
 		const isEdited = await editUserInfo(info);
 		if (isEdited) {
 			setInfoArray((prev) => {
-				const copy = [...prev!];
-				if (favIdx !== null && favIdx < infoArray!.length) copy[favIdx].favorite = false;
-				copy[infoIdx] = info;
-				if (info.favorite) setFavoriteId(info.id);
-				return copy;
+				if (prev) {
+					prev[idxMap[info.id]] = info;
+					return prev;
+				} else return [info];
 			});
 		}
 		return isEdited;
 	};
 
-	const deleteInfoHandler = async (infoIdx: number) => {
+	const deleteInfoHandler = async (infoId: number) => {
 		if (!infoArray) return false;
-		const isDeleted = await deleteUserInfo(infoArray[infoIdx].id);
+		const isDeleted = await deleteUserInfo(infoId);
 		if (isDeleted) {
-			setInfoArray((prev) => {
-				prev!.splice(infoIdx, 1);
-				return prev;
-			});
+			const newArr = infoArray.filter((info) => info.id !== infoId);
+			setInfoArray(newArr);
 		}
 		return isDeleted;
 	};
@@ -96,6 +88,7 @@ export const AuthContextProvider: FunctionComponent<
 				deleteInfo: deleteInfoHandler,
 				email,
 				isLoading,
+				idxMap,
 			}}
 		>
 			{children}

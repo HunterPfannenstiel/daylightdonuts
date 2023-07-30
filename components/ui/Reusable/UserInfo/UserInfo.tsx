@@ -5,8 +5,7 @@ import SelectInput from '../Form/SelectInput';
 
 interface UserInfoProps {
 	info: UserInfo;
-	idx: number;
-	onSelectHandler: (info: UserInfo, infoIdx: number) => void;
+	onSelectHandler: (info: UserInfo) => void;
 	showPhoneNumber?: boolean;
 	editable?: boolean;
 	selectedInfo?: UserInfo;
@@ -14,7 +13,6 @@ interface UserInfoProps {
 
 const UserInfo: FunctionComponent<UserInfoProps> = ({
 	info,
-	idx,
 	onSelectHandler,
 	showPhoneNumber = false,
 	editable = false,
@@ -25,7 +23,7 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 			{!editable && (
 				<SelectInput
 					type="radio"
-					handler={onSelectHandler.bind(this, info, idx)}
+					handler={onSelectHandler.bind(this, info)}
 					label=""
 					name="info"
 					id="info"
@@ -38,7 +36,7 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 			{info.favorite && <p className={classes.favorite}>*</p>}
 			{editable && (
 				<button
-					onClick={onSelectHandler.bind(this, info, idx)}
+					onClick={onSelectHandler.bind(this, info)}
 					className={classes.edit_info}
 				>
 					Edit Info

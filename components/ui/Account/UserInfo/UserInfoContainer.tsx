@@ -10,43 +10,26 @@ interface UserInfoContainerProps {}
 
 const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 	const modal = useAnimateModal(300);
-	const [selectedUserInfo, setSelectedUserInfo] = useState<
-		({ infoIdx: number } & UserInfoType) | null
-	>(null);
+	const [selectedUserInfo, setSelectedUserInfo] = useState<UserInfoType | null>(
+		null
+	);
 	const ctx = useContext(UserInfoContext);
 
-	let favIdx: number | null = null;
-
-	const onSelectHandler = async (
-		info: UserInfoType | null,
-		infoIdx: number
-	) => {
+	const onSelectHandler = async (info?: UserInfoType) => {
 		if (!info) setSelectedUserInfo(null);
-		else setSelectedUserInfo({ ...info, infoIdx });
+		else setSelectedUserInfo(info);
 		modal.handleModal();
 	};
 
-	const onSubmitHandler = async (
-		info: UserInfoType,
-		infoIdx: number | null
-	) => {
-		if (infoIdx !== null) {
-			const res = info.favorite
-				? await ctx.editInfo(info, infoIdx, favIdx)
-				: await ctx.editInfo(info, infoIdx, null);
-			if (info.favorite && res) favIdx = infoIdx;
-			setSelectedUserInfo(null);
-			modal.handleModal();
-			return res;
-		} else {
-			const res = info.favorite
-				? await ctx.addInfo(info, favIdx)
-				: await ctx.addInfo(info, null);
-			if (info.favorite && res) favIdx = ctx.infos!.length - 1;
-			setSelectedUserInfo(null);
-			modal.handleModal();
-			return res;
+	const onSubmitHandler = async (info: UserInfoType) => {
+		const res =
+			info.id === -1 ? await ctx.addInfo(info) : await ctx.editInfo(info);
+		if (info.favorite && res) {
+			//update favIdx
 		}
+		setSelectedUserInfo(null);
+		modal.handleModal();
+		return res;
 	};
 
 	return (
@@ -56,7 +39,6 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 					modalProps={modal.getModalProps()}
 					onSubmitHandler={onSubmitHandler}
 					info={selectedUserInfo}
-					infoIdx={selectedUserInfo ? selectedUserInfo.infoIdx : null}
 					deleteHandler={ctx.deleteInfo}
 				/>
 			)}
@@ -66,16 +48,10 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 					<UserInfoList
 						onSelectHandler={onSelectHandler}
 						editable
-						setFavIdx={(idx) => {
-							if (idx === undefined) favIdx = null;
-							else favIdx = idx;
-						}}
+						updateIdxMap={(infoId, i) => (ctx.idxMap[infoId] = i)}
 					/>
 					<div className={classes.btn_container}>
-						<button
-							className={classes.btn}
-							onClick={() => onSelectHandler(null, -1)}
-						>
+						<button className={classes.btn} onClick={() => onSelectHandler()}>
 							+ Add User
 						</button>
 					</div>

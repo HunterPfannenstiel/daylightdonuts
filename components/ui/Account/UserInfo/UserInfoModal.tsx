@@ -7,10 +7,9 @@ import TextInput from "components/ui/Reusable/Form/TextInput";
 import SelectInput from "components/ui/Reusable/Form/SelectInput";
 
 interface UserInfoModalProps {
-  onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
-  deleteHandler: (id: number) => Promise<boolean>;
+  onSubmitHandler: (info: UserInfo) => Promise<boolean>;
+  deleteHandler: (infoId: number) => Promise<boolean>;
   info: UserInfo | null;
-  infoIdx: number | null;
   modalProps: ModalProps;
 }
 
@@ -18,7 +17,6 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   onSubmitHandler,
   deleteHandler,
   info,
-  infoIdx,
   modalProps,
 }) => {
   const formInputs = useRef({
@@ -36,16 +34,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    const success = await onSubmitHandler(formInputs.current, infoIdx);
-    /* if (success) {
-			firstNameRef.current!.value = '';
-			lastNameRef.current!.value = '';
-			phoneNumberRef.current!.value = '';
-			favoriteRef.current!.checked = false;
-			console.log('It worked!');
-		} else {
-			console.log('There was an error!');
-		} */
+    const success = await onSubmitHandler(formInputs.current);
   };
 
   return (
@@ -92,9 +81,9 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
           </div>
           <div className={classes.buttons}>
             <button className={classes.submit_btn}>Submit</button>
-            {infoIdx !== null && (
+            {info && (
               <button
-                onClick={deleteHandler.bind(this, infoIdx)}
+                onClick={deleteHandler.bind(this, info.id)}
                 className={classes.del_btn}
               >
                 Delete
