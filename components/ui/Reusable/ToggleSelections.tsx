@@ -8,17 +8,17 @@ interface ToggleSelectionsProps<T> {
 	selectedId?: string;
 	prefixTitle?: string;
 	onChange: (selection: T) => void;
-	comparator?: (selection: T, selected: T) => boolean;
+	comparator?: (selection: T, selected?: T) => boolean;
 }
 
-const ToggleSelections: FunctionComponent<ToggleSelectionsProps<any>> = ({
+const ToggleSelections: <T>(props: ToggleSelectionsProps<T>) => JSX.Element = ({
 	selections,
 	selected,
 	className,
 	selectedId,
 	prefixTitle,
 	onChange,
-	comparator = (selection: any, selected: any) => selection === selected
+	comparator = (selection, selected?) => selection === selected
 }) => {
 	if (!className) className = '';
 	if (!selectedId) selectedId = className;
@@ -31,7 +31,7 @@ const ToggleSelections: FunctionComponent<ToggleSelectionsProps<any>> = ({
 					onClick={onChange.bind(this, selection)}
 					id={comparator(selection, selected) ? selectedId : ''}
 				>
-					{selection}
+					{`${selection}`}
 				</button>
 			))}
 		</div>

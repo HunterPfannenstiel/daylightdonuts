@@ -1,10 +1,11 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import classes from './AnalyticsRangeSelector.module.css';
 import { AnalyticParams, TimeUnit } from '@_types/database/analytics';
-import { DayPicker, DateRange as PickerDateRange } from 'react-day-picker';
-import 'react-day-picker/dist/style.css';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 import { convertDateToString } from './Charts/ChartHelper';
 import ToggleSelections from '../Reusable/ToggleSelections';
+import { DateRange, Range } from 'react-date-range';
 
 interface AnalyticsRangeSelectorProps {
 	setAnalyticParams: (analyticParams: AnalyticParams) => void;
@@ -16,15 +17,11 @@ interface AnalyticsRangeSelectorProps {
 const AnalyticsRangeSelector: FunctionComponent<
 	AnalyticsRangeSelectorProps
 > = ({ setAnalyticParams, defaultValues: dV, itemNames, categoryNames }) => {
-	const [range, setRange] = useState<PickerDateRange | undefined>(
-		dV
-			? {
-					from: new Date(dV.startDate),
-					to: new Date(dV.endDate),
-			  }
-			: undefined
-	);
 	const [timeUnit, setTimeUnit] = useState(dV?.timeUnit || TimeUnit.Day);
+	const [selectionRange, setSelectionRange] = useState<Range>({
+		startDate: dV ? new Date(dV.startDate) : new Date(),
+		endDate: dV ? new Date(dV.endDate) : new Date(),
+	});
 
 	let filter: 'All' | 'Name' | 'Category' = 'All';
 	if (dV) {
@@ -40,12 +37,12 @@ const AnalyticsRangeSelector: FunctionComponent<
 	const preserveNullsRef = useRef<HTMLInputElement>(null);
 
 	const confirmSelections = () => {
-		if (!range) return;
-		const { from, to } = range;
-		if (!from || !to) return;
+		if (!selectionRange) return;
+		const { startDate, endDate } = selectionRange;
+		if (!startDate || !endDate) return;
 
-		const fromString = convertDateToString(from);
-		const toString = convertDateToString(to);
+		const fromString = convertDateToString(startDate);
+		const toString = convertDateToString(endDate);
 		const analyticParams = {
 			startDate: fromString,
 			endDate: toString,
@@ -66,20 +63,29 @@ const AnalyticsRangeSelector: FunctionComponent<
 			<ToggleSelections
 				selections={Object.keys(TimeUnit)}
 				selected={timeUnit}
-				onChange={(selection) => setTimeUnit(TimeUnit[selection])}
-				comparator={(selection, selected) => TimeUnit[selection] === selected}
+				onChange={(selection) =>
+					setTimeUnit(TimeUnit[selection as keyof typeof TimeUnit])
+				}
+				comparator={(selection, selected) =>
+					TimeUnit[selection as keyof typeof TimeUnit] === selected
+				}
 				prefixTitle="Time Unit:"
 				className={classes.selections}
 				selectedId={classes.selected}
 			/>
 			<div className={classes.date_range}>
 				<p>Date Range:</p>
-				<DayPicker
-					id="analytics-date-range"
-					mode="range"
-					selected={range}
-					onSelect={setRange}
-					className={classes.rdp}
+				<DateRange
+					ranges={[selectionRange]}
+					onChange={(ranges) => {
+						setSelectionRange({
+							startDate: ranges.range1.startDate,
+							endDate: ranges.range1.endDate,
+						});
+					}}
+					minDate={new Date('2020-01-01')}
+					maxDate={new Date()}
+					rangeColors={['#003472']}
 				/>
 			</div>
 			<ToggleSelections
@@ -101,7 +107,11 @@ const AnalyticsRangeSelector: FunctionComponent<
 							defaultValue={dV?.itemCategory || ''}
 						>
 							{categoryNames?.map(({ name }) => {
-								return <option value={name}>{name}</option>;
+								return (
+									<option value={name} key={name}>
+										{name}
+									</option>
+								);
 							})}
 						</select>
 					</div>
@@ -116,7 +126,11 @@ const AnalyticsRangeSelector: FunctionComponent<
 							defaultValue={dV?.itemName || ''}
 						>
 							{itemNames?.map(({ name }) => {
-								return <option value={name}>{name}</option>;
+								return (
+									<option value={name} key={name}>
+										{name}
+									</option>
+								);
 							})}
 						</select>
 					</div>

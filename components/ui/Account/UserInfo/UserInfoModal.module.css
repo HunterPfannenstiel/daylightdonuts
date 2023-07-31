@@ -44,6 +44,14 @@
     border-bottom: 1px solid #B4BECC;
 }
 
+.text_field input:valid {
+    border-color: var(--primary-blue);
+}
+
+.text_field input:invalid {
+    border-color: var(--primary-yellow);
+}
+
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -54,6 +62,11 @@
     background-color: var(--primary-blue);
     border-radius: 1rem;
     width: 150px;
+}
+
+.format {
+    font-size: .75rem;
+    color: grey;
 }
 
 @media (max-width: 40em) {
