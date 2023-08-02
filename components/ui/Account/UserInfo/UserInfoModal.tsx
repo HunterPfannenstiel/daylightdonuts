@@ -48,7 +48,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 							handler={(value) => formInputHandler('first_name', value)}
 							className={classes.text_field}
 							defaultValue={formInputs.current.first_name}
-              placeholder="Daylight"
+							placeholder="Daylight"
 							required
 						/>
 						<TextInput
@@ -57,12 +57,12 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 							handler={(value) => formInputHandler('last_name', value)}
 							className={classes.text_field}
 							defaultValue={formInputs.current.last_name}
-              placeholder="Donuts"
+							placeholder="Donuts"
 							required
 						/>
 					</div>
 					<div className={classes.input_section}>
-						<div>
+						<div className={classes.phone_section}>
 							<TextInput
 								id="phone"
 								label="Phone:"
@@ -70,17 +70,17 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 								handler={(value) => formInputHandler('phone_number', value)}
 								className={classes.text_field}
 								defaultValue={formInputs.current.phone_number}
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                placeholder='xxx-xxx-xxxx'
+								pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+								placeholder="xxx-xxx-xxxx"
 								required
 							/>
-              <p className={classes.format}>Format: xxx-xxx-xxxx</p>
+							<p className={classes.format}>Format: xxx-xxx-xxxx</p>
 						</div>
 						<SelectInput
 							id="favorite"
 							label="Favorite:"
 							handler={(value) => formInputHandler('favorite', value)}
-							className={classes.field}
+							className={classes.favorite}
 							type="checkbox"
 							defaultChecked={formInputs.current.favorite}
 						/>

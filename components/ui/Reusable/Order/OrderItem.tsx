@@ -10,7 +10,7 @@ interface OrderItemProps {
 	cartId: number;
 	amount: number;
 	extra_info?: ExtraDetails | null;
-	unit_price?: number;
+	unit_price?: string;
 	price?: number;
 	deleteable?: boolean;
 	onDelete?: (cart_item_id: number) => void;
@@ -38,13 +38,11 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 					className={classes.image}
 				/>
 				<div className={classes.item_details}>
-					<div>
-						<p className={classes.name}>{name}</p>
-						<div className={classes.extras}>
-							{extra_info?.info.map((extra) => (
-								<p>{extra.extra}</p>
-							))}
-						</div>
+					<p className={classes.name}>{name}</p>
+					<div className={classes.extras}>
+						{extra_info?.info.map((extra) => (
+							<p>{extra.extra}</p>
+						))}
 					</div>
 				</div>
 				<p className={classes.price}>

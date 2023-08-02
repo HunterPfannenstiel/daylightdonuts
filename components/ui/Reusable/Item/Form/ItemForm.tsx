@@ -54,7 +54,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           {buttonName || "Add to Cart"}
         </Button>
         {maxAmount !== 0 && (
-          <select id="amount" name="amount" ref={amountRef}>
+          <select id="amount" name="amount" ref={amountRef} className={classes.amount}>
             {getOptions(maxAmount)}
           </select>
         )}

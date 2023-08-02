@@ -7,13 +7,20 @@
     gap: 1rem;
 }
 
+.image {
+    width: 75px;
+    height: 75px;
+}
+
 .item_details {
     flex: 1;
+    overflow: hidden;
 }
 
 .price {
     flex: 1;
     text-align: center;
+    min-width: 60px;
 }
 
 .amount {
@@ -25,9 +32,15 @@
     font-weight: bold;
 }
 
+.name, .extras p {
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
+}
+
 .extras {
     font-size: 1rem;
-    text-overflow: clip;
+    text-overflow: ellipsis;
 }
 
 .deleteable {
@@ -36,4 +49,11 @@
 
 .last {
     text-align: right;
+}
+
+@media (min-width: 40em) {
+    .image {
+        height: 100px;
+        width: 100px;
+    }
 }

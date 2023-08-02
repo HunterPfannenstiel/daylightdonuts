@@ -2,6 +2,7 @@ import Providers from "@_providers/Providers";
 import Header from "components/ui/Header/Header";
 import "../public/css/global.css";
 import { Metadata } from "next";
+import RoosterLayout from "@ui/Reusable/RoosterLayout";
 
 export const metadata: Metadata = {
   title: "Daylight Donuts - Order Today!",
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Header />
+          <RoosterLayout />
           <div id="modal"></div>
           {children}
         </Providers>

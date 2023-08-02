@@ -15,7 +15,6 @@
 
 .form select {
     width: 60%;
-    border-color: #DCDCDC;
 }
 
 .add_cart {
@@ -27,6 +26,7 @@
 .add_cart select {
     width: fit-content;
     padding-right: 10%;
+    background-color: transparent;
 }
 
 .blue_button {

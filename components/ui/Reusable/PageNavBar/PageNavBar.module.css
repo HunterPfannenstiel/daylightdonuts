@@ -1,15 +1,14 @@
 .nav_bar {
     display: flex;
-    overflow-x: scroll;
     background-color: white;
-    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
 }
 
-.nav_bar::-webkit-scrollbar {
-    display: none;
+.scroll_list {
+    padding: .5rem 0;
 }
+
 
 /* .nav_bar >*:first-child {
     margin-left: auto;
