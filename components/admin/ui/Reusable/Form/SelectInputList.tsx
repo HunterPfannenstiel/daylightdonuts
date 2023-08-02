@@ -47,7 +47,7 @@ const SelectInputList: FunctionComponent<SelectInputListProps> = ({
           return (
             <SelectInput
               key={selection.id}
-              inputId={selection.name}
+              id={selection.name}
               label={selection.name}
               defaultChecked={isSelected || alwaysChecked}
               handler={(selected) => {

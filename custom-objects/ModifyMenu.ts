@@ -86,15 +86,15 @@ export default class ModifyMenu {
     return array.length === 0 ? undefined : array;
   }
 
-  static SelectionsToArray<T>(selections: InitialSelections) {
-    return Object.keys(selections).map((key) => key) as T[];
+  static SelectionsToArray(selections: InitialSelections) {
+    return Object.keys(selections).map((key) => key) as string[];
   }
 
-  static SelectionsToNewAndRemoved<T extends any = number>(
+  static SelectionsToNewAndRemoved(
     initialSelections: InitialSelections,
     currentSelections: InitialSelections
   ) {
-    return this.GetNewAndRemovedIds<T>(
+    return this.GetNewAndRemovedIds(
       this.SelectionsToArray(initialSelections),
       this.SelectionsToArray(currentSelections)
     );

@@ -127,7 +127,7 @@ export type CreateExtraGroup = {
   name: string;
   categoryId: number;
   extrasInfo?: ExtraGroupExtraInfo[];
-  menuItemIds?: number[];
+  menuItemIds?: (number | string)[];
 };
 
 export const createExtraGroup = async (info: CreateExtraGroup) => {
@@ -146,8 +146,8 @@ export type ModifyExtraGroup = {
   name?: string;
   categoryId?: number;
   extrasInfo?: ExtraGroupExtraInfo[];
-  removeExtraIds?: number[];
-  addMenuItemIds?: number[];
+  removeExtraIds?: (number | string)[];
+  addMenuItemIds?: (number | string)[];
   removeMenuItemIds?: number[];
 };
 

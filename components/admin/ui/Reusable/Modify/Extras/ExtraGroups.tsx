@@ -5,7 +5,7 @@ import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 interface ExtraGroupsProps {
-  initialGroups: MutableRefObject<InitialSelections>;
+  initialGroups: InitialSelections;
   initialCategoryId: MutableRefObject<number | undefined>;
   groupSelections: NestedDBEntity[];
   categories: DBEntity[];
@@ -50,7 +50,7 @@ const ExtraGroups: FunctionComponent<ExtraGroupsProps> = ({
               )[0].entities
             }
             title="Select Groups"
-            initialSelections={initialGroups.current || {}}
+            initialSelections={initialGroups || {}}
             type="checkbox"
             onSelect={(id, __, selected) => {
               updateGroupings(id, selected);

@@ -31,26 +31,30 @@ const ExtraGroup: FunctionComponent<ExtraGroupProps> = ({
   const extraGroups = useUpdateNestedEntities(initialGroups);
   return (
     <>
-      <CreateExtraGroupModal
-        addNewGroup={extraGroups.addNewEntity}
-        modalProps={createModal.getModalProps()}
-        extras={extras}
-        items={items}
-      />
+      {createModal.showModal && (
+        <CreateExtraGroupModal
+          addNewGroup={extraGroups.addNewEntity}
+          modalProps={createModal.getModalProps()}
+          extras={extras}
+          items={items}
+        />
+      )}
       <button onClick={createModal.handleModal}>Create New Group</button>
       <NestedEntityDisplay
         entities={extraGroups.entities}
         setSelectedEntity={setSelectedEntity}
       />
-      <ModifyExtraGroupModal
-        index={getSelectedIndex()!}
-        entityFns={extraGroups.getUpdateEntityProps()}
-        extras={extras}
-        items={items}
-        groupId={getSelectedId()!}
-        modalProps={modifyModal.getModalProps()}
-        groupName={getSelectedName()!}
-      />
+      {modifyModal.showModal && (
+        <ModifyExtraGroupModal
+          index={getSelectedIndex()!}
+          entityFns={extraGroups.getUpdateEntityProps()}
+          extras={extras}
+          items={items}
+          groupId={getSelectedId()!}
+          modalProps={modifyModal.getModalProps()}
+          groupName={getSelectedName()!}
+        />
+      )}
     </>
   );
 };

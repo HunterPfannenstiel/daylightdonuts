@@ -21,7 +21,7 @@ const useCollectExtraInfo = (
     clearSelections();
     updateId(id);
   };
-  const { selections, updateSelection, clearSelections, composeSelections } =
+  const [selections, { updateSelection, clearSelections, composeSelections }] =
     useSelections(initialGroups);
 
   const getExtraGroupInfo = (

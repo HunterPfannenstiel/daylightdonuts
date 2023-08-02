@@ -33,23 +33,27 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
     <>
       <button onClick={createModal.handleModal}>Create Category</button>
 
-      <CreateExtraCategoryModal
-        addNewCategory={categories.addNewEntity}
-        modalProps={createModal.getModalProps()}
-        existingExtras={customizations}
-      />
+      {createModal.showModal && (
+        <CreateExtraCategoryModal
+          addNewCategory={categories.addNewEntity}
+          modalProps={createModal.getModalProps()}
+          existingExtras={customizations}
+        />
+      )}
       <EntityDisplay
         entities={categories.entities}
         setSelectedEntity={setSelectedEntity}
       />
-      <ModifyModal
-        updateCategory={categories.updateEntity}
-        modalProps={modifyModal.getModalProps()}
-        extraCategoryId={getSelectedId()!}
-        categoryName={getSelectedName()!}
-        index={getSelectedIndex()!}
-        existingExtras={customizations}
-      />
+      {modifyModal.showModal && (
+        <ModifyModal
+          updateCategory={categories.updateEntity}
+          modalProps={modifyModal.getModalProps()}
+          extraCategoryId={getSelectedId()!}
+          categoryName={getSelectedName()!}
+          index={getSelectedIndex()!}
+          existingExtras={customizations}
+        />
+      )}
     </>
   );
 };

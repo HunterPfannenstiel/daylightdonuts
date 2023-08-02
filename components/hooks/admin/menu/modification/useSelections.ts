@@ -36,6 +36,14 @@ const useSelections = <T extends unknown = boolean>(
   };
 
   /**
+   * Deletes a selection with the specified ID.
+   * @param id The ID of the selection to delete.
+   */
+  const deleteSelection = (id: number) => {
+    delete selections.current[id];
+  };
+
+  /**
    * Clears all selections by resetting the selections to an empty object.
    */
   const clearSelections = () => {
@@ -60,7 +68,26 @@ const useSelections = <T extends unknown = boolean>(
     return [];
   };
 
-  return { selections, updateSelection, clearSelections, composeSelections };
+  return [
+    selections.current,
+    {
+      update: updateSelection,
+      clear: clearSelections,
+      delete: deleteSelection,
+      compose: composeSelections,
+    },
+  ] as [
+    InitialSelections,
+    {
+      update: (id: number, value?: T) => void;
+      clear: () => void;
+      delete: (id: number) => void;
+      compose: <U>(
+        cb: (key: number, val: T) => U,
+        selections?: InitialSelections
+      ) => U[];
+    }
+  ];
 };
 
 export default useSelections;

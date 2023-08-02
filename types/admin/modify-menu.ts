@@ -68,8 +68,8 @@ export type ExtraCategoryCustomizations = (DBEntity & { category: string })[];
 export type CategoryExtra = { category_id: number; extras: DBEntity[] };
 
 export type ExtraGroupSelections = {
-  initial_extras: InitialSelections;
-  initial_items: InitialSelections;
+  initial_extras: InitialSelections | null;
+  initial_items: InitialSelections | null;
   initial_category_id: number;
 };
 

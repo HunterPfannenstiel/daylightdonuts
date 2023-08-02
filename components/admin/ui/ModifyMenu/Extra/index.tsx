@@ -30,25 +30,29 @@ const Extra: FunctionComponent<ExtraProps> = ({
   return (
     <>
       <button onClick={createModal.handleModal}>Create Extra</button>
-      <CreateExtraModal
-        modalProps={createModal.getModalProps()}
-        addNewExtra={extras.getUpdateEntityProps().addNewEntity}
-        groupings={customizations.groups}
-        categories={customizations.categories}
-      />
+      {createModal.showModal && (
+        <CreateExtraModal
+          modalProps={createModal.getModalProps()}
+          addNewExtra={extras.getUpdateEntityProps().addNewEntity}
+          groupings={customizations.groups}
+          categories={customizations.categories}
+        />
+      )}
       <NestedEntityDisplay
         entities={extras.entities}
         setSelectedEntity={setSelectedEntity}
       />
-      <ModifyExtraModal
-        modifyEntity={extras.getUpdateEntityProps()}
-        index={getSelectedIndex()!}
-        extraId={getSelectedId()!}
-        extraName={getSelectedName()!}
-        modalProps={modifyModal.getModalProps()}
-        groupings={customizations.groups}
-        categories={customizations.categories}
-      />
+      {modifyModal.showModal && (
+        <ModifyExtraModal
+          modifyEntity={extras.getUpdateEntityProps()}
+          index={getSelectedIndex()!}
+          extraId={getSelectedId()!}
+          extraName={getSelectedName()!}
+          modalProps={modifyModal.getModalProps()}
+          groupings={customizations.groups}
+          categories={customizations.categories}
+        />
+      )}
     </>
   );
 };

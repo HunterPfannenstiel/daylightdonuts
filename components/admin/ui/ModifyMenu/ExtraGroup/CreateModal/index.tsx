@@ -37,7 +37,7 @@ const CreateExtraGroupModal: FunctionComponent<CreateExtraGroupModalProps> = ({
       name: info.name.current,
       categoryId,
       extrasInfo: info.getExtraDisplayOrders(),
-      menuItemIds: info.getMenuItemIds(),
+      menuItemIds: ModifyMenu.SelectionsToArray(info.selectedItemIds),
     } as CreateExtraGroup;
     const res = await ModifyMenu.Post.Create<number>("extra-group", extraGroup);
     if (!res.success) {

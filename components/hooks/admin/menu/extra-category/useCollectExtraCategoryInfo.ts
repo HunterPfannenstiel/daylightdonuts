@@ -5,7 +5,9 @@ import {
   ExtraDetails,
 } from "@_types/admin/modify-menu";
 import { useRef, useState } from "react";
-import { InitialSelections } from "../modification/useSelections";
+import useSelections, {
+  InitialSelections,
+} from "../modification/useSelections";
 
 const useCollectExtraCategoryInfo = (
   categoryName: string,
@@ -17,13 +19,17 @@ const useCollectExtraCategoryInfo = (
     name.current = newName;
   };
 
-  const selectedExtraIds = useRef(
-    getInitialExtraIds(initialInfo?.initial_extras)
+  const [extraIds, { delete: deleteExtraId, update: updateExtraId }] =
+    useSelections(getInitialExtraIds(initialInfo?.initial_extras));
+
+  const [selectedExtras, setSelectedExtras] = useState<DBEntity[]>(
+    getInitialDetailedExtras(initialInfo?.initial_extras)
   );
 
   const updateSelectedExtra = (id: number, name: string) => {
-    if (selectedExtraIds.current[id]) {
-      delete selectedExtraIds.current[id];
+    console.log(id, name);
+    if (extraIds[id]) {
+      deleteExtraId(id);
       setSelectedExtras((prevState) => {
         const copy = prevState.map((extra) => {
           return { ...extra };
@@ -35,7 +41,7 @@ const useCollectExtraCategoryInfo = (
         return copy;
       });
     } else {
-      selectedExtraIds.current[id] = true;
+      updateExtraId(id, true);
       setSelectedExtras((prevState) => {
         const copy = prevState.map((extra) => {
           return { ...extra };
@@ -45,10 +51,6 @@ const useCollectExtraCategoryInfo = (
       });
     }
   };
-
-  const [selectedExtras, setSelectedExtras] = useState<DBEntity[]>(
-    getInitialDetailedExtras(initialInfo?.initial_extras)
-  );
 
   const [currentNewExtra, setCurrentNewExtra] = useState(getInitialNewExtra());
 
@@ -92,7 +94,7 @@ const useCollectExtraCategoryInfo = (
   return {
     name,
     updateName,
-    selectedExtraIds: selectedExtraIds.current,
+    selectedExtraIds: extraIds,
     updateSelectedExtra,
     selectedExtras,
     currentNewExtra,

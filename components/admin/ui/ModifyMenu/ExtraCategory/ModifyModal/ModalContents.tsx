@@ -33,7 +33,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     e.preventDefault();
     const selectedIds = ModifyMenu.SelectionsToArray(info.selectedExtraIds);
     const addExtraIds = selectedIds.filter((id) => {
-      return !initialInfo.initial_extras[id];
+      return !initialInfo.initial_extras[+id];
     });
     const newName = ModifyMenu.CompareVal(categoryName, info.name.current);
     const details = {
@@ -50,7 +50,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
     handleModal();
   };
   return (
-    <form onSubmit={onModify}>
+    <form>
       <ExtraCategoryName updateName={info.updateName} initialName={info.name} />
       <ExtraCategoryNewExtras
         initialExtraDetails={info.currentNewExtra}
@@ -66,7 +66,9 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
         initialExtraIds={info.selectedExtraIds}
         selectedExtras={info.selectedExtras}
       />
-      <button>Submit</button>
+      <button type="button" onClick={onModify}>
+        Submit
+      </button>
     </form>
   );
 };

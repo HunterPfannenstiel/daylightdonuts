@@ -19,9 +19,9 @@ const NestedEntityDisplay: FunctionComponent<NestedEntityDisplayProps> = ({
             <h2>{name}</h2>
             {entities.map((entity, i) => {
               return (
-                <li onClick={setSelectedEntity.bind(null, entity, i)}>
+                <p onClick={setSelectedEntity.bind(null, entity, i)}>
                   {entity.name}
-                </li>
+                </p>
               );
             })}
           </li>
