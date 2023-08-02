@@ -3,6 +3,7 @@ import classes from "./ImageModifications.module.css";
 import { ItemImage } from "@_types/admin/forms";
 import ImageComponent from ".";
 import ImageInput from "@_admin-reuse/Form/Inputs/ImageInput";
+import ScrollList from "@ui/Reusable/ScrollList";
 
 interface ImageModificationsProps {
   addImages: (image: ItemImage[]) => void;
@@ -19,7 +20,7 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
 }) => {
   return (
     <div className={classes.container}>
-      <ul className={classes.images}>
+      <ScrollList className={classes.images}>
         {images.map((image, i) => {
           return (
             <div className={classes.image} key={image.imageUrl}>
@@ -33,7 +34,7 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
             </div>
           );
         })}
-      </ul>
+      </ScrollList>
       <ImageInput imageHandler={addImages} width="25%" multiple />
     </div>
   );

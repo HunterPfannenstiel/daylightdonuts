@@ -10,5 +10,8 @@
 .header {
     font-weight: normal;
     font-size: 1.2rem;
-    text-align: center;
+    color: var(--primary-blue);
+    border-bottom: 1px solid var(--primary-blue);
+    width: fit-content;
+    cursor: pointer;
 }

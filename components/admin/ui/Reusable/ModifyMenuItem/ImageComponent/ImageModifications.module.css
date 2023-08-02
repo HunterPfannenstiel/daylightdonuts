@@ -4,22 +4,17 @@
     gap: 1rem;
 }
 
-.container .images {
+.images {
     width: 75%;
-    overflow-x: scroll;
 }
 
 .container:last-child {
     width: 25%;
 }
 
-.images {
-    display: flex;
-    align-items: center;
-}
-
-.images > * {
-    width: 50%;
+.image {
+    width: 33%;
+    min-width: 150px;
 }
 
 .image p{

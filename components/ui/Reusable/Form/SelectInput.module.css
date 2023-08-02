@@ -1,4 +1,9 @@
-.input {
+.input_container {
     display: flex;
     gap: 0.25rem;
+}
+
+.label {
+    font-weight: normal;
+    font-size: 1rem;
 }

@@ -1,5 +1,6 @@
 import { ComponentPropsWithoutRef, FunctionComponent } from "react";
 import classes from "./SelectInput.module.css";
+import { concatClassNames } from "@_utils/client";
 
 interface SelectInputProps extends ComponentPropsWithoutRef<"input"> {
   label: string;
@@ -14,14 +15,16 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
   type,
   radioName,
   id,
+  className,
   ...restProps
 }) => {
-  const className =
-    type === "radio"
-      ? `${classes.input} ${classes.radio}`
-      : `${classes.input} ${classes.checkbox}`;
   return (
-    <div className={className}>
+    <div
+      className={concatClassNames(
+        classes.input_container,
+        type === "radio" ? classes.radio : classes.checkbox
+      )}
+    >
       <input
         type={type}
         id={id}
@@ -31,7 +34,12 @@ const SelectInput: FunctionComponent<SelectInputProps> = ({
         name={radioName}
         {...restProps}
       />
-      <label htmlFor={id}>{label}</label>
+      <label
+        htmlFor={id}
+        className={concatClassNames(classes.label, className)}
+      >
+        {label}
+      </label>
     </div>
   );
 };
