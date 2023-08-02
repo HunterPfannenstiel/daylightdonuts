@@ -3,8 +3,6 @@ import classes from "./ItemGroupings.module.css";
 import { AvailableGrouping } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 
-//RADIO
-
 interface ItemGroupingsProps {
   availableGroupings: AvailableGrouping[];
   selectedId?: number;
@@ -19,7 +17,6 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
   if (availableGroupings.length === 0) {
     return <p>No groupings have been added to the store</p>;
   }
-  console.log(selectedId);
   return (
     <Fieldset legend="Groupings" className={classes.groupings}>
       <div>

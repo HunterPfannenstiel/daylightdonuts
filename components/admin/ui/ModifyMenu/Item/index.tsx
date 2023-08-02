@@ -28,11 +28,6 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
   extraGroupings,
   itemCategories,
 }) => {
-  const selectedId = useRef<number>();
-  const openModifyModal = (id: number) => {
-    selectedId.current = id;
-    modifyModal.handleModal();
-  };
   const {
     createModal,
     modifyModal,
@@ -55,7 +50,9 @@ const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({
       )}
       <EntityDisplay
         entities={items.entities}
+        entityCategory="Item"
         setSelectedEntity={setSelectedEntity}
+        createNewHandler={createModal.handleModal}
       />
       {modifyModal.showModal && (
         <ModifyItemModal

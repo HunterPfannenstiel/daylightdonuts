@@ -8,6 +8,10 @@ const useDragDrop = <T>(initialItems?: T[]) => {
     setItems((prevState) => [...prevState, item]);
   };
 
+  const addManyItems = (items: T[]) => {
+    setItems((prevState) => [...prevState, ...items]);
+  };
+
   const swapItems = (indexOne: number, indexTwo: number) => {
     setItems((prevState) => {
       const newItems = prevState.map((item) => {
@@ -30,12 +34,13 @@ const useDragDrop = <T>(initialItems?: T[]) => {
     }
   };
 
-  return [items, { swapItems, deleteItem, addItem }] as [
+  return [items, { swapItems, deleteItem, addItem, addManyItems }] as [
     T[],
     {
       swapItems: (indexOne: number, indexTwo: number) => void;
       deleteItem: (index: number, amount?: number) => void;
       addItem: (item: T) => void;
+      addManyItems: (items: T[]) => void;
     }
   ];
 };

@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, FunctionComponent } from "react";
 import classes from "./TextInput.module.css";
 import { concatClassNames } from "@_utils/client";
 
-interface TextInputProps extends ComponentPropsWithoutRef<"input"> {
+interface TextInputProps extends ComponentPropsWithoutRef<"textarea"> {
   label: string;
   inputType?: string;
   handler: (value: string) => void;
@@ -19,9 +19,9 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   return (
     <div className={concatClassNames(classes.input, className)}>
       <label htmlFor={id}>{label}</label>
-      <input
+      <textarea
+        className={classes.textarea}
         id={id}
-        type={inputType}
         onChange={(e) => {
           handler(e.target.value);
         }}

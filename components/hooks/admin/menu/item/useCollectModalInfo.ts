@@ -7,6 +7,7 @@ import {
   SelectedWeekdays,
 } from "@_types/admin/forms";
 import { useRef, useState } from "react";
+import useDragDrop from "../modification/useDragDrop";
 
 const useCollectModalInfo = (
   initialDetails?: MenuItemDetails,
@@ -25,32 +26,10 @@ const useCollectModalInfo = (
     menuItemDetails.current[key] = value as never;
   };
 
-  const [itemImages, setItemImages] = useState(initialImages || []);
-
-  const swapImages = (indexOne: number, indexTwo: number) => {
-    setItemImages((prevState) => {
-      const copyState = [...prevState];
-      const temp = copyState[indexOne];
-      copyState[indexOne] = copyState[indexTwo];
-      copyState[indexTwo] = temp;
-      return copyState;
-    });
-  };
-
-  const addImages = (images: ItemImage[]) => {
-    setItemImages((prevState) => {
-      return [...prevState, ...images];
-    });
-  };
-
-  const removeImage = (index: number) => {
-    setItemImages((prevState) => {
-      const copyState = [...prevState];
-      const removedImage = copyState.splice(index, 1)[0];
-      if (removedImage.blob) URL.revokeObjectURL(removedImage.imageUrl!);
-      return copyState;
-    });
-  };
+  const [
+    itemImages,
+    { swapItems: swapImages, addManyItems: addImages, deleteItem: deleteImage },
+  ] = useDragDrop(initialImages);
 
   const getImageDetails = () => {
     const newImageDisplayOrder = {} as any;
@@ -173,7 +152,7 @@ const useCollectModalInfo = (
     itemImages,
     swapImages,
     addImages,
-    removeImage,
+    deleteImage,
     dbHelpers: {
       getSelectedExtraGroups,
       getSelectedCategories,

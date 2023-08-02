@@ -7,21 +7,16 @@ import ImageInput from "@_admin-reuse/Form/Inputs/ImageInput";
 interface ImageModificationsProps {
   addImages: (image: ItemImage[]) => void;
   swapImages: (indexOne: number, indexTwo: number) => void;
+  deleteImage: (index: number) => void;
   images: ItemImage[];
 }
 
 const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
   addImages,
   swapImages,
+  deleteImage,
   images,
 }) => {
-  // const onImageDragged = (e: React.DragEvent, index: string) => {
-  //   e.dataTransfer.setData("index", index);
-  // };
-  // const onImageDropped = (e: React.DragEvent, index: number) => {
-  //   const draggedImageIndex = e.dataTransfer.getData("index");
-  //   swapImages(+draggedImageIndex, index);
-  // };
   return (
     <div className={classes.container}>
       <ul className={classes.images}>
@@ -32,13 +27,14 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
                 imageUrl={image.imageUrl}
                 index={i}
                 onSwap={swapImages}
+                onDelete={deleteImage}
               />
               <p>{i + 1}</p>
             </div>
           );
         })}
       </ul>
-      <ImageInput imageHandler={addImages} width="25%" />
+      <ImageInput imageHandler={addImages} width="25%" multiple />
     </div>
   );
 };

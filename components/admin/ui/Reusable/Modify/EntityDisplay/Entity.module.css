@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.name {
+    font-size: 2rem;
+    color: var(--primary-font);
+}

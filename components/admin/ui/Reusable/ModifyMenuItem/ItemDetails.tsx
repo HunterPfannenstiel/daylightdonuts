@@ -4,8 +4,7 @@ import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import ImageModifications from "./ImageComponent/ImageModifications";
 import TextInput from "components/ui/Reusable/Form/TextInput";
-
-//TEXT INPUTS
+import TextArea from "@ui/Reusable/Form/TextArea";
 
 interface ItemDetailsProps {
   initialDetails: {
@@ -17,6 +16,7 @@ interface ItemDetailsProps {
   addImages: (images: ItemImage[]) => void;
   updateHandler: (key: keyof MenuItemDetails, value: any) => void;
   swapImages: (indexOne: number, indexTwo: number) => void;
+  deleteImage: (index: number) => void;
 }
 
 const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
@@ -25,10 +25,12 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   addImages,
   updateHandler,
   swapImages,
+  deleteImage,
 }) => {
   return (
     <Fieldset className={classes.details}>
       <ImageModifications
+        deleteImage={deleteImage}
         addImages={addImages}
         images={images}
         swapImages={swapImages}
@@ -53,7 +55,7 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         required
         defaultValue={initialDetails.price}
       />
-      <TextInput
+      <TextArea
         id="item-description"
         label="Description"
         handler={(inputValue) => {
@@ -61,7 +63,6 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         }}
         required
         defaultValue={initialDetails.description}
-        isTextArea
       />
     </Fieldset>
   );

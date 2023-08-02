@@ -1,4 +1,4 @@
-import { ChangeEvent, FunctionComponent } from "react";
+import { CSSProperties, ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
 import { ItemImage } from "@_types/admin/forms";
 
@@ -19,7 +19,7 @@ type ImageInputProps =
 const ImageInput: FunctionComponent<ImageInputProps> = ({
   imageHandler,
   singleImageHandler,
-  multiple = true,
+  multiple,
   width,
 }) => {
   const onImageInput = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +36,11 @@ const ImageInput: FunctionComponent<ImageInputProps> = ({
     }
   };
   return (
-    <div className={classes.image_input} style={{ width, paddingTop: width }}>
-      <label htmlFor="image">Click</label>
+    <div
+      className={classes.image_input}
+      style={{ "--width": width } as CSSProperties}
+    >
+      <label htmlFor="image">Add Images</label>
       <input
         multiple={multiple}
         type="file"

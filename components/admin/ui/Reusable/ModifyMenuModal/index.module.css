@@ -5,4 +5,5 @@
     padding: 2rem;
     border-radius: 8px;
     overflow-y: scroll;
+    max-width: 1000px;
 }

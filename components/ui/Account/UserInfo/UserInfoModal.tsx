@@ -28,17 +28,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
     favorite: info ? info.favorite : false,
     id: info ? info.id : -1,
   });
-  const formInputs = useRef({
-    first_name: info ? info.first_name : "",
-    last_name: info ? info.last_name : "",
-    phone_number: info ? info.phone_number : "",
-    favorite: info ? info.favorite : false,
-    id: info ? info.id : -1,
-  });
 
-  const formInputHandler = (key: keyof UserInfo, value: any) => {
-    formInputs.current[key] = value as never;
-  };
   const formInputHandler = (key: keyof UserInfo, value: any) => {
     formInputs.current[key] = value as never;
   };

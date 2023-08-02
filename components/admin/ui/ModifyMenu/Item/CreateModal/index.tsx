@@ -80,6 +80,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
             addImages={itemInfo.addImages}
             initialDetails={itemInfo.menuItemDetails}
             updateHandler={itemInfo.updateItemDetails}
+            deleteImage={itemInfo.deleteImage}
           />,
           <ItemGroupings
             availableGroupings={groupings}

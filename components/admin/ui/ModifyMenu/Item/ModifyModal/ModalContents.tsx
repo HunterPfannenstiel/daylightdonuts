@@ -5,8 +5,6 @@ import {
   AvailableGrouping,
   AvailableItemCategory,
   InitialItemSelections,
-  ItemDateRange,
-  MenuItemDetails,
   ModifyItem,
   ModifyItemDetails,
 } from "@_types/admin/forms";
@@ -143,6 +141,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
         addImages={itemInfo.addImages}
         initialDetails={itemInfo.menuItemDetails}
         updateHandler={itemInfo.updateItemDetails}
+        deleteImage={itemInfo.deleteImage}
       />
       <ItemGroupings
         availableGroupings={groupings}
