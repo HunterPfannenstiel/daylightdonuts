@@ -1,15 +1,9 @@
 "use client";
 
-import { FunctionComponent, useRef } from "react";
-import classes from "./index.module.css";
-import {
-  AvailableExtraGrouping,
-  AvailableGrouping,
-  AvailableItemCategory,
-} from "@_types/admin/forms";
-import { Item } from "@_types/admin/modify-menu";
+import { FunctionComponent } from "react";
+import { AvailableExtraGrouping } from "@_types/admin/forms";
+import { DBEntity, Item, NestedDBEntity } from "@_types/admin/modify-menu";
 import ModifyItemModal from "./ModifyModal";
-import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import CreateItemModal from "./CreateModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
@@ -17,9 +11,9 @@ import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ModifyMenuProps {
   initialItems: Item[];
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extraGroupings: AvailableExtraGrouping[];
-  itemCategories: AvailableItemCategory[];
+  itemCategories: NestedDBEntity[];
 }
 
 const ModifyMenu: FunctionComponent<ModifyMenuProps> = ({

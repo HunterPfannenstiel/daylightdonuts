@@ -1,13 +1,15 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./ItemAvailability.module.css";
-import styles from "react-day-picker/dist/style.module.css";
-import { DayPicker } from "react-day-picker";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRange, Range } from "react-date-range";
 import { ItemDateRange } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
-
-//CHECKBOX
+import RangeSelect from "@ui/Reusable/Date/RangeSelect";
+import { formatDate } from "@_utils/orders/dates";
+import useRangeSelect from "@ui/Reusable/Date/useRangeSelect";
 
 interface ItemAvailabilityProps {
   selectedWeekdays: InitialSelections;
@@ -22,6 +24,26 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
   updateWeekdayHandler,
   updateRangeHandler,
 }) => {
+  const [selectionRange, setSelectionRange] = useRangeSelect(
+    availabilityRange && {
+      startDate: new Date(availabilityRange.from),
+      endDate: new Date(availabilityRange.to),
+    }
+  );
+  const dateSelectHandler = (
+    start: Date | undefined,
+    end: Date | undefined
+  ) => {
+    if (start && end) {
+      setSelectionRange(start, end);
+      updateRangeHandler({ from: formatDate(start), to: formatDate(end) });
+    }
+  };
+
+  const clearSelectedDate = () => {
+    setSelectionRange(undefined, undefined);
+    updateRangeHandler(undefined);
+  };
   return (
     <Fieldset legend="Availability">
       <div className={classes.weekdays}>
@@ -39,42 +61,18 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
           <h2>Range Availability</h2>
           <div>
             <p>{`From: ${availabilityRange.from} To: ${availabilityRange.to}`}</p>
-            <button>Update</button>
-            <button onClick={updateRangeHandler.bind(null, undefined)}>
-              X
-            </button>
+            <button onClick={clearSelectedDate}>X</button>
           </div>
         </>
       )}
-      <DayPicker
-        mode="range"
-        classNames={classNames}
-        onSelect={(range) => {
-          if (range && range.from && range.to) {
-            const dateRange = {
-              from: range.from?.toISOString(),
-              to: range.to?.toISOString(),
-            };
-            updateRangeHandler(dateRange);
-          }
-        }}
+      <RangeSelect
+        dateHandler={dateSelectHandler}
+        minDate={new Date()}
+        range={selectionRange}
       />
     </Fieldset>
   );
 };
-
-const classNames = {
-  ...styles,
-};
-
-{
-  /* <DayPicker
-{...props}
-onSelect={dateSelected}
-selected={selectedDate}
-classNames={classNames}
-/> */
-}
 
 const weekdays = [
   { name: "Sunday", id: 1 },

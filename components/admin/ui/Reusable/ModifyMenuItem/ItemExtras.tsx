@@ -8,13 +8,11 @@ import Fieldset from "../Form/Fieldset";
 import Accordian from "components/ui/Reusable/Accordian";
 import SelectInput from "@ui/Reusable/Form/SelectInput";
 
-//RADIO
-
 interface ItemExtrasProps {
   groupings: AvailableExtraGrouping[];
   selectedGroupings: SelectedExtraGroupings;
   updateSelectedGroupings: (
-    category: string,
+    categoryId: number,
     value: number | undefined
   ) => void;
 }
@@ -37,16 +35,10 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
                   <SelectInput
                     label={grouping.name}
                     handler={() => {
-                      updateSelectedGroupings.bind(
-                        null,
-                        group.name,
-                        grouping.id
-                      );
+                      updateSelectedGroupings(group.id, grouping.id);
                     }}
                     type="radio"
-                    defaultChecked={
-                      selectedGroupings[group.name] === grouping.id
-                    }
+                    defaultChecked={selectedGroupings[group.id] === grouping.id}
                     name={group.name}
                     id={group.name + grouping.name}
                   />

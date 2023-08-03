@@ -26,9 +26,8 @@ export type ExtraGrouping = {
 } & DBEntity;
 
 export type AvailableExtraGrouping = {
-  name: string;
   extra_groupings: ExtraGrouping[];
-};
+} & DBEntity;
 
 export type SelectedExtraGroupings = {
   [category: string]: number | undefined;

@@ -49,8 +49,9 @@ const useCollectModalInfo = (
 
   const selectedExtraGroupings = useRef({ ...initialExtraGroupings } || {});
 
-  const updateExtraGroupingIds = (key: string, value: number | undefined) => {
-    selectedExtraGroupings.current[+key] = value;
+  const updateExtraGroupingIds = (key: number, value: number | undefined) => {
+    if (!value) delete selectedExtraGroupings.current[key];
+    else selectedExtraGroupings.current[key] = value;
   };
 
   const [selectedItemCategories, setSelectedItemCategories] =

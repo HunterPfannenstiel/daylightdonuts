@@ -23,7 +23,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
       <SelectInputList
         selections={[{ name: "No Grouping", id: -1 }, ...availableGroupings]}
         type="radio"
-        initialSelection={selectedId}
+        initialSelection={selectedId || -1}
         onSelect={(id) => {
           id === -1
             ? groupingSelectHandler(undefined)

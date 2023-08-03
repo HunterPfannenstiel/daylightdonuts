@@ -75,6 +75,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       oldGroups,
       selectedGroups
     );
+    console.log(oldGroups, selectedGroups);
 
     const { categories, subcategories } =
       itemInfo.dbHelpers.getSelectedCategories();
