@@ -44,6 +44,8 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         }}
         required
         defaultValue={initialDetails.name}
+        flexDirection={"row"}
+        gap={"1rem"}
       />
       <TextInput
         id="item-price"
@@ -54,6 +56,8 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         }}
         required
         defaultValue={initialDetails.price}
+        flexDirection={"row"}
+        gap={"1rem"}
       />
       <TextArea
         id="item-description"

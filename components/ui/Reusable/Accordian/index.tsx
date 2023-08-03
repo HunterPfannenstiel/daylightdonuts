@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Key, ReactNode } from "react";
 import classes from "./index.module.css";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
 import { concatClassNames } from "@_utils/client";
@@ -7,6 +7,7 @@ interface AccordianProps<T> {
   Header: ReactNode;
   data: T[];
   componentExtractor: (item: T) => ReactNode;
+  keyExtractor: (item: T) => Key;
   containerClassName?: string;
   listClassName?: string;
 }
@@ -15,6 +16,7 @@ const Accordian = <T extends any>({
   Header,
   data,
   componentExtractor,
+  keyExtractor,
   containerClassName,
   listClassName,
 }: AccordianProps<T>) => {
@@ -32,7 +34,9 @@ const Accordian = <T extends any>({
         >
           {data.map((item) => {
             return (
-              <li className={classes.list_item}>{componentExtractor(item)}</li>
+              <li className={classes.list_item} key={keyExtractor(item)}>
+                {componentExtractor(item)}
+              </li>
             );
           })}
         </ul>

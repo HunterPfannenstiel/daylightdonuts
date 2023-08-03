@@ -30,6 +30,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
             <Accordian
               Header={<h2 className={classes.header}>{group.name}</h2>}
               data={[{ name: "None", id: undefined }, ...group.extra_groupings]}
+              keyExtractor={({ id }) => id || -1}
               componentExtractor={(grouping) => {
                 return (
                   <SelectInput

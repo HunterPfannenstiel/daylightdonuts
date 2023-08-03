@@ -65,6 +65,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       price: ModifyMenu.CompareVal(oldPrice, price),
       isArchived: ModifyMenu.CompareVal(oldIsArchived, isArchived),
       groupingId: itemInfo.selectedGroupingId.current,
+      availabilityRange: formatDateRange(itemInfo.availabilityRange),
     };
 
     const selectedGroups = itemInfo.dbHelpers.getSelectedExtraGroups();

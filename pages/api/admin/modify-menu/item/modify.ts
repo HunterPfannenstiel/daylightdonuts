@@ -23,7 +23,7 @@ const handler: NextApiHandler = async (req, res) => {
       validateNewItem(newItem, files);
       images = await uploadManyImages(files);
       const itemId = await createNewMenuItem(newItem, images); //PASS IN 'images'
-      return res.status(200).json({ itemId });
+      return res.status(200).json(itemId);
     } else if (req.method === "PATCH") {
       const files = await parseManyImages(req, res, "images", 4);
       const modifications = req.body as ModifyItem;

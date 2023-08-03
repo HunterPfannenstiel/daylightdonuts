@@ -4,12 +4,16 @@ import { concatClassNames } from "@_utils/client";
 
 interface TextInputProps extends ComponentPropsWithoutRef<"input"> {
   label: string;
+  gap?: string;
+  flexDirection?: "row" | "column";
   inputType?: string;
   handler: (value: string) => void;
 }
 
 const TextInput: FunctionComponent<TextInputProps> = ({
   label,
+  gap,
+  flexDirection = "column",
   inputType,
   id,
   className,
@@ -17,7 +21,10 @@ const TextInput: FunctionComponent<TextInputProps> = ({
   ...restProps
 }) => {
   return (
-    <div className={concatClassNames(classes.input, className)}>
+    <div
+      className={concatClassNames(classes.input, className)}
+      style={{ flexDirection, gap }}
+    >
       <label htmlFor={id}>{label}</label>
       <input
         id={id}

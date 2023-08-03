@@ -3,7 +3,7 @@ import { Range } from "react-date-range";
 
 const useRangeSelect = (initialRange?: Range) => {
   const [selectionRange, setSelectionRange] = useState<Range>(
-    initialRange || getInitialRange
+    initialRange || getTodaysRange
   );
 
   const updateSelectionRange = (
@@ -19,10 +19,10 @@ const useRangeSelect = (initialRange?: Range) => {
   ];
 };
 
-const getInitialRange = () => {
+const getTodaysRange = () => {
   return {
-    startDate: undefined,
-    endDate: undefined,
+    startDate: new Date(),
+    endDate: new Date(),
   };
 };
 

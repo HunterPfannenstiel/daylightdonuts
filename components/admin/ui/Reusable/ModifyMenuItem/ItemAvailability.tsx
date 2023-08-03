@@ -1,8 +1,5 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import classes from "./ItemAvailability.module.css";
-import "react-date-range/dist/styles.css"; // main style file
-import "react-date-range/dist/theme/default.css"; // theme css file
-import { DateRange, Range } from "react-date-range";
 import { ItemDateRange } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
@@ -10,6 +7,7 @@ import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 import RangeSelect from "@ui/Reusable/Date/RangeSelect";
 import { formatDate } from "@_utils/orders/dates";
 import useRangeSelect from "@ui/Reusable/Date/useRangeSelect";
+import Button from "@ui/Reusable/Button";
 
 interface ItemAvailabilityProps {
   selectedWeekdays: InitialSelections;
@@ -41,7 +39,7 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
   };
 
   const clearSelectedDate = () => {
-    setSelectionRange(undefined, undefined);
+    setSelectionRange(new Date(), new Date());
     updateRangeHandler(undefined);
   };
   return (
@@ -57,13 +55,18 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
         />
       </div>
       {availabilityRange && (
-        <>
-          <h2>Range Availability</h2>
-          <div>
-            <p>{`From: ${availabilityRange.from} To: ${availabilityRange.to}`}</p>
-            <button onClick={clearSelectedDate}>X</button>
+        <div className={classes.range_container}>
+          <h2 className={classes.range_label}>Selected Range</h2>
+          <div className={classes.range}>
+            <p>
+              From: <span>{availabilityRange.from}</span> To:{" "}
+              <span>{availabilityRange.to}</span>
+            </p>
+            <Button onClick={clearSelectedDate} type="button">
+              Clear Range
+            </Button>
           </div>
-        </>
+        </div>
       )}
       <RangeSelect
         dateHandler={dateSelectHandler}

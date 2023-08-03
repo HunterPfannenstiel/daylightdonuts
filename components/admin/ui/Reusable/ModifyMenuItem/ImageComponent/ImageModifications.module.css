@@ -20,3 +20,8 @@
 .image p{
     text-align: center;
 }
+
+.display_image {
+    border: 1px solid var(--primary-yellow);
+    border-radius: 8px;
+}

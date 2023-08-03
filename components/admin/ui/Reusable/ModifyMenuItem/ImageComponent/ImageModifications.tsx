@@ -4,6 +4,7 @@ import { ItemImage } from "@_types/admin/forms";
 import ImageComponent from ".";
 import ImageInput from "@_admin-reuse/Form/Inputs/ImageInput";
 import ScrollList from "@ui/Reusable/ScrollList";
+import { concatClassNames } from "@_utils/client";
 
 interface ImageModificationsProps {
   addImages: (image: ItemImage[]) => void;
@@ -23,7 +24,13 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
       <ScrollList className={classes.images}>
         {images.map((image, i) => {
           return (
-            <div className={classes.image} key={image.imageUrl}>
+            <div
+              className={concatClassNames(
+                classes.image,
+                i === 0 ? classes.display_image : undefined
+              )}
+              key={image.imageUrl}
+            >
               <ImageComponent
                 imageUrl={image.imageUrl}
                 index={i}

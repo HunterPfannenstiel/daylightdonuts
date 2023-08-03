@@ -63,6 +63,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       return;
     }
     addNewItem({ name, id: res.data });
+    modalProps.handleModal();
   };
 
   return (

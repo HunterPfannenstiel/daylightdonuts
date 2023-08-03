@@ -4,6 +4,7 @@ import Fieldset from "../Form/Fieldset";
 import { NestedDBEntity } from "@_types/admin/modify-menu";
 import { NestedSelections } from "@_hooks/admin/menu/modification/useNestedSelections";
 import SelectInputList from "@_admin-reuse/Form/SelectInputList";
+import SelectInput from "@ui/Reusable/Form/SelectInput";
 
 interface ItemCategoriesProps {
   itemCategories: NestedDBEntity[];
@@ -28,24 +29,25 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
         );
         return (
           <div key={category.name}>
-            <input
+            <SelectInput
               type="checkbox"
+              label={category.name}
               id={category.name}
               defaultChecked={categoryIsSelected}
-              onChange={updateHandler.bind(null, {
-                categoryId: category.id,
-                subcategoryId: undefined,
-              })}
+              handler={() => {
+                updateHandler({
+                  categoryId: category.id,
+                  subcategoryId: undefined,
+                });
+              }}
+              className={classes.category_label}
             />
-            <label htmlFor={category.name} className={classes.cat_name}>
-              {category.name}
-            </label>
             {categoryIsSelected && category.entities[0].name && (
               <div className={classes.subcategories}>
                 <SelectInputList
                   selections={category.entities}
                   type="checkbox"
-                  initialSelections={selectedCategories}
+                  initialSelections={selectedCategories[category.id]}
                   onSelect={(id) => {
                     updateHandler({
                       categoryId: category.id,
