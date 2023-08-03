@@ -2,13 +2,15 @@ import { FunctionComponent } from "react";
 import classes from "./ItemAvailability.module.css";
 import styles from "react-day-picker/dist/style.module.css";
 import { DayPicker } from "react-day-picker";
-import { ItemDateRange, SelectedWeekdays } from "@_types/admin/forms";
+import { ItemDateRange } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
+import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 //CHECKBOX
 
 interface ItemAvailabilityProps {
-  selectedWeekdays: SelectedWeekdays;
+  selectedWeekdays: InitialSelections;
   availabilityRange: ItemDateRange | undefined;
   updateWeekdayHandler: (key: number) => void;
   updateRangeHandler: (range: ItemDateRange | undefined) => void;
@@ -23,19 +25,14 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
   return (
     <Fieldset legend="Availability">
       <div className={classes.weekdays}>
-        {weekdays.map((weekday) => {
-          return (
-            <div key={weekday.weekday_id}>
-              <label htmlFor={weekday.weekday}>{weekday.weekday}</label>
-              <input
-                id={weekday.weekday}
-                type="checkbox"
-                defaultChecked={selectedWeekdays[weekday.weekday_id]}
-                onChange={updateWeekdayHandler.bind(null, weekday.weekday_id)}
-              />
-            </div>
-          );
-        })}
+        <SelectInputList
+          selections={weekdays}
+          initialSelections={selectedWeekdays}
+          type="checkbox"
+          onSelect={(id) => {
+            updateWeekdayHandler(id);
+          }}
+        />
       </div>
       {availabilityRange && (
         <>
@@ -80,13 +77,13 @@ classNames={classNames}
 }
 
 const weekdays = [
-  { weekday: "Sunday", weekday_id: 1 },
-  { weekday: "Monday", weekday_id: 2 },
-  { weekday: "Tuesday", weekday_id: 3 },
-  { weekday: "Wednesday", weekday_id: 4 },
-  { weekday: "Thursday", weekday_id: 5 },
-  { weekday: "Friday", weekday_id: 6 },
-  { weekday: "Saturday", weekday_id: 7 },
+  { name: "Sunday", id: 1 },
+  { name: "Monday", id: 2 },
+  { name: "Tuesday", id: 3 },
+  { name: "Wednesday", id: 4 },
+  { name: "Thursday", id: 5 },
+  { name: "Friday", id: 6 },
+  { name: "Saturday", id: 7 },
 ];
 
 export default ItemAvailability;

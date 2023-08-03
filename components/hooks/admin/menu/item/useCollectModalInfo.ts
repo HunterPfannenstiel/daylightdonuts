@@ -1,20 +1,15 @@
-import {
-  ItemDateRange,
-  ItemImage,
-  MenuItemDetails,
-  SelectedExtraGroupings,
-  SelectedItemCategories,
-  SelectedWeekdays,
-} from "@_types/admin/forms";
+import { ItemDateRange, ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import { useRef, useState } from "react";
 import useDragDrop from "../modification/useDragDrop";
+import { NestedSelections } from "../modification/useNestedSelections";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectModalInfo = (
   initialDetails?: MenuItemDetails,
   initialGroupId?: number,
-  initialExtraGroupings?: SelectedExtraGroupings,
-  initialItemCategories?: SelectedItemCategories,
-  initialWeekdays?: SelectedWeekdays,
+  initialExtraGroupings?: InitialSelections<number | undefined>,
+  initialItemCategories?: NestedSelections,
+  initialWeekdays?: InitialSelections,
   iniitalRanges?: ItemDateRange,
   initialImages?: ItemImage[]
 ) => {
@@ -52,16 +47,14 @@ const useCollectModalInfo = (
     selectedGroupingId.current = id;
   };
 
-  const selectedExtraGroupings = useRef<SelectedExtraGroupings>(
-    { ...initialExtraGroupings } || {}
-  );
+  const selectedExtraGroupings = useRef({ ...initialExtraGroupings } || {});
 
   const updateExtraGroupingIds = (key: string, value: number | undefined) => {
-    selectedExtraGroupings.current[key] = value;
+    selectedExtraGroupings.current[+key] = value;
   };
 
   const [selectedItemCategories, setSelectedItemCategories] =
-    useState<SelectedItemCategories>(initialItemCategories || {});
+    useState<NestedSelections>(initialItemCategories || {});
 
   const updateItemCategories = (ids: {
     categoryId: number;
@@ -95,9 +88,7 @@ const useCollectModalInfo = (
     });
   };
 
-  const selectedWeekdays = useRef<SelectedWeekdays>(
-    { ...initialWeekdays } || {}
-  );
+  const selectedWeekdays = useRef({ ...initialWeekdays } || {});
 
   const [availabilityRange, setAvailabilityRange] = useState<
     ItemDateRange | undefined

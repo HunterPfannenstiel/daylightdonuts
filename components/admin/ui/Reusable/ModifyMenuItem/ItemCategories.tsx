@@ -1,16 +1,13 @@
 import { FunctionComponent } from "react";
 import classes from "./ItemCategories.module.css";
-import {
-  AvailableItemCategory,
-  SelectedItemCategories,
-} from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
-
-//CHECK BOXES
+import { NestedDBEntity } from "@_types/admin/modify-menu";
+import { NestedSelections } from "@_hooks/admin/menu/modification/useNestedSelections";
+import SelectInputList from "@_admin-reuse/Form/SelectInputList";
 
 interface ItemCategoriesProps {
-  itemCategories: AvailableItemCategory[];
-  selectedCategories: SelectedItemCategories;
+  itemCategories: NestedDBEntity[];
+  selectedCategories: NestedSelections;
   updateHandler: (ids: {
     categoryId: number;
     subcategoryId: number | undefined;
@@ -26,8 +23,8 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
     <Fieldset legend="Categories" className={classes.categories}>
       {itemCategories.map((category) => {
         const categoryIsSelected = !!(
-          selectedCategories[category.item_category_id] ||
-          selectedCategories[category.item_category_id] === null
+          selectedCategories[category.id] ||
+          selectedCategories[category.id] === null
         );
         return (
           <div key={category.name}>
@@ -36,38 +33,26 @@ const ItemCategories: FunctionComponent<ItemCategoriesProps> = ({
               id={category.name}
               defaultChecked={categoryIsSelected}
               onChange={updateHandler.bind(null, {
-                categoryId: category.item_category_id,
+                categoryId: category.id,
                 subcategoryId: undefined,
               })}
             />
             <label htmlFor={category.name} className={classes.cat_name}>
               {category.name}
             </label>
-            {categoryIsSelected && category.subcategories[0].name && (
+            {categoryIsSelected && category.entities[0].name && (
               <div className={classes.subcategories}>
-                {category.subcategories.map((subcategory) => {
-                  return (
-                    <div key={subcategory.name}>
-                      <input
-                        type="checkbox"
-                        id={subcategory.name}
-                        defaultChecked={
-                          !!(
-                            selectedCategories &&
-                            selectedCategories[subcategory.item_subcategory_id]
-                          )
-                        }
-                        onChange={updateHandler.bind(null, {
-                          categoryId: category.item_category_id,
-                          subcategoryId: subcategory.item_subcategory_id,
-                        })}
-                      />
-                      <label htmlFor={subcategory.name}>
-                        {subcategory.name}
-                      </label>
-                    </div>
-                  );
-                })}
+                <SelectInputList
+                  selections={category.entities}
+                  type="checkbox"
+                  initialSelections={selectedCategories}
+                  onSelect={(id) => {
+                    updateHandler({
+                      categoryId: category.id,
+                      subcategoryId: id,
+                    });
+                  }}
+                />
               </div>
             )}
           </div>

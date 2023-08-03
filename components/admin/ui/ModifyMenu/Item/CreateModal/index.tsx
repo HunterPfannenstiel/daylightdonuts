@@ -3,12 +3,7 @@ import classes from "./index.module.css";
 import useCollectModalInfo from "@_hooks/admin/menu/item/useCollectModalInfo";
 import ItemDetails from "../../../Reusable/ModifyMenuItem/ItemDetails";
 import ItemGroupings from "../../../Reusable/ModifyMenuItem/ItemGroupings";
-import {
-  AvailableExtraGrouping,
-  AvailableItemCategory,
-  AvailableGrouping,
-  NewDBItem,
-} from "@_types/admin/forms";
+import { AvailableExtraGrouping, NewDBItem } from "@_types/admin/forms";
 import ItemExtras from "../../../Reusable/ModifyMenuItem/ItemExtras";
 import ItemCategories from "../../../Reusable/ModifyMenuItem/ItemCategories";
 import ItemAvailability from "../../../Reusable/ModifyMenuItem/ItemAvailability";
@@ -19,11 +14,12 @@ import Pages from "@_admin-reuse/Pages";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import { AddNewEntity } from "@_hooks/admin/menu/useUpdateEntities";
+import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 
 interface CreateItemModalProps {
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extraGroupings: AvailableExtraGrouping[];
-  itemCategories: AvailableItemCategory[];
+  itemCategories: NestedDBEntity[];
   modalProps: ModalProps;
   addNewItem: AddNewEntity;
 }

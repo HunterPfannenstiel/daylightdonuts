@@ -1,6 +1,7 @@
 .input_container {
     display: flex;
     gap: 0.25rem;
+    align-items: center;
 }
 
 .label {

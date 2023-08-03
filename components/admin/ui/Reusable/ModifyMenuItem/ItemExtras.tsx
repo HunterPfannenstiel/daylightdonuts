@@ -31,10 +31,7 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
           <div key={group.name}>
             <Accordian
               Header={<h2 className={classes.header}>{group.name}</h2>}
-              data={[
-                { name: "None", extra_group_id: undefined },
-                ...group.extra_groupings,
-              ]}
+              data={[{ name: "None", id: undefined }, ...group.extra_groupings]}
               componentExtractor={(grouping) => {
                 return (
                   <SelectInput
@@ -43,52 +40,19 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
                       updateSelectedGroupings.bind(
                         null,
                         group.name,
-                        grouping.extra_group_id
+                        grouping.id
                       );
                     }}
                     type="radio"
                     defaultChecked={
-                      selectedGroupings[group.name] === grouping.extra_group_id
+                      selectedGroupings[group.name] === grouping.id
                     }
                     name={group.name}
                     id={group.name + grouping.name}
                   />
                 );
-                // return (
-                //   <div key={grouping.name}>
-                //     <label htmlFor={grouping.name}>{grouping.name}</label>
-                //     <input
-                //       type="radio"
-                //       id={grouping.name}
-                //       name={group.name}
-                //       defaultChecked={
-                //         selectedGroupings[group.name] ===
-                //         grouping.extra_group_id
-                //       }
-                //       onClick={updateSelectedGroupings.bind(
-                //         null,
-                //         group.name,
-                //         grouping.extra_group_id
-                //       )}
-                //     />
-                //   </div>
-                // );
               }}
             />
-            {/* <div>
-                <label htmlFor={`none-${group.name}`}>None</label>
-                <input
-                  type="radio"
-                  id={`none-${group.name}`}
-                  name={group.name}
-                  defaultChecked={!selectedGroupings[group.name]}
-                  onClick={updateSelectedGroupings.bind(
-                    null,
-                    group.name,
-                    undefined
-                  )}
-                />
-              </div> */}
           </div>
         );
       })}

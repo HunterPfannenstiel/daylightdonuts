@@ -2,8 +2,6 @@ import { FormEvent, FunctionComponent } from "react";
 import classes from "./ModalContents.module.css";
 import {
   AvailableExtraGrouping,
-  AvailableGrouping,
-  AvailableItemCategory,
   InitialItemSelections,
   ModifyItem,
   ModifyItemDetails,
@@ -18,13 +16,14 @@ import { formatDateRange } from "@_utils/admin/modify-menu";
 import { createFormData } from "@_utils/index";
 import ModifyMenu from "custom-objects/ModifyMenu";
 import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
+import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 
 interface ModalContentsProps {
   id: number;
   selections: InitialItemSelections;
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extraGroupings: AvailableExtraGrouping[];
-  itemCategories: AvailableItemCategory[];
+  itemCategories: NestedDBEntity[];
   index: number;
   toggleModal: () => void;
   updateItem: UpdateEntity;
