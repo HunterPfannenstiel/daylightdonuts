@@ -8,6 +8,7 @@
     background-color: white;
     margin-inline: auto;
     transition: background-color 500ms ease;
+    padding: 1rem;
 }
 
 .item > * {

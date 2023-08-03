@@ -5,21 +5,23 @@ interface ToggleSelectionsProps<T> {
 	selections: T[];
 	selected?: T;
 	className?: string;
-	selectedClassName?: string;
+	selectedId?: string;
 	prefixTitle?: string;
 	onChange: (selection: T) => void;
+	comparator?: (selection: T, selected?: T) => boolean;
 }
 
-const ToggleSelections: FunctionComponent<ToggleSelectionsProps<any>> = ({
+const ToggleSelections: <T>(props: ToggleSelectionsProps<T>) => JSX.Element = ({
 	selections,
 	selected,
 	className,
-	selectedClassName,
+	selectedId,
 	prefixTitle,
 	onChange,
+	comparator = (selection, selected?) => selection === selected
 }) => {
 	if (!className) className = '';
-	if (!selectedClassName) selectedClassName = className;
+	if (!selectedId) selectedId = className;
 
 	return (
 		<div className={className}>
@@ -27,9 +29,9 @@ const ToggleSelections: FunctionComponent<ToggleSelectionsProps<any>> = ({
 			{selections.map((selection) => (
 				<button
 					onClick={onChange.bind(this, selection)}
-					className={selected === selection ? selectedClassName : ''}
+					id={comparator(selection, selected) ? selectedId : ''}
 				>
-					{selection}
+					{`${selection}`}
 				</button>
 			))}
 		</div>

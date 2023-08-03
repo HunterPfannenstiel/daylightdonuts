@@ -1,9 +1,8 @@
 .locations {
-    width: 100%;
-    gap: 1rem;
     padding: 0.5rem;
 }
 
 .locations li {
-    min-width: 50%;
+    min-width: 33%;
+    margin: auto;
 }

@@ -2,6 +2,8 @@
     background-color: white;
     padding: 2rem;
     border-radius: 4px;
+    max-width: 700px;
+    min-width: 500px;
 }
 
 .date_range {
@@ -9,6 +11,10 @@
     flex-direction: column;
     margin: 1rem 0;
     align-items: center;
+}
+
+.date_range p {
+    margin-bottom: 1rem;
 }
 
 .rdp {
@@ -21,13 +27,27 @@
     margin-bottom: 1rem;
 }
 
-.time_selections {
+.selections {
+    display: flex;
+    justify-content: space-between;
     margin: 1rem 0;
 }
 
-.time_selections button {
-    margin: 0 1rem;
+.selections button {
     background-color: white;
+    font-size: var(--normal-font-size);
+    color: #9195A8;
+    border-bottom: 2px solid transparent;
+}
+
+.selections button:hover {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+#selected {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
 }
 
 .container form {
@@ -37,18 +57,21 @@
     margin: 1rem 0;
 }
 
-.time_unit_selected {
-    border: 2px solid black;
-    border-radius: 4px;
-}
-
 .selection label {
     margin-right: 1rem;
 }
 
 .selection_button {
+    display: block;
     background-color: var(--primary-blue);
     color: white;
     border-radius: 1rem;
     padding: .25rem 1rem;
+    margin: auto;
+}
+
+@media (max-width: 40em) {
+    .container {
+        min-width: 300px;
+    }
 }

@@ -74,8 +74,8 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
             <div className={classes.date}>
               <InputLayout
                 label="Date*"
-                htmlFor=""
-                inputComponent={<button>Click</button>}
+                htmlFor="date"
+                inputComponent={<input id="date" type="date"/>}
               />
             </div>
           </div>

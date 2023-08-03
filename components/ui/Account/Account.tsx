@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
 import OrderList from './Orders/OrderList';
-import UserInfoList from './UserInfo/UserInfoList';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Logout from './Login/Logout';
+import UserInfoContainer from './UserInfo/UserInfoContainer';
 
 interface AccountProps {}
 
@@ -11,7 +11,7 @@ const Account: FunctionComponent<AccountProps> = () => {
 	const params = useSearchParams();
 
 	if (params?.has("UserInfo")) {
-		return <UserInfoList />
+		return <UserInfoContainer />
 	} else if (params?.has("Orders")) {
 		return <OrderList />
 	} else if (params?.has("Profile")) {

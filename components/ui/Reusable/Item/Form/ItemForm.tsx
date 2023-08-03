@@ -41,6 +41,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           labelExtractor={({ category }: ItemExtras) => category}
           optionsExtractor={({ extras }: ItemExtras) => extras}
           optionExtractor={({ name }: ItemExtra) => name}
+          containerClassName={classes.container}
         />
       )}
       <div className={classes.add_cart}>
@@ -53,7 +54,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           {buttonName || "Add to Cart"}
         </Button>
         {maxAmount !== 0 && (
-          <select id="amount" name="amount" ref={amountRef}>
+          <select id="amount" name="amount" ref={amountRef} className={classes.amount}>
             {getOptions(maxAmount)}
           </select>
         )}

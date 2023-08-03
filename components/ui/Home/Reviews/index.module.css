@@ -1,0 +1,13 @@
+.h2 {
+    text-align: center;
+}
+
+.reviews {
+    padding-bottom: 0.5rem;
+}
+
+.reviews div {
+    margin: auto;
+    margin-top: 1rem;
+    min-width: 33%;
+}

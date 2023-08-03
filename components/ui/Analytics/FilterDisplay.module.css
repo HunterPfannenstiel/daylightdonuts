@@ -1,0 +1,18 @@
+.container {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: auto;
+    justify-content: center;
+}
+
+.filter_info > p {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    color: black;
+}

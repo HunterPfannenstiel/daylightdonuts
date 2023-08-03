@@ -32,11 +32,11 @@ const Item: FunctionComponent<ItemProps> = ({ item, button }) => {
 				<div className={classes.item_text}>
 					<h3>{item.name}</h3>
 					<p>
-						<b>{`$${item.price} /ea`}</b>
+						<b>{`$${item.price}`}</b>
 					</p>
 				</div>
-				{button}
 			</div>
+			{button}
 		</li>
 	);
 };

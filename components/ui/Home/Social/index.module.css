@@ -1,5 +1,13 @@
 .container {
+    display: flex;
     text-align: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.heading_container p {
+    margin: auto;
+    max-width: 600px;
 }
 
 .container h2 {
@@ -14,5 +22,4 @@
 
 .images div {
     width: 33%;
-    max-width: 200px;
 }

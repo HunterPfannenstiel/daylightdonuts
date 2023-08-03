@@ -1,16 +1,15 @@
 import { FormEvent, FunctionComponent, useRef } from "react";
 import classes from "./UserInfoModal.module.css";
-import { AddUserInfo, UserInfo } from "@_types/database/userInfo";
+import { UserInfo } from "@_types/database/userInfo";
 import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import TextInput from "components/ui/Reusable/Form/TextInput";
 import SelectInput from "components/ui/Reusable/Form/SelectInput";
 
 interface UserInfoModalProps {
-  onSubmitHandler: (info: UserInfo, infoIdx: number | null) => Promise<boolean>;
-  deleteHandler: (id: number) => Promise<boolean>;
+  onSubmitHandler: (info: UserInfo) => Promise<boolean>;
+  deleteHandler: (infoId: number) => void;
   info: UserInfo | null;
-  infoIdx: number | null;
   modalProps: ModalProps;
 }
 
@@ -18,7 +17,6 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
   onSubmitHandler,
   deleteHandler,
   info,
-  infoIdx,
   modalProps,
 }) => {
   const formInputs = useRef({
@@ -35,16 +33,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    const success = await onSubmitHandler(formInputs.current, infoIdx);
-    /* if (success) {
-			firstNameRef.current!.value = '';
-			lastNameRef.current!.value = '';
-			phoneNumberRef.current!.value = '';
-			favoriteRef.current!.checked = false;
-			console.log('It worked!');
-		} else {
-			console.log('There was an error!');
-		} */
+    await onSubmitHandler(formInputs.current);
   };
 
   return (
@@ -59,6 +48,7 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
               handler={(value) => formInputHandler("first_name", value)}
               className={classes.text_field}
               defaultValue={formInputs.current.first_name}
+              placeholder="Daylight"
               required
             />
             <TextInput
@@ -67,34 +57,41 @@ const UserInfoModal: FunctionComponent<UserInfoModalProps> = ({
               handler={(value) => formInputHandler("last_name", value)}
               className={classes.text_field}
               defaultValue={formInputs.current.last_name}
+              placeholder="Donuts"
               required
             />
           </div>
           <div className={classes.input_section}>
-            <TextInput
-              id="phone"
-              label="Phone:"
-              inputType="tel"
-              handler={(value) => formInputHandler("phone_number", value)}
-              className={classes.text_field}
-              defaultValue={formInputs.current.phone_number}
-              required
-            />
+            <div className={classes.phone_section}>
+              <TextInput
+                id="phone"
+                label="Phone:"
+                inputType="tel"
+                handler={(value) => formInputHandler("phone_number", value)}
+                className={classes.text_field}
+                defaultValue={formInputs.current.phone_number}
+                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                placeholder="xxx-xxx-xxxx"
+                required
+              />
+              <p className={classes.format}>Format: xxx-xxx-xxxx</p>
+            </div>
             <SelectInput
               id="favorite"
               label="Favorite:"
               handler={(value) => formInputHandler("favorite", value)}
-              className={classes.field}
+              className={classes.favorite}
               type="checkbox"
               defaultChecked={formInputs.current.favorite}
             />
           </div>
           <div className={classes.buttons}>
             <button className={classes.submit_btn}>Submit</button>
-            {infoIdx !== null && (
+            {info && (
               <button
-                onClick={deleteHandler.bind(this, infoIdx)}
+                onClick={deleteHandler.bind(this, info.id)}
                 className={classes.del_btn}
+                type="button"
               >
                 Delete
               </button>

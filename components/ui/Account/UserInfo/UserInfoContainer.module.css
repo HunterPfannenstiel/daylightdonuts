@@ -4,7 +4,7 @@
 
 .container {
     max-width: 700px;
-    min-width: 375px;
+    min-width: 350px;
     margin: 1rem auto;
     padding: 1rem;
     background-color: white;
@@ -19,18 +19,16 @@
     color: black;
 }
 
-.info_list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin: 1rem 0;
-}
-
 .modal {
     position: absolute;
     right: 50%;
     transform: translate(50%);
     background-color: white;
+}
+
+.btn_container {
+    border-top: 1px solid #F2F4FF;
+    padding-top: 1rem;
 }
 
 .btn {

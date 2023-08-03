@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import classes from './OrderList.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { UserOrder } from '@_types/database/userInfo';
-import Order from './Order';
+import OrderContainer from './OrderContainer';
 
 const formatOrderDate = (orderDate: string) => {
 	return new Intl.DateTimeFormat('en-US', {
@@ -11,6 +11,13 @@ const formatOrderDate = (orderDate: string) => {
 		day: 'numeric',
 		year: 'numeric',
 	}).format(new Date(orderDate));
+};
+
+const getOrderTotal = (order: UserOrder) => {
+	return order.cart.reduce(
+		(prev, curItem) => +curItem.unit_price * curItem.amount + prev,
+		0
+	);
 };
 
 interface OrderListProps {}
@@ -35,11 +42,12 @@ const OrderList: FunctionComponent<OrderListProps> = () => {
 			{data && data.length === 0 && <p>You have no orders!</p>}
 			<ul className={classes.orders}>
 				{data?.map((order) => (
-					<Order
+					<OrderContainer
 						order={order}
-						key={order.cart_id}
+						cartId={order.cart_id}
 						title={formatOrderDate(order.order_date)}
-						canOrderAgain
+						orderTotal={getOrderTotal(order)}
+						addToOrder={(cartId) => console.log('Add to order: ' + cartId)}
 					/>
 				))}
 			</ul>

@@ -19,6 +19,7 @@ const NavigableBackBar: FunctionComponent<NavigableBackBarProps> = () => {
 			{splitPath?.map((piece, index) => {
 				if (piece.length === 0) return;
 				buildString += index === splitPath.length - 1 ? piece : piece + '/';
+				piece = decodeURI(piece);
 				const formattedPiece =
 					' / ' + piece.slice(0, 1).toUpperCase() + piece.slice(1);
 				if (index !== splitPath.length - 1) {
