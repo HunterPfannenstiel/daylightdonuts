@@ -40,7 +40,7 @@
     border-bottom: 2px solid transparent;
 }
 
-.selections button:hover {
+.selections button:hover:enabled {
     color: var(--primary-blue);
     border-bottom: 2px solid var(--primary-blue);
 }
@@ -48,6 +48,11 @@
 #selected {
     color: var(--primary-blue);
     border-bottom: 2px solid var(--primary-blue);
+}
+
+#selected:disabled {
+    border-bottom-color: #0033727c;
+    color: #0033727c;
 }
 
 .container form {

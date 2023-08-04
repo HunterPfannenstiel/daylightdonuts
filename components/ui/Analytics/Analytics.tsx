@@ -22,9 +22,12 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		analytics,
 		analyticParams,
 		isError,
+		isLoading,
 		itemNames,
 		categoryNames,
-	} = useAnalytics();
+	} = useAnalytics(() => {
+		if (modalProps.showModal) modalProps.handleModal();
+	});
 	const { changeDisplayValue, chartData, displayValue } = useChart(
 		analytics,
 		analyticParams
@@ -32,8 +35,8 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 	const modalProps = useAnimateModal(300);
 
 	const onSetAnalyticParams = (analyticParams: AnalyticParams) => {
-		modalProps.handleModal();
 		setAnalyticParams(analyticParams);
+		//modalProps.handleModal(); getting handled by the method passed to useAnalytics
 	};
 
 	if (isError) return <p>An error occurred...</p>;
@@ -52,16 +55,17 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 				/>
 			</div>
 			<div className={classes.filter}>
-				<FilterDisplay filter={analyticParams}/>
+				<FilterDisplay filter={analyticParams} />
 				<button onClick={modalProps.handleModal}>Edit Filters</button>
 			</div>
 			{modalProps.showModal && (
-				<ModalDisplay {...modalProps.getModalProps()}>
+				<ModalDisplay {...modalProps.getModalProps()} closeable={!isLoading}>
 					<AnalyticsRangeSelector
 						setAnalyticParams={onSetAnalyticParams}
 						defaultValues={analyticParams}
 						itemNames={itemNames}
 						categoryNames={categoryNames}
+						isLoading={isLoading}
 					/>
 				</ModalDisplay>
 			)}

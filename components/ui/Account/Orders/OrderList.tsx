@@ -3,6 +3,7 @@ import classes from './OrderList.module.css';
 import { useQuery } from '@tanstack/react-query';
 import { UserOrder } from '@_types/database/userInfo';
 import OrderContainer from './OrderContainer';
+import Spinner from '@ui/Reusable/Spinner';
 
 const formatOrderDate = (orderDate: string) => {
 	return new Intl.DateTimeFormat('en-US', {
@@ -38,7 +39,7 @@ const OrderList: FunctionComponent<OrderListProps> = () => {
 
 	return (
 		<>
-			{status === 'loading' && <p>Loading...</p>}
+			{status === 'loading' && <Spinner center />}
 			{data && data.length === 0 && <p>You have no orders!</p>}
 			<ul className={classes.orders}>
 				{data?.map((order) => (

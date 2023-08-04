@@ -23,16 +23,12 @@ const UserInfoContainer: FunctionComponent<UserInfoContainerProps> = () => {
 
 	const onDeleteHandler = async (infoId: number) => {
 		const del = await ctx.deleteInfo(infoId);
-		console.log(del);
 		modal.handleModal();
 	}
 
 	const onSubmitHandler = async (info: UserInfoType) => {
 		const res =
 			info.id === -1 ? await ctx.addInfo(info) : await ctx.editInfo(info);
-		if (info.favorite && res) {
-			//update favIdx
-		}
 		setSelectedUserInfo(null);
 		modal.handleModal();
 		return res;

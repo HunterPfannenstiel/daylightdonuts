@@ -7,6 +7,7 @@ interface BackgroundProps {
   playAnimation: boolean;
   animationTime: number;
   backgroundColor?: string;
+  closeable?: boolean;
 }
 
 const Background: FunctionComponent<BackgroundProps> = ({
@@ -15,6 +16,7 @@ const Background: FunctionComponent<BackgroundProps> = ({
   playAnimation,
   animationTime,
   backgroundColor,
+  closeable = true
 }) => {
   const className = `${classes.background} ${
     playAnimation ? classes.animate_out : ""
@@ -29,7 +31,7 @@ const Background: FunctionComponent<BackgroundProps> = ({
           backgroundColor,
         } as CSSProperties
       }
-      onClick={handleModal}
+      onClick={closeable ? handleModal : () => {}}
     />
   );
 };

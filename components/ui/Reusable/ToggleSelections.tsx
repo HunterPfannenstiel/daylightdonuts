@@ -1,4 +1,3 @@
-import { FunctionComponent, useState } from 'react';
 import classes from './ToggleSelections.module.css';
 
 interface ToggleSelectionsProps<T> {
@@ -9,6 +8,7 @@ interface ToggleSelectionsProps<T> {
 	prefixTitle?: string;
 	onChange: (selection: T) => void;
 	comparator?: (selection: T, selected?: T) => boolean;
+	disabled?: boolean;
 }
 
 const ToggleSelections: <T>(props: ToggleSelectionsProps<T>) => JSX.Element = ({
@@ -18,7 +18,8 @@ const ToggleSelections: <T>(props: ToggleSelectionsProps<T>) => JSX.Element = ({
 	selectedId,
 	prefixTitle,
 	onChange,
-	comparator = (selection, selected?) => selection === selected
+	comparator = (selection, selected?) => selection === selected,
+	disabled,
 }) => {
 	if (!className) className = '';
 	if (!selectedId) selectedId = className;
@@ -30,6 +31,8 @@ const ToggleSelections: <T>(props: ToggleSelectionsProps<T>) => JSX.Element = ({
 				<button
 					onClick={onChange.bind(this, selection)}
 					id={comparator(selection, selected) ? selectedId : ''}
+					key={Math.random()}
+					disabled={disabled}
 				>
 					{`${selection}`}
 				</button>

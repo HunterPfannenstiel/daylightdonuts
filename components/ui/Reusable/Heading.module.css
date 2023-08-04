@@ -1,6 +1,6 @@
 .yellow_border {
 	--tilt: -1.13deg;
-	width: fit-content;
+	max-width: fit-content;
 	height: 40px;
 	padding-inline: 0.3rem;
 	border: 4px solid var(--primary-yellow);
@@ -12,14 +12,16 @@
 	background-color: var(--primary-blue);
 	transform: translateY(-43%);
 	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .blue_background > * {
 	font-size: 1.25rem;
-	width: fit-content;
 	font-weight: 400;
 	padding: 0.5rem 3rem;
 	transform: translateY(-7%) rotate(calc(var(--tilt) * -1));
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 @media (min-width: 40em) {

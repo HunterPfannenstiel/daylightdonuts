@@ -6,17 +6,25 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import { convertDateToString } from './Charts/ChartHelper';
 import ToggleSelections from '../Reusable/ToggleSelections';
 import { DateRange, Range } from 'react-date-range';
+import Spinner from '@ui/Reusable/Spinner';
 
 interface AnalyticsRangeSelectorProps {
 	setAnalyticParams: (analyticParams: AnalyticParams) => void;
 	defaultValues?: AnalyticParams;
 	itemNames?: { name: string }[];
 	categoryNames?: { name: string }[];
+	isLoading?: boolean;
 }
 
 const AnalyticsRangeSelector: FunctionComponent<
 	AnalyticsRangeSelectorProps
-> = ({ setAnalyticParams, defaultValues: dV, itemNames, categoryNames }) => {
+> = ({
+	setAnalyticParams,
+	defaultValues: dV,
+	itemNames,
+	categoryNames,
+	isLoading = false,
+}) => {
 	const [timeUnit, setTimeUnit] = useState(dV?.timeUnit || TimeUnit.Day);
 	const [selectionRange, setSelectionRange] = useState<Range>({
 		startDate: dV ? new Date(dV.startDate) : new Date(),
@@ -59,6 +67,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 
 	return (
 		<div className={classes.container}>
+			{isLoading && <Spinner center />}
 			<h1>Filters</h1>
 			<ToggleSelections
 				selections={Object.keys(TimeUnit)}
@@ -72,6 +81,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 				prefixTitle="Time Unit:"
 				className={classes.selections}
 				selectedId={classes.selected}
+				disabled={isLoading}
 			/>
 			<div className={classes.date_range}>
 				<p>Date Range:</p>
@@ -95,6 +105,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 				prefixTitle="Type Filter:"
 				className={classes.selections}
 				selectedId={classes.selected}
+				disabled={isLoading}
 			/>
 			<form>
 				{itemTypeFilter === 'Category' && (
@@ -105,6 +116,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 							id="itemCategory"
 							ref={itemCategoryRef}
 							defaultValue={dV?.itemCategory || ''}
+							disabled={isLoading}
 						>
 							{categoryNames?.map(({ name }) => {
 								return (
@@ -124,6 +136,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 							id="itemName"
 							ref={itemNameRef}
 							defaultValue={dV?.itemName || ''}
+							disabled={isLoading}
 						>
 							{itemNames?.map(({ name }) => {
 								return (
@@ -142,10 +155,15 @@ const AnalyticsRangeSelector: FunctionComponent<
 						id="preserveNulls"
 						ref={preserveNullsRef}
 						defaultChecked={dV ? dV.preserveNullDates : true}
+						disabled={isLoading}
 					/>
 				</div>
 			</form>
-			<button onClick={confirmSelections} className={classes.selection_button}>
+			<button
+				onClick={confirmSelections}
+				className={classes.selection_button}
+				disabled={isLoading}
+			>
 				Confirm Selections
 			</button>
 		</div>

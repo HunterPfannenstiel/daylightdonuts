@@ -6,4 +6,5 @@
 .no_info_text {
     padding: 2rem 0;
     text-align: center;
+    border-bottom: 1px solid #F2F4FF;
 }
