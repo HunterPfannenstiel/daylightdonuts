@@ -14,18 +14,16 @@ interface UserInfoSelectModalProps {
 const UserInfoSelectModal: FunctionComponent<UserInfoSelectModalProps> = ({
 	modalProps,
 	selectedInfo,
-	infoSelected
+	infoSelected,
 }) => {
 	return (
-		<ModalDisplay {...modalProps}>
-			<div className={classes.container}>
-				<h1 className={classes.title}>Select Information</h1>
-				<UserInfoList
-					onSelectHandler={infoSelected}
-					showPhoneNumber
-					selectedInfo={selectedInfo}
-				/>
-			</div>
+		<ModalDisplay {...modalProps} className={classes.container}>
+			<h1 className={classes.title}>Select Information</h1>
+			<UserInfoList
+				onSelectHandler={infoSelected}
+				showPhoneNumber
+				selectedInfo={selectedInfo}
+			/>
 		</ModalDisplay>
 	);
 };

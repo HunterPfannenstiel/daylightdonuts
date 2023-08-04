@@ -1,6 +1,7 @@
 .container {
     display: flex;
-    width: 600px;
+    max-width: 600px;
+    width: 75%;
     background-color: white;
     padding: 1rem;
     justify-content: flex-start;

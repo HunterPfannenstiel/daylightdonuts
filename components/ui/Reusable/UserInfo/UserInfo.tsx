@@ -16,7 +16,7 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 	onSelectHandler,
 	showPhoneNumber = false,
 	editable = false,
-	selectedInfo
+	selectedInfo,
 }) => {
 	return (
 		<li className={classes.info}>
@@ -30,10 +30,11 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
 					defaultChecked={info === selectedInfo}
 				/>
 			)}
-			<p className={classes.text}>{info.first_name}</p>
-			<p className={classes.text}>{info.last_name}</p>
-			{showPhoneNumber && <p className={classes.text}>{info.phone_number}</p>}
-			{info.favorite && <p className={classes.favorite}>*</p>}
+			<div className={classes.details}>
+				<p className={classes.text}>{info.first_name}</p>
+				<p className={classes.text}>{info.last_name + (info.favorite ? ' *' : ' ')}</p>
+				{showPhoneNumber && <p className={classes.text}>{info.phone_number}</p>}
+			</div>
 			{editable && (
 				<button
 					onClick={onSelectHandler.bind(this, info)}

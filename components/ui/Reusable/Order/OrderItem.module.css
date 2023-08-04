@@ -1,59 +1,71 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    margin: 1rem 0;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	border-bottom: 1px solid #f2f4ff;
+	padding: 1rem 0;
 }
 
 .image {
-    width: 75px;
-    height: 75px;
+	width: 75px;
+	height: 75px;
 }
 
 .item_details {
-    flex: 1;
-    overflow: hidden;
+	flex: 1;
+	overflow: hidden;
+	min-width: 110px;
 }
 
 .price {
-    flex: 1;
-    text-align: center;
-    min-width: 60px;
+	flex: 1;
+	text-align: center;
+	min-width: 60px;
+	overflow: hidden;
 }
 
 .amount {
-    flex: 1;
-    text-align: center;
+	flex: 1;
+	text-align: center;
+	min-width: 60px;
 }
 
 .name {
-    font-weight: bold;
+	font-weight: bold;
 }
 
-.name, .extras p {
-    overflow: hidden;
-    white-space: wrap;
-    text-overflow: ellipsis;
+.name,
+.extras p {
+	overflow: hidden;
+	white-space: wrap;
+	text-overflow: ellipsis;
 }
 
 .extras {
-    font-size: 1rem;
-    text-overflow: ellipsis;
+	font-size: 1rem;
 }
 
 .deleteable {
-    background-color: white;
+	background-color: white;
 }
 
 .last {
-    text-align: right;
+	text-align: right;
 }
 
 @media (min-width: 40em) {
-    .image {
-        height: 100px;
-        width: 100px;
-    }
+	.image {
+		height: 100px;
+		width: 100px;
+	}
+}
+
+@media (max-width: 26em) {
+	.item_details,
+	.amount {
+		text-align: center;
+	}
 }

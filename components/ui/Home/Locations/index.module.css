@@ -2,7 +2,14 @@
     padding: 0.5rem;
 }
 
-.locations li {
-    min-width: 33%;
+.locations > li {
     margin: auto;
+    margin-top: 1rem;
+    min-width: 200px;
+}
+
+@media (min-width: 40em) {
+    .locations > li {
+        min-width: 33%;
+    }
 }
