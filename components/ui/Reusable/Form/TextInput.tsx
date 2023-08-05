@@ -2,7 +2,7 @@ import { ComponentPropsWithoutRef, FunctionComponent } from "react";
 import classes from "./TextInput.module.css";
 import { concatClassNames } from "@_utils/client";
 
-interface TextInputProps extends ComponentPropsWithoutRef<"input"> {
+export interface TextInputProps extends ComponentPropsWithoutRef<"input"> {
   label: string;
   gap?: string;
   flexDirection?: "row" | "column";

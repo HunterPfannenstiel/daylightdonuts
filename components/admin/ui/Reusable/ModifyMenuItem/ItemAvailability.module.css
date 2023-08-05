@@ -29,3 +29,7 @@
     font-size: 0.85rem;
     border-bottom: 1px solid black;
 }
+
+.no_range {
+    font-size: 0.75rem;
+}

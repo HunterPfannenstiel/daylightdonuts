@@ -3,7 +3,6 @@ import classes from "./index.module.css";
 import CheckoutContainer from "../../CheckoutContainer";
 import OrderItem from "./OrderItem";
 import Footer from "./Footer";
-import { useCart } from "@_providers/Cart";
 import { CartContext } from "@_providers/Cart/utils";
 
 interface OrderItemsProps {

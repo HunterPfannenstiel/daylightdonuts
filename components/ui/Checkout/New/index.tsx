@@ -20,7 +20,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [paypalSelected, setPaypalSelected] = useState(true);
   const validateInfo = () => {
-    return true;
+    return input.validateCustomerInfo();
   };
 
   if (cartContext.isLoading || input.isLoading) return <Spinner center />;
@@ -42,12 +42,12 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
         setIsPayPalSelected={setPaypalSelected}
         postOrder={input.postOrder}
       />
-      <Totals subtotal={cartContext.cart?.price || "0"} tax="0" />
+      <Totals subtotal={cartContext.cart?.price || "0.00"} tax="0.00" />
       <div className={classes.buttons}>
         <Button>I'm Still Hungry</Button>
-        {!paypalSelected && (
-          <Button onClick={input.postOrder}>Place Order</Button>
-        )}
+        <Button onClick={validateInfo}>Place Order</Button>
+        {!paypalSelected && <Button onClick={validateInfo}>Place Order</Button>}
+        //form="payment-form"
       </div>
     </div>
   );

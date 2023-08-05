@@ -26,27 +26,26 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
     <Fieldset legend="Extras" className={classes.extras}>
       {groupings.map((group) => {
         return (
-          <div key={group.name}>
-            <Accordian
-              Header={<h2 className={classes.header}>{group.name}</h2>}
-              data={[{ name: "None", id: undefined }, ...group.extra_groupings]}
-              keyExtractor={({ id }) => id || -1}
-              componentExtractor={(grouping) => {
-                return (
-                  <SelectInput
-                    label={grouping.name}
-                    handler={() => {
-                      updateSelectedGroupings(group.id, grouping.id);
-                    }}
-                    type="radio"
-                    defaultChecked={selectedGroupings[group.id] === grouping.id}
-                    name={group.name}
-                    id={group.name + grouping.name}
-                  />
-                );
-              }}
-            />
-          </div>
+          <Accordian
+            key={group.name}
+            Header={<h2 className={classes.header}>{group.name}</h2>}
+            data={[{ name: "None", id: undefined }, ...group.extra_groupings]}
+            keyExtractor={({ id }) => id || -1}
+            componentExtractor={(grouping) => {
+              return (
+                <SelectInput
+                  label={grouping.name}
+                  handler={() => {
+                    updateSelectedGroupings(group.id, grouping.id);
+                  }}
+                  type="radio"
+                  defaultChecked={selectedGroupings[group.id] === grouping.id}
+                  name={group.name}
+                  id={group.name + grouping.name}
+                />
+              );
+            }}
+          />
         );
       })}
     </Fieldset>

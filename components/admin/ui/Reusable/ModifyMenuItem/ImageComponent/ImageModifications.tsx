@@ -21,27 +21,29 @@ const ImageModifications: FunctionComponent<ImageModificationsProps> = ({
 }) => {
   return (
     <div className={classes.container}>
-      <ScrollList className={classes.images}>
-        {images.map((image, i) => {
-          return (
-            <div
-              className={concatClassNames(
-                classes.image,
-                i === 0 ? classes.display_image : undefined
-              )}
-              key={image.imageUrl}
-            >
-              <ImageComponent
-                imageUrl={image.imageUrl}
-                index={i}
-                onSwap={swapImages}
-                onDelete={deleteImage}
-              />
-              <p>{i + 1}</p>
-            </div>
-          );
-        })}
-      </ScrollList>
+      {images.length ? (
+        <ScrollList className={classes.images}>
+          {images.map((image, i) => {
+            return (
+              <div
+                className={concatClassNames(
+                  classes.image,
+                  i === 0 ? classes.display_image : undefined
+                )}
+                key={image.imageUrl}
+              >
+                <ImageComponent
+                  imageUrl={image.imageUrl}
+                  index={i}
+                  onSwap={swapImages}
+                  onDelete={deleteImage}
+                />
+                <p>{i + 1}</p>
+              </div>
+            );
+          })}
+        </ScrollList>
+      ) : null}
       <ImageInput imageHandler={addImages} width="25%" multiple />
     </div>
   );

@@ -40,7 +40,8 @@ export const initializeCart = (cart: Cart) => {
       nextId = Math.max(nextId, +cartItemId);
     });
   });
-  cart.price = totalPrice.toFixed(2);
+  console.log(totalPrice);
+  cart.price = totalPrice.toFixed(2) || "0.00";
   cart.totalItems = totalItems;
   cart.nextId = nextId + 1;
 };
@@ -120,7 +121,7 @@ export const removeItem =
     cart.price = (
       +cart.price -
       (+details.price + (extraPrice || 0)) * amount
-    ).toString(2);
+    ).toFixed(2);
     cart.totalItems -= amount;
     delete cart.items[itemId].items[cartItemId];
     dbUpdates.current[cartItemId] = { amount: -amount };

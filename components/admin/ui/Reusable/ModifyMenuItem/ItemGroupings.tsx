@@ -19,7 +19,7 @@ const ItemGroupings: FunctionComponent<ItemGroupingsProps> = ({
     return <p>No groupings have been added to the store</p>;
   }
   return (
-    <Fieldset legend="Groupings" className={classes.groupings}>
+    <Fieldset legend="Groupings">
       <SelectInputList
         selections={[{ name: "No Grouping", id: -1 }, ...availableGroupings]}
         type="radio"

@@ -1,6 +1,7 @@
 import { CSSProperties, ChangeEvent, FunctionComponent } from "react";
 import classes from "./ImageInput.module.css";
 import { ItemImage } from "@_types/admin/forms";
+import Button from "@ui/Reusable/Button";
 
 type ImageInputProps =
   | {
@@ -40,7 +41,9 @@ const ImageInput: FunctionComponent<ImageInputProps> = ({
       className={classes.image_input}
       style={{ "--width": width } as CSSProperties}
     >
-      <label htmlFor="image">Add Images</label>
+      <Button as="label" htmlFor="image">
+        Add Images
+      </Button>
       <input
         multiple={multiple}
         type="file"

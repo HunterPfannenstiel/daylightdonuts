@@ -5,14 +5,17 @@ import {
   FormLocationDetails,
   OrderLocationDetails,
 } from "@_types/database/checkout";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { postOptimisticOrder } from "@_utils/payment/stripe";
 import { UserInfo } from "@_types/database/userInfo";
 import { useAuth } from "@_providers/UserInfo/UserInfo";
+import { isValidClientEmail, isValidClientPhone } from "@_utils/payment/form";
+import useValidateInput from "@_hooks/form/useValidateInput";
 
 //A hook used to group/manage all of the customer's input which is forwarded by the Customer Info context
 const useCustomerInput = () => {
-  const [customerInfo, setCustomerInfo] = useState<CustomerFormInfo>(
+  const [customerInfo, { update: updateInfo, set: setInfo }] = useValidateInput(
+    ["first_name", "last_name", "email", "phone_number"],
     getInitialCustomerInfo()
   );
   const [locationDetails, setLocationDetails] = useState<FormLocationDetails>(
@@ -23,17 +26,15 @@ const useCustomerInput = () => {
 
   useEffect(() => {
     if (infos && infos.length && selectedInfoId === -1) {
-      console.log(email);
       const id = favorite_id || infos[0].id;
       setSelectedInfoId(id);
-      setCustomerInfo(getSelectedInfo(infos, email!, id)!);
+      setInfo(getSelectedInfo(infos, email!, id)!);
     }
   }, [infos]);
   const postOrder = () => {
     let info: CustomerInfo;
     const currInfo = getCustomerOrderInfo(customerInfo);
     const locationInfo = getLocationInfo(locationDetails);
-    console.log(locationInfo);
     if (selectedInfoId === -1) {
       info = {
         customerInfo: true,
@@ -61,21 +62,14 @@ const useCustomerInput = () => {
         };
       }
     }
-    console.log(info);
     // return new Promise<void>((resolve, reject) => reject("Testing"));
     return postOptimisticOrder(info);
   };
 
-  const updateCustomerInfo = (key: keyof CustomerFormInfo, value: string) => {
-    setCustomerInfo((prevInfo) => {
-      return { ...prevInfo, [key]: { value, isValid: true } };
-    });
-  };
   const updateLocationInfo = (
     key: keyof OrderLocationDetails,
     value: string
   ) => {
-    console.log(key, value);
     setLocationDetails((prevInfo) => ({
       ...prevInfo,
       [key]: { value, isValid: true },
@@ -84,7 +78,23 @@ const useCustomerInput = () => {
 
   const setInfoId = (id: number) => {
     setSelectedInfoId(id);
-    setCustomerInfo(getSelectedInfo(infos!, email!, id)!);
+    setInfo(getSelectedInfo(infos!, email!, id)!);
+  };
+
+  const validateCustomerInfo = () => {
+    let key: keyof CustomerFormInfo | undefined;
+    if (!isValidClientEmail(customerInfo.email.value)) {
+      key = "email";
+    } else if (!isValidClientPhone(customerInfo.phone_number.value)) {
+      key = "phone_number";
+    } else if (!customerInfo.first_name) key = "first_name";
+    else if (!customerInfo.last_name) key = "last_name";
+    if (key) {
+      console.log(key);
+      updateInfo(key, customerInfo[key].value, false);
+      return false;
+    }
+    return true;
   };
 
   return {
@@ -93,9 +103,10 @@ const useCustomerInput = () => {
     updateLocationInfo,
     setSelectedInfoId,
     postOrder,
-    updateCustomerInfo,
+    updateCustomerInfo: updateInfo,
     setInfoId,
     isLoading,
+    validateCustomerInfo,
   };
 };
 

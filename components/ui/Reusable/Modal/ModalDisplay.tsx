@@ -40,7 +40,7 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
           {children}
         </div>
       ) : (
-        <Spinner />
+        <Spinner center />
       )}
       <Background
         handleModal={handleModal}

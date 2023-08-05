@@ -43,7 +43,7 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
     updateRangeHandler(undefined);
   };
   return (
-    <Fieldset legend="Availability">
+    <Fieldset legend="Weekday Availability">
       <div className={classes.weekdays}>
         <SelectInputList
           selections={weekdays}
@@ -54,9 +54,12 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
           }}
         />
       </div>
-      {availabilityRange && (
-        <div className={classes.range_container}>
-          <h2 className={classes.range_label}>Selected Range</h2>
+
+      <div className={classes.range_container}>
+        <h2 className={classes.range_label}>
+          {availabilityRange ? "Selected Range" : "Range Availability"}
+        </h2>
+        {availabilityRange ? (
           <div className={classes.range}>
             <p>
               From: <span>{availabilityRange.from}</span> To:{" "}
@@ -66,8 +69,11 @@ const ItemAvailability: FunctionComponent<ItemAvailabilityProps> = ({
               Clear Range
             </Button>
           </div>
-        </div>
-      )}
+        ) : (
+          <p className={classes.no_range}>*No Range Selected</p>
+        )}
+      </div>
+
       <RangeSelect
         dateHandler={dateSelectHandler}
         minDate={new Date()}

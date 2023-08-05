@@ -17,6 +17,7 @@ import { createFormData } from "@_utils/index";
 import ModifyMenu from "custom-objects/ModifyMenu";
 import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
+import Button from "@ui/Reusable/Button";
 
 interface ModalContentsProps {
   id: number;
@@ -165,7 +166,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
         updateRangeHandler={itemInfo.updateAvailableRange}
         updateWeekdayHandler={itemInfo.updateWeekdayAvailability}
       />
-      <button type="submit">Update</button>
+      <Button type="submit">Update</Button>
     </form>
   );
 };
