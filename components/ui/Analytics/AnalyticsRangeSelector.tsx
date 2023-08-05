@@ -62,27 +62,28 @@ const AnalyticsRangeSelector: FunctionComponent<
 			itemName: itemNameRef.current ? itemNameRef.current.value : null,
 		};
 		setAnalyticParams(analyticParams);
-		console.log({ fromString, toString });
 	};
 
 	return (
 		<div className={classes.container}>
 			{isLoading && <Spinner center />}
 			<h1>Filters</h1>
-			<ToggleSelections
-				selections={Object.keys(TimeUnit)}
-				selected={timeUnit}
-				onChange={(selection) =>
-					setTimeUnit(TimeUnit[selection as keyof typeof TimeUnit])
-				}
-				comparator={(selection, selected) =>
-					TimeUnit[selection as keyof typeof TimeUnit] === selected
-				}
-				prefixTitle="Time Unit:"
-				className={classes.selections}
-				selectedId={classes.selected}
-				disabled={isLoading}
-			/>
+			<div className={classes.selections}>
+				<p>Time Unit: </p>
+				<ToggleSelections
+					selections={Object.keys(TimeUnit)}
+					selected={timeUnit}
+					onChange={(selection) =>
+						setTimeUnit(TimeUnit[selection as keyof typeof TimeUnit])
+					}
+					comparator={(selection, selected) =>
+						TimeUnit[selection as keyof typeof TimeUnit] === selected
+					}
+					className={classes.selection_buttons}
+					selectedId={classes.selected}
+					disabled={isLoading}
+				/>
+			</div>
 			<div className={classes.date_range}>
 				<p>Date Range:</p>
 				<DateRange
@@ -96,17 +97,36 @@ const AnalyticsRangeSelector: FunctionComponent<
 					minDate={new Date('2020-01-01')}
 					maxDate={new Date()}
 					rangeColors={['#003472']}
+					className={classes.calendar}
+				/>
+				<div className={classes.fallback_calendar}>
+					<input
+						type="date"
+						defaultValue={
+							selectionRange.startDate?.toISOString().split('T')[0] ||
+							new Date().toISOString().split('T')[0]
+						}
+					/>
+					<input
+						type="date"
+						defaultValue={
+							selectionRange.endDate?.toISOString().split('T')[0] ||
+							new Date().toISOString().split('T')[0]
+						}
+					/>
+				</div>
+			</div>
+			<div className={classes.selections}>
+				<p>Type Filter:</p>
+				<ToggleSelections
+					selections={['All', 'Category', 'Name']}
+					selected={itemTypeFilter}
+					onChange={setItemTypeFilter}
+					className={classes.selection_buttons}
+					selectedId={classes.selected}
+					disabled={isLoading}
 				/>
 			</div>
-			<ToggleSelections
-				selections={['All', 'Category', 'Name']}
-				selected={itemTypeFilter}
-				onChange={setItemTypeFilter}
-				prefixTitle="Type Filter:"
-				className={classes.selections}
-				selectedId={classes.selected}
-				disabled={isLoading}
-			/>
 			<form>
 				{itemTypeFilter === 'Category' && (
 					<div className={classes.selection}>

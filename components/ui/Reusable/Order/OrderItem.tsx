@@ -28,7 +28,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 	onDelete,
 }) => {
 	return (
-		<li key={cartId}>
+		<li>
 			<div className={classes.container}>
 				<Image
 					src={image}

@@ -14,8 +14,7 @@ interface PageNavBarProps {
 const PageNavBar: FunctionComponent<PageNavBarProps> = ({
 	categories,
 	baseRoute,
-	queryParameter,
-	fallbackCategoryIdx = 0,
+	queryParameter
 }) => {
 	const adjustedQueryParam = queryParameter ? queryParameter + '=' : '';
 	const params = useSearchParams();
@@ -32,6 +31,7 @@ const PageNavBar: FunctionComponent<PageNavBarProps> = ({
 					<Link
 						href={`${baseRoute}?${adjustedQueryParam}${category}`}
 						className={isOnCategory(category) ? classes.selected : ''}
+						key={category}
 					>
 						{category}
 					</Link>

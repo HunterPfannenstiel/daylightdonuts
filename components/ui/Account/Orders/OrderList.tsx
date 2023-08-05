@@ -49,6 +49,7 @@ const OrderList: FunctionComponent<OrderListProps> = () => {
 						title={formatOrderDate(order.order_date)}
 						orderTotal={getOrderTotal(order)}
 						addToOrder={(cartId) => console.log('Add to order: ' + cartId)}
+						key={order.cart_id}
 					/>
 				))}
 			</ul>

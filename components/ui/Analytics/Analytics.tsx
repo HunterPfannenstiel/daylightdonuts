@@ -45,21 +45,27 @@ const Analytics: FunctionComponent<AnalyticsProps> = () => {
 		<div className={classes.container}>
 			<div className={classes.chart}>
 				<LineChart chartData={chartData as ChartData<'line'>} />
-				<ToggleSelections
-					selections={Object.values(AnalyticDisplayValue)}
-					prefixTitle="Analytic:"
-					selected={displayValue}
-					className={classes.analytic_selections}
-					selectedId={classes.selected}
-					onChange={changeDisplayValue}
-				/>
+				<div className={classes.selections}>
+					<p>Analytic: </p>
+					<ToggleSelections
+						selections={Object.values(AnalyticDisplayValue)}
+						selected={displayValue}
+						className={classes.selection_buttons}
+						selectedId={classes.selected}
+						onChange={changeDisplayValue}
+					/>
+				</div>
 			</div>
 			<div className={classes.filter}>
 				<FilterDisplay filter={analyticParams} />
 				<button onClick={modalProps.handleModal}>Edit Filters</button>
 			</div>
 			{modalProps.showModal && (
-				<ModalDisplay {...modalProps.getModalProps()} closeable={!isLoading}>
+				<ModalDisplay
+					{...modalProps.getModalProps()}
+					closeable={!isLoading}
+					className={classes.modal}
+				>
 					<AnalyticsRangeSelector
 						setAnalyticParams={onSetAnalyticParams}
 						defaultValues={analyticParams}

@@ -9,6 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Account from 'components/ui/Account/Account';
 import PageNavBar from 'components/ui/Reusable/PageNavBar/PageNavBar';
 import PageHeader from 'components/ui/Reusable/PageHeader';
+import Spinner from '@ui/Reusable/Spinner';
 
 interface AccountPageProps {}
 
@@ -32,7 +33,7 @@ const AccountPage: FunctionComponent<AccountPageProps> = () => {
 			</>
 		);
 	}
-	return <p>Loading...</p>;
+	return <Spinner center />;
 };
 
 export default AccountPage;

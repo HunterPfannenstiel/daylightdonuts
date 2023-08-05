@@ -51,7 +51,7 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
 				handleModal={handleModal}
 				playAnimation={playAnimation}
 				animationTime={animationTime}
-        closeable={closeable}
+				closeable={closeable}
 			/>
 		</Modal>
 	);
