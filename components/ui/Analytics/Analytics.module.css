@@ -17,13 +17,17 @@
     align-self: flex-start;
 }
 
-.selections button {
+.selection_buttons button {
     font-size: var(--normal-font-size);
     color: #9195A8;
     border-bottom: 2px solid transparent;
 }
 
-.selections button:hover {
+.selection_buttons :first-child {
+    margin-right: 1rem;
+}
+
+.selection_buttons button:hover {
     color: var(--primary-blue);
     border-bottom: 2px solid var(--primary-blue);
 }

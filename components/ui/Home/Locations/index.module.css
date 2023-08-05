@@ -5,11 +5,17 @@
 .locations > li {
     margin: auto;
     margin-top: 1rem;
-    min-width: 200px;
+    min-width: 50%;
 }
 
 @media (min-width: 40em) {
     .locations > li {
         min-width: 33%;
+    }
+}
+
+@media (max-width: 24em) {
+    .locations > li {
+        min-width: 100%;
     }
 }

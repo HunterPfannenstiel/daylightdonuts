@@ -9,11 +9,17 @@
 .review {
     margin: auto;
     margin-top: 1rem;
-    min-width: 200px;
+    min-width: 50%;
 }
 
 @media (min-width: 40em) {
     .review {
         min-width: 33%;
+    }
+}
+
+@media (max-width: 24em) {
+    .review {
+        min-width: 100%;
     }
 }

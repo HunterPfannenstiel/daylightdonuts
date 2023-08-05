@@ -1,0 +1,26 @@
+.rdp {
+    margin: 0;
+}
+
+.calendar {
+    width: fit-content;
+}
+
+.fallback_calendar {
+    display: none;
+}
+
+@media (max-width: 40em) {
+    .calendar {
+        display: none;
+    }
+
+    .fallback_calendar {
+        display: block;
+    }
+
+    .fallback_calendar input:first-child {
+        display: block;
+        margin-bottom: 1rem;
+    }
+}

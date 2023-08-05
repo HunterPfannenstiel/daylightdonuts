@@ -15,10 +15,15 @@ const FilterDisplay: FunctionComponent<FilterDisplayProps> = ({ filter }) => {
 					{filter.itemCategory && <p>Item Category: {filter.itemCategory}</p>}
 					{filter.itemName && <p>Item Name: {filter.itemName}</p>}
 					{!filter.itemCategory && !filter.itemName && <p>All Items</p>}
+					<p>Date Range:</p>
+					<p>{new Date(filter.startDate).toDateString()}</p>
+					<p>through</p>
+					<p>{new Date(filter.endDate).toDateString()}</p>
 					<p>
-						Date Range: {filter.startDate} to {filter.endDate}
+						Time Scale:{' '}
+						{filter.timeUnit.slice(0, 1).toUpperCase() +
+							filter.timeUnit.slice(1)}
 					</p>
-					<p>Time Scale: {filter.timeUnit.slice(0, 1).toUpperCase() + filter.timeUnit.slice(1)}</p>
 					{filter.preserveNullDates && <p>Null dates preservered</p>}
 				</div>
 			</div>

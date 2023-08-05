@@ -3,34 +3,38 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-around;
 	gap: 1rem;
 	border-bottom: 1px solid #f2f4ff;
 	padding: 1rem 0;
+	--width: 110px;
 }
 
 .image {
+	display: block;
 	width: 75px;
 	height: 75px;
+	margin: auto;
+}
+
+.image_div {
+	width: var(--width);
 }
 
 .item_details {
-	flex: 1;
 	overflow: hidden;
-	min-width: 110px;
+	width: var(--width);
 }
 
 .price {
-	flex: 1;
 	text-align: center;
-	min-width: 60px;
+	width: var(--width);
 	overflow: hidden;
 }
 
 .amount {
-	flex: 1;
 	text-align: center;
-	min-width: 60px;
+	width: var(--width);
 }
 
 .name {
@@ -42,6 +46,7 @@
 	overflow: hidden;
 	white-space: wrap;
 	text-overflow: ellipsis;
+	text-align: center;
 }
 
 .extras {
@@ -52,20 +57,13 @@
 	background-color: white;
 }
 
-.last {
-	text-align: right;
-}
-
 @media (min-width: 40em) {
+	.container {
+		--width: 150px;
+	}
+
 	.image {
 		height: 100px;
 		width: 100px;
-	}
-}
-
-@media (max-width: 26em) {
-	.item_details,
-	.amount {
-		text-align: center;
 	}
 }

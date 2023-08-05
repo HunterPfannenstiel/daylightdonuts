@@ -1,12 +1,11 @@
 import { FunctionComponent, useRef, useState } from 'react';
 import classes from './AnalyticsRangeSelector.module.css';
 import { AnalyticParams, TimeUnit } from '@_types/database/analytics';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css'; // theme css file
 import { convertDateToString } from './Charts/ChartHelper';
 import ToggleSelections from '../Reusable/ToggleSelections';
 import { DateRange, Range } from 'react-date-range';
 import Spinner from '@ui/Reusable/Spinner';
+import AnalyticsDateSelector from './AnalyticsDateSelector';
 
 interface AnalyticsRangeSelectorProps {
 	setAnalyticParams: (analyticParams: AnalyticParams) => void;
@@ -56,10 +55,8 @@ const AnalyticsRangeSelector: FunctionComponent<
 			endDate: toString,
 			timeUnit,
 			preserveNullDates: preserveNullsRef.current!.checked,
-			itemCategory: itemCategoryRef.current
-				? itemCategoryRef.current.value
-				: null,
-			itemName: itemNameRef.current ? itemNameRef.current.value : null,
+			itemCategory: itemCategoryRef.current?.value || null,
+			itemName: itemNameRef.current?.value || null,
 		};
 		setAnalyticParams(analyticParams);
 	};
@@ -86,35 +83,10 @@ const AnalyticsRangeSelector: FunctionComponent<
 			</div>
 			<div className={classes.date_range}>
 				<p>Date Range:</p>
-				<DateRange
-					ranges={[selectionRange]}
-					onChange={(ranges) => {
-						setSelectionRange({
-							startDate: ranges.range1.startDate,
-							endDate: ranges.range1.endDate,
-						});
-					}}
-					minDate={new Date('2020-01-01')}
-					maxDate={new Date()}
-					rangeColors={['#003472']}
-					className={classes.calendar}
+				<AnalyticsDateSelector
+					setSelectionRange={setSelectionRange}
+					selectionRange={selectionRange}
 				/>
-				<div className={classes.fallback_calendar}>
-					<input
-						type="date"
-						defaultValue={
-							selectionRange.startDate?.toISOString().split('T')[0] ||
-							new Date().toISOString().split('T')[0]
-						}
-					/>
-					<input
-						type="date"
-						defaultValue={
-							selectionRange.endDate?.toISOString().split('T')[0] ||
-							new Date().toISOString().split('T')[0]
-						}
-					/>
-				</div>
 			</div>
 			<div className={classes.selections}>
 				<p>Type Filter:</p>
@@ -181,7 +153,7 @@ const AnalyticsRangeSelector: FunctionComponent<
 			</form>
 			<button
 				onClick={confirmSelections}
-				className={classes.selection_button}
+				className={classes.submit}
 				disabled={isLoading}
 			>
 				Confirm Selections

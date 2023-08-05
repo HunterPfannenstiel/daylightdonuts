@@ -17,10 +17,6 @@
     margin-bottom: 1rem;
 }
 
-.rdp {
-    margin: 0;
-}
-
 .container h1 {
     color: black;
     text-align: center;
@@ -41,8 +37,6 @@
 .selection_buttons {
     display: flex;
     justify-content: space-between;
-    gap: .5rem;
-    flex: 1;
 }
 
 .selection_buttons button {
@@ -50,7 +44,8 @@
     font-size: var(--normal-font-size);
     color: #9195A8;
     border-bottom: 2px solid transparent;
-    width: fit-content;
+    padding: 0;
+    margin: 0 .5rem;
 }
 
 .selection_buttons button:hover:enabled {
@@ -76,11 +71,19 @@
     align-items: center;
 }
 
-.selection label {
-    margin-right: 1rem;
+.selection {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
 }
 
-.selection_button {
+.selection label {
+    text-align: center;
+}
+
+.submit {
     display: block;
     background-color: var(--primary-blue);
     color: white;
@@ -89,28 +92,7 @@
     margin: auto;
 }
 
-.calendar {
-    width: fit-content;
-}
-
-.fallback_calendar {
-    display: none;
-}
-
 @media (max-width: 40em) {
-    .calendar {
-        display: none;
-    }
-
-    .fallback_calendar {
-        display: block;
-    }
-
-    .fallback_calendar input:first-child {
-        display: block;
-        margin-bottom: 1rem;
-    }
-
     .selections {
         flex-direction: column;
         align-items: center;
