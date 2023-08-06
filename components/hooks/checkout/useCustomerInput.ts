@@ -29,7 +29,10 @@ const useCustomerInput = () => {
     if (infos && infos.length && selectedInfoId === -1) {
       const id = favorite_id || infos[0].id;
       setSelectedInfoId(id);
-      setInfo(getSelectedInfo(infos, email!, id)!);
+      setInfo((prevState) => ({
+        ...prevState,
+        ...getSelectedInfo(infos, email!, id)!,
+      }));
     }
   }, [infos]);
   const postOrder = () => {
@@ -73,7 +76,10 @@ const useCustomerInput = () => {
 
   const setInfoId = (id: number) => {
     setSelectedInfoId(id);
-    setInfo(getSelectedInfo(infos!, email!, id)!);
+    setInfo((prevState) => ({
+      ...prevState,
+      ...getSelectedInfo(infos!, email!, id)!,
+    }));
   };
 
   const validateCustomerInfo = () => {
@@ -95,12 +101,13 @@ const useCustomerInput = () => {
     return true;
   };
 
-  const getCustomerInfo = (): CustomerFormInfo => {
+  const getCustomerInfo = (): CustomerFormInfo & { selectedId: number } => {
     return {
       first_name: formInput.first_name,
       last_name: formInput.last_name,
       phone_number: formInput.phone_number,
       email: formInput.email,
+      selectedId: selectedInfoId,
     };
   };
   const getLocationInfo = (): FormLocationDetails => {

@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import Background from "./Background";
 import { concatClassNames } from "@_utils/client";
 import Spinner from "../Spinner";
+import CloseButton from "./CloseButton";
 
 interface ModalDisplayProps {
   children: ReactNode;
@@ -36,12 +37,16 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
           className={className}
           style={{ "--animation-time": animationTime + "ms" } as CSSProperties}
         >
-          <p
+          <CloseButton
+            className={classes.close}
+            onClick={closeable ? handleModal : () => {}}
+          />
+          {/* <p
             className={classes.close}
             onClick={closeable ? handleModal : () => {}}
           >
             X
-          </p>
+          </p> */}
           {children}
         </div>
       ) : (

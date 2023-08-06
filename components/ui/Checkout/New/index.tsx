@@ -33,6 +33,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
         values={input.getLocationInfo()}
       />
       <CustomerInfo
+        setInfoId={input.setInfoId}
         updateInfo={input.updateFormInfo}
         {...input.getCustomerInfo()}
       />

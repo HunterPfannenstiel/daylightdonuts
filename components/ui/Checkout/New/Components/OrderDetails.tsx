@@ -38,9 +38,8 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   ]);
 
   const times =
-    data?.find((location) => location.location_id === +values.locationId.value)
+    data?.find((location) => location.location_id === +values.locationId?.value)
       ?.times || [];
-
   return (
     <CheckoutContainer header="My Order" contentClass={classes.content}>
       {isLoading && <Spinner center />}

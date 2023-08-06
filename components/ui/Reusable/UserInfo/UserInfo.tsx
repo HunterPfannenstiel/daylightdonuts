@@ -1,56 +1,52 @@
-import { FunctionComponent, useRef } from 'react';
-import classes from './UserInfo.module.css';
-import { UserInfo } from '@_types/database/userInfo';
-import SelectInput from '../Form/SelectInput';
+import { FunctionComponent, useRef } from "react";
+import classes from "./UserInfo.module.css";
+import { UserInfo } from "@_types/database/userInfo";
+import SelectInput from "../Form/SelectInput";
 
 interface UserInfoProps {
-	info: UserInfo;
-	onSelectHandler: (info: UserInfo) => void;
-	showPhoneNumber?: boolean;
-	editable?: boolean;
-	selectedInfo?: UserInfo;
+  info: UserInfo;
+  onSelectHandler: (info: UserInfo) => void;
+  showPhoneNumber?: boolean;
+  editable?: boolean;
+  selectedId?: number;
 }
 
 const UserInfo: FunctionComponent<UserInfoProps> = ({
-	info,
-	onSelectHandler,
-	showPhoneNumber = false,
-	editable = false,
-	selectedInfo,
+  info,
+  onSelectHandler,
+  showPhoneNumber = false,
+  editable = false,
+  selectedId,
 }) => {
-	return (
-		<li className={classes.info}>
-			{!editable && (
-				<SelectInput
-					type="radio"
-					handler={onSelectHandler.bind(this, info)}
-					label=""
-					name="info"
-					id="info"
-					defaultChecked={info === selectedInfo}
-				/>
-			)}
-			<div className={classes.details}>
-				<p className={classes.text}>{info.first_name}</p>
-				<p className={classes.text}>{info.last_name + (info.favorite ? ' *' : ' ')}</p>
-				{showPhoneNumber && <p className={classes.text}>{info.phone_number}</p>}
-			</div>
-			{editable && (
-				<button
-					onClick={onSelectHandler.bind(this, info)}
-					className={classes.edit_info}
-				>
-					Edit Info
-				</button>
-			)}
-		</li>
-	);
+  return (
+    <li className={classes.info}>
+      {!editable && (
+        <SelectInput
+          type="radio"
+          handler={onSelectHandler.bind(this, info)}
+          label=""
+          name="info"
+          id="info"
+          defaultChecked={info.id === selectedId}
+        />
+      )}
+      <div className={classes.details}>
+        <p className={classes.text}>{info.first_name}</p>
+        <p className={classes.text}>
+          {info.last_name + (info.favorite ? " *" : " ")}
+        </p>
+        {showPhoneNumber && <p className={classes.text}>{info.phone_number}</p>}
+      </div>
+      {editable && (
+        <button
+          onClick={onSelectHandler.bind(this, info)}
+          className={classes.edit_info}
+        >
+          Edit Info
+        </button>
+      )}
+    </li>
+  );
 };
 
 export default UserInfo;
-
-{
-	/* <p>{info.favorite ? 'Favorite' : 'Not favorite'}</p>
-<button onClick={() => onSelectHandler(info, idx)}>Select</button>
-<button onClick={() => deleteHandler(idx)}>Del</button> */
-}
