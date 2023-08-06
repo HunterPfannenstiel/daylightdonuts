@@ -5,6 +5,8 @@ import classes from './Home.module.css';
 import AdminSelectPanel from './AdminSelectPanel';
 import Profile from '@ui/svg/NavIcons/Profile';
 import { concatClassNames } from '@_utils/client';
+import LineChartIcon from '@ui/svg/LineChartIcon';
+import PaintBrush from '@ui/svg/PaintBrush';
 
 declare global {
 	interface Window {
@@ -19,23 +21,16 @@ interface HomeProps {}
 const Home: FunctionComponent<HomeProps> = () => {
 	return (
 		<div className={classes.container}>
-			<AdminSelectPanel
-				display={
-					<Profile
-						className={concatClassNames(classes.display, classes.profile_icon)}
-            fill={'blue'}
-					/>
-				}
-			/>
-			<AdminSelectPanel
-				display={<p className={classes.display}>Redirect to analytics</p>}
-			/>
-			<AdminSelectPanel
-				display={<p className={classes.display}>Redirect to analytics</p>}
-			/>
-			<AdminSelectPanel
-				display={<p className={classes.display}>Redirect to analytics</p>}
-			/>
+			<AdminSelectPanel href={'/admin/analytics'} label='Analytics'>
+				<div className={classes.panel_container}>
+					<LineChartIcon className={classes.icon} />
+				</div>
+			</AdminSelectPanel>
+			<AdminSelectPanel href={'/admin/modify-menu/item'} label='Modify Menu'>
+				<div className={classes.panel_container}>
+					<PaintBrush className={classes.icon}/>
+				</div>
+			</AdminSelectPanel>
 		</div>
 	);
 };

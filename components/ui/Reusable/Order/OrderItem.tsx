@@ -1,8 +1,9 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import classes from './OrderItem.module.css';
 import { DBCartItem, Extra, ExtraDetails } from '@_types/database/cart';
 import Image from 'next/image';
 import { concatClassNames } from '@_utils/client';
+import Spinner from '../Spinner';
 
 interface OrderItemProps {
 	name: string;
@@ -27,6 +28,7 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 	deleteable,
 	onDelete,
 }) => {
+	const [imageLoading, setImageLoading] = useState(true);
 	return (
 		<li>
 			<div className={classes.container}>
@@ -37,7 +39,14 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
 						width={100}
 						height={100}
 						className={classes.image}
+						onLoadStart={setImageLoading.bind(this, true)}
+						onLoadingComplete={setImageLoading.bind(this, false)}
 					/>
+					{imageLoading && (
+						<div className={classes.spinner}>
+							<Spinner />
+						</div>
+					)}
 				</div>
 				<div className={classes.item_details}>
 					<p className={classes.name}>{name}</p>

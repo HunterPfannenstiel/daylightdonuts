@@ -65,6 +65,16 @@ export const AuthContextProvider: FunctionComponent<
 	};
 
 	const editInfoHandler = async (info: UserInfo) => {
+		const oldInfo = infoArray[idMap[info.id]];
+		let different = false;
+		for (const key in oldInfo) {
+			if (oldInfo[key as keyof UserInfo] !== info[key as keyof UserInfo]) {
+				different = true;
+				break;
+			}
+		}
+		if (!different) return true;
+
 		const isEdited = await editUserInfo(info);
 		if (isEdited) {
 			setInfoArray((prev) => {

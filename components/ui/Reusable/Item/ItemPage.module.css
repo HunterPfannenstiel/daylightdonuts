@@ -3,15 +3,13 @@
     margin-inline: auto;
     text-align: center;
     letter-spacing: 0;
-    position: relative;
     margin-top: 1rem;
-    border-radius: 6px;
 }
 
 .item_content {
     width: 90%;
     margin-inline: auto;
-    padding-block: 1.25em;
+    padding-top: 1rem;
 }
 
 .back {
@@ -31,26 +29,16 @@
 }
 
 .image_container {
-    margin-inline: auto;
     width: 65%;
-    position: relative;
+    margin-inline: auto;
+    border-bottom: 1px solid #D1D6Db;
+    margin-bottom: 1rem;
 }
 
 .image_container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-.image_container::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 1px;
-    width: 115%;
-    background-color: #D1D6DB
 }
 
 .description {
@@ -65,18 +53,14 @@
         max-width: 1000px;
         width: 70%;
         padding-top: 2rem;
-        --content-width: 45%;
-        --image-position: 20%; /*was 27.5*/
         justify-content: center;
     }
 
     .item_content {
-        width: var(--content-width);
-        padding: 0 1rem;
-        margin-inline: 0;
-        padding-inline: 1rem;
-        margin-right: auto;
-        margin-bottom: 2rem;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        justify-content: center;
     }
 
     .info h2 {
@@ -88,18 +72,18 @@
     }
 
     .image_container {
-        width: 40%;
-        /* height: 65%; */
-        position: absolute;
-        top: 50%;
-        right: var(--image-position);
-        transform: translate(50%, -50%);
+        width: 50%;
+        height: 100%;
+        border-bottom: none;
+        margin-bottom: 0;
     }
 
     .image_container img {
-        height: 100%;
-        width: 100%;
+        display: block;
+        height: 75%;
+        width: 75%;
         object-fit: contain;
+        margin-left: auto;
     }
 
     .image_container::after {
@@ -111,26 +95,8 @@
         max-width: 31ch;
         margin-inline: auto;
     }
-}
 
-/* 
-Old item heading css
-.name_bg div {
-    background-color: var(--primary-blue);
-    color: var(--font-white);
-    transform: translateY(-10px) translateX(10px);
+    .details {
+        width: 50%;
+    }
 }
-
-.name_bg div p {
-    transform: rotateZ(1.13deg);
-    font-size: var(--normal-font-size);
-    padding: .5rem;
-}
-
-.name_bg {
-    max-width: 600px;
-    margin-inline: auto;
-    border: 4px solid var(--primary-yellow);
-    transform: rotateZ(-1.13deg);
-    margin-bottom: 1rem;
-} */

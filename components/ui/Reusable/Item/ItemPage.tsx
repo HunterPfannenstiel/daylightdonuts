@@ -37,33 +37,35 @@ const ItemPage: FunctionComponent<ItemPageProps> = ({
 
 	return (
 		<div className={classes.item + ' ' + className}>
+			<Heading position="center" tilt="none">
+				<h2>{item.name}</h2>
+			</Heading>
 			<div className={classes.item_content}>
-				<div className={classes.info}>
-					<Heading position="center">
-						<h2>{item.name}</h2>
-					</Heading>
-					<p className={extraPrice ? classes.bold : ''}>{`$${(+price).toFixed(
-						2
-					)}`}</p>
-					{extraPrice ? (
-						<p className={classes.extra_price}>{`+ $${extraPrice.toFixed(
-							2
-						)}`}</p>
-					) : (
-						''
-					)}
-				</div>
 				<div className={classes.image_container}>
 					<Image src={image} alt={item.name} width={500} height={500} />
 				</div>
-				<p className={classes.description}>{item.description}</p>
-				<ItemForm
-					extras={item.extras}
-					updateExtras={updateExtras}
-					addItemToCart={addItemToCart}
-					buttonName={buttonName}
-					maxAmount={maxAmount}
-				/>
+				<div className={classes.details}>
+					<div className={classes.info}>
+						<p className={extraPrice ? classes.bold : ''}>{`$${(+price).toFixed(
+							2
+						)}`}</p>
+						{extraPrice ? (
+							<p className={classes.extra_price}>{`+ $${extraPrice.toFixed(
+								2
+							)}`}</p>
+						) : (
+							''
+						)}
+					</div>
+					<p className={classes.description}>{item.description}</p>
+					<ItemForm
+						extras={item.extras}
+						updateExtras={updateExtras}
+						addItemToCart={addItemToCart}
+						buttonName={buttonName}
+						maxAmount={maxAmount}
+					/>
+				</div>
 			</div>
 		</div>
 	);

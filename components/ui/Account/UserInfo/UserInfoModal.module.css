@@ -66,6 +66,12 @@
 	background-color: var(--primary-blue);
 	border-radius: 1rem;
 	width: 150px;
+	transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.buttons button:hover {
+	color: black;
+	background-color: var(--primary-yellow);
 }
 
 .format {
