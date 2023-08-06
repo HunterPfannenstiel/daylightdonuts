@@ -1,30 +1,34 @@
 import { Item } from "@_types/database/menu";
 import IItemPage from "components/ui/Reusable/Item/ItemPage";
-import Modal from "components/ui/Reusable/Modal/Modal";
 import { FunctionComponent } from "react";
-import DozenableItemForm from "../DozenableItems/DozenableItemForm";
 import classes from "./ItemModal.module.css";
 import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
+import { ExtraInfo } from "@_types/database/cart";
+import { ModalProps } from "@_hooks/animation/useAnimateModal";
 
-interface ItemModalProps {
+export interface ItemModalProps {
   item: Item;
-  displayModal: boolean;
-  playAnimation: boolean;
-  handleModal: () => void;
+  modalProps: ModalProps;
+  showModal: boolean;
+  maxAmount: number;
+  updateExtras: (category: string, extraInfo: ExtraInfo) => void;
+  addItemToBox: (amount: number) => void;
 }
 
 const ItemModal: FunctionComponent<ItemModalProps> = ({
   item,
-  displayModal,
-  playAnimation,
-  handleModal,
+  modalProps,
+  showModal,
+  maxAmount,
+  updateExtras,
+  addItemToBox,
 }) => {
-  if (displayModal) {
-    const animate = playAnimation ? classes.animate_out : "";
+  if (showModal) {
+    const animate = modalProps.playAnimation ? classes.animate_out : "";
     return (
       <ModalDisplay
-        handleModal={handleModal}
-        playAnimation={playAnimation}
+        handleModal={modalProps.handleModal}
+        playAnimation={modalProps.playAnimation}
         animationTime={300}
       >
         <div className={classes.modal + " " + animate}>
@@ -32,11 +36,16 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
             item={item}
             extraPrice={0}
             price={+item.price}
-            itemForm={<DozenableItemForm item={item} />}
+            maxAmount={maxAmount}
             className={classes.page}
-            backButtonHandler={handleModal}
+            backButtonHandler={modalProps.handleModal}
+            updateExtras={updateExtras}
+            addItemToCart={addItemToBox}
           />
-          <div className={classes.background} onClick={handleModal} />
+          <div
+            className={classes.background}
+            onClick={modalProps.handleModal}
+          />
         </div>
       </ModalDisplay>
     );

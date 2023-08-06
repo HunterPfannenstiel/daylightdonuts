@@ -1,9 +1,9 @@
-import { ComponentPropsWithoutRef, FunctionComponent } from "react";
+import { ComponentPropsWithoutRef, FunctionComponent, ReactNode } from "react";
 import classes from "./SelectInput.module.css";
 import { concatClassNames } from "@_utils/client";
 
 interface SelectInputProps extends ComponentPropsWithoutRef<"input"> {
-  label: string;
+  label: ReactNode;
   handler: (isSelected: boolean) => void;
   type: "radio" | "checkbox";
   radioName?: string;

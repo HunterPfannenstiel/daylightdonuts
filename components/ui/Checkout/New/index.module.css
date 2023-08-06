@@ -11,6 +11,7 @@
     display: flex;
     gap: 1rem;
     padding-inline: 1.25rem;
+    justify-content: center;
 }
 
 @keyframes fade_in {

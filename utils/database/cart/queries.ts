@@ -16,3 +16,10 @@ export const getUserCart = async (cartId: number) => {
   checkRowLength(res);
   return res.rows[0] as CartDBResponse;
 };
+
+export const getTaxAmount = async () => {
+  const query = "SELECT * FROM store.get_tax_amount()";
+  const res = await customerQuery(query);
+  checkRowLength(res);
+  return res.rows[0].tax as string;
+};

@@ -94,7 +94,6 @@ const useCustomerInput = () => {
     else if (!formInput.pickupDate.value) key = "pickupDate";
     else if (!formInput.pickupTimeId.value) key = "pickupTimeId";
     if (key) {
-      console.log(key);
       updateInfo(key, formInput[key].value, false);
       return false;
     }

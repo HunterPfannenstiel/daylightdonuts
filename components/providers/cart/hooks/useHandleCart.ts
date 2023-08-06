@@ -64,6 +64,7 @@ const useHandleCart = () => {
           price: "0",
           status: "Open",
           nextId: 0,
+          tax: "0",
         });
       }
       getAndResetUpdates();

@@ -4,11 +4,11 @@ import { DozenBoxItem } from "@_types/dozenable";
 import { getCartId, getExtraInfo } from "@_utils/database/cart/cart";
 import useExtraInfo from "./useExtraInfo";
 
-const useDozenableBoxUpdate = (item: Item) => {
+const useDozenableBoxUpdate = () => {
   const { dispatchBox, isItemInBox, amountNeeded } = useBuildBox();
   const { extraInfo, updateExtras } = useExtraInfo();
 
-  const addItemToBox = (amount: number) => {
+  const addItemToBox = (amount: number, item: Item) => {
     const [ids, extras] = getExtraInfo(extraInfo);
     const itemId = getCartId(item.id, ids);
     if (isItemInBox(itemId)) {
