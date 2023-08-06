@@ -1,7 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import classes from "./index.module.css";
 import CheckoutContainer from "../../CheckoutContainer";
-import CheckoutTextInput from "components/ui/Reusable/Form/CheckoutTextInput";
 import { CustomerFormInfo } from "@_types/database/checkout";
 import Button from "components/ui/Reusable/Button";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";

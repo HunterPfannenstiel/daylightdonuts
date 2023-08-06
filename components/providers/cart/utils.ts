@@ -38,12 +38,10 @@ export const getInitialContext = (): CartContext => {
   };
 };
 
-export const getInitialCart = (): Cart => {
-  return {
-    items: {},
-    totalItems: 0,
-    price: "0",
-    status: "Open",
-    nextId: 0,
-  };
+export const resetCart = (cartObj: Cart) => {
+  cartObj.items = {};
+  cartObj.totalItems = 0;
+  cartObj.price = "0.00";
+  cartObj.status = "Open";
+  cartObj.nextId = 0;
 };

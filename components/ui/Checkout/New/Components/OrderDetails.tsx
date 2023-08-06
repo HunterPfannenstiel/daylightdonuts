@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import classes from "./OrderDetails.module.css";
 import CheckoutContainer from "../CheckoutContainer";
 import InputLayout from "components/ui/Reusable/Form/InputLayout";
@@ -20,13 +20,22 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   values,
 }) => {
   const { data, isLoading } = usePickupInfo();
+  const dateRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     if (data) {
       updateLocationDetails("locationId", data[0].location_id.toString());
       updateLocationDetails("pickupTimeId", data[0].times[0].id.toString());
-      updateLocationDetails("pickupDate", "2023-07-11");
     }
   }, [data]);
+  useEffect(() => {
+    if (!values.pickupDate.isValid) {
+      dateRef.current?.focus();
+    }
+  }, [
+    values.locationId.isValid,
+    values.pickupDate.isValid,
+    values.pickupTimeId.isValid,
+  ]);
 
   const times =
     data?.find((location) => location.location_id === +values.locationId.value)
@@ -75,7 +84,17 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
               <InputLayout
                 label="Date*"
                 htmlFor="date"
-                inputComponent={<input id="date" type="date"/>}
+                inputComponent={
+                  <input
+                    id="date"
+                    type="date"
+                    min={new Date().toString()}
+                    ref={dateRef}
+                    onChange={(e) => {
+                      updateLocationDetails("pickupDate", e.target.value);
+                    }}
+                  />
+                }
               />
             </div>
           </div>

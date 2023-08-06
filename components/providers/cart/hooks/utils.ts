@@ -9,7 +9,7 @@ import {
 } from "@_types/cart";
 import APIRequest from "custom-objects/Fetch";
 import { MutableRefObject } from "react";
-import { getInitialCart } from "../utils";
+import { resetCart } from "../utils";
 
 type ClientCartDelegate = (
   cart: Cart,
@@ -128,7 +128,7 @@ export const removeItem =
   };
 
 export const clearCart = (): ClientCartDelegate => (cart, dbUpdates) => {
-  cart = getInitialCart();
+  resetCart(cart);
 };
 
 const calculateExtraPrice = (item: CartItem) => {

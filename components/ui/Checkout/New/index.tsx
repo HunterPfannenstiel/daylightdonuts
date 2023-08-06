@@ -29,12 +29,12 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
     <div className={classes.page}>
       <OrderItems cartContext={cartContext} />
       <OrderDetails
-        updateLocationDetails={input.updateLocationInfo}
-        values={input.locationDetails}
+        updateLocationDetails={input.updateFormInfo}
+        values={input.getLocationInfo()}
       />
       <CustomerInfo
-        updateInfo={input.updateCustomerInfo}
-        {...input.customerInfo}
+        updateInfo={input.updateFormInfo}
+        {...input.getCustomerInfo()}
       />
       <Payment
         setLoading={setIsLoading}
@@ -45,9 +45,7 @@ const CheckoutPage: FunctionComponent<CheckoutPageProps> = () => {
       <Totals subtotal={cartContext.cart?.price || "0.00"} tax="0.00" />
       <div className={classes.buttons}>
         <Button>I'm Still Hungry</Button>
-        <Button onClick={validateInfo}>Place Order</Button>
-        {!paypalSelected && <Button onClick={validateInfo}>Place Order</Button>}
-        //form="payment-form"
+        {!paypalSelected && <Button form="payment-form">Place Order</Button>}
       </div>
     </div>
   );
