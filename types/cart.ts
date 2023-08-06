@@ -43,6 +43,7 @@ export type Cart = {
   totalItems: number;
   nextId: number;
   status: CartStatus;
+  tax: string;
 };
 
 export type CartStatus = "Pending" | "Complete" | "New" | "Open";
@@ -50,6 +51,7 @@ export type CartStatus = "Pending" | "Complete" | "New" | "Open";
 export type CartDBResponse = {
   items: { [itemId: number]: CartSection };
   status: CartStatus;
+  tax: string;
 };
 
 export type NewDBCartItem = {

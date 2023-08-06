@@ -12,4 +12,5 @@
     height: 26px;
     border-radius: 50%;
     background-color: var(--primary-yellow);
+    color: var(--primary-blue)
 }

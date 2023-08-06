@@ -24,19 +24,23 @@ const UserInfo: FunctionComponent<UserInfoProps> = ({
         <SelectInput
           type="radio"
           handler={onSelectHandler.bind(this, info)}
-          label=""
+          label={
+            <div className={classes.details}>
+              <p className={classes.text}>{info.first_name}</p>
+              <p className={classes.text}>
+                {info.last_name + (info.favorite ? " *" : " ")}
+              </p>
+              {showPhoneNumber && (
+                <p className={classes.text}>{info.phone_number}</p>
+              )}
+            </div>
+          }
           name="info"
-          id="info"
+          id={`info-${info.id}`}
           defaultChecked={info.id === selectedId}
         />
       )}
-      <div className={classes.details}>
-        <p className={classes.text}>{info.first_name}</p>
-        <p className={classes.text}>
-          {info.last_name + (info.favorite ? " *" : " ")}
-        </p>
-        {showPhoneNumber && <p className={classes.text}>{info.phone_number}</p>}
-      </div>
+
       {editable && (
         <button
           onClick={onSelectHandler.bind(this, info)}

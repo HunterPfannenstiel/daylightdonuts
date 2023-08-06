@@ -40,7 +40,6 @@ export const initializeCart = (cart: Cart) => {
       nextId = Math.max(nextId, +cartItemId);
     });
   });
-  console.log(totalPrice);
   cart.price = totalPrice.toFixed(2) || "0.00";
   cart.totalItems = totalItems;
   cart.nextId = nextId + 1;
