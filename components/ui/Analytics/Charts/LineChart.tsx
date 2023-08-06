@@ -10,7 +10,7 @@ interface LineChartProps {
 }
 
 const LineChart: FunctionComponent<LineChartProps> = ({ chartData }) => {
-	return <Line data={chartData} className={classes.chart}/>;
+	return <Line data={chartData} className={classes.chart} />;
 };
 
 export default LineChart;

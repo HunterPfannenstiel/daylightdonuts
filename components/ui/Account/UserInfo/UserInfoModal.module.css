@@ -78,6 +78,11 @@
     flex-direction: row-reverse;
 }
 
+.buttons button:disabled {
+	background-color: #0033727c;
+	cursor: default;
+}
+
 @media (max-width: 40em) {
 	.form_container h1 {
 		text-align: center;

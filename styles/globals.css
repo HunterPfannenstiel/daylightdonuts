@@ -5,6 +5,7 @@
     --primary-blue: #003472;
     --blue-outline: #012248;
     --primary-yellow: #FFD503;
+    --button-disabled-color: #0033727c;
 
     /* -----Fonts----- */
     --primary-font: normal var(--normal-font-size) filson-pro, sans-serif;

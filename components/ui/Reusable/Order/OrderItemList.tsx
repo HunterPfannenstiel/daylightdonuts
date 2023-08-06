@@ -26,7 +26,13 @@ const OrderItemList: FunctionComponent<OrderItemListProps> = ({
 	return (
 		<ul>
 			{cart.map((cartItem) => {
-				return <OrderItem {...cartItem} cartId={cartId} onDelete={onDelete} />;
+				return (
+					<OrderItem
+						{...cartItem}
+						cartId={cartId}
+						onDelete={onDelete}
+					/>
+				);
 			})}
 		</ul>
 	);

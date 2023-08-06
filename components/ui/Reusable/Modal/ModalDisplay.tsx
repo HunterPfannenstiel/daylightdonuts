@@ -12,6 +12,7 @@ interface ModalDisplayProps {
   animationTime: number;
   isLoading?: boolean;
   className?: string;
+  closeable?: boolean;
 }
 
 const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
@@ -21,6 +22,7 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
   children,
   isLoading,
   className: userClassName,
+  closeable = true,
 }) => {
   const className = concatClassNames(
     classes.modal_content,
@@ -34,18 +36,22 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
           className={className}
           style={{ "--animation-time": animationTime + "ms" } as CSSProperties}
         >
-          <p className={classes.close} onClick={handleModal}>
+          <p
+            className={classes.close}
+            onClick={closeable ? handleModal : () => {}}
+          >
             X
           </p>
           {children}
         </div>
       ) : (
-        <Spinner center />
+        <Spinner />
       )}
       <Background
         handleModal={handleModal}
         playAnimation={playAnimation}
         animationTime={animationTime}
+        closeable={closeable}
       />
     </Modal>
   );

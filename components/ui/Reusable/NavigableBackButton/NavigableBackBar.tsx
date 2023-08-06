@@ -23,8 +23,17 @@ const NavigableBackBar: FunctionComponent<NavigableBackBarProps> = () => {
 				const formattedPiece =
 					' / ' + piece.slice(0, 1).toUpperCase() + piece.slice(1);
 				if (index !== splitPath.length - 1) {
-					return <Link href={buildString}>{formattedPiece + ' '}</Link>;
-				} else return <p className={classes.last_piece}>{formattedPiece}</p>;
+					return (
+						<Link href={buildString} key={piece}>
+							{formattedPiece + ' '}
+						</Link>
+					);
+				} else
+					return (
+						<p className={classes.last_piece} key={piece}>
+							{formattedPiece}
+						</p>
+					);
 			})}
 		</div>
 	);

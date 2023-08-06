@@ -55,7 +55,7 @@ const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
 								</Link>
 							)}
 							{status === 'authenticated' && (
-								<Link href={'/account'}>
+								<Link href={'/account?Profile'}>
 									<Profile />
 								</Link>
 							)}

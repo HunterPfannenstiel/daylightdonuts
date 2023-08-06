@@ -55,7 +55,7 @@ export const AuthContextProvider: FunctionComponent<
 				const res = [...prev];
 				res.push({ ...info, id: addedId });
 				if (info.favorite) {
-					res[idMap[favId]].favorite = false;
+					if (favId !== -1) res[idMap[favId]].favorite = false;
 					favId = addedId;
 				}
 				return res;

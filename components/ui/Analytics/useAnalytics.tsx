@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 let itemNames: { name: string }[] = [];
 let categoryNames: { name: string }[] = [];
 
-const useAnalytics = () => {
+const useAnalytics = (onSuccessFn = () => {}) => {
 	const [analyticParams, setAnalyticParams] = useState<
 		AnalyticParams | undefined
 	>();
@@ -49,6 +49,7 @@ const useAnalytics = () => {
 	const { data, isLoading, isError } = useQuery({
 		queryKey: ['analytics', analyticParams],
 		queryFn: fetchAnalytics,
+		onSuccess: onSuccessFn
 	});
 	return {
 		setAnalyticParams,

@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    max-width: 600px;
+    flex-wrap: wrap;
+    gap: 4rem;
+    justify-content: space-around;
+    margin: auto;
+    margin-top: 2rem;
+    padding: 2rem;
+}
+
+.profile_icon {
+    height: 50px;
+    width: 50px;
+}

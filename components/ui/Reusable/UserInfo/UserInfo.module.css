@@ -2,17 +2,26 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    border-bottom: 1px solid #f2f4ff;
+	padding: 2rem 0;
 }
 
-.text {
-    max-width: 200px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+/*Display flex so child p tags don't need to be inline-block and allow for ellipsis overflow*/
+.details {
+    flex: 1;
+    display: flex;
+	overflow: hidden;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.details p {
     overflow: hidden;
+	white-space: wrap;
+	text-overflow: ellipsis;
 }
 
 .edit_info {
-    margin-left: auto;
     background-color: #003472;
     width: 100px;
     min-width: 100px;
