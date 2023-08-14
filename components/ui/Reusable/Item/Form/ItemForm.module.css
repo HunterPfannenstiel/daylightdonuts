@@ -1,0 +1,50 @@
+.form {
+    margin: 0;
+}
+
+.form fieldset {
+    display: flex;
+    align-items: center;
+    margin-block: 1em;
+}
+
+.form label {
+    margin-left: auto;
+    padding-right: .5em;
+}
+
+.form select {
+    width: 60%;
+}
+
+.add_cart {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.add_cart select {
+    width: fit-content;
+    padding-right: 10%;
+    background-color: transparent;
+}
+
+.blue_button {
+    background-color: var(--primary-blue);
+    color: white;
+    width: 90%;
+}
+
+.container select {
+    background-color: transparent;
+}
+
+@media (min-width: 40em){
+    .form label {
+        font-size: 1.125rem;
+    }
+
+    .form select {
+        font-size: 1rem;
+    }
+}

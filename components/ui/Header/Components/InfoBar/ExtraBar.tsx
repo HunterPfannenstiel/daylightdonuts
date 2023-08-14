@@ -1,13 +1,13 @@
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { ParsedUrlQuery } from "querystring";
 import { FunctionComponent, useEffect } from "react";
 import IExtraBar from "./IExtraBar";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 interface ExtraBarProps {
   contents: string[];
   sticky?: boolean;
   queryParameterName: string;
-  query: ParsedUrlQuery;
+  params: ReadonlyURLSearchParams | null;
   showBar: boolean;
 }
 
@@ -15,7 +15,7 @@ const ExtraBar: FunctionComponent<ExtraBarProps> = ({
   contents,
   sticky,
   queryParameterName,
-  query,
+  params,
   showBar,
 }) => {
   const { showModal, playAnimation, handleModal } = useAnimateModal(250);
@@ -30,7 +30,7 @@ const ExtraBar: FunctionComponent<ExtraBarProps> = ({
   return (
     <IExtraBar
       contents={contents}
-      query={query}
+      params={params}
       queryParameterName={queryParameterName}
       showBar={showModal}
       playAnimation={playAnimation}

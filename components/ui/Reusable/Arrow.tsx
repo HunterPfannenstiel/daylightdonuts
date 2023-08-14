@@ -1,3 +1,5 @@
+"use client";
+
 import useAnimateButton from "@_hooks/animation/useAnimateButton";
 import { CSSProperties, FunctionComponent, HTMLAttributes } from "react";
 import classes from "./Arrow.module.css";

@@ -1,0 +1,35 @@
+.content {
+    position: relative;
+    animation: fade_in 300ms ease-out;
+}
+
+.location {
+    padding-bottom: 1.5rem;
+}
+
+.time_date {
+    display: flex;
+    gap: 1rem;
+}
+
+.time_date > * {
+    flex: 1;
+}
+
+.content label {
+    font-weight: normal;
+    color: var(--primary-blue);
+}
+
+.time_date div {
+    width: 100%;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

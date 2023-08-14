@@ -6,6 +6,15 @@
     height: 30px;
     animation: spin 1s linear infinite;
     display: inline-block;
+    z-index: 2;
+}
+
+.center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
 }
 
 @keyframes spin {

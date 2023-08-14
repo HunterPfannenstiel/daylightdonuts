@@ -1,38 +1,22 @@
 import {
   NewCartItem,
-  UpdateDB,
   UpdatedCartItem,
   DBModifier,
   PendingDBUpdates,
-  ManyDBUpdates,
+  UpdateCartItem,
 } from "@_types/database/cart";
 
 export const addNewGroup = (): DBModifier => () => {};
 
-export const addNewDBItem =
-  (items: NewCartItem[]): DBModifier =>
+export const addDBUpdate =
+  (items: UpdateCartItem[]): DBModifier =>
   (updates) => {
     items.forEach((item) => {
-      const index = checkIfExists(updates, item.cartItemId, "newItems");
-      if (index === -1) {
-        updates.newItems.push(item);
+      const index = checkIfExists(updates, item.cart_item_id);
+      if (index !== -1) {
+        updates[index].amount += item.amount;
       } else {
-        updates.newItems[index].amount += item.amount;
-        updates.newItems[index].subtotal += item.subtotal;
-      }
-    });
-  };
-
-export const updateDBItem =
-  (items: UpdatedCartItem[]): DBModifier =>
-  (updates) => {
-    items.forEach((item) => {
-      const index = checkIfExists(updates, item.cartItemId, "updateItems");
-      if (index === -1) {
-        updates.updateItems.push(item);
-      } else {
-        updates.updateItems[index].updateAmount += item.updateAmount;
-        updates.updateItems[index].subtotal += item.subtotal;
+        updates.push(item);
       }
     });
   };
@@ -40,33 +24,25 @@ export const updateDBItem =
 export const updateManyDBItems =
   (newItems: NewCartItem[], existingItems: UpdatedCartItem[]): DBModifier =>
   (updates) => {
-    addNewDBItem(newItems)(updates);
-    updateDBItem(existingItems)(updates);
+    addDBUpdate(newItems)(updates);
+    addDBUpdate(existingItems)(updates);
   };
 
 export const updateDBItemsFromCart =
   (updates: PendingDBUpdates): DBModifier =>
   (cartUpdates) => {
     Object.keys(updates).forEach((cartItemId) => {
-      cartUpdates.updateItems.push({
-        cartItemId: +cartItemId,
-        updateAmount: updates[cartItemId].updateAmount,
-        subtotal: updates[cartItemId].subtotal,
+      cartUpdates.push({
+        cart_item_id: +cartItemId,
+        amount: updates[cartItemId].updateAmount,
       });
     });
   };
 
-const checkIfExists = (
-  updates: UpdateDB,
-  cartItemId: number,
-  section: "newItems" | "updateItems"
-) => {
-  return updates[section].findIndex((item) => item.cartItemId === cartItemId);
+const checkIfExists = (updates: UpdateCartItem[], cartItemId: number) => {
+  return updates.findIndex((item) => item.cart_item_id === cartItemId);
 };
 
 export const getInitialUpdates = () => {
-  return {
-    newItems: [],
-    updateItems: [],
-  } as UpdateDB;
+  return [] as UpdateCartItem[];
 };

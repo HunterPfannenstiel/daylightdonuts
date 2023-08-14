@@ -1,30 +1,28 @@
-import React, {
-  ButtonHTMLAttributes,
-  CSSProperties,
-  FunctionComponent,
-} from "react";
+import React, { CSSProperties, ElementType, ReactNode } from "react";
 import classes from "./Button.module.css";
+import { PolymorphicComponent } from "@_types/polymorphic";
+import { concatClassNames } from "@_utils/client";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color: string;
-  fontWeight?: string;
-  width?: string;
-  children: React.ReactNode;
+interface ButtonProps {
+  color?: string;
+  children: ReactNode;
 }
 
-const Button: FunctionComponent<ButtonProps> = ({
+const Button = <C extends ElementType = "button">({
+  as,
   color,
-  children,
-  fontWeight,
-  width,
   className,
-  ...rest
-}) => {
-  const css = { backgroundColor: color, fontWeight, width } as CSSProperties;
+  children,
+  ...restProps
+}: PolymorphicComponent<C, ButtonProps>) => {
+  const Component = as || "button";
   return (
-    <button {...rest} className={`${classes.button} ${className}`} style={css}>
+    <Component
+      {...restProps}
+      className={concatClassNames(className, classes.button)}
+    >
       {children}
-    </button>
+    </Component>
   );
 };
 

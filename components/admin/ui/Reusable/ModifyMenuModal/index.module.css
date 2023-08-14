@@ -1,0 +1,24 @@
+.modal {
+    background-color: var(--background-color);
+    width: 90%;
+    height: 80%;
+    padding: 2rem;
+    border-radius: 8px;
+    overflow-y: scroll;
+    max-width: 1000px;
+}
+
+.modal::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.modal::-webkit-scrollbar-track {
+    background: #DBE2EC;
+    border-radius: 8px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 8px;
+}

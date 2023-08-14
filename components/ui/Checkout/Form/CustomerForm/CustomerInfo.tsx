@@ -1,22 +1,26 @@
-import { CustomerInfo as Info } from "@_types/payment";
+import { CustomerFormInfo } from "@_types/database/checkout";
 import { ChangeEvent, FunctionComponent } from "react";
 import Fieldset from "../Fieldset";
 import classes from "./CustomerInfo.module.css";
 import Input from "./Input";
 import PickupInfo from "./PickupInfo/PickupInfo";
+import { useCheckoutInfo } from "@_providers/Checkout/CheckoutInfo";
 
-interface CustomerInfoProps {
-  customerInfo: Info;
-}
+interface CustomerInfoProps {}
 
-const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
-  customerInfo,
-}) => {
+const CustomerInfo: FunctionComponent<CustomerInfoProps> = () => {
+  const {
+    customerFormInfo,
+    orderTimeDetails,
+    currentStoreTimes,
+    locations,
+    setSelectedLocationId,
+  } = useCheckoutInfo();
   const updateCustomerInfo = (
     e: ChangeEvent<HTMLInputElement>,
-    keyName: keyof Info
+    keyName: keyof CustomerFormInfo
   ) => {
-    customerInfo[keyName] = e.target.value;
+    customerFormInfo[keyName] = e.target.value;
   };
 
   return (
@@ -28,7 +32,7 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
           label="Name of person collecting"
           required
           onChange={(e) => {
-            updateCustomerInfo(e, "firstName");
+            updateCustomerInfo(e, "first_name");
           }}
         />
         <Input
@@ -37,7 +41,7 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
           label="Name of person collecting"
           required
           onChange={(e) => {
-            updateCustomerInfo(e, "lastName");
+            updateCustomerInfo(e, "last_name");
           }}
         />
       </div>
@@ -61,11 +65,16 @@ const CustomerInfo: FunctionComponent<CustomerInfoProps> = ({
           required
           onChange={(e) => {
             e.target.value = addDashes(e.target.value);
-            updateCustomerInfo(e, "phone");
+            updateCustomerInfo(e, "phone_number");
           }}
         />
       </div>
-      <PickupInfo customerInfo={customerInfo} />
+      <PickupInfo
+        orderTimeDetails={orderTimeDetails}
+        locationTimes={currentStoreTimes}
+        locations={locations}
+        setSelectedLocationId={setSelectedLocationId}
+      />
     </Fieldset>
   );
 };

@@ -1,76 +1,44 @@
-import {
-  CartDictionary,
-  CartModifier,
-  CartState,
-  DBCartItem,
-} from "@_types/database/cart";
-import {
-  createContext,
-  FunctionComponent,
-  Reducer,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-import { getDefaultCart, getInitialContext, getInitialState } from "./utils";
+import { ReactNode, createContext, useContext } from "react";
+import { FunctionComponent } from "react";
+import useHandleCart from "./hooks/useHandleCart";
+import { getInitialContext } from "./utils";
+import { CheckoutSection } from "@_types/cart";
 
-const Cart = createContext<CartState>(getInitialContext());
+const Cart = createContext(getInitialContext());
 
-interface Props {
-  children: React.ReactNode;
+interface CartProviderProps {
+  children: ReactNode;
 }
 
-const cartReducer: Reducer<CartDictionary, CartModifier> = (
-  cart,
-  modifyCart
-) => {
-  modifyCart(cart);
-  return { ...cart };
+const CartProvider: FunctionComponent<CartProviderProps> = ({ children }) => {
+  const cartDetails = useHandleCart();
+  const getIterableItems = () => {
+    const { cart } = cartDetails;
+    if (!cart?.items) return [];
+    const menuItemIds = Object.keys(cart.items);
+    const checkoutItems: CheckoutSection[] = [];
+    menuItemIds.forEach((itemId) => {
+      const section = cart.items[+itemId];
+      const cartItemIds = Object.keys(section.items);
+      const checkoutSection: CheckoutSection = {
+        details: { ...section.details, itemId: +itemId },
+        items: [],
+      };
+      cartItemIds.forEach((cartItemId) => {
+        const item = section.items[+cartItemId];
+        checkoutSection.items.push({ ...item, cartItemId: +cartItemId });
+      });
+      checkoutItems.push(checkoutSection);
+    });
+    return checkoutItems;
+  };
+  return (
+    <Cart.Provider value={{ ...cartDetails, getIterableItems }}>
+      {children}
+    </Cart.Provider>
+  );
 };
 
-export const CartProvider: FunctionComponent<Props> = ({ children }) => {
-  const [nextItemId, setNextItemId] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [cart, dispatchCart] = useReducer<
-    Reducer<CartDictionary, CartModifier>
-  >(cartReducer, getDefaultCart());
+export const useCart = () => useContext(Cart);
 
-  useEffect(() => {
-    if (isLoading) {
-      setInitialState();
-    }
-  }, []);
-
-  const setInitialState = async () => {
-    const response = await fetch("/api/fetchCart");
-    const savedCart = (await response.json()) as DBCartItem[];
-    const [initialCart, nextId] = await getInitialState(savedCart);
-    dispatchCart(initialCart);
-    setNextItemId(nextId);
-    setIsLoading(false);
-  };
-
-  const modifyCart = (cartModifier: CartModifier) => {
-    dispatchCart(cartModifier);
-  };
-
-  const incrementId = () => {
-    setNextItemId((prevState) => prevState++);
-  };
-
-  const value = {
-    cart,
-    modifyCart,
-    nextItemId,
-    incrementId,
-    setNextItemId,
-    isLoading,
-  };
-
-  return <Cart.Provider value={value}>{children}</Cart.Provider>;
-};
-
-export const useCart = () => {
-  return useContext(Cart);
-};
+export default CartProvider;

@@ -1,4 +1,3 @@
-import { moneyToNum } from "@_providers/cart/utils";
 import { ExtraInfo } from "@_types/database/cart";
 import { ItemExtra } from "@_types/database/menu";
 import { ChangeEvent, FunctionComponent, useEffect } from "react";
@@ -17,24 +16,18 @@ const Select: FunctionComponent<SelectProps> = ({
   useEffect(() => {
     const info = itemExtras[0];
     const { name, id, price } = info;
-    let numPrice = null;
-    if (price) {
-      numPrice = moneyToNum(price);
-    }
-    updateExtras(category, { extra: name, id, price: numPrice });
+
+    updateExtras(category, { extra: name, id, price });
   }, []);
 
   const extraChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target;
     const { name, id, price } = itemExtras[+value];
-    let numPrice = null;
-    if (price) {
-      numPrice = moneyToNum(price);
-    }
+
     updateExtras(category, {
       extra: name,
       id,
-      price: numPrice,
+      price,
     });
   };
   return (

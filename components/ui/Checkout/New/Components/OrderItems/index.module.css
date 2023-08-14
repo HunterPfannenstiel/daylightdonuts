@@ -1,0 +1,23 @@
+.items {
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.items li {
+    padding-bottom: 1.5rem;
+}
+
+.items::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.items::-webkit-scrollbar-track {
+    background: #DBE2EC;
+    border-radius: 8px;
+}
+
+.items::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+    border-radius: 8px;
+}

@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    margin-inline: 1rem;
+    gap: 1rem;
+}
+
+.images {
+    width: 75%;
+    gap: 1rem;
+}
+
+.container:last-child {
+    width: 25%;
+}
+
+.image {
+    width: 33%;
+    min-width: 150px;
+}
+
+.image p{
+    text-align: center;
+}
+
+.display_image {
+    border: 3px solid var(--primary-yellow);
+    border-radius: 12px;
+}

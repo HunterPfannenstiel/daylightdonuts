@@ -4,21 +4,18 @@ import {
 } from "@stripe/react-stripe-js";
 import useStripeClient from "@_hooks/stripe/useStripeClient";
 import { useNotification } from "@_providers/Notification/Notification";
-import { CustomerInfo } from "@_types/payment";
-import { postOptimisticOrder } from "@_utils/payment/stripe";
 import { FormEvent, FunctionComponent } from "react";
-import classes from "./StripeForm.module.css";
 
 interface StripeFormProps {
-  customerInfo: CustomerInfo;
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
+  postOrder: () => Promise<void>;
 }
 
 const StripeForm: FunctionComponent<StripeFormProps> = ({
-  customerInfo,
   setLoading,
   checkCustomerForm,
+  postOrder,
 }) => {
   const { stripe, elements } = useStripeClient();
   const { displayNotification } = useNotification();
@@ -35,7 +32,8 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
 
       setLoading(true);
       try {
-        await postOptimisticOrder(customerInfo);
+        await postOrder();
+        //Set 'isLocked' on cart context
       } catch (e: any) {
         setError();
         displayNotification(e.message, "error", 2000);
@@ -55,6 +53,7 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
         //Display Notification using: error.message
         setError();
         displayNotification(error.message!, "error", 2000);
+        //Unlock cart
       } else {
         //Display Notification using: An unexpected error occurred
         setError();
@@ -63,10 +62,9 @@ const StripeForm: FunctionComponent<StripeFormProps> = ({
           "error",
           5000
         );
+        //Unlock cart
       }
       setLoading(false);
-    } else {
-      displayNotification("Missing pickup details", "error", 3000);
     }
   };
 

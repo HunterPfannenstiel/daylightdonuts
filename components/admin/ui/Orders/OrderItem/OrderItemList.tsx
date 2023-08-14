@@ -1,18 +1,37 @@
-import { DBOrder } from "@_types/admin/orders";
+"use client";
+
+import {
+  DBOrder,
+  LabelBlock,
+  LabelSection,
+  OrderLabelDetails,
+} from "@_types/admin/orders";
 import { FunctionComponent } from "react";
 import OrderItem from "./OrderItem";
 import classes from "./OrderItemList.module.css";
 
 interface OrderItemListProps {
   orders: DBOrder[] | undefined;
+  onSelectedForPrint: (
+    id: number,
+    details?: OrderLabelDetails,
+    labelSections?: LabelSection[]
+  ) => void;
 }
 
-const OrderItemList: FunctionComponent<OrderItemListProps> = ({ orders }) => {
+const OrderItemList: FunctionComponent<OrderItemListProps> = ({
+  orders,
+  onSelectedForPrint,
+}) => {
   if (orders && orders.length > 0) {
     return (
       <ul className={classes.orders}>
         {orders.map((order) => (
-          <OrderItem key={order.order_id} order={order} />
+          <OrderItem
+            key={order.order_id}
+            order={order}
+            onSelectedForPrint={onSelectedForPrint}
+          />
         ))}
       </ul>
     );

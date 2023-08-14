@@ -2,18 +2,31 @@ import { OnApproveActions, OnApproveData } from "@paypal/paypal-js";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { FunctionComponent } from "react";
 import classes from "./PayPal.module.css";
+import useSuccess from "@_hooks/checkout/useSuccess";
+import APIRequest from "custom-objects/Fetch";
 
-interface PayPalProps {}
+interface PayPalProps {
+  postOrder: () => Promise<void>;
+  completeOrder: () => void;
+  checkCustomerForm: () => boolean;
+}
 
-const PayPal: FunctionComponent<PayPalProps> = () => {
+const PayPal: FunctionComponent<PayPalProps> = ({
+  postOrder,
+  checkCustomerForm,
+}) => {
+  const completeOrder = useSuccess();
   const orderHandler = async () => {
-    const response = await fetch("/api/cart/payment/create-order");
-    if (response.ok) {
-      const id = await response.json();
-      return id;
+    if (checkCustomerForm()) {
+      const { data, success, errorMessage } = await APIRequest.request<any>(
+        "/api/cart/payment/create-paypal-request"
+      );
+      if (!success) {
+        return Promise.reject(errorMessage);
+      }
+      return data;
     } else {
-      const error = await response.json();
-      return Promise.reject(error);
+      return Promise.reject("Please fill in the form");
     }
   };
   const approveHandler = async (
@@ -21,14 +34,14 @@ const PayPal: FunctionComponent<PayPalProps> = () => {
     actions: OnApproveActions
   ) => {
     if (actions.order) {
-      //This is important, it charges the user, if we don't do this, no funds are captured
-      const details = await fetch("/api/cart/order/create-paypal-order", {
-        method: "POST",
-        body: JSON.stringify({ orderId: data.orderID }),
-        headers: { "Content-Type": "application/json" },
-      });
-      // const details = await actions.order.capture();
-      // console.log(`Transaction completed by ${details.payer.name?.given_name}`);
+      try {
+        await postOrder();
+        await actions.order.capture(); //This is important, it charges the user, if we don't do this, no funds are captured
+        completeOrder();
+        completeOrder();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (

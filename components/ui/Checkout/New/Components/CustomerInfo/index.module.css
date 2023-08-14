@@ -1,0 +1,26 @@
+.info_button {
+    margin-bottom: var(--content-padding); /*Defined in 'CheckoutContainer'*/
+    width: 50%;
+    background-color: var(--primary-blue);
+    color: white;
+    padding: .5rem;
+}
+
+.inputs > * {
+    padding-bottom: 1rem;
+}
+
+.inputs > *:last-child {
+    padding-bottom: 0;
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.name > * {
+    width: 45%;
+}
+
+

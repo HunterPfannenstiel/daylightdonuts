@@ -1,15 +1,26 @@
 import { useNotification } from "@_providers/Notification/Notification";
-import { useRouter } from "next/router";
+import { useCart } from "@_providers/Cart";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const useSuccess = () => {
-  const { query } = useRouter();
+  const { clearCart } = useCart().cartModifiers;
   const { displayNotification } = useNotification();
+  const router = useRouter();
+  const params = useSearchParams();
   useEffect(() => {
-    if (query.orderStatus === "success") {
-      displayNotification("Order has been placed!", "success", 5000);
+    if (params && params.get("orderStatus") === "success") {
+      completeOrder();
     }
-  }, [query]);
+  }, [params]);
+  const completeOrder = () => {
+    fetch("/api/cart/remove-cart");
+    displayNotification("Order has been placed!", "success", 5000);
+    clearCart();
+    router.replace("/");
+  };
+
+  return completeOrder;
 };
 
 export default useSuccess;

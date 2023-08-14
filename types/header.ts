@@ -1,5 +1,6 @@
 export type Category = {
-  [p: string]: number | null;
+  category: string;
+  subcategories: string[] | [null];
 };
 
 type DBCategory = {
@@ -12,11 +13,11 @@ export type DBCategories = {
   categories: DBCategory[];
 };
 
-type InfoBar =
+export type InfoBar =
   | {
       renderInfoBar: true;
       infoParameterName: string;
-      getInfoBarInfo: (() => Category) | (() => Promise<Category>);
+      getInfoBarInfo: (() => Category[]) | (() => Promise<Category[]>);
       sticky?: boolean;
     }
   | {
@@ -24,13 +25,10 @@ type InfoBar =
       sticky: false;
     };
 
-type ExtraBar =
+export type ExtraBar =
   | {
       renderExtraBar: true;
       extraParameterName: string;
-      getExtraBarInfo:
-        | ((category: number | null) => Subcategories)
-        | ((category: number | null) => Promise<Subcategories>);
     }
   | {
       renderExtraBar: false;

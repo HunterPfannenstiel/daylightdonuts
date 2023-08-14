@@ -1,26 +1,27 @@
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { FunctionComponent, useState } from "react";
+import { Dispatch, FunctionComponent } from "react";
 import BoxDetails from "./BoxDetails/BoxDetails";
 import classes from "./IBoxDisplay.module.css";
 import Buttons from "./Buttons";
 import Header from "./Header";
 import Stripes from "components/ui/Reusable/Stripes";
 import Back from "components/ui/svg/Back";
+import { BoxPayload, DozenBox } from "@_types/dozenable";
 
 interface IBoxDisplayProps {
-  boxSize: number;
+  box: DozenBox;
   boxFinished: boolean;
-  itemsInBox: number;
   onFinishBox: () => void;
   onClearBox: () => void;
+  dispatchBox: Dispatch<BoxPayload>;
 }
 
 const IBoxDisplay: FunctionComponent<IBoxDisplayProps> = ({
-  boxSize,
   boxFinished,
-  itemsInBox,
   onFinishBox,
   onClearBox,
+  box,
+  dispatchBox,
 }) => {
   const { showModal, playAnimation, handleModal } = useAnimateModal(300);
   const buttonName = showModal ? "Clear Box" : "View Box";
@@ -44,13 +45,15 @@ const IBoxDisplay: FunctionComponent<IBoxDisplayProps> = ({
             showDetails={showModal}
             animateOut={playAnimation}
             submitBox={boxFinished}
-            boxSize={boxSize}
+            boxSize={box.boxSize}
             boxClassName={classes.box}
             listClassName={classes.item_list}
+            box={box}
+            dispatchBox={dispatchBox}
           />
           <Header
-            itemAmount={itemsInBox}
-            groupSize={boxSize}
+            itemAmount={box.currentCount}
+            groupSize={box.boxSize}
             className={classes.header}
           />
           <Buttons
@@ -65,7 +68,10 @@ const IBoxDisplay: FunctionComponent<IBoxDisplayProps> = ({
         </div>
         <Stripes />
       </div>
-      <div className={classes.background + " " + bgOpen} />
+      <div
+        className={classes.background + " " + bgOpen}
+        onClick={handleModal}
+      />
     </>
   );
 };

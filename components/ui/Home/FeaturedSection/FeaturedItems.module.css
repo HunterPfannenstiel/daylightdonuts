@@ -1,0 +1,7 @@
+.items {
+    gap: 1rem;
+}
+
+.items > * {
+    margin-bottom: 1rem;
+}

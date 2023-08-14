@@ -1,4 +1,4 @@
-import { useCartUpdates } from "@_providers/cart/CartUpdates/CartUpdates";
+import { useCartUpdates } from "@_providers/old-cart/CartUpdates/CartUpdates";
 import { DozenDBItem } from "@_types/database/cart";
 import useItemUpdate from "./useItemUpdate";
 

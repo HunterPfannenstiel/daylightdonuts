@@ -1,7 +1,7 @@
 import { MenuItem } from "@_types/database/menu";
-import Image from "next/image";
 import { FunctionComponent, ReactNode, useState } from "react";
 import classes from "./Item.module.css";
+import MenuItemImage from "../Image/MenuItemImage";
 
 interface ItemProps {
   item: MenuItem;
@@ -10,7 +10,9 @@ interface ItemProps {
 
 const Item: FunctionComponent<ItemProps> = ({ item, button }) => {
   const image =
-    item.image === "imageURL" ? "/Images/DAYLIGHTDONUTS.png" : item.image;
+    item.image_url === "imageURL"
+      ? "/Images/DAYLIGHTDONUTS.png"
+      : item.image_url;
   const [animateIn, setAnimateIn] = useState(false);
   const handleLoadComplete = () => {
     setAnimateIn(true);
@@ -19,23 +21,22 @@ const Item: FunctionComponent<ItemProps> = ({ item, button }) => {
   return (
     <li className={classes.item}>
       <div className={classes.top}>
-        <div className={`${classes.image_container} ${animate}`}>
-          <Image
-            src={image}
-            alt={item.name}
-            width={500}
-            height={500}
-            onLoadingComplete={handleLoadComplete}
-          />
-        </div>
+        <MenuItemImage
+          className={animate}
+          imageUrl={image}
+          alt={item.name}
+          handleLoadComplete={handleLoadComplete}
+        />
       </div>
       <div className={classes.item_info}>
         <div className={classes.item_text}>
           <h3>{item.name}</h3>
-          <p>{`${item.price} /ea`}</p>
+          <p>
+            <b>{`$${item.price}`}</b>
+          </p>
         </div>
-        {button}
       </div>
+      {button}
     </li>
   );
 };

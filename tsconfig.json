@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,13 +19,36 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@_types/*": ["types/*"],
-      "@_hooks/*": ["components/hooks/*"],
-      "@_providers/*": ["components/providers/*"],
-      "@_utils/*": ["utils/*"]
+      "@_types/*": [
+        "types/*"
+      ],
+      "@_hooks/*": [
+        "components/hooks/*"
+      ],
+      "@_providers/*": [
+        "components/providers/*"
+      ],
+      "@ui/*": ["components/ui/*"],
+      "@_utils/*": [
+        "utils/*"
+      ],
+      "@_admin-reuse/*": ["components/admin/ui/Reusable/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "utils/database/test.js",
+    ".next/types/**/*.ts"
+, "utils/dymo/old.js", "utils/database/admin/menu-queries"  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

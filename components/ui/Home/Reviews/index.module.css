@@ -1,0 +1,25 @@
+.h2 {
+    text-align: center;
+}
+
+.reviews {
+    padding-bottom: 0.5rem;
+}
+
+.review {
+    margin: auto;
+    margin-top: 1rem;
+    min-width: 50%;
+}
+
+@media (min-width: 40em) {
+    .review {
+        min-width: 33%;
+    }
+}
+
+@media (max-width: 24em) {
+    .review {
+        min-width: 100%;
+    }
+}

@@ -1,0 +1,13 @@
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #EEF0F8;
+}
+
+.text {
+    font-weight: 700;
+}
+

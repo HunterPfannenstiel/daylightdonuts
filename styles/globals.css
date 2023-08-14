@@ -5,6 +5,7 @@
     --primary-blue: #003472;
     --blue-outline: #012248;
     --primary-yellow: #FFD503;
+    --button-disabled-color: #0033727c;
 
     /* -----Fonts----- */
     --primary-font: normal var(--normal-font-size) filson-pro, sans-serif;
@@ -18,14 +19,19 @@
     --regular-font-weight: 400;
     --secondary-font-weight: 300;
     /* --Colors-- */
-    --font-black: #212121;
+    --font-black: #161616;
     --font-white: #FFFFFF;
-    --background-color: #F1F3F5;
+    --background-color: #FAFCFF;
 
     /* --Notification-- */
     --success: #70F36D;
     --pending: #FFFFFF;
     --error: #FF6666;
+
+    /* --Width-- */
+    --max-width: 1280px;
+    --page-margin: 1rem;
+
     scroll-behavior: smooth;
 }
 
@@ -82,15 +88,20 @@ fieldset label {
     font-weight: var(--bold-font-weight);
 }
 
-select, input {
+.input, select, input {
     font: var(--primary-font);
     font-size: var(--medium-font-size);
     padding: .3em .5em;
     border: 1px solid #DCDCDC;
-    border-radius: 17px;
-
+    border-radius: 1.75rem;
 }
-
+.input {
+    font: var(--primary-font);
+    font-size: var(--medium-font-size);
+    padding: .3em .5em;
+    border: 1px solid #DCDCDC;
+    border-radius: 1.75rem;
+}
 button {
     border: none;
     font: var(--primary-font);

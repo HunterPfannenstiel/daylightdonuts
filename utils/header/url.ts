@@ -1,15 +1,24 @@
-import { Category, Subcategories, URLInfo } from "@_types/header";
+import {
+  Category,
+  ExtraBar,
+  InfoBar,
+  URLInfo as URLInfoT,
+} from "@_types/header";
 
-export const findURLInfo = (pathName: string) => {
-  return (
-    URLInfo[pathName] || {
-      renderInfoBar: false,
-      renderExtraBar: false,
-    }
-  );
+export const findURLInfo = (pathName: string | null): InfoBar & ExtraBar => {
+  return pathName
+    ? URLInfo[pathName] || {
+        renderInfoBar: false,
+        renderExtraBar: false,
+      }
+    : {
+        renderInfoBar: false,
+        sticky: false,
+        renderExtraBar: false,
+      };
 };
 
-const URLInfo: URLInfo = {
+const URLInfo: URLInfoT = {
   "/menu/[item]": {
     renderInfoBar: false,
     sticky: false,
@@ -22,22 +31,11 @@ const URLInfo: URLInfo = {
     getInfoBarInfo: async () => {
       const response = await fetch("/api/menu/categories");
       const data = await response.json();
-      return data as Category;
+      return data as Category[];
     },
     sticky: true,
     renderExtraBar: true,
     extraParameterName: "filter",
-    getExtraBarInfo: async (category: number | null) => {
-      if (category) {
-        const response = await fetch(
-          `/api/menu/categories?category=${category}`
-        );
-        const data = await response.json();
-        return data as Subcategories;
-      } else {
-        return [];
-      }
-    },
   },
 
   "/checkout": {
@@ -45,17 +43,20 @@ const URLInfo: URLInfo = {
     sticky: false,
     infoParameterName: "page",
     getInfoBarInfo: () => {
-      return {
-        "Your Order": null,
-        Payment: null,
-      };
+      return [
+        {
+          category: "Your Order",
+          subcategories: [null],
+        },
+        { category: "Payment", subcategories: [null] },
+      ];
     },
     renderExtraBar: false,
   },
 };
 
-export const getPageName = (pathName: string) => {
-  return pageNames[pathName] || "Daylight";
+export const getPageName = (pathName: string | null) => {
+  return pathName ? pageNames[pathName] || "Daylight" : "Daylight";
 };
 
 const pageNames: { [p: string]: string } = {

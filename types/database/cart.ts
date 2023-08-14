@@ -2,25 +2,30 @@ import { MutableRefObject } from "react";
 import { Availability } from "./menu";
 
 export type DBCartItem = {
-  subtotal: string;
-  unitprice: string;
-  cartitemid: number;
-  menuitemid: number;
+  //modify the cart initialization to calculate the subtotal instead of the DB
+  unit_price: string;
+  cart_item_id: number;
+  menu_item_id: number;
   amount: number;
   name: string;
   image: string;
-  groupname: string | null;
-  groupsize: number | null;
-  groupprice: string | null;
-  extras: Extra[];
-  extraids: number[];
-  extraprice: number | null;
+  group_name: string | null;
+  group_size: number | null;
+  group_price: string | null;
+  extra_info: ExtraDetails | null;
   availability: Availability;
+};
+
+export type ExtraDetails = {
+  info: Extra[];
+  ids: number[];
+  price: string;
 };
 
 export type Extra = {
   category: string;
   extra: string;
+  abbreviation: string | null;
 };
 
 export type CartItem = {
@@ -84,7 +89,7 @@ export type CartModifier = (cart: CartDictionary) => void;
 
 export type ModifyCart = (
   modifier: CartModifier,
-  dbModifier: DBModifier,
+  dbModifier: DBModifier | null,
   timeoutTime: number
 ) => void;
 
@@ -102,29 +107,23 @@ export type CartToken = {
 };
 
 export type NewCartItem = {
-  cartItemId: number;
-  menuItemId: number;
+  cart_item_id: number;
+  menu_item_id: number;
   amount: number;
-  subtotal: number;
-  extraIds: number[];
-  extraPrice: number | null;
+  extra_ids: number[];
 };
 
 export type UpdatedCartItem = {
-  cartItemId: number;
-  updateAmount: number;
-  subtotal: number;
+  cart_item_id: number;
+  amount: number;
 };
 
-export type UpdateDB = {
-  newItems: NewCartItem[];
-  updateItems: UpdatedCartItem[];
-};
+export type UpdateCartItem = NewCartItem | UpdatedCartItem;
 
-export type DBModifier = (updates: UpdateDB) => void;
+export type DBModifier = (updates: UpdateCartItem[]) => void;
 
 export type MutateCart = {
-  updates: UpdateDB;
+  updates: UpdateCartItem[];
   timer: MutableRefObject<NodeJS.Timeout>;
   timeoutTime: number;
   cartModifier: CartModifier;
@@ -153,11 +152,10 @@ export type NewExtrasDB = [number, string, number];
 
 type PendingDBUpdate = {
   updateAmount: number;
-  subtotal: number;
 };
 
 export type PendingDBUpdates = {
-  [p: string]: PendingDBUpdate;
+  [cartItemId: string]: PendingDBUpdate;
 };
 
 export type ExistingItemUpdates = {

@@ -1,3 +1,5 @@
+"use client";
+
 import { FunctionComponent } from "react";
 import classes from "./Back.module.css";
 
@@ -18,14 +20,14 @@ const Back: FunctionComponent<BackProps> = ({ backButtonHandler }) => {
       <path
         d="M11 20L2 11L11 2"
         stroke="#003472"
-        stroke-width="3"
+        strokeWidth="3"
         stroke-linecap="round"
         stroke-linejoin="round"
       />
       <path
         d="M3.25 11H21.5"
         stroke="#003472"
-        stroke-width="3"
+        strokeWidth="3"
         stroke-linecap="round"
         stroke-linejoin="round"
       />

@@ -4,6 +4,10 @@
     text-align: center;
 }
 
+.item_list {
+    margin-bottom: 150px;
+}
+
 @media (min-width: 40em) {
     .page_content {
         display: flex;
@@ -13,5 +17,13 @@
         padding-inline: 1rem;
         margin: 1rem auto;
         /* gap: 0.5rem; */
+    }
+
+    .item_list {
+        margin-bottom: 0;
+        margin-inline: 0;
+        padding: 0;
+        min-width: 220px;
+        width: fit-content
     }
 }

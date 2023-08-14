@@ -2,10 +2,10 @@ import { Extra } from "./database/cart";
 
 export type OrderItem = {
   name: string;
-  unitprice: string;
+  extra_price: string;
+  price: string;
   amount: number;
   extras: Extra[];
-  extra_prices: number[];
 };
 
 export type PaypalItem = {
@@ -27,22 +27,9 @@ export type EligibleDozen = {
   };
 };
 
-export type CustomerInfo = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  location: string;
-  pickupDate: string;
-  pickupTime: string;
-};
-
-export const initialCustomerInfo: CustomerInfo = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  phone: "",
-  location: "",
-  pickupDate: "",
-  pickupTime: "",
+export type OrderMetadata = {
+  subtotal: string;
+  tax: string;
+  total: string;
+  cartId: string;
 };

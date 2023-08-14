@@ -1,4 +1,5 @@
-import { CustomerInfo } from "@_types/payment";
+import { CustomerInfo } from "@_types/database/checkout";
+import APIRequest from "custom-objects/Fetch";
 
 export const fetchStripeClientSecret = async () => {
   const res = await fetch("/api/cart/payment/create-payment-intent");
@@ -7,13 +8,15 @@ export const fetchStripeClientSecret = async () => {
 };
 
 export const postOptimisticOrder = async (customerInfo: CustomerInfo) => {
-  const response = await fetch("/api/cart/order/create-stripe-order", {
-    method: "POST",
-    body: JSON.stringify({ ...customerInfo }),
-    headers: { "Content-type": "application/json" },
-  });
-  const data = (await response.json()) as { message: string };
-  if (!response.ok) {
-    throw new Error(data.message);
+  const { data, success, errorMessage } = await APIRequest.request(
+    "/api/cart/order/create-order",
+    {
+      method: "POST",
+      body: JSON.stringify(customerInfo),
+      headers: { "Content-type": "application/json" },
+    }
+  );
+  if (!success) {
+    throw new Error(errorMessage);
   }
 };

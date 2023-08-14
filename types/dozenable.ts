@@ -1,8 +1,11 @@
+import { ItemDateRange } from "./admin/forms";
+import { NewCartItemExtra } from "./cart";
 import { CartItem, Extra } from "./database/cart";
-import { Availability } from "./database/menu";
 
 export type DozenableDBResponse = {
-  group: { name: string; price: string; size: number };
+  name: string;
+  price: number;
+  size: number;
 };
 
 export type DozenBoxItem = {
@@ -10,10 +13,10 @@ export type DozenBoxItem = {
   name: string;
   amount: number;
   unitPrice: number;
-  extras: Extra[] | [null];
-  extraIds: number[];
+  extras: NewCartItemExtra[];
   image: string;
-  availability: Availability;
+  availability?: string[];
+  rangeAvailability?: ItemDateRange;
 };
 
 export type DozenBoxItems = {

@@ -1,8 +1,8 @@
 .button {
+    border-radius: 50px;
+    background-color: var(--primary-blue);
     color: white;
-    padding: 2.5% 10%;
-    border-radius: 17px;
-    width: fit-content;
+    padding: 0.25em 1.5em;
 }
 
 .button:disabled {

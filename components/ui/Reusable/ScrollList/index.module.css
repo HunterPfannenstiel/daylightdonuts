@@ -1,0 +1,17 @@
+.list {
+    display: flex;
+    overflow-x: auto;
+}
+
+.list::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+    background: #DBE2EC;
+}
+
+.list::-webkit-scrollbar-thumb {
+    background: var(--primary-blue);
+}

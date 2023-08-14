@@ -1,14 +1,16 @@
 import { FunctionComponent, ReactNode } from "react";
 import classes from "./IOrderItem.module.css";
+import { LabelBlock } from "@_types/admin/orders";
 
 interface IOrderItemProps {
   storeName: string;
   customerName: string;
   orderDate: string;
   orderTime: string;
-  orderContents: string;
+  labelBlocks: LabelBlock[];
   className?: string;
   extraContent?: ReactNode;
+  onSelectedForPrint: () => void;
 }
 
 const IOrderItem: FunctionComponent<IOrderItemProps> = ({
@@ -16,9 +18,10 @@ const IOrderItem: FunctionComponent<IOrderItemProps> = ({
   customerName,
   orderDate,
   orderTime,
-  orderContents,
+  labelBlocks,
   className,
   extraContent,
+  onSelectedForPrint,
 }) => {
   return (
     <div className={classes.order + " " + className}>
@@ -38,10 +41,28 @@ const IOrderItem: FunctionComponent<IOrderItemProps> = ({
         </div>
         <div className={classes.order_info}>
           <p>Order:</p>
-          <p className={classes.contents}>{orderContents}</p>
+          {labelBlocks.map((block) => {
+            return (
+              <div key={block.header.string}>
+                <h2 className={classes.block_header}>{block.header.string}</h2>
+                {block.breakdown.map((breakdown) => {
+                  return (
+                    <p className={classes.breakdown_string} key={breakdown.x}>
+                      {breakdown.string}
+                    </p>
+                  );
+                })}
+              </div>
+            );
+          })}
         </div>
       </div>
       {extraContent}
+      <input
+        type="checkbox"
+        className={classes.checkbox}
+        onChange={onSelectedForPrint}
+      />
     </div>
   );
 };

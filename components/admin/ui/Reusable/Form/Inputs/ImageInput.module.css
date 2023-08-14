@@ -1,0 +1,18 @@
+.image_input {
+    position: relative;
+    width: var(--width);
+    aspect-ratio: 1/1;
+    text-align: center;
+}
+
+.image_input label {
+    width: 100%;
+}
+
+.image_input > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    cursor: pointer;
+}

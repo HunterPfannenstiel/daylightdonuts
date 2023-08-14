@@ -1,0 +1,24 @@
+.page {
+    max-width: 630px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem auto;
+    animation: fade_in 300ms ease-out;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    padding-inline: 1.25rem;
+    justify-content: center;
+}
+
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

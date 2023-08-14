@@ -6,11 +6,11 @@
     height: 100%;
     background-color: rgba(0,0,0,0.3);
     z-index: 1;
-    animation: fade_in var(--animation-time) ease;
+    animation: fade_in var(--animation-time) linear;
 }
 
 .animate_out{
-    animation: fade_out var(--animation-time) ease;
+    animation: fade_out var(--animation-time) linear;
 }
 
 @keyframes fade_in {

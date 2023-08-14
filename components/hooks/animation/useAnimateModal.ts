@@ -12,20 +12,6 @@ const useAnimateModal = (
     setHandle(true);
   };
 
-  // useEffect(() => {
-  //   let timer: NodeJS.Timeout;
-  //   if (playAnimation) {
-  //     timer = setTimeout(() => {
-  //       setShowModal(false);
-  //       setPlayAnimation(false);
-  //     }, animationDuration);
-  //   }
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [playAnimation]);
-  // console.log("ShowModal", showModal);
-  // console.log("PlayAnim", playAnimation);
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (handle) {
@@ -55,11 +41,27 @@ const useAnimateModal = (
     };
   }, [handle]);
 
+  const getModalProps = ({ ...otherProps } = {}): ModalProps => {
+    return {
+      playAnimation,
+      animationTime: animationDuration,
+      handleModal,
+      ...otherProps,
+    };
+  };
+
   return {
     showModal,
     playAnimation,
     handleModal,
+    getModalProps,
   };
+};
+
+export type ModalProps = {
+  playAnimation: boolean;
+  animationTime: number;
+  handleModal: () => void;
 };
 
 export default useAnimateModal;

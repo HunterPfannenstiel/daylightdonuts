@@ -1,0 +1,57 @@
+.container {
+    padding: 1rem;
+}
+
+.chart {
+    display: flex;
+    margin-inline: auto;
+    max-width: 1200px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.selections {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    align-self: flex-start;
+}
+
+.selection_buttons button {
+    font-size: var(--normal-font-size);
+    color: #9195A8;
+    border-bottom: 2px solid transparent;
+}
+
+.selection_buttons :first-child {
+    margin-right: 1rem;
+}
+
+.selection_buttons button:hover {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+#selected {
+    color: var(--primary-blue);
+    border-bottom: 2px solid var(--primary-blue);
+}
+
+.filter {
+    margin: auto;
+    width: fit-content;
+}
+
+.filter button {
+    display: block;
+    margin: 1rem auto;
+    color: white;
+    background-color: var(--primary-blue);
+    border-radius: 1rem;
+    padding: .25rem 1rem;
+}
+
+.modal {
+    max-width: 600px;
+    width: 75%;
+}

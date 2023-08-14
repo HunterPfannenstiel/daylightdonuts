@@ -1,58 +1,46 @@
-import { CustomerInfo } from "@_types/payment";
-import { customerParamQuery } from "@_utils/database/connect";
-import { v4 as uuid } from "uuid";
+import { CreateOrder } from "@_types/database/checkout";
+import { customerQuery } from "@_utils/database/connect";
 
-export const createOptimisticOrder = async (
-  customerInfo: CustomerInfo,
-  processor: "PayPal" | "Stripe",
-  cartId: string
+export const createOrder = async (
+  orderInfo: CreateOrder,
+  accountId: number | null
+): Promise<number> => {
+  const customerInfo = orderInfo.customerInfo
+    ? JSON.stringify([orderInfo.customerOrderInfo])
+    : null;
+  const query =
+    "CALL store.create_order($1::INTEGER, $2::SMALLINT, $3::SMALLINT, $4::DATE, NULL, $5::JSON, $6::INTEGER, $7::INTEGER)";
+  const res = await customerQuery(query, [
+    orderInfo.cartId,
+    orderInfo.locationId,
+    orderInfo.pickupTimeId,
+    orderInfo.pickupDate,
+    customerInfo,
+    accountId,
+    orderInfo.userInfoId,
+  ]);
+  if (res.rows.length === 0)
+    throw new Error("Something went wrong, create_cart did not return cartId");
+  return res.rows[0].id;
+};
+
+export const verifyOrder = async (
+  cartId: number,
+  subtotal: number,
+  tax: number,
+  totalPrice: number,
+  paymentProcessorId: number,
+  paymentUID: string,
+  fee?: number
 ) => {
-  const orderIdQuery = `SELECT order_id FROM public.${"order"} WHERE cart_id = $1;`;
-  const orderId = (await customerParamQuery(orderIdQuery, [cartId]))[0] as {
-    order_id: string;
-  };
-  if (!orderId) {
-    console.log("Adding new order");
-    const query = `INSERT INTO public.${"order"} (order_id, cart_id, first_name, last_name, email, location, pickup_date, pickup_time, payment_processor, printed, verified) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'false', 'false');`;
-
-    await customerParamQuery(query, [
-      uuid(),
-      cartId,
-      customerInfo.firstName,
-      customerInfo.lastName,
-      customerInfo.email,
-      customerInfo.location,
-      customerInfo.pickupDate,
-      customerInfo.pickupTime,
-      processor,
-    ]);
-  } else {
-    console.log("Updating Info");
-    const query = `UPDATE public.${"order"} SET (first_name, last_name, email, location, pickup_date, pickup_time, payment_processor) = ($1, $2, $3, $4, $5, $6, $7) WHERE order_id = $8;`;
-    await customerParamQuery(query, [
-      customerInfo.firstName,
-      customerInfo.lastName,
-      customerInfo.email,
-      customerInfo.location,
-      customerInfo.pickupDate,
-      customerInfo.pickupTime,
-      processor,
-      orderId.order_id,
-    ]);
-  }
-};
-
-export const getCartIdFromPaymentId = async (paymentId: string) => {
-  const query = "SELECT cart_id FROM cart WHERE payment_id = $1";
-
-  const cartId = (await customerParamQuery(query, [paymentId])) as {
-    cart_id: string;
-  }[];
-  return cartId[0].cart_id;
-};
-
-export const verifyOrder = async (cartId: string, totalPrice: number) => {
-  const query = `UPDATE public.${"order"} SET verified = true, total_price = $1, error = false WHERE cart_id = $2;`;
-
-  await customerParamQuery(query, [totalPrice.toString(), cartId]);
+  const query = "CALL store.confirm_order($1, $2, $3, $4, $5, $6, $7)";
+  await customerQuery(query, [
+    cartId,
+    subtotal,
+    tax,
+    totalPrice,
+    paymentProcessorId,
+    paymentUID,
+    fee || null,
+  ]);
 };

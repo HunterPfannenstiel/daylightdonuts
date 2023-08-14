@@ -1,29 +1,84 @@
-import useCartUpdates from "@_hooks/item/useCartUpdates";
-import { moneyToNum } from "@_providers/cart/utils";
-import { useNotification } from "@_providers/Notification/Notification";
 import { ExtraInfo } from "@_types/database/cart";
-import { Item } from "@_types/database/menu";
-import { FormEvent, FunctionComponent, useEffect, useRef } from "react";
-import IItemForm from "./IItemForm";
+import { ItemExtra, ItemExtras } from "@_types/database/menu";
+import { FormEvent, FunctionComponent, useRef } from "react";
+import Button from "../../Button";
+import classes from "./ItemForm.module.css";
+import SelectInput from "../../Form/OptionSelectInput";
 
 interface ItemFormProps {
-  item: Item;
-  addItemToCart: (e: FormEvent) => void;
+  extras: ItemExtras[] | null;
+  buttonName?: string;
+  maxAmount?: number;
+  addItemToCart: (amount: number) => void;
   updateExtras: (category: string, extraInfo: ExtraInfo) => void;
 }
 
 const ItemForm: FunctionComponent<ItemFormProps> = ({
-  item,
+  extras,
+  buttonName,
+  maxAmount,
   addItemToCart,
   updateExtras,
 }) => {
+  const onExtraSelected = (
+    category: string,
+    { name, id, price }: ItemExtra
+  ) => {
+    updateExtras(category, { extra: name, id, price });
+  };
+  const amountRef = useRef<HTMLSelectElement>(null);
+  const onSubmitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    const amount = +amountRef!.current!.value;
+    addItemToCart(amount);
+  };
   return (
-    <IItemForm
-      extras={item.extras}
-      addItemToCart={addItemToCart}
-      updateExtras={updateExtras}
-    />
+    <form onSubmit={onSubmitHandler}>
+      {extras && (
+        <SelectInput
+          data={extras}
+          onSelect={onExtraSelected}
+          labelExtractor={({ category }: ItemExtras) => category}
+          optionsExtractor={({ extras }: ItemExtras) => extras}
+          optionExtractor={({ name }: ItemExtra) => name}
+          containerClassName={classes.container}
+        />
+      )}
+      <div className={classes.add_cart}>
+        <Button
+          type="submit"
+          className={classes.blue_button}
+          color={"var(--primary-blue)"}
+          disabled={maxAmount === 0}
+        >
+          {buttonName || "Add to Cart"}
+        </Button>
+        {maxAmount !== 0 && (
+          <select id="amount" name="amount" ref={amountRef} className={classes.amount}>
+            {getOptions(maxAmount)}
+          </select>
+        )}
+      </div>
+    </form>
   );
 };
+
+const getOptions = (maxAmount: number | undefined) => {
+  const options = [];
+  let limit = maxAmount || 12;
+  if (maxAmount === 0) {
+    limit = 0;
+  }
+  for (let i = 1; i <= limit; i++) {
+    options.push(
+      <option value={i} key={i}>
+        {i}
+      </option>
+    );
+  }
+  return options;
+};
+
+ItemForm.displayName = "ItemForm";
 
 export default ItemForm;

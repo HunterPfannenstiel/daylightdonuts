@@ -1,0 +1,44 @@
+.order_item {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 40px;
+    height: 40px;
+}
+
+.details {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-inline: 1.5rem;
+    gap: 0.5rem;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+.item_info {
+    width: 50%;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.price {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.remove {
+    cursor: pointer;
+}
+
+@media (min-width: 40em) {
+    .image {
+        width: 80px;
+        height: 80px;
+    }
+}
