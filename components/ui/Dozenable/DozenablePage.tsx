@@ -1,6 +1,5 @@
 "use client";
 
-import BuildBoxProvider from "@_providers/Dozenable/BuildBox";
 import { Item } from "@_types/database/menu";
 import { FunctionComponent } from "react";
 import BoxDisplay from "./BoxDisplay/BoxDisplay";
@@ -22,7 +21,14 @@ const DozenablePage: FunctionComponent<DozenablePageProps> = ({
   boxSize,
   boxPrice,
 }) => {
-  const { addItemToBox, updateExtras, amountNeeded } = useDozenableBoxUpdate();
+  const {
+    addItemToBox,
+    updateExtras,
+    amountNeeded,
+    addBoxToCart,
+    dispatchBox,
+    box,
+  } = useDozenableBoxUpdate(groupName, boxPrice, boxSize);
   // const addItemToCart = (e: FormEvent) => {
   //   e.preventDefault();
   //   displayNotification(
@@ -35,30 +41,29 @@ const DozenablePage: FunctionComponent<DozenablePageProps> = ({
   return (
     <>
       <h2 className={classes.group_name}>{groupName}</h2>
-      <BuildBoxProvider
-        boxSize={boxSize}
-        groupName={groupName}
-        groupPrice={boxPrice}
-      >
-        <div className={classes.page_content}>
-          <ItemList className={classes.item_list}>
-            {items.map((item) => {
-              return (
-                <DozenableItem
-                  key={item.name}
-                  item={item}
-                  maxAmount={amountNeeded}
-                  updateExtras={updateExtras}
-                  addItemToBox={(amount) => {
-                    addItemToBox(amount, item);
-                  }}
-                />
-              );
-            })}
-          </ItemList>
-          <BoxDisplay boxSize={boxSize} />
-        </div>
-      </BuildBoxProvider>
+      <div className={classes.page_content}>
+        <ItemList className={classes.item_list}>
+          {items.map((item) => {
+            return (
+              <DozenableItem
+                key={item.name}
+                item={item}
+                maxAmount={amountNeeded}
+                updateExtras={updateExtras}
+                addItemToBox={(amount) => {
+                  console.log(item);
+                  addItemToBox(amount, item);
+                }}
+              />
+            );
+          })}
+        </ItemList>
+        <BoxDisplay
+          box={box}
+          addBoxToCart={addBoxToCart}
+          dispatchBox={dispatchBox}
+        />
+      </div>
     </>
   );
 };

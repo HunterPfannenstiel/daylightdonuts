@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./index.module.css";
 import useCollectModalInfo from "@_hooks/admin/menu/item/useCollectModalInfo";
 import ItemDetails from "../../../Reusable/ModifyMenuItem/ItemDetails";
@@ -31,9 +31,11 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
   modalProps,
   addNewItem,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const itemInfo = useCollectModalInfo();
 
   const createItem = async () => {
+    setIsLoading(true);
     const { name, price, description } = itemInfo.menuItemDetails;
     const groupingId = itemInfo.selectedGroupingId;
     const extraGroups = itemInfo.dbHelpers.getSelectedExtraGroups();
@@ -55,19 +57,20 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       availabilityRange: formatDateRange(availabilityRange) || undefined,
       newImageDisplayOrder: JSON.stringify(newImageDisplayOrder),
     };
-    //Implement multi-image select and imageDisplayOrders
     const formData = createFormData(dataValues, { images: newImages });
     const res = await ModifyMenu.Post.Create<number>("item", formData, true);
     if (!res.success) {
       console.error(res.errorMessage);
+      setIsLoading(false);
       return;
     }
     addNewItem({ name, id: res.data });
+    setIsLoading(false);
     modalProps.handleModal();
   };
 
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} showSpinner={isLoading}>
       <Pages
         submitHandler={createItem}
         pages={[

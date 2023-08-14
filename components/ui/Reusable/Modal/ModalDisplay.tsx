@@ -41,16 +41,10 @@ const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
             className={classes.close}
             onClick={closeable ? handleModal : () => {}}
           />
-          {/* <p
-            className={classes.close}
-            onClick={closeable ? handleModal : () => {}}
-          >
-            X
-          </p> */}
           {children}
         </div>
       ) : (
-        <Spinner />
+        <Spinner center />
       )}
       <Background
         handleModal={handleModal}

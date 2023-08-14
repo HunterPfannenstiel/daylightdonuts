@@ -31,7 +31,7 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
         playAnimation={modalProps.playAnimation}
         animationTime={300}
       >
-        <div className={classes.modal + " " + animate}>
+        <div className={classes.content}>
           <IItemPage
             item={item}
             extraPrice={0}
@@ -41,10 +41,6 @@ const ItemModal: FunctionComponent<ItemModalProps> = ({
             backButtonHandler={modalProps.handleModal}
             updateExtras={updateExtras}
             addItemToCart={addItemToBox}
-          />
-          <div
-            className={classes.background}
-            onClick={modalProps.handleModal}
           />
         </div>
       </ModalDisplay>

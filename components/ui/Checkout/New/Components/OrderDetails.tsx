@@ -40,6 +40,8 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
   const times =
     data?.find((location) => location.location_id === +values.locationId?.value)
       ?.times || [];
+
+  const today = new Date().toISOString().split("T")[0];
   return (
     <CheckoutContainer header="My Order" contentClass={classes.content}>
       {isLoading && <Spinner center />}
@@ -76,7 +78,7 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
               optionsExtractor={({ options }) => options}
               optionExtractor={({ name }) => name}
               onSelect={(_, { id }) => {
-                updateLocationDetails("locationId", id);
+                updateLocationDetails("pickupTimeId", id);
               }}
             />
             <div className={classes.date}>
@@ -87,7 +89,7 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
                   <input
                     id="date"
                     type="date"
-                    min={new Date().toString()}
+                    min={today}
                     ref={dateRef}
                     onChange={(e) => {
                       updateLocationDetails("pickupDate", e.target.value);

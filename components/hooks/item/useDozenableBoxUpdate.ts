@@ -1,18 +1,24 @@
-import { useBuildBox } from "@_providers/Dozenable/BuildBox";
 import { Item } from "@_types/database/menu";
 import { DozenBoxItem } from "@_types/dozenable";
 import { getCartId, getExtraInfo } from "@_utils/database/cart/cart";
 import useExtraInfo from "./useExtraInfo";
+import useBuildBox from "./useBuildBox";
+import { NewCartItemExtra } from "@_types/cart";
+import { extraToString } from "@_providers/Cart/hooks/utils";
 
-const useDozenableBoxUpdate = () => {
-  const { dispatchBox, isItemInBox, amountNeeded } = useBuildBox();
+const useDozenableBoxUpdate = (
+  groupName: string,
+  boxPrice: number,
+  boxSize: number
+) => {
+  const buildBox = useBuildBox(groupName, boxPrice, boxSize);
   const { extraInfo, updateExtras } = useExtraInfo();
 
   const addItemToBox = (amount: number, item: Item) => {
     const [ids, extras] = getExtraInfo(extraInfo);
     const itemId = getCartId(item.id, ids);
-    if (isItemInBox(itemId)) {
-      dispatchBox({ type: "Update", itemId, amount });
+    if (buildBox.isItemInBox(itemId)) {
+      buildBox.dispatchBox({ type: "Update", itemId, amount });
     } else {
       const boxItem: DozenBoxItem = {
         id: item.id,
@@ -20,18 +26,16 @@ const useDozenableBoxUpdate = () => {
         amount,
         unitPrice: +item.price,
         extras,
-        extraIds: ids,
         image: item.image_urls[0],
-        availability: item.availability,
       };
-      dispatchBox({ type: "New", item: boxItem, itemId });
+      buildBox.dispatchBox({ type: "New", item: boxItem, itemId });
     }
   };
 
   return {
     addItemToBox,
     updateExtras,
-    amountNeeded,
+    ...buildBox,
   };
 };
 

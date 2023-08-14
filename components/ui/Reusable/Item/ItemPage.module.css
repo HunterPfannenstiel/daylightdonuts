@@ -91,7 +91,7 @@
     }
 
     .description {
-        margin-block: 3em;
+        margin-block: 1em;
         max-width: 31ch;
         margin-inline: auto;
     }

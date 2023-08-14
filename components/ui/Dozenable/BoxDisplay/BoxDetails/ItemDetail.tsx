@@ -1,16 +1,17 @@
-import { useBuildBox } from "@_providers/Dozenable/BuildBox";
 import { Extra } from "@_types/database/cart";
 import { getExtraString } from "@_utils/database/cart/cart";
 import Amount from "components/ui/Checkout/Order/Items/Amount";
-
-import { FunctionComponent } from "react";
+import { Dispatch, FunctionComponent } from "react";
 import classes from "./ItemDetail.module.css";
+import { BoxPayload, DozenBox } from "@_types/dozenable";
 
 interface ItemDetailProps {
   name: string;
   itemId: string;
   extras: Extra[] | [null];
   amount: number;
+  box: DozenBox;
+  dispatchBox: Dispatch<BoxPayload>;
 }
 
 const ItemDetail: FunctionComponent<ItemDetailProps> = ({
@@ -18,8 +19,9 @@ const ItemDetail: FunctionComponent<ItemDetailProps> = ({
   itemId,
   extras,
   amount,
+  box,
+  dispatchBox,
 }) => {
-  const { dispatchBox, box } = useBuildBox();
   const updateAmount = (updateAmount: number) => {
     dispatchBox({ type: "Update", itemId, amount: updateAmount });
     console.log(`Update ${name} for ${amount}`);

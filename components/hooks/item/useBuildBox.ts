@@ -1,11 +1,7 @@
-import { useCart } from "@_providers/old-cart/optimistic";
 import { BoxPayload, DozenBox } from "@_types/dozenable";
-import { getModifiers } from "@_utils/database/dozenable/helpers";
-import { createContext, FunctionComponent, ReactNode, useContext } from "react";
 import { ImmerReducer, useImmerReducer } from "use-immer";
-import { getInitialBox, getInitialBoxContext } from "./utils";
-
-const BuildBox = createContext(getInitialBoxContext());
+import { getInitialBox } from "../../providers/Dozenable/utils";
+import { useCart } from "@_providers/Cart";
 
 const reducer: ImmerReducer<DozenBox, BoxPayload> = (state, action) => {
   switch (action.type) {
@@ -28,24 +24,16 @@ const reducer: ImmerReducer<DozenBox, BoxPayload> = (state, action) => {
   return state;
 };
 
-interface BuildBoxProps {
-  groupName: string;
-  groupPrice: number;
-  boxSize: number;
-  children: ReactNode;
-}
-
-const BuildBoxProvider: FunctionComponent<BuildBoxProps> = ({
-  groupName,
-  groupPrice,
-  boxSize,
-  children,
-}) => {
+const useBuildBox = (
+  groupName: string,
+  groupPrice: number,
+  boxSize: number
+) => {
   const [box, dispatch] = useImmerReducer<DozenBox, BoxPayload>(
     reducer,
     getInitialBox(boxSize)
   );
-  const { modifyCart, nextItemId, setNextItemId, cart } = useCart();
+  const { addItemFromItemPage } = useCart().cartModifiers;
 
   const dispatchBox = (payload: BoxPayload) => {
     dispatch(payload);
@@ -57,33 +45,27 @@ const BuildBoxProvider: FunctionComponent<BuildBoxProps> = ({
 
   const addBoxToCart = (amount = 1) => {
     if (box.boxSize === box.currentCount) {
-      const { cartMod, dbMod } = getModifiers(
-        groupName,
-        groupPrice,
-        box,
-        amount,
-        nextItemId,
-        cart!,
-        setNextItemId
-      );
-
-      modifyCart(cartMod, dbMod, 0);
+      Object.keys(box.items).forEach((key) => {
+        const item = box.items[key];
+        addItemFromItemPage(
+          { id: item.id, amount: item.amount, extras: item.extras },
+          {
+            name: item.name,
+            price: item.unitPrice.toFixed(2),
+            imageUrl: item.image,
+          }
+        );
+      });
     }
+    console.log(box);
   };
-
-  const value = {
+  return {
     box,
     dispatchBox,
     isItemInBox,
     amountNeeded: box.boxSize - box.currentCount,
     addBoxToCart,
   };
-
-  return <BuildBox.Provider value={value}>{children}</BuildBox.Provider>;
 };
 
-export default BuildBoxProvider;
-
-export const useBuildBox = () => {
-  return useContext(BuildBox);
-};
+export default useBuildBox;

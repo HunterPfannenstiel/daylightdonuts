@@ -1,13 +1,18 @@
-import { useBuildBox } from "@_providers/Dozenable/BuildBox";
-import { FunctionComponent, useState } from "react";
+import { Dispatch, FunctionComponent, useState } from "react";
 import IBoxDisplay from "./IBoxDisplay";
+import { BoxPayload, DozenBox } from "@_types/dozenable";
 
 interface BoxDisplayProps {
-  boxSize: number;
+  addBoxToCart: () => void;
+  dispatchBox: Dispatch<BoxPayload>;
+  box: DozenBox;
 }
 
-const BoxDisplay: FunctionComponent<BoxDisplayProps> = ({ boxSize }) => {
-  const { box, addBoxToCart, dispatchBox } = useBuildBox();
+const BoxDisplay: FunctionComponent<BoxDisplayProps> = ({
+  addBoxToCart,
+  dispatchBox,
+  box,
+}) => {
   const [boxFinished, setBoxFinished] = useState(false);
 
   const onFinishBox = () => {
@@ -23,11 +28,11 @@ const BoxDisplay: FunctionComponent<BoxDisplayProps> = ({ boxSize }) => {
   };
   return (
     <IBoxDisplay
-      boxSize={boxSize}
+      box={box}
       boxFinished={boxFinished}
-      itemsInBox={box.currentCount}
       onFinishBox={onFinishBox}
       onClearBox={onClearBox}
+      dispatchBox={dispatchBox}
     />
   );
 };
