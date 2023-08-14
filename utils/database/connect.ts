@@ -6,19 +6,26 @@ const dbUser = {
   password: process.env.CUSTOMER_DATABASE_PASSWORD,
 };
 
-if (process.env.NODE_ENV === "development") {
-  credentials = {
-    host: "localhost",
-    port: 5432,
-    database: "daylight",
-    ...dbUser,
-  };
-} else {
-  credentials = {
-    ...dbUser,
-    connectionString: process.env.RAILWAY_DATABASE_URL,
-  };
-}
+// if (process.env.NODE_ENV === "development") {
+//   credentials = {
+//     host: "localhost",
+//     port: 5432,
+//     database: "daylight",
+//     ...dbUser,
+//   };
+// } else {
+//   credentials = {
+//     ...dbUser,
+//     connectionString: process.env.RAILWAY_DATABASE_URL,
+//   };
+// }
+
+credentials = {
+  host: "localhost",
+  port: 5432,
+  database: "daylight",
+  ...dbUser,
+};
 
 const customerPool = new pg.Pool(credentials);
 

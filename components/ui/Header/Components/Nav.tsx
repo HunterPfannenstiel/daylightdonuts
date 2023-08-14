@@ -1,14 +1,13 @@
 import Hamburger from "components/ui/svg/NavIcons/Hamburger";
 import Profile from "components/ui/svg/NavIcons/Profile";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import classes from "./Nav.module.css";
 import Link from "next/link";
 import Cart from "./Cart";
 import MobileMenu from "./MobileMenu";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { Session } from "next-auth";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 interface NavProps {
   sticky?: boolean;
@@ -49,19 +48,20 @@ const Nav: FunctionComponent<NavProps> = ({ sticky }) => {
             <li>
               <a>Locations</a>
             </li>
-          </ul>
-          <ul className={classes.header_icons}>
             <li>
-              {status === "loading" ||
-                (status === "unauthenticated" && (
-                  <Link href={"/login"}>Login</Link>
-                ))}
+              {(status === "loading" || status === "unauthenticated") && (
+                <Link href={"/login"}>
+                  <div className={classes.login_button}>Login</div>
+                </Link>
+              )}
               {status === "authenticated" && (
-                <Link href={"/account"}>
+                <Link href={"/account?Profile"}>
                   <Profile />
                 </Link>
               )}
             </li>
+          </ul>
+          <ul className={classes.header_icons}>
             <li>
               <Cart />
             </li>

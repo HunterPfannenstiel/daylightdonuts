@@ -13,7 +13,9 @@ const FeaturedSection: FunctionComponent<FeaturedSectionProps> = ({
 }) => {
   return (
     <section className={classes.featured}>
-      <Heading headingNode={<h2>Featured Donuts</h2>} />
+      <Heading>
+        <h2>Featured Donuts</h2>
+      </Heading>
       <FeaturedItems items={featuredItems} />
     </section>
   );

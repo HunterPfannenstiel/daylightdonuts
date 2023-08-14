@@ -1,8 +1,8 @@
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
+
 export type Item = {
-  name: string;
   image_url: string;
-  menu_item_id: number;
-};
+} & DBEntity;
 
 export type MulterImage = {
   buffer: Buffer;
@@ -18,9 +18,7 @@ export type DBEntity = {
   id: number;
 };
 
-export type DisplayOrderItem = { id: number; displayOrder: number };
-
-export type InitialSelections = { [id: number]: boolean };
+export type DisplayOrderItem = { id: number; displayOrder?: number };
 
 export type ExtraGroup = { category: string; groups: DBEntity[] };
 
@@ -28,7 +26,7 @@ export type NestedDBEntity = { name: string; id: number; entities: DBEntity[] };
 
 export type ExtraCustomizations = {
   categories: DBEntity[];
-  groups: ExtraGroup[];
+  groups: NestedDBEntity[];
 };
 
 export type ExtraSelections = {
@@ -70,8 +68,8 @@ export type ExtraCategoryCustomizations = (DBEntity & { category: string })[];
 export type CategoryExtra = { category_id: number; extras: DBEntity[] };
 
 export type ExtraGroupSelections = {
-  initial_extras: InitialSelections;
-  initial_items: InitialSelections;
+  initial_extras: InitialSelections | null;
+  initial_items: InitialSelections | null;
   initial_category_id: number;
 };
 

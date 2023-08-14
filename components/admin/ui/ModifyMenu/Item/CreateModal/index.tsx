@@ -1,14 +1,9 @@
-import { FormEvent, FunctionComponent, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import classes from "./index.module.css";
 import useCollectModalInfo from "@_hooks/admin/menu/item/useCollectModalInfo";
 import ItemDetails from "../../../Reusable/ModifyMenuItem/ItemDetails";
 import ItemGroupings from "../../../Reusable/ModifyMenuItem/ItemGroupings";
-import {
-  AvailableExtraGrouping,
-  AvailableItemCategory,
-  AvailableGrouping,
-  NewDBItem,
-} from "@_types/admin/forms";
+import { AvailableExtraGrouping, NewDBItem } from "@_types/admin/forms";
 import ItemExtras from "../../../Reusable/ModifyMenuItem/ItemExtras";
 import ItemCategories from "../../../Reusable/ModifyMenuItem/ItemCategories";
 import ItemAvailability from "../../../Reusable/ModifyMenuItem/ItemAvailability";
@@ -18,12 +13,15 @@ import ModifyMenu from "custom-objects/ModifyMenu";
 import Pages from "@_admin-reuse/Pages";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import { AddNewEntity } from "@_hooks/admin/menu/useUpdateEntities";
+import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 
 interface CreateItemModalProps {
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extraGroupings: AvailableExtraGrouping[];
-  itemCategories: AvailableItemCategory[];
+  itemCategories: NestedDBEntity[];
   modalProps: ModalProps;
+  addNewItem: AddNewEntity;
 }
 
 const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
@@ -31,10 +29,13 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
   extraGroupings,
   itemCategories,
   modalProps,
+  addNewItem,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const itemInfo = useCollectModalInfo();
 
   const createItem = async () => {
+    setIsLoading(true);
     const { name, price, description } = itemInfo.menuItemDetails;
     const groupingId = itemInfo.selectedGroupingId;
     const extraGroups = itemInfo.dbHelpers.getSelectedExtraGroups();
@@ -56,17 +57,20 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
       availabilityRange: formatDateRange(availabilityRange) || undefined,
       newImageDisplayOrder: JSON.stringify(newImageDisplayOrder),
     };
-    //Implement multi-image select and imageDisplayOrders
     const formData = createFormData(dataValues, { images: newImages });
-    try {
-      const res = await ModifyMenu.Post.Create("item", formData, true);
-    } catch (error) {
-      console.error(error);
+    const res = await ModifyMenu.Post.Create<number>("item", formData, true);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      setIsLoading(false);
+      return;
     }
+    addNewItem({ name, id: res.data });
+    setIsLoading(false);
+    modalProps.handleModal();
   };
 
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} showSpinner={isLoading}>
       <Pages
         submitHandler={createItem}
         pages={[
@@ -76,6 +80,7 @@ const CreateItemModal: FunctionComponent<CreateItemModalProps> = ({
             addImages={itemInfo.addImages}
             initialDetails={itemInfo.menuItemDetails}
             updateHandler={itemInfo.updateItemDetails}
+            deleteImage={itemInfo.deleteImage}
           />,
           <ItemGroupings
             availableGroupings={groupings}

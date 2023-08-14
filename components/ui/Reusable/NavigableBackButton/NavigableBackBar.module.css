@@ -1,7 +1,12 @@
 .back_bar {
-    margin-left: 4rem;
-    margin-top: 1rem;
+    /* margin-left: 4rem;
+    margin-top: 87px; 
+    margin-bottom: 1rem; */
+    padding: 1rem;
     font-size: 1rem;
+    top: 1rem;
+    color: white;
+    background-color: var(--primary-blue);
 }
 
 .last_piece {

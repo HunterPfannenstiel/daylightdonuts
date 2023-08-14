@@ -3,20 +3,22 @@ import classes from "./index.module.css";
 import ModalContents from "./ModalContents";
 import {
   AvailableExtraGrouping,
-  AvailableGrouping,
-  AvailableItemCategory,
   InitialItemSelections,
 } from "@_types/admin/forms";
 import ModifyMenuModal from "@_admin-reuse/ModifyMenuModal";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import useInitialSelections from "@_hooks/admin/menu/useInitialSelections";
+import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
+import { DBEntity, NestedDBEntity } from "@_types/admin/modify-menu";
 
 interface ModifyItemModalProps {
   id: number;
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extraGroupings: AvailableExtraGrouping[];
-  itemCategories: AvailableItemCategory[];
+  itemCategories: NestedDBEntity[];
   modalProps: ModalProps;
+  index: number;
+  updateItem: UpdateEntity;
 }
 
 const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
@@ -25,20 +27,24 @@ const ModifyItemModal: FunctionComponent<ModifyItemModalProps> = ({
   extraGroupings,
   itemCategories,
   modalProps,
+  index,
+  updateItem,
 }) => {
-  const { selections } = useInitialSelections<InitialItemSelections>(
+  const { selections, isLoading } = useInitialSelections<InitialItemSelections>(
     id,
     "item"
   );
-  if (!selections) return <p>Loading...</p>;
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         id={id}
         selections={selections}
         groupings={groupings}
         extraGroupings={extraGroupings}
         itemCategories={itemCategories}
+        index={index}
+        updateItem={updateItem}
+        toggleModal={modalProps.handleModal}
       />
     </ModifyMenuModal>
   );

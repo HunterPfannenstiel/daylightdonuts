@@ -18,12 +18,8 @@ const CheckoutTextInput: FunctionComponent<CheckoutTextInputProps> = ({
   return (
     <InputLayout
       className={className}
-      labelComponent={
-        <label htmlFor={label}>
-          {label}
-          <span>*</span>
-        </label>
-      }
+      htmlFor={label}
+      label={`${label}*`}
       inputComponent={
         <input
           className={classes.input}

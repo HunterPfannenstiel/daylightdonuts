@@ -1,0 +1,36 @@
+.infos_container {
+    padding: 0 1rem;
+}
+
+.container {
+    max-width: 700px;
+    margin: 1rem auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 1px;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 1.7rem;
+    border-bottom: 1px solid #F2F4FF;
+    padding-bottom: 1rem;
+    color: black;
+}
+
+.modal {
+    position: absolute;
+    right: 50%;
+    transform: translate(50%);
+    background-color: white;
+}
+
+.btn_container {
+    padding-top: 1rem;
+}
+
+.btn {
+    font-weight: bold;
+    color: #003472;
+    background-color: white;
+}

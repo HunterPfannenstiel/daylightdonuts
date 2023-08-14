@@ -9,8 +9,8 @@ export type MenuItem = {
   name: string;
   image_url: string;
   price: string;
-  availableDays: string[];
-  availableRange: ItemDateRange;
+  availableDays?: string[];
+  availableRange?: ItemDateRange;
 };
 
 /*Specific Item*/

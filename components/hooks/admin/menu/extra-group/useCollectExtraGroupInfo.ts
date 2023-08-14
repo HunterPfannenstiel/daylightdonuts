@@ -1,91 +1,52 @@
 import {
   ExtraGroupExtraInfo,
   ExtraGroupSelections,
-  InitialSelections,
   NestedDBEntity,
 } from "@_types/admin/modify-menu";
-import { useRef, useState } from "react";
+import { useRef } from "react";
+import useSelections, {
+  InitialSelections,
+} from "../modification/useSelections";
+import useSelectedId from "../modification/useSelectedId";
+import useDragDrop from "../modification/useDragDrop";
 
 const useCollectExtraGroupInfo = (
   groupName: string,
   extras: NestedDBEntity[],
   selections?: ExtraGroupSelections
 ) => {
-  const selectedCategoryId = useRef(selections?.initial_category_id);
+  const { selectedId: selectedCategoryId, updateId } = useSelectedId(
+    selections?.initial_category_id
+  );
 
-  const updateSelectedCategory = (id: number) => {
-    selectedCategoryId.current = id;
-  };
+  const [extraIds, { update: updateExtraId, delete: deleteExtraId }] =
+    useSelections(selections?.initial_extras || {});
 
-  const selectedExtraIds = useRef(selections?.initial_extras || {});
+  const [itemSelections, { update: updateItem }] = useSelections(
+    selections?.initial_items || {}
+  );
 
-  const selectedItemIds = useRef(selections?.initial_items || {});
-
-  const updateSelectedItemId = (id: number) => {
-    if (selectedItemIds.current[id]) {
-      delete selectedItemIds.current[id];
-    } else {
-      selectedItemIds.current[id] = true;
-    }
-  };
-
-  const [selectedExtras, setSelectedExtras] = useState(
-    getSelectedExtras(
-      selectedExtraIds.current,
-      extras,
-      selectedCategoryId.current
-    )
+  const [selectedExtras, { swapItems, deleteItem, addItem }] = useDragDrop(
+    getSelectedExtras(extraIds, extras, selectedCategoryId.current)
   );
 
   const updateSelectedExtra = (id: number) => {
-    if (!selectedExtraIds.current[id]) {
-      selectedExtraIds.current[id] = true;
-      setSelectedExtras((prevState) => {
-        const newExtras = prevState.map((extra) => {
-          return { ...extra };
-        });
-        newExtras.push(
-          getExtrasForCategory(selectedCategoryId.current!, extras).find(
-            (extra) => extra.id === id
-          )!
-        );
-        return newExtras;
-      });
+    if (!extraIds[id]) {
+      updateExtraId(id, true);
+      addItem(
+        getExtrasForCategory(selectedCategoryId.current!, extras).find(
+          (extra) => extra.id === id
+        )!
+      );
     } else {
-      delete selectedExtraIds.current[id];
-      setSelectedExtras((prevState) => {
-        const newExtras = prevState.map((extra) => {
-          return { ...extra };
-        });
-        const index = newExtras.findIndex((extra) => extra.id === id);
-        if (index !== -1) newExtras.splice(index, 1);
-        return newExtras;
-      });
+      deleteExtraId(id);
+      deleteItem(selectedExtras.findIndex((extra) => extra.id === id));
     }
   };
-
-  const getMenuItemIds = (selections = selectedItemIds.current) => {
-    return Object.keys(selections).map((key) => {
-      return +key;
-    });
-  };
-
   const getExtraDisplayOrders = (): ExtraGroupExtraInfo[] | undefined => {
     if (selectedExtras.length === 0) return undefined;
     return selectedExtras.map((extra, i) => {
       return { extraId: extra.id, displayOrder: i };
-    });
-  };
-
-  const swapExtras = (indexOne: number, indexTwo: number) => {
-    setSelectedExtras((prevState) => {
-      const newExtras = prevState.map((extra) => {
-        return { ...extra };
-      });
-      const temp = newExtras[indexOne];
-      newExtras[indexOne] = newExtras[indexTwo];
-      newExtras[indexTwo] = temp;
-      return newExtras;
     });
   };
 
@@ -99,15 +60,14 @@ const useCollectExtraGroupInfo = (
     name,
     updateName,
     selectedCategoryId,
-    updateSelectedCategory,
-    selectedExtraIds: selectedExtraIds.current,
+    updateSelectedCategory: updateId,
+    selectedExtraIds: extraIds,
     updateSelectedExtra,
-    swapExtras,
+    swapExtras: swapItems,
     selectedExtras,
-    selectedItemIds: selectedItemIds.current,
-    updateSelectedItemId,
+    selectedItemIds: itemSelections,
+    updateSelectedItemId: updateItem,
     getExtraDisplayOrders,
-    getMenuItemIds,
   };
 };
 

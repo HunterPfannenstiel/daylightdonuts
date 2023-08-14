@@ -1,14 +1,17 @@
 .extras {
     width: 100%;
     display: grid;
-    grid-template-columns: 45% 45%;
-    gap: 1rem;
+    grid-template-columns: 50% 50%;
     justify-content: center;
     margin-inline: auto;
+    row-gap: 1rem;
 }
 
 .header {
     font-weight: normal;
     font-size: 1.2rem;
-    text-align: center;
+    color: var(--primary-blue);
+    border-bottom: 1px solid var(--primary-blue);
+    width: fit-content;
+    cursor: pointer;
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FunctionComponent } from "react";
 import classes from "./OrderDetails.module.css";
 import LabelPreview from "./LabelPreview";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 
 interface OrderDetailsProps {
   order: DBOrder;
@@ -23,7 +24,11 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
     playAnimation ? classes.animate_out : ""
   }`;
   return (
-    <Modal selector="modal">
+    <ModalDisplay
+      handleModal={handleModal}
+      playAnimation={playAnimation}
+      animationTime={animationTime}
+    >
       <div className={className}>
         <div>
           <h2>Payment Details</h2>
@@ -55,7 +60,7 @@ const OrderDetails: FunctionComponent<OrderDetailsProps> = ({
         playAnimation={playAnimation}
         animationTime={animationTime}
       />
-    </Modal>
+    </ModalDisplay>
   );
 };
 

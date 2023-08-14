@@ -6,10 +6,7 @@ import useCollectItemGroupingInfo, {
   ItemGroupingDetails as IGD,
 } from "@_hooks/admin/menu/item-grouping/useCollectItemGroupingInfo";
 import { ItemImage } from "@_types/admin/forms";
-import {
-  GroupingSelections,
-  InitialSelections,
-} from "@_types/admin/modify-menu";
+import { GroupingSelections } from "@_types/admin/modify-menu";
 import { ModalProps } from "@_hooks/animation/useAnimateModal";
 import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 import { PostModifyItemGrouping } from "@_utils/database/admin/menu-queries/groupings";

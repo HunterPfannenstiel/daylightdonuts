@@ -1,8 +1,8 @@
-import { useBuildBox } from "@_providers/Dozenable/BuildBox";
-import { FunctionComponent } from "react";
+import { Dispatch, FunctionComponent } from "react";
 import Box from "./Box/Box";
 import classes from "./BoxDetails.module.css";
 import ItemDetailList from "./ItemDetailList";
+import { BoxPayload, DozenBox } from "@_types/dozenable";
 
 interface BoxDetailsProps {
   showDetails: boolean;
@@ -11,6 +11,8 @@ interface BoxDetailsProps {
   boxSize: number;
   boxClassName: string;
   listClassName: string;
+  box: DozenBox;
+  dispatchBox: Dispatch<BoxPayload>;
 }
 
 const BoxDetails: FunctionComponent<BoxDetailsProps> = ({
@@ -20,8 +22,9 @@ const BoxDetails: FunctionComponent<BoxDetailsProps> = ({
   boxSize,
   boxClassName,
   listClassName,
+  box,
+  dispatchBox,
 }) => {
-  const { box } = useBuildBox();
   const donutImages: (string | undefined)[] = [];
   Object.keys(box.items).forEach((key) => {
     const item = box.items[key];
@@ -46,6 +49,8 @@ const BoxDetails: FunctionComponent<BoxDetailsProps> = ({
         items={box.items}
         showDetails={showDetails}
         className={listClassName}
+        dispatchBox={dispatchBox}
+        box={box}
       />
     </>
   );

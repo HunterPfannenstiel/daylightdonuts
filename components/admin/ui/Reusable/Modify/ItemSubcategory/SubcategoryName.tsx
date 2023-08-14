@@ -1,7 +1,7 @@
 import { FunctionComponent, MutableRefObject } from "react";
 import classes from "./SubcategoryName.module.css";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 
 interface SubcategoryNameProps {
   initialName: MutableRefObject<string>;
@@ -15,7 +15,7 @@ const SubcategoryName: FunctionComponent<SubcategoryNameProps> = ({
   return (
     <Fieldset>
       <TextInput
-        inputId="name"
+        id="name"
         label="Name"
         handler={updateName}
         defaultValue={initialName.current}

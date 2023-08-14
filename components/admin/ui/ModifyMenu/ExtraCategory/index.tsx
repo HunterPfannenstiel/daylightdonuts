@@ -1,8 +1,6 @@
 "use client";
 
-import { FunctionComponent, useRef } from "react";
-import classes from "./ExtraCategory.module.css";
-import useAnimateModal from "@_hooks/animation/useAnimateModal";
+import { FunctionComponent } from "react";
 import CreateExtraCategoryModal from "./CreateModal";
 import {
   DBEntity,
@@ -11,6 +9,7 @@ import {
 import ModifyModal from "./ModifyModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ExtraCategoryProps {
   customizations: ExtraCategoryCustomizations;
@@ -33,30 +32,22 @@ const ExtraCategory: FunctionComponent<ExtraCategoryProps> = ({
   return (
     <>
       <button onClick={createModal.handleModal}>Create Category</button>
+
       {createModal.showModal && (
         <CreateExtraCategoryModal
           addNewCategory={categories.addNewEntity}
-          modalProps={createModal}
+          modalProps={createModal.getModalProps()}
           existingExtras={customizations}
         />
       )}
-      {categories.entities.map((category, i) => {
-        return (
-          <div>
-            <p
-              onClick={() => {
-                setSelectedEntity(category, i);
-              }}
-            >
-              {category.name}
-            </p>
-          </div>
-        );
-      })}
+      <EntityDisplay
+        entities={categories.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
       {modifyModal.showModal && (
         <ModifyModal
           updateCategory={categories.updateEntity}
-          modalProps={modifyModal}
+          modalProps={modifyModal.getModalProps()}
           extraCategoryId={getSelectedId()!}
           categoryName={getSelectedName()!}
           index={getSelectedIndex()!}

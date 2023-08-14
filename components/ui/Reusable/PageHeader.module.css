@@ -1,0 +1,6 @@
+.container {
+    text-align: center;
+    padding-bottom: 29px;
+    /*padding-top: 29px; /*Navigable back-bar has a bottom padding of 16px*/
+    background-color: var(--primary-blue);
+}

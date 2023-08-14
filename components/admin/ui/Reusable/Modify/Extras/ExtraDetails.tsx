@@ -1,35 +1,27 @@
 import { FunctionComponent, useEffect } from "react";
 import { ExtraDetails as ExtraDetailsT } from "@_types/admin/modify-menu";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
 import PriceInput from "@_admin-reuse/Form/Inputs/PriceInput";
-import SelectInput from "@_admin-reuse/Form/Inputs/SelectInput";
+import SelectInput from "components/ui/Reusable/Form/SelectInput";
+import { UpdateDetails } from "@_hooks/admin/menu/modification/useDetails";
 
 interface ExtraDetailsProps {
   initialDetails: ExtraDetailsT;
-  updateHandler: (key: keyof ExtraDetailsT, value: any) => void;
-  canFlipPage: (bool: boolean) => void;
+  updateHandler: UpdateDetails<ExtraDetailsT>;
 }
 
 const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
   initialDetails,
   updateHandler,
-  canFlipPage,
 }) => {
-  useEffect(() => {
-    canFlipPage(!!initialDetails.name);
-  }, []);
-  const updateDetails = (key: keyof ExtraDetailsT, value: any) => {
-    updateHandler(key, value);
-    canFlipPage(!!initialDetails.name);
-  };
   return (
     <Fieldset legend="Create Extra!">
       <TextInput
-        inputId="name"
+        id="name"
         label="Name"
         handler={(inputValue) => {
-          updateDetails("name", inputValue);
+          updateHandler("name", inputValue);
         }}
         defaultValue={initialDetails.name}
         required
@@ -38,25 +30,25 @@ const ExtraDetails: FunctionComponent<ExtraDetailsProps> = ({
         inputId="price"
         label="Price"
         handler={(inputValue) => {
-          updateDetails("price", inputValue);
+          updateHandler("price", inputValue);
         }}
         defaultValue={initialDetails.price || ""}
       />
       <TextInput
-        inputId="abbreviation"
+        id="abbreviation"
         label="Abbreviation"
         handler={(inputValue) => {
-          updateDetails("abbreviation", inputValue);
+          updateHandler("abbreviation", inputValue);
         }}
         defaultValue={initialDetails.abbreviation}
       />
       {initialDetails.isArchived !== undefined && (
         <SelectInput
-          inputId="archived"
+          id="archived"
           label="Archive"
           defaultChecked={initialDetails.isArchived}
           handler={(isSelected) => {
-            updateDetails("isArchived", isSelected);
+            updateHandler("isArchived", isSelected);
           }}
           type="checkbox"
         />

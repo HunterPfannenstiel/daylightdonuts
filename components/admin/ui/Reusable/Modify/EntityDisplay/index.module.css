@@ -1,0 +1,12 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.button {
+    font-size: 2rem;
+    background-color: transparent;
+    color: var(--primary-yellow);
+    padding: 0;
+}

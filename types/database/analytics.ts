@@ -16,10 +16,10 @@ export type AnalyticParams = {
 }
 
 export enum TimeUnit {
-    "day" = "day",
-    "week" = "week",
-    "month" = "month",
-    "year" = "year"
+    "Day" = "day",
+    "Week" = "week",
+    "Month" = "month",
+    "Year" = "year"
 }
 
 export enum AnalyticDisplayValue {

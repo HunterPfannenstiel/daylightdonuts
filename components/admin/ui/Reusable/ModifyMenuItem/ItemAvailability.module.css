@@ -3,3 +3,33 @@
     flex-wrap: wrap;
     justify-content: space-between;
 }
+
+.range_container {
+    padding-top: 1rem;
+}
+
+.range_label {
+    font-size: 1.5rem;
+    color: var(--font-black);
+    font-weight: normal;
+}
+
+.range {
+    padding-block: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.range p {
+    font-size: 1rem;
+}
+
+.range p span {
+    font-size: 0.85rem;
+    border-bottom: 1px solid black;
+}
+
+.no_range {
+    font-size: 0.75rem;
+}

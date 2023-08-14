@@ -6,19 +6,26 @@ import useCollectSubcategoryInfo from "@_hooks/admin/menu/item-subcategory/useCo
 import SubcategoryItems from "@_admin-reuse/Modify/ItemSubcategory/SubcategoryItems";
 import { ModifyItemSubcategory } from "@_utils/database/admin/menu-queries/categories";
 import ModifyMenu from "custom-objects/ModifyMenu";
+import { UpdateEntity } from "@_hooks/admin/menu/useUpdateEntities";
 
 interface ModalContentsProps {
   itemSubcategoryId: number;
   name: string;
   selections: SubcategorySelections;
   categories: DBEntity[];
+  handleModal: () => void;
+  index: number;
+  updateSubcategory: UpdateEntity;
 }
 
 const ModalContents: FunctionComponent<ModalContentsProps> = ({
   itemSubcategoryId,
   name,
   selections,
+  handleModal,
   categories,
+  index,
+  updateSubcategory,
 }) => {
   const info = useCollectSubcategoryInfo(name, selections);
   const onModify = async (e: FormEvent) => {
@@ -27,7 +34,7 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       selections.initial_items || {},
       info.getSelectedItemIds()
     );
-    const details = {
+    const details: ModifyItemSubcategory = {
       itemSubcategoryId,
       name: ModifyMenu.CompareVal(name, info.name.current),
       categoryId: ModifyMenu.CompareVal(
@@ -36,9 +43,15 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
       ),
       addMenuItemIds: newIds,
       removeMenuItemIds: removedIds,
-    } as ModifyItemSubcategory;
+    };
 
-    await ModifyMenu.Post.Modify("item-subcategory", details);
+    const res = await ModifyMenu.Post.Modify("item-subcategory", details);
+    if (!res.success) {
+      console.error(res.errorMessage);
+      return;
+    }
+    if (details.name) updateSubcategory(details.name, index);
+    handleModal();
   };
   return (
     <form onSubmit={onModify}>

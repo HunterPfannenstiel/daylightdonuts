@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import classes from "./ItemGroupingDetails.module.css";
 import { ItemGroupingDetails as IGD } from "@_hooks/admin/menu/item-grouping/useCollectItemGroupingInfo";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 import PriceInput from "@_admin-reuse/Form/Inputs/PriceInput";
 import ImageInput from "@_admin-reuse/Form/Inputs/ImageInput";
 import { ItemImage } from "@_types/admin/forms";
@@ -25,7 +25,7 @@ const ItemGroupingDetails: FunctionComponent<ItemGroupingDetailsProps> = ({
     <Fieldset legend="What does this legend look like?">
       <TextInput
         label="Name"
-        inputId="name"
+        id="name"
         handler={(name) => {
           updateDetails("name", name);
         }}
@@ -41,7 +41,7 @@ const ItemGroupingDetails: FunctionComponent<ItemGroupingDetailsProps> = ({
       />
       <TextInput
         label="Size"
-        inputId="size"
+        id="size"
         inputType="number"
         handler={(size) => {
           updateDetails("size", size);

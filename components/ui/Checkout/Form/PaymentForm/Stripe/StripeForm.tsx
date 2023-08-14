@@ -9,7 +9,7 @@ import { FormEvent, FunctionComponent } from "react";
 interface StripeFormProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
-  postOrder: () => void;
+  postOrder: () => Promise<void>;
 }
 
 const StripeForm: FunctionComponent<StripeFormProps> = ({

@@ -6,14 +6,13 @@ import {
 } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import Accordian from "components/ui/Reusable/Accordian";
-
-//RADIO
+import SelectInput from "@ui/Reusable/Form/SelectInput";
 
 interface ItemExtrasProps {
   groupings: AvailableExtraGrouping[];
   selectedGroupings: SelectedExtraGroupings;
   updateSelectedGroupings: (
-    category: string,
+    categoryId: number,
     value: number | undefined
   ) => void;
 }
@@ -27,50 +26,26 @@ const ItemExtras: FunctionComponent<ItemExtrasProps> = ({
     <Fieldset legend="Extras" className={classes.extras}>
       {groupings.map((group) => {
         return (
-          <div key={group.name}>
-            <Accordian
-              RevealingContent={
-                <h2 className={classes.header}>{group.name}</h2>
-              }
-              maxChildrenHeight="70px"
-            >
-              <div>
-                <label htmlFor={`none-${group.name}`}>None</label>
-                <input
+          <Accordian
+            key={group.name}
+            Header={<h2 className={classes.header}>{group.name}</h2>}
+            data={[{ name: "None", id: undefined }, ...group.extra_groupings]}
+            keyExtractor={({ id }) => id || -1}
+            componentExtractor={(grouping) => {
+              return (
+                <SelectInput
+                  label={grouping.name}
+                  handler={() => {
+                    updateSelectedGroupings(group.id, grouping.id);
+                  }}
                   type="radio"
-                  id={`none-${group.name}`}
+                  defaultChecked={selectedGroupings[group.id] === grouping.id}
                   name={group.name}
-                  defaultChecked={!selectedGroupings[group.name]}
-                  onClick={updateSelectedGroupings.bind(
-                    null,
-                    group.name,
-                    undefined
-                  )}
+                  id={group.name + grouping.name}
                 />
-              </div>
-              {group.extra_groupings.map((grouping) => {
-                return (
-                  <div key={grouping.name}>
-                    <label htmlFor={grouping.name}>{grouping.name}</label>
-                    <input
-                      type="radio"
-                      id={grouping.name}
-                      name={group.name}
-                      defaultChecked={
-                        selectedGroupings[group.name] ===
-                        grouping.extra_group_id
-                      }
-                      onClick={updateSelectedGroupings.bind(
-                        null,
-                        group.name,
-                        grouping.extra_group_id
-                      )}
-                    />
-                  </div>
-                );
-              })}
-            </Accordian>
-          </div>
+              );
+            }}
+          />
         );
       })}
     </Fieldset>

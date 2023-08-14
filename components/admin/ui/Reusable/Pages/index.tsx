@@ -5,7 +5,7 @@ import Page from "./Page";
 interface PagesProps {
   pages: ReactNode[];
   submitHandler: () => void;
-  beforePageTurn?: () => boolean;
+  beforePageTurn?: (currPage: number) => string | undefined;
 }
 
 const Pages: FunctionComponent<PagesProps> = ({
@@ -14,11 +14,16 @@ const Pages: FunctionComponent<PagesProps> = ({
   beforePageTurn,
 }) => {
   const [currPage, setCurrPage] = useState(0);
+  const [message, setMessage] = useState("");
   const pageTurn = (nextPage: number) => {
     if (!beforePageTurn) {
       setCurrPage(nextPage);
-    } else if (beforePageTurn()) {
-      setCurrPage(nextPage);
+    } else {
+      const msg = beforePageTurn(currPage);
+      if (!msg) {
+        setCurrPage(nextPage);
+        setMessage("");
+      } else setMessage(msg);
     }
   };
   return (

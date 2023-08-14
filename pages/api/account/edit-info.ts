@@ -12,7 +12,7 @@ const handler: NextApiHandler = async (req, res) => {
 		const accountId = await getAccountIdFromSession(req, res);
 		if (req.method === 'POST') {
 			const info = req.body.info as AddUserInfo | undefined;
-			if (accountId && info) {
+			if (accountId !== null && info) {
 				const new_info_id = await addUserInfo(accountId, info);
 				res.status(200).json(new_info_id);
 				res.end();
@@ -24,7 +24,7 @@ const handler: NextApiHandler = async (req, res) => {
 			}
 		} else if (req.method === 'PUT') {
 			const info = req.body.info as UserInfo | undefined;
-			if (accountId && info) {
+			if (accountId !== null && info) {
 				await editUserInfo(accountId, info);
 				res.status(204);
 				res.end();
@@ -36,10 +36,15 @@ const handler: NextApiHandler = async (req, res) => {
 			}
 		} else if (req.method === 'DELETE') {
 			const info_id = req.query.id as number | undefined;
-			if (accountId && info_id) {
-				await deleteUserInfo(accountId, info_id);
-				res.status(204);
-				res.end();
+			if (accountId !== null && info_id !== undefined) {
+				const del = await deleteUserInfo(accountId, info_id);
+				if (del) {
+					res.status(204);
+					res.end();
+				} else {
+					res.status(400);
+					res.end();
+				}
 			} else {
 				res.status(400).json({
 					message:
@@ -49,6 +54,8 @@ const handler: NextApiHandler = async (req, res) => {
 		}
 	} catch (error) {
 		console.log(error);
+		res.status(400).json({message: 'Bad request'});
+		res.end();
 	}
 };
 

@@ -1,19 +1,15 @@
-import {
-  ItemDateRange,
-  ItemImage,
-  MenuItemDetails,
-  SelectedExtraGroupings,
-  SelectedItemCategories,
-  SelectedWeekdays,
-} from "@_types/admin/forms";
+import { ItemDateRange, ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import { useRef, useState } from "react";
+import useDragDrop from "../modification/useDragDrop";
+import { NestedSelections } from "../modification/useNestedSelections";
+import { InitialSelections } from "../modification/useSelections";
 
 const useCollectModalInfo = (
   initialDetails?: MenuItemDetails,
   initialGroupId?: number,
-  initialExtraGroupings?: SelectedExtraGroupings,
-  initialItemCategories?: SelectedItemCategories,
-  initialWeekdays?: SelectedWeekdays,
+  initialExtraGroupings?: InitialSelections<number | undefined>,
+  initialItemCategories?: NestedSelections,
+  initialWeekdays?: InitialSelections,
   iniitalRanges?: ItemDateRange,
   initialImages?: ItemImage[]
 ) => {
@@ -25,32 +21,10 @@ const useCollectModalInfo = (
     menuItemDetails.current[key] = value as never;
   };
 
-  const [itemImages, setItemImages] = useState(initialImages || []);
-
-  const swapImages = (indexOne: number, indexTwo: number) => {
-    setItemImages((prevState) => {
-      const copyState = [...prevState];
-      const temp = copyState[indexOne];
-      copyState[indexOne] = copyState[indexTwo];
-      copyState[indexTwo] = temp;
-      return copyState;
-    });
-  };
-
-  const addImages = (images: ItemImage[]) => {
-    setItemImages((prevState) => {
-      return [...prevState, ...images];
-    });
-  };
-
-  const removeImage = (index: number) => {
-    setItemImages((prevState) => {
-      const copyState = [...prevState];
-      const removedImage = copyState.splice(index, 1)[0];
-      if (removedImage.blob) URL.revokeObjectURL(removedImage.imageUrl!);
-      return copyState;
-    });
-  };
+  const [
+    itemImages,
+    { swapItems: swapImages, addManyItems: addImages, deleteItem: deleteImage },
+  ] = useDragDrop(initialImages);
 
   const getImageDetails = () => {
     const newImageDisplayOrder = {} as any;
@@ -73,16 +47,15 @@ const useCollectModalInfo = (
     selectedGroupingId.current = id;
   };
 
-  const selectedExtraGroupings = useRef<SelectedExtraGroupings>(
-    { ...initialExtraGroupings } || {}
-  );
+  const selectedExtraGroupings = useRef({ ...initialExtraGroupings } || {});
 
-  const updateExtraGroupingIds = (key: string, value: number | undefined) => {
-    selectedExtraGroupings.current[key] = value;
+  const updateExtraGroupingIds = (key: number, value: number | undefined) => {
+    if (!value) delete selectedExtraGroupings.current[key];
+    else selectedExtraGroupings.current[key] = value;
   };
 
   const [selectedItemCategories, setSelectedItemCategories] =
-    useState<SelectedItemCategories>(initialItemCategories || {});
+    useState<NestedSelections>(initialItemCategories || {});
 
   const updateItemCategories = (ids: {
     categoryId: number;
@@ -116,9 +89,7 @@ const useCollectModalInfo = (
     });
   };
 
-  const selectedWeekdays = useRef<SelectedWeekdays>(
-    { ...initialWeekdays } || {}
-  );
+  const selectedWeekdays = useRef({ ...initialWeekdays } || {});
 
   const [availabilityRange, setAvailabilityRange] = useState<
     ItemDateRange | undefined
@@ -173,7 +144,7 @@ const useCollectModalInfo = (
     itemImages,
     swapImages,
     addImages,
-    removeImage,
+    deleteImage,
     dbHelpers: {
       getSelectedExtraGroups,
       getSelectedCategories,

@@ -8,12 +8,14 @@ interface SpinnerProps {
 
 const Spinner: FunctionComponent<SpinnerProps> = ({ center }) => {
   return (
-    <div
-      className={concatClassNames(
-        classes.spinner,
-        center ? classes.center : undefined
-      )}
-    />
+    <>
+      <div
+        className={concatClassNames(
+          classes.spinner,
+          center ? classes.center : undefined
+        )}
+      />
+    </>
   );
 };
 

@@ -1,5 +1,13 @@
 .container {
+    display: flex;
     text-align: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.heading_container p {
+    margin: auto;
+    max-width: 600px;
 }
 
 .container h2 {
@@ -9,10 +17,9 @@
 .images {
     display: flex;
     gap: 0.25rem;
+    justify-content: center;
 }
 
-.images > * {
-    flex: 1;
-    width: 15%;
-    padding-top: 20%;
+.images div {
+    width: 33%;
 }

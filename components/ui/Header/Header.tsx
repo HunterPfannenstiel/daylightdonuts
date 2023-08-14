@@ -6,7 +6,7 @@ import { FunctionComponent } from "react";
 import Info from "./Components/InfoBar/Info";
 import Nav from "./Components/Nav";
 import PageBar from "./Components/PageBar";
-import NavigableBackBar from "../Reusable/NavigableBackButton/NavigableBackButton";
+import NavigableBackBar from "../Reusable/NavigableBackButton/NavigableBackBar";
 // import classes from "./Header.module.css";
 
 interface HeaderProps {}

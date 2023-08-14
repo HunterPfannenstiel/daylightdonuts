@@ -9,7 +9,7 @@ const ItemSubcategoryPage = async () => {
   return (
     <ItemSubcategory
       customizations={customizations}
-      subcategories={subcategories}
+      initialSubcategories={subcategories}
     />
   );
 };

@@ -1,64 +1,52 @@
 import { FunctionComponent, useState } from "react";
 import { format } from "date-fns";
-
 import classes from "./Calendar.module.css";
 import Button from "components/ui/Reusable/Button";
 import useAnimateModal from "@_hooks/animation/useAnimateModal";
-import { OrderTimeDetails } from "@_types/database/checkout";
 import { formatDate } from "@_utils/orders/dates";
 import Calendar from "components/ui/Reusable/Calendar/Calendar";
+import ModalDisplay from "components/ui/Reusable/Modal/ModalDisplay";
 
 interface CalendarProps {
-  orderTimeDetails: OrderTimeDetails;
+  updateDate: (date: string) => void;
 }
 
-const DateSelect: FunctionComponent<CalendarProps> = ({ orderTimeDetails }) => {
-  const { handleModal, playAnimation, showModal } = useAnimateModal(300);
-  const [selectedDate, setSelectedDate] = useState<string>("Select a Date");
+const DateSelect: FunctionComponent<CalendarProps> = ({ updateDate }) => {
+  const modal = useAnimateModal(300);
+  const [selectedDate, setSelectedDate] = useState("Select a Date");
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
       setSelectedDate(format(date, "PP"));
-      orderTimeDetails.pickupDate = formatDate(date);
+      updateDate(formatDate(date));
     }
   };
 
-  const handleDateInput = () => {
-    handleModal();
-  };
-
-  const animateClass = playAnimation ? classes.animate_out : "";
   return (
     <>
       <input
         readOnly
         value={selectedDate}
-        onClick={handleDateInput}
+        onClick={modal.handleModal}
         name="date"
         id="date"
         className={classes.date_input}
       />
-      {showModal && (
-        <>
-          <div
-            className={classes.background + " " + animateClass}
-            onClick={handleDateInput}
+
+      {modal.showModal && (
+        <ModalDisplay {...modal.getModalProps()}>
+          <Calendar
+            mode="single"
+            handleDateSelected={handleDateSelect}
+            disabled={{ before: new Date() }}
           />
-          <div className={classes.wrapper + " " + animateClass}>
-            <Calendar
-              mode="single"
-              handleDateSelected={handleDateSelect}
-              disabled={{ before: new Date() }}
-            />
-            <Button
-              color="var(--primary-blue)"
-              width="100%"
-              type="button"
-              onClick={handleDateInput}
-            >
-              Confirm Date
-            </Button>
-          </div>
-        </>
+          <Button
+            color="var(--primary-blue)"
+            type="button"
+            onClick={modal.handleModal}
+          >
+            Confirm Date
+          </Button>
+        </ModalDisplay>
       )}
     </>
   );

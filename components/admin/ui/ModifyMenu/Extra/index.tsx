@@ -7,6 +7,7 @@ import { ExtraCustomizations, NestedDBEntity } from "@_types/admin/modify-menu";
 import ModifyExtraModal from "./ModifyModal";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import useUpdateNestedEntities from "@_hooks/admin/menu/useUpdateNestedEntities";
+import NestedEntityDisplay from "@_admin-reuse/Modify/EntityDisplay/NestedEntityDisplay";
 
 interface ExtraProps {
   customizations: ExtraCustomizations;
@@ -31,39 +32,23 @@ const Extra: FunctionComponent<ExtraProps> = ({
       <button onClick={createModal.handleModal}>Create Extra</button>
       {createModal.showModal && (
         <CreateExtraModal
-          addNewExtra={extras.addNewEntity}
-          modalProps={createModal}
+          modalProps={createModal.getModalProps()}
+          addNewExtra={extras.getUpdateEntityProps().addNewEntity}
           groupings={customizations.groups}
           categories={customizations.categories}
         />
       )}
-      {extras.entities.map((category) => {
-        return (
-          <div>
-            <h2>{category.name}</h2>
-            {category.entities.map((extra, i) => {
-              return (
-                <li
-                  onClick={() => {
-                    setSelectedEntity(extra, i);
-                  }}
-                >
-                  {extra.name}
-                </li>
-              );
-            })}
-          </div>
-        );
-      })}
+      <NestedEntityDisplay
+        entities={extras.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
       {modifyModal.showModal && (
         <ModifyExtraModal
-          addExtra={extras.addNewEntity}
-          updateExtra={extras.updateEntity}
-          deleteExtra={extras.deleteEntity}
+          modifyEntity={extras.getUpdateEntityProps()}
           index={getSelectedIndex()!}
           extraId={getSelectedId()!}
           extraName={getSelectedName()!}
-          modalProps={modifyModal}
+          modalProps={modifyModal.getModalProps()}
           groupings={customizations.groups}
           categories={customizations.categories}
         />

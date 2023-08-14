@@ -24,13 +24,13 @@ const ModifyModal: FunctionComponent<ModifyModalProps> = ({
   index,
   updateCategory,
 }) => {
-  const { selections } = useInitialSelections<ExtraCategorySelections>(
-    extraCategoryId,
-    "extra-category"
-  );
-  if (!selections) return <p>Loading...</p>;
+  const { selections, isLoading } =
+    useInitialSelections<ExtraCategorySelections>(
+      extraCategoryId,
+      "extra-category"
+    );
   return (
-    <ModifyMenuModal modalProps={modalProps}>
+    <ModifyMenuModal modalProps={modalProps} isLoading={isLoading}>
       <ModalContents
         index={index}
         updateCategory={updateCategory}

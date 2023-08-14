@@ -1,5 +1,7 @@
 import { FormEvent, FunctionComponent, ReactNode } from "react";
 import classes from "./index.module.css";
+import Button from "@ui/Reusable/Button";
+import ArrowIcon from "@ui/svg/ArrowIcon";
 
 interface PageProps {
   children: ReactNode;
@@ -21,23 +23,31 @@ const Page: FunctionComponent<PageProps> = ({
     onSubmit();
   };
   return (
-    <form onSubmit={formHandler}>
+    <form onSubmit={formHandler} className={classes.page}>
       {children}
       <div className={classes.buttons}>
         {currPage !== 0 ? (
-          <button type="button" onClick={onPageTurn.bind(null, currPage - 1)}>
-            {"<"}
-          </button>
+          <Button
+            type="button"
+            onClick={onPageTurn.bind(null, currPage - 1)}
+            className={classes.left_button}
+          >
+            <ArrowIcon size="36" color="white" outline={false} />
+          </Button>
         ) : (
           <div></div>
         )}
-        <button type="submit" hidden={currPage !== lastPage}>
+        <Button type="submit" hidden={currPage !== lastPage}>
           Submit
-        </button>
+        </Button>
         {currPage !== lastPage ? (
-          <button type="button" onClick={onPageTurn.bind(null, currPage + 1)}>
-            {">"}
-          </button>
+          <Button
+            type="button"
+            onClick={onPageTurn.bind(null, currPage + 1)}
+            className={classes.right_button}
+          >
+            <ArrowIcon size="36" color="white" outline={false} />
+          </Button>
         ) : (
           <div></div>
         )}

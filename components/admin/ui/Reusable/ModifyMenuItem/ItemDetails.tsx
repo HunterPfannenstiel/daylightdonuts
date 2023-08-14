@@ -3,9 +3,8 @@ import classes from "./ItemDetails.module.css";
 import { ItemImage, MenuItemDetails } from "@_types/admin/forms";
 import Fieldset from "../Form/Fieldset";
 import ImageModifications from "./ImageComponent/ImageModifications";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
-
-//TEXT INPUTS
+import TextInput from "components/ui/Reusable/Form/TextInput";
+import TextArea from "@ui/Reusable/Form/TextArea";
 
 interface ItemDetailsProps {
   initialDetails: {
@@ -17,6 +16,7 @@ interface ItemDetailsProps {
   addImages: (images: ItemImage[]) => void;
   updateHandler: (key: keyof MenuItemDetails, value: any) => void;
   swapImages: (indexOne: number, indexTwo: number) => void;
+  deleteImage: (index: number) => void;
 }
 
 const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
@@ -25,16 +25,18 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
   addImages,
   updateHandler,
   swapImages,
+  deleteImage,
 }) => {
   return (
     <Fieldset className={classes.details}>
       <ImageModifications
+        deleteImage={deleteImage}
         addImages={addImages}
         images={images}
         swapImages={swapImages}
       />
       <TextInput
-        inputId="item-name"
+        id="item-name"
         label="Name"
         inputType="text"
         handler={(inputValue) => {
@@ -42,9 +44,11 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         }}
         required
         defaultValue={initialDetails.name}
+        flexDirection={"row"}
+        gap={"1rem"}
       />
       <TextInput
-        inputId="item-price"
+        id="item-price"
         label="Price"
         inputType="number"
         handler={(inputValue) => {
@@ -52,16 +56,17 @@ const ItemDetails: FunctionComponent<ItemDetailsProps> = ({
         }}
         required
         defaultValue={initialDetails.price}
+        flexDirection={"row"}
+        gap={"1rem"}
       />
-      <TextInput
-        inputId="item-description"
+      <TextArea
+        id="item-description"
         label="Description"
         handler={(inputValue) => {
           updateHandler("description", inputValue);
         }}
         required
         defaultValue={initialDetails.description}
-        isTextArea
       />
     </Fieldset>
   );

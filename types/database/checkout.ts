@@ -1,5 +1,5 @@
 import { DBEntity } from "@_types/admin/modify-menu";
-import { InputValue } from "@_types/form";
+import { ValidatedInput } from "@_hooks/form/useValidateInput";
 
 //Checkout
 export type CheckoutInfo = {
@@ -44,16 +44,16 @@ export type TotalCart = {
 };
 
 export type CustomerFormInfo = {
-  first_name: InputValue;
-  last_name: InputValue;
-  email: InputValue;
-  phone_number: InputValue;
+  first_name: ValidatedInput;
+  last_name: ValidatedInput;
+  email: ValidatedInput;
+  phone_number: ValidatedInput;
 };
 
-export type OrderLocationDetails = {
-  locationId: InputValue;
-  pickupDate: InputValue;
-  pickupTimeId: InputValue;
+export type FormLocationDetails = {
+  locationId: ValidatedInput;
+  pickupDate: ValidatedInput;
+  pickupTimeId: ValidatedInput;
 };
 
 export type CustomerOrderInfo = {
@@ -61,6 +61,12 @@ export type CustomerOrderInfo = {
   last_name: string;
   email: string;
   phone_number: string;
+};
+
+export type OrderLocationDetails = {
+  locationId: string;
+  pickupDate: string;
+  pickupTimeId: string;
 };
 
 export type CustomerInfo =
@@ -82,7 +88,7 @@ export const initialCustomerInfo: CustomerFormInfo = {
   phone_number: { value: "", isValid: true },
 };
 
-export const initialOrderTimeDetails: OrderLocationDetails = {
+export const initialOrderTimeDetails: FormLocationDetails = {
   locationId: { value: "", isValid: true },
   pickupDate: { value: "", isValid: true },
   pickupTimeId: { value: "", isValid: true },

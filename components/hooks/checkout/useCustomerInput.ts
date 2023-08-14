@@ -2,42 +2,53 @@ import {
   CustomerFormInfo,
   CustomerInfo,
   CustomerOrderInfo,
-  OrderLocationDetails,
+  FormLocationDetails,
 } from "@_types/database/checkout";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { postOptimisticOrder } from "@_utils/payment/stripe";
 import { UserInfo } from "@_types/database/userInfo";
 import { useAuth } from "@_providers/UserInfo/UserInfo";
+import { isValidClientEmail, isValidClientPhone } from "@_utils/payment/form";
+import useValidateInput from "@_hooks/form/useValidateInput";
 
 //A hook used to group/manage all of the customer's input which is forwarded by the Customer Info context
 const useCustomerInput = () => {
-  const [customerInfo, setCustomerInfo] = useState<CustomerFormInfo>(
-    getInitialCustomerInfo()
-  );
-  const [locationDetails, setLocationDetails] = useState<OrderLocationDetails>(
-    getInitialTimeDetails()
-  );
+  const [formInput, { update: updateInfo, set: setInfo }] = useValidateInput([
+    "first_name",
+    "last_name",
+    "email",
+    "phone_number",
+    "locationId",
+    "pickupDate",
+    "pickupTimeId",
+  ]);
   const { infos, favorite_id, email, isLoading } = useAuth();
   const [selectedInfoId, setSelectedInfoId] = useState(-1);
 
   useEffect(() => {
     if (infos && infos.length && selectedInfoId === -1) {
-      console.log(email);
       const id = favorite_id || infos[0].id;
       setSelectedInfoId(id);
-      setCustomerInfo(getSelectedInfo(infos, email!, id)!);
+      setInfo((prevState) => ({
+        ...prevState,
+        ...getSelectedInfo(infos, email!, id)!,
+      }));
     }
   }, [infos]);
-
   const postOrder = () => {
     let info: CustomerInfo;
-    const currInfo = getCustomerOrderInfo(customerInfo);
+    const currInfo = getCustomerOrderInfo(formInput);
+    const locationInfo = {
+      locationId: formInput.locationId.value,
+      pickupTimeId: formInput.pickupTimeId.value,
+      pickupDate: formInput.pickupDate.value,
+    };
     if (selectedInfoId === -1) {
       info = {
         customerInfo: true,
         customerOrderInfo: currInfo,
         userInfoId: null,
-        ...locationDetails,
+        ...locationInfo,
       };
     } else {
       const userInfo = getCustomerOrderInfo(
@@ -48,51 +59,74 @@ const useCustomerInput = () => {
           customerInfo: true,
           customerOrderInfo: currInfo,
           userInfoId: null,
-          ...locationDetails,
+          ...locationInfo,
         };
       } else {
         info = {
           customerInfo: false,
           userInfoId: selectedInfoId,
           customerOrderInfo: null,
-          ...locationDetails,
+          ...locationInfo,
         };
       }
     }
-    console.log(info);
     // return new Promise<void>((resolve, reject) => reject("Testing"));
-    // return postOptimisticOrder(info);
-  };
-
-  const updateCustomerInfo = (key: keyof CustomerFormInfo, value: string) => {
-    setCustomerInfo((prevInfo) => {
-      return { ...prevInfo, [key]: { value, isValid: true } };
-    });
-  };
-  const updateLocationInfo = (
-    key: keyof OrderLocationDetails,
-    value: string
-  ) => {
-    setLocationDetails((prevInfo) => ({
-      ...prevInfo,
-      [key]: { value, isValid: true },
-    }));
+    return postOptimisticOrder(info);
   };
 
   const setInfoId = (id: number) => {
     setSelectedInfoId(id);
-    setCustomerInfo(getSelectedInfo(infos!, email!, id)!);
+    setInfo((prevState) => ({
+      ...prevState,
+      ...getSelectedInfo(infos!, email!, id)!,
+    }));
+  };
+
+  const validateCustomerInfo = () => {
+    let key: keyof (CustomerFormInfo & FormLocationDetails) | undefined;
+    if (!isValidClientEmail(formInput.email.value)) {
+      key = "email";
+    } else if (!isValidClientPhone(formInput.phone_number.value)) {
+      key = "phone_number";
+    } else if (!formInput.first_name.value) key = "first_name";
+    else if (!formInput.last_name.value) key = "last_name";
+    else if (!formInput.locationId.value) key = "locationId";
+    else if (!formInput.pickupDate.value) key = "pickupDate";
+    else if (!formInput.pickupTimeId.value) key = "pickupTimeId";
+    if (key) {
+      updateInfo(key, formInput[key].value, false);
+      return false;
+    }
+    return true;
+  };
+
+  const getCustomerInfo = (): CustomerFormInfo & { selectedId: number } => {
+    return {
+      first_name: formInput.first_name,
+      last_name: formInput.last_name,
+      phone_number: formInput.phone_number,
+      email: formInput.email,
+      selectedId: selectedInfoId,
+    };
+  };
+  const getLocationInfo = (): FormLocationDetails => {
+    return {
+      locationId: formInput.locationId,
+      pickupDate: formInput.pickupDate,
+      pickupTimeId: formInput.pickupTimeId,
+    };
   };
 
   return {
-    customerInfo,
-    locationDetails,
-    updateLocationInfo,
+    formInput,
     setSelectedInfoId,
     postOrder,
-    updateCustomerInfo,
+    updateFormInfo: updateInfo,
     setInfoId,
     isLoading,
+    validateCustomerInfo,
+    getCustomerInfo,
+    getLocationInfo,
   };
 };
 
@@ -132,21 +166,4 @@ const getCustomerOrderInfo = (info: CustomerFormInfo) => {
   const phone_number = info.phone_number.value;
   const email = info.email.value;
   return { first_name, last_name, phone_number, email };
-};
-
-const getInitialCustomerInfo = (): CustomerFormInfo => {
-  return {
-    first_name: { value: "", isValid: true },
-    last_name: { value: "", isValid: true },
-    email: { value: "", isValid: true },
-    phone_number: { value: "", isValid: true },
-  };
-};
-
-const getInitialTimeDetails = (): OrderLocationDetails => {
-  return {
-    locationId: { value: "", isValid: true },
-    pickupDate: { value: "", isValid: true },
-    pickupTimeId: { value: "", isValid: true },
-  };
 };

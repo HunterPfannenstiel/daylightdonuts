@@ -34,7 +34,15 @@ const useUpdateEntities = (initialData: DBEntity[]) => {
     });
   };
 
-  return { entities, addNewEntity, updateEntity, deleteEntity };
+  const getUpdateEntityProps = () => {
+    return {
+      addNewEntity,
+      updateEntity,
+      deleteEntity,
+    };
+  };
+
+  return { entities, addNewEntity, updateEntity, getUpdateEntityProps };
 };
 
 export type AddNewEntity = (newEntity: DBEntity, index?: number) => void;

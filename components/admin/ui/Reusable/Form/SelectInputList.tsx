@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 import classes from "./SelectInputList.module.css";
 import { DBEntity } from "@_types/admin/modify-menu";
-import SelectInput from "./Inputs/SelectInput";
+import SelectInput from "../../../../ui/Reusable/Form/SelectInput";
 
 type SelectInputListProps =
   | {
@@ -47,7 +47,7 @@ const SelectInputList: FunctionComponent<SelectInputListProps> = ({
           return (
             <SelectInput
               key={selection.id}
-              inputId={selection.name}
+              id={selection.name}
               label={selection.name}
               defaultChecked={isSelected || alwaysChecked}
               handler={(selected) => {

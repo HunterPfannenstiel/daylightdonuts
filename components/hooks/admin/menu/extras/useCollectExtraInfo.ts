@@ -1,72 +1,70 @@
-import {
-  ExtraDetails,
-  ExtraGroupInfo,
+import { DisplayOrderItem, ExtraDetails } from "@_types/admin/modify-menu";
+import useDetails from "../modification/useDetails";
+import useSelectedId from "../modification/useSelectedId";
+import useSelections, {
   InitialSelections,
-} from "@_types/admin/modify-menu";
-import { useRef } from "react";
+} from "../modification/useSelections";
 
 const useCollectExtraInfo = (
   initialDetails?: ExtraDetails,
   initialCategoryId?: number,
   initialGroups?: InitialSelections
 ) => {
-  const extraDetails = useRef(initialDetails || details());
-
-  const updateDetails = (key: keyof ExtraDetails, value: any) => {
-    extraDetails.current[key] = value as never;
-  };
-
-  const selectedCategoryId = useRef(initialCategoryId);
-
-  const updateCategoryId = (id: number) => {
-    selectedCategoryId.current = id;
-  };
-
-  const selectedGroupingIds = useRef(
-    initialCategoryId ? { [initialCategoryId]: initialGroups } : {}
+  const { details, updateDetails, getUpdatedDetails } = useDetails(
+    initialDetails || getInitialDetails()
   );
 
-  const updateGroup = (
-    id: number,
-    categoryId: number,
-    displayOrder?: number
-  ) => {
-    if (selectedGroupingIds.current[categoryId]) {
-      if (selectedGroupingIds.current[categoryId]![id]) {
-        delete selectedGroupingIds.current[categoryId]![id];
-      } else {
-        selectedGroupingIds.current[categoryId] = { [id]: true };
-      }
-    } else {
-      selectedGroupingIds.current[categoryId] = { [id]: true };
-    }
+  const { selectedId, updateId, getUpdatedId } =
+    useSelectedId(initialCategoryId);
+
+  const updateCategoryId = (id: number) => {
+    clearSelections();
+    updateId(id);
   };
+  const [selections, { updateSelection, clearSelections, composeSelections }] =
+    useSelections(initialGroups);
 
   const getExtraGroupInfo = (
-    selections = selectedGroupingIds.current[selectedCategoryId.current || 0]
-  ): ExtraGroupInfo[] => {
-    if (selections) {
-      return Object.keys(selections).map((key) => {
-        return { extraGroupId: +key, displayOrder: null };
-      });
-    }
-    return [];
+    extraSelections?: InitialSelections
+  ): DisplayOrderItem[] => {
+    return composeSelections((id) => {
+      return { id, displayOrder: undefined };
+    }, extraSelections);
+  };
+
+  const getExtraDetailsProps = ({ ...otherProps } = {}) => {
+    return {
+      initialDetails: details.current,
+      updateHandler: updateDetails,
+      ...otherProps,
+    };
+  };
+
+  const getExtraGroupProps = ({ ...otherProps } = {}) => {
+    return {
+      initialGroups: selections,
+      initialCategoryId: selectedId,
+      updateCategory: updateCategoryId,
+      updateGroupings: updateSelection,
+      ...otherProps,
+    };
   };
 
   return {
-    extraDetails: extraDetails.current,
-    updateDetails,
-    selectedCategoryId,
-    updateCategoryId,
-    selectedGroupingIds: selectedGroupingIds.current,
-    updateGroup,
+    extraDetails: details.current,
+    getUpdatedDetails,
+    selectedCategoryId: selectedId,
+    selectedGroupingIds: selections,
     getExtraGroupInfo,
+    getUpdatedId,
+    getExtraDetailsProps,
+    getExtraGroupProps,
   };
 };
 
 export default useCollectExtraInfo;
 
-const details = (): ExtraDetails => {
+const getInitialDetails = (): ExtraDetails => {
   return {
     name: "",
     price: "",

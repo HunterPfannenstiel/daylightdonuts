@@ -1,30 +1,118 @@
+.modal {
+	width: 75%;
+	max-width: 800px;
+	min-width: fit-content;
+}
+
 .form_container {
-    width: 500px;
-    margin: auto;
-    border: 2px solid black;
-    padding: 1rem;
+	padding: 1rem;
+	background-color: white;
+	border-radius: 2px;
+}
+
+.form_container h1 {
+	color: black;
+	font-size: 1.5rem;
+	padding-bottom: 0.75rem;
+	margin-bottom: 0.75rem;
+	border-bottom: 1px solid #f2f4ff;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 3rem;
+	padding: 1rem;
 }
 
-.field label {
-    margin-right: 1rem;
+.input_section {
+	display: flex;
+	gap: 2rem;
+	align-items: center;
 }
 
-.form button {
-    background-color: lightblue;
-    border-radius: 1rem;
-    width: 150px;
-    margin: auto;
+.input_section > * {
+    width: 100%;
 }
 
-.exit {
-    position: absolute;
-    background-color: white;
-    border: 2px solid black;
-    right: 0;
+.text_field label {
+	display: block;
+	font-size: 1rem;
+	margin-bottom: 0.5rem;
+}
+
+.text_field input {
+	border-radius: 0;
+	border: 0;
+	padding: 0;
+	border-bottom: 1px solid #b4becc;
+}
+
+.text_field input:valid {
+	border-color: var(--primary-blue);
+}
+
+.text_field input:invalid {
+	border-color: var(--primary-yellow);
+}
+
+.buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+.buttons button {
+	color: white;
+	background-color: var(--primary-blue);
+	border-radius: 1rem;
+	width: 150px;
+	transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.buttons button:hover {
+	color: black;
+	background-color: var(--primary-yellow);
+}
+
+.format {
+	font-size: 0.75rem;
+	color: grey;
+}
+
+.favorite {
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
+.buttons button:disabled {
+	background-color: #0033727c;
+	cursor: default;
+}
+
+@media (max-width: 40em) {
+	.form_container h1 {
+		text-align: center;
+	}
+
+	.modal {
+		width: 75%;
+	}
+
+	.form {
+		gap: 2rem;
+	}
+
+	.input_section {
+		flex-direction: column;
+	}
+
+	.buttons {
+		flex-direction: column;
+		gap: 1rem;
+		align-items: center;
+	}
+
+    .favorite {
+        justify-content: center;
+    }
 }

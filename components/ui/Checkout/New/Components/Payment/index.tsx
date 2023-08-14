@@ -5,12 +5,13 @@ import Radio from "components/ui/Reusable/Radio";
 import PaypalIcon from "components/ui/svg/PaypalIcon";
 import StripeElements from "components/ui/Checkout/Form/PaymentForm/Stripe/StripeElements";
 import PayPal from "components/ui/Checkout/Form/PaymentForm/PayPal/PayPal";
+import useSuccess from "@_hooks/checkout/useSuccess";
 
 interface PaymentProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
   setIsPayPalSelected: (selected: boolean) => void;
-  postOrder: () => void;
+  postOrder: () => Promise<void>;
 }
 
 const Payment: FunctionComponent<PaymentProps> = ({
@@ -20,6 +21,7 @@ const Payment: FunctionComponent<PaymentProps> = ({
   postOrder,
 }) => {
   const [selectedRadio, setSelectedRadio] = useState(0);
+  const completeOrder = useSuccess();
   const handleRadioClick = (selected: number) => {
     setSelectedRadio(selected);
     setIsPayPalSelected(selected === 0);
@@ -40,7 +42,11 @@ const Payment: FunctionComponent<PaymentProps> = ({
         />
       </div>
       {selectedRadio === 0 && (
-        <PayPal checkCustomerForm={checkCustomerForm} postOrder={postOrder} />
+        <PayPal
+          checkCustomerForm={checkCustomerForm}
+          postOrder={postOrder}
+          completeOrder={completeOrder}
+        />
       )}
       {selectedRadio === 1 && (
         <StripeElements

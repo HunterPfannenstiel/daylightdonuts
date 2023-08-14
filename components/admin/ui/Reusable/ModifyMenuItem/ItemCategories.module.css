@@ -5,9 +5,9 @@
     gap: 1rem;
 }
 
-.cat_name {
-    color: white;
+.category_label {
     text-align: center;
+    font-size: 1.25rem;
 }
 
 .subcategories {

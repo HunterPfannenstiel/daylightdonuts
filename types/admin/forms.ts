@@ -1,4 +1,7 @@
 import { DateRange } from "react-day-picker";
+import { DBEntity, NestedDBEntity } from "./modify-menu";
+import { NestedSelections } from "@_hooks/admin/menu/modification/useNestedSelections";
+import { InitialSelections } from "@_hooks/admin/menu/modification/useSelections";
 
 export type ItemImage = {
   imageId?: number;
@@ -18,42 +21,16 @@ export type MenuItemDetails = {
   isArchived: boolean;
 };
 
-export type AvailableGrouping = {
-  grouping_id: number;
-  name: string;
-};
-
 export type ExtraGrouping = {
-  name: string;
-  extra_group_id: number;
   extras: string[];
-};
+} & DBEntity;
 
 export type AvailableExtraGrouping = {
-  name: string;
   extra_groupings: ExtraGrouping[];
-};
+} & DBEntity;
 
 export type SelectedExtraGroupings = {
   [category: string]: number | undefined;
-};
-
-export type AvailableSubcategory = {
-  name: string;
-  item_subcategory_id: number;
-};
-
-export type AvailableItemCategory = {
-  name: string;
-  item_category_id: number;
-  subcategories: AvailableSubcategory[];
-};
-
-/**
- * Shape: {1: {1: true, 2: true}} //The item belongs to the Category with 'id' 1 and belongs to the Subcategories that belong to 'id' 1 and 2
- */
-export type SelectedItemCategories = {
-  [categoryId: number]: { [subcategoryId: number]: boolean } | null;
 };
 
 export type ItemDateRange = { from: string; to: string };
@@ -61,10 +38,6 @@ export type ItemDateRange = { from: string; to: string };
 export type UpdateRangeAvailability = {
   index?: number;
   range?: DateRange;
-};
-
-export type SelectedWeekdays = {
-  [weekdayId: number]: boolean;
 };
 
 export type NewMenuItemInfo = {
@@ -89,9 +62,9 @@ export type NewDBItem = {
 };
 
 export type Customizations = {
-  groupings: AvailableGrouping[];
+  groupings: DBEntity[];
   extra_groupings: AvailableExtraGrouping[];
-  item_categories: AvailableItemCategory[];
+  item_categories: NestedDBEntity[];
 };
 
 export type ImageUpload = {
@@ -104,9 +77,9 @@ export type ImageUpload = {
 export type InitialItemSelections = {
   initial_details: MenuItemDetails;
   initial_group_id: number | null;
-  initial_extra_groupings: SelectedExtraGroupings | null;
-  initial_item_categories: SelectedItemCategories | null;
-  initial_weekdays: SelectedWeekdays | null;
+  initial_extra_groupings: InitialSelections<number | undefined> | null;
+  initial_item_categories: NestedSelections | null;
+  initial_weekdays: InitialSelections | null;
   initial_range: ItemDateRange | null;
   initial_images: ItemImage[];
 };
@@ -128,12 +101,12 @@ export type ModifyItem = {
 };
 
 export type ModifyItemDetails = {
-  name: string | null;
-  price: string | null;
-  description: string | null;
-  groupingId: number | null;
-  displayImage: ItemImage | null;
-  isActive: boolean | null;
-  isArchived: boolean | null;
-  availabilityRange: string | null;
+  name?: string | null;
+  price?: string | null;
+  description?: string | null;
+  groupingId?: number | null;
+  displayImage?: ItemImage | null;
+  isActive?: boolean | null;
+  isArchived?: boolean | null;
+  availabilityRange?: string | null;
 };

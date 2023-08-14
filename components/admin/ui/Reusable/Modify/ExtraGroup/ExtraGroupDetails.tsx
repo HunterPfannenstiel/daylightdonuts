@@ -1,7 +1,7 @@
 import { FunctionComponent, MutableRefObject } from "react";
 import classes from "./ExtraGroupDetails.module.css";
 import Fieldset from "@_admin-reuse/Form/Fieldset";
-import TextInput from "@_admin-reuse/Form/Inputs/TextInput";
+import TextInput from "components/ui/Reusable/Form/TextInput";
 
 interface ExtraGroupDetailsProps {
   initialName: MutableRefObject<string>;
@@ -17,7 +17,7 @@ const ExtraGroupDetails: FunctionComponent<ExtraGroupDetailsProps> = ({
   return (
     <Fieldset legend={title}>
       <TextInput
-        inputId="name"
+        id="name"
         label="name"
         handler={updateHandler}
         defaultValue={initialName.current}

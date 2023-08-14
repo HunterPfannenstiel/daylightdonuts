@@ -40,17 +40,17 @@ const ModalContents: FunctionComponent<ModalContentsProps> = ({
   const onSubmit = async () => {
     const extrasInfo = info.getExtraDisplayOrders();
     const initialExtraIds = ModifyMenu.SelectionsToArray(
-      selections.initial_extras
+      selections.initial_extras || {}
     );
     const removeExtraIds = initialExtraIds.filter((id) => {
       if (!extrasInfo) return true;
       for (let i = 0; i < extrasInfo.length; i++) {
-        if (extrasInfo[i].extraId === id) return false;
+        if (extrasInfo[i].extraId.toString() === id) return false;
       }
       return true;
     });
     const { newIds, removedIds } = ModifyMenu.SelectionsToNewAndRemoved(
-      selections.initial_items,
+      selections.initial_items || {},
       info.selectedItemIds
     );
     const newName = ModifyMenu.CompareVal(groupName, info.name.current);

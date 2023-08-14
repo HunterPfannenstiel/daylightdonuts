@@ -7,6 +7,7 @@ import CreateModal from "./CreateModal";
 import { DBEntity } from "@_types/admin/modify-menu";
 import ModifyModal from "./ModifyModal";
 import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ItemCategoryProps {
   initialCategories: DBEntity[];
@@ -23,39 +24,28 @@ const ItemCategory: FunctionComponent<ItemCategoryProps> = ({
     getSelectedIndex,
     setSelectedEntity,
   } = useHandleInput();
-  const {
-    entities: categories,
-    addNewEntity,
-    updateEntity,
-    deleteEntity,
-  } = useUpdateEntities(initialCategories);
+  const categories = useUpdateEntities(initialCategories);
   return (
     <>
-      {createModal.showModal && (
-        <CreateModal
-          modalProps={createModal}
-          categories={categories}
-          addCategory={addNewEntity}
-        />
-      )}
+      <CreateModal
+        modalProps={createModal.getModalProps()}
+        categories={categories.entities}
+        addCategory={categories.getUpdateEntityProps().addNewEntity}
+      />
+
       <button onClick={createModal.handleModal}>Create Item Category</button>
-      {categories.map((category, i) => {
-        return (
-          <p onClick={setSelectedEntity.bind(null, category, i)}>
-            {category.name}
-          </p>
-        );
-      })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          updateCategory={updateEntity}
-          index={getSelectedIndex()!}
-          categories={categories}
-          modalProps={modifyModal}
-          categoryName={getSelectedName()!}
-          categoryId={getSelectedId()!}
-        />
-      )}
+      <EntityDisplay
+        entities={categories.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
+      <ModifyModal
+        updateCategory={categories.getUpdateEntityProps().updateEntity}
+        index={getSelectedIndex()!}
+        categories={categories.entities}
+        modalProps={modifyModal.getModalProps()}
+        categoryName={getSelectedName()!}
+        categoryId={getSelectedId()!}
+      />
     </>
   );
 };

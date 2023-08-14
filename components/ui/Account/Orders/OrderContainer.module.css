@@ -1,0 +1,44 @@
+.order {
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 4px;
+}
+
+.order_header {
+    display: flex;
+    font-weight: bold;
+    border-bottom: 1px solid #F2F4FF;
+    padding-bottom: 1rem;
+    justify-content: space-between;
+}
+
+.order_header button {
+    background-color: white;
+    color: var(--primary-blue);
+    padding: 0;
+    width: 50px;
+    height: 100%;
+}
+
+.order_total {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #F2F4FF;
+    padding-top: 1rem;
+    font-size: 1rem;
+}
+
+.order_total p:first-child {
+    font-weight: bold;
+}
+
+.order_button {
+    width: 100%;
+    height: 30px;
+    background-color: var(--primary-blue);
+    border-radius: 1rem;
+    color: white;
+    font-size: 1rem;
+    margin-top: 1rem;
+}

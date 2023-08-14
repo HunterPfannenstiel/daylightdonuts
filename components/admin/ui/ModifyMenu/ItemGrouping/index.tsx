@@ -7,6 +7,7 @@ import useUpdateEntities from "@_hooks/admin/menu/useUpdateEntities";
 import useHandleInput from "@_hooks/admin/menu/useHandleInput";
 import CreateModal from "./CreateModal";
 import ModifyModal from "./ModifyModal";
+import EntityDisplay from "@_admin-reuse/Modify/EntityDisplay";
 
 interface ItemGroupingProps {
   customizations: GroupingItem[];
@@ -28,31 +29,23 @@ const ItemGrouping: FunctionComponent<ItemGroupingProps> = ({
   const itemGroupings = useUpdateEntities(groupings);
   return (
     <>
-      {createModal.showModal && (
-        <CreateModal
-          modalProps={createModal}
-          addNewGrouping={itemGroupings.addNewEntity}
-        />
-      )}
+      <CreateModal
+        modalProps={createModal.getModalProps()}
+        addNewGrouping={itemGroupings.getUpdateEntityProps().addNewEntity}
+      />
+
       <button onClick={createModal.handleModal}>Create Grouping</button>
-      {itemGroupings.entities.map((grouping, i) => {
-        return (
-          <div>
-            <h2 onClick={setSelectedEntity.bind(null, grouping, i)}>
-              {grouping.name}
-            </h2>
-          </div>
-        );
-      })}
-      {modifyModal.showModal && (
-        <ModifyModal
-          modalProps={modifyModal}
-          groupingId={getSelectedId()!}
-          groupingName={getSelectedName()!}
-          index={getSelectedIndex()!}
-          updateGrouping={itemGroupings.updateEntity}
-        />
-      )}
+      <EntityDisplay
+        entities={itemGroupings.entities}
+        setSelectedEntity={setSelectedEntity}
+      />
+      <ModifyModal
+        modalProps={modifyModal.getModalProps()}
+        groupingId={getSelectedId()!}
+        groupingName={getSelectedName()!}
+        index={getSelectedIndex()!}
+        updateGrouping={itemGroupings.getUpdateEntityProps().updateEntity}
+      />
     </>
   );
 };

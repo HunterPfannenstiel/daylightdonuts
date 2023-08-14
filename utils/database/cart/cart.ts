@@ -1,3 +1,5 @@
+import { extraToString } from "@_providers/Cart/hooks/utils";
+import { NewCartItemExtra } from "@_types/cart";
 import {
   CartDictionary,
   CartExtraInfo,
@@ -74,14 +76,19 @@ export const isInCart = (
  * @param extras The selected extras of a menu item
  * @returns The parsed extras returned as an id array of the database ids and as an extra array for the cart
  */
-export const getExtraInfo = (extras: CartExtraInfo): [number[], Extra[]] => {
+export const getExtraInfo = (
+  extras: CartExtraInfo
+): [number[], NewCartItemExtra[]] => {
   const ids: number[] = [];
-  const extrasArr: Extra[] = [];
+  const extrasArr: NewCartItemExtra[] = [];
 
   Object.keys(extras).forEach((key) => {
     const extra = extras[key];
     ids.push(extra.id);
-    extrasArr.push({ category: key, extra: extra.extra, abbreviation: null });
+    extrasArr.push({
+      text: extraToString(key, extra.extra) || "",
+      id: extra.id,
+    });
   });
 
   return [ids, extrasArr];

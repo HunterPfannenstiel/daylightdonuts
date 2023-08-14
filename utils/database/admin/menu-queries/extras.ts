@@ -1,5 +1,6 @@
 import {
   DBEntity,
+  DisplayOrderItem,
   ExtraCategoryCustomizations,
   ExtraCategorySelections,
   ExtraCustomizations,
@@ -79,7 +80,7 @@ export type CreateExtra = {
   name: string;
   price: string;
   categoryId: number;
-  groupInfo?: ExtraGroupInfo[];
+  groupInfo?: DisplayOrderItem[];
   abbreviation?: string;
 };
 
@@ -101,7 +102,7 @@ export type ModifyExtra = {
   extraId: number;
   name?: string;
   price?: string;
-  groupInfo?: ExtraGroupInfo[];
+  groupInfo?: DisplayOrderItem[];
   removeGroupIds?: number[];
   categoryId?: number;
   abbreviation?: string;
@@ -126,7 +127,7 @@ export type CreateExtraGroup = {
   name: string;
   categoryId: number;
   extrasInfo?: ExtraGroupExtraInfo[];
-  menuItemIds?: number[];
+  menuItemIds?: (number | string)[];
 };
 
 export const createExtraGroup = async (info: CreateExtraGroup) => {
@@ -145,8 +146,8 @@ export type ModifyExtraGroup = {
   name?: string;
   categoryId?: number;
   extrasInfo?: ExtraGroupExtraInfo[];
-  removeExtraIds?: number[];
-  addMenuItemIds?: number[];
+  removeExtraIds?: (number | string)[];
+  addMenuItemIds?: (number | string)[];
   removeMenuItemIds?: number[];
 };
 

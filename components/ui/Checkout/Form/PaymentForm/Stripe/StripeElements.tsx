@@ -8,7 +8,7 @@ import { fetchStripeClientSecret } from "@_utils/payment/stripe";
 interface StripeElementsProps {
   setLoading: (loading: boolean) => void;
   checkCustomerForm: () => boolean;
-  postOrder: () => void;
+  postOrder: () => Promise<void>;
 }
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);

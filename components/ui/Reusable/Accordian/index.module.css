@@ -1,43 +1,6 @@
-/* .container {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    overflow: scroll;
-}
-
-.container > ul {
-    position: absolute;
-    top: 0;
-    left: 0;
-    animation: drop-down 300ms ease-out forwards;
-}
-
-.animate_out > ul {
-    animation: fly-up 300ms ease-in forwards;
-}
-
-@keyframes drop-down {
-    from{
-        transform: translateY(-100%);
-    }
-    to {
-        transform: translateY(0%);
-    }
-}
-
-@keyframes fly-up {
-    from{
-        transform: translateY(0%);
-    }
-    to {
-        transform: translateY(-100%);
-    }
-} */
-
 .list {
     opacity: 1;
     animation: fade_in 300ms ease forwards;
-    overflow: scroll;
 }
 
 .animate_out {

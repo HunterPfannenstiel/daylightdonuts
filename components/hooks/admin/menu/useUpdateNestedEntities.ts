@@ -53,7 +53,20 @@ const useUpdateNestedEntities = (initialData: NestedDBEntity[]) => {
     });
   };
 
-  return { entities, addNewEntity, updateEntity, deleteEntity };
+  const getUpdateEntityProps = () => {
+    return {
+      addNewEntity,
+      updateEntity,
+      deleteEntity,
+    };
+  };
+
+  return {
+    entities,
+    addNewEntity,
+    updateEntity,
+    getUpdateEntityProps,
+  };
 };
 
 export default useUpdateNestedEntities;

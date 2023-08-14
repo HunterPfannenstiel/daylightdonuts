@@ -35,8 +35,11 @@ const OrderItem: FunctionComponent<OrderItemProps> = ({
           </div>
         </div>
         <div className={classes.price}>
+          <p>{item.amount}</p>
           <p>${price.toFixed(2)}</p>
-          <p onClick={removeFromCart}>X</p>
+          <p className={classes.remove} onClick={removeFromCart}>
+            X
+          </p>
         </div>
       </div>
     </li>

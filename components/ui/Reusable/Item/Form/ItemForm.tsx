@@ -3,7 +3,7 @@ import { ItemExtra, ItemExtras } from "@_types/database/menu";
 import { FormEvent, FunctionComponent, useRef } from "react";
 import Button from "../../Button";
 import classes from "./ItemForm.module.css";
-import SelectInput, { SelectData } from "../../Form/SelectInput";
+import SelectInput from "../../Form/OptionSelectInput";
 
 interface ItemFormProps {
   extras: ItemExtras[] | null;
@@ -41,6 +41,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           labelExtractor={({ category }: ItemExtras) => category}
           optionsExtractor={({ extras }: ItemExtras) => extras}
           optionExtractor={({ name }: ItemExtra) => name}
+          containerClassName={classes.container}
         />
       )}
       <div className={classes.add_cart}>
@@ -53,7 +54,7 @@ const ItemForm: FunctionComponent<ItemFormProps> = ({
           {buttonName || "Add to Cart"}
         </Button>
         {maxAmount !== 0 && (
-          <select id="amount" name="amount" ref={amountRef}>
+          <select id="amount" name="amount" ref={amountRef} className={classes.amount}>
             {getOptions(maxAmount)}
           </select>
         )}

@@ -9,6 +9,7 @@ import {
 } from "@_types/cart";
 import APIRequest from "custom-objects/Fetch";
 import { MutableRefObject } from "react";
+import { resetCart } from "../utils";
 
 type ClientCartDelegate = (
   cart: Cart,
@@ -39,7 +40,7 @@ export const initializeCart = (cart: Cart) => {
       nextId = Math.max(nextId, +cartItemId);
     });
   });
-  cart.price = totalPrice.toFixed(2);
+  cart.price = totalPrice.toFixed(2) || "0.00";
   cart.totalItems = totalItems;
   cart.nextId = nextId + 1;
 };
@@ -119,11 +120,15 @@ export const removeItem =
     cart.price = (
       +cart.price -
       (+details.price + (extraPrice || 0)) * amount
-    ).toString(2);
+    ).toFixed(2);
     cart.totalItems -= amount;
     delete cart.items[itemId].items[cartItemId];
     dbUpdates.current[cartItemId] = { amount: -amount };
   };
+
+export const clearCart = (): ClientCartDelegate => (cart, dbUpdates) => {
+  resetCart(cart);
+};
 
 const calculateExtraPrice = (item: CartItem) => {
   let itemPrice = 0;
@@ -140,7 +145,6 @@ export const checkItemExists = (
   cart: Cart,
   extras?: CartItemExtra[]
 ) => {
-  console.log(cart);
   const section = cart.items[itemId];
   if (!section) return -2;
   const sectionKeys = Object.keys(section.items);
@@ -150,14 +154,18 @@ export const checkItemExists = (
     if (item.extras) {
       if (!extras) continue;
       if (item.extras.length !== extras.length) continue;
+      let found = true;
       for (let i = 0; i < extras.length; i++) {
         const newItemExtra = extras[i];
         const index = item.extras!.findIndex((extra) => {
           return extra.text === newItemExtra.text;
         });
-        if (index === -1) break;
+        if (index === -1) {
+          found = false;
+          break;
+        }
       }
-      return cartItemId;
+      if (found) return cartItemId;
     } else if (!extras) return cartItemId;
   }
   return -1;
@@ -173,20 +181,24 @@ export const postCartUpdates = async ({
     timer.current = setTimeout(async () => {
       try {
         console.log("SENDING REQUEST");
-        const { success, errorMessage } = await APIRequest.request(
-          "/api/cart/modify",
-          {
-            method: "POST",
-            body: JSON.stringify({ updates: dbUpdates() }),
-            headers: {
-              "Content-Type": "application/json",
-            },
+        const updates = dbUpdates();
+        if (updates.length === 0) resolve("Cleared Cart");
+        else {
+          const { success, errorMessage } = await APIRequest.request(
+            "/api/cart/modify",
+            {
+              method: "POST",
+              body: JSON.stringify({ updates }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!success) {
+            reject(errorMessage);
+          } else {
+            resolve("Update Successful");
           }
-        );
-        if (!success) {
-          reject(errorMessage);
-        } else {
-          resolve("Update Successful");
         }
       } catch (e) {
         reject("Could not update cart");

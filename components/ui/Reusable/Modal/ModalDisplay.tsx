@@ -2,41 +2,55 @@ import { CSSProperties, FunctionComponent, ReactNode } from "react";
 import classes from "./ModalDisplay.module.css";
 import Modal from "./Modal";
 import Background from "./Background";
-import { ModalProps } from "@_hooks/animation/useAnimateModal";
+import { concatClassNames } from "@_utils/client";
+import Spinner from "../Spinner";
+import CloseButton from "./CloseButton";
 
 interface ModalDisplayProps {
   children: ReactNode;
+  handleModal: () => void;
+  playAnimation: boolean;
+  animationTime: number;
+  isLoading?: boolean;
   className?: string;
-  animationTime?: number;
-  modalProps: ModalProps;
+  closeable?: boolean;
 }
 
 const ModalDisplay: FunctionComponent<ModalDisplayProps> = ({
+  handleModal,
+  playAnimation,
+  animationTime,
   children,
-  modalProps,
-  className,
-  animationTime = 300,
+  isLoading,
+  className: userClassName,
+  closeable = true,
 }) => {
-  let classN = className
-    ? `${classes.modal_content} ${className}`
-    : classes.modal_content;
-
-  if (modalProps.playAnimation) classN += " " + classes.animate_out;
+  const className = concatClassNames(
+    classes.modal_content,
+    userClassName,
+    (playAnimation && classes.animate_out) || undefined
+  );
   return (
     <Modal selector="modal">
-      <div
-        className={classN}
-        style={{ "--animation-time": animationTime + "ms" } as CSSProperties}
-      >
-        <p className={classes.close} onClick={modalProps.handleModal}>
-          X
-        </p>
-        {children}
-      </div>
+      {!isLoading ? (
+        <div
+          className={className}
+          style={{ "--animation-time": animationTime + "ms" } as CSSProperties}
+        >
+          <CloseButton
+            className={classes.close}
+            onClick={closeable ? handleModal : () => {}}
+          />
+          {children}
+        </div>
+      ) : (
+        <Spinner center />
+      )}
       <Background
-        handleModal={modalProps.handleModal}
-        playAnimation={modalProps.playAnimation}
+        handleModal={handleModal}
+        playAnimation={playAnimation}
         animationTime={animationTime}
+        closeable={closeable}
       />
     </Modal>
   );
