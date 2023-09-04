@@ -34,7 +34,7 @@ Inspired by my job of making donuts overnight the past two summers, the Daylight
 
 This project has seen three versions since the summer of 2022. The first version marked the beginning of my journey into web development, where I took my freshly acquired skills in React.js and Next.js and embarked on creating my first-ever website. The first version was created using JavaScript with Next.js and using MongoDB as the database component.
 
-The second version builds upon the foundation of the first version. It refines and enhances the features that were initially introduced while embracing the power of TypeScript and using PostgreSQL for the database instead of MongoDB.
+The second version builds upon the foundation of the first version. It refines and enhances the features that were initially introduced while embracing the power of TypeScript and using PostgreSQL for the database.
 
 The third version, a work in progress, includes more admin features and also utilizes PostgreSQL functions and stored procedures for data retrieval and modification. It also involves a deeper focus on code modularity for better code maintainability and reuse.
 
