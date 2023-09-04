@@ -26,6 +26,7 @@
 	- [Orders](#orders)
 	- [Admin Analytics](#admin-analytics)
 	- [Admin Menu Modification](#admin-menu-modification)
+ - [Database Statistics](#database-statistics)
 
 ## Project Overview
 
@@ -193,3 +194,12 @@ https://user-images.githubusercontent.com/107196545/217406560-07112f40-6c56-4291
 #### Interacting With Created Item
 
 <img src="https://res.cloudinary.com/dwg1i9w2u/image/upload/v1692040996/Adding_Item_i2hlwj.gif" alt="Interacting with created item" width="50%"/>
+
+## Database Statistics
+- Table Count: 33
+- Procedure Count: 36
+- Function Count: 70
+
+<img src="https://res.cloudinary.com/dwg1i9w2u/image/upload/v1691982636/DaylightDonuts_tuqxtb.png" />
+
+[Database Repository](https://github.com/HunterPfannenstiel/daylight-db)
